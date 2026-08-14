@@ -26,6 +26,7 @@ function Layout() {
     { name: 'Publikasi', href: '/publikasi' },
     { name: 'Kegiatan', href: '/kegiatan' },
     { name: 'Departemen', href: '/departemen' },
+    { name: 'Aspirasi', href: '/aspirasi' },
     { name: 'FH Guide', href: '/fh-guide' },
   ];
 
@@ -35,10 +36,10 @@ function Layout() {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-brand-dark/90 backdrop-blur-md shadow-lg shadow-black/50 py-3' : 'bg-transparent py-5'}`}>
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 cursor-pointer group">
-            <div className="w-10 h-10 rounded-full bg-gradient-radial-1 flex items-center justify-center border border-white/20 group-hover:border-brand-neon transition-colors duration-300">
-              <span className="font-bold text-lg text-white group-hover:text-neon transition-all">FH</span>
+            <div className="w-10 h-10 rounded-full bg-gradient-radial-1 flex items-center justify-center overflow-hidden border border-white/20 group-hover:border-brand-neon transition-colors duration-300">
+              <img src="/logo.png" alt="Logo BEM FH UNAND" className="w-full h-full object-cover p-1" />
             </div>
-            <h1 className="text-xl font-bold tracking-wider group-hover:text-neon transition-all">BEM FH UI</h1>
+            <h1 className="text-xl font-bold tracking-wider group-hover:text-neon transition-all">BEM FH UNAND</h1>
           </Link>
           
           {/* Desktop Nav */}
@@ -92,10 +93,10 @@ function Layout() {
       <footer className="bg-black py-12 border-t border-white/10 mt-auto">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-radial-1 flex items-center justify-center border border-brand-neon/50">
-              <span className="font-bold text-xs text-brand-neon">FH</span>
+            <div className="w-8 h-8 rounded-full bg-gradient-radial-1 flex items-center justify-center overflow-hidden border border-brand-neon/50">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-cover p-1" />
             </div>
-            <span className="font-semibold tracking-wider">BEM FH UI © 2026</span>
+            <span className="font-semibold tracking-wider">BEM FH UNAND © 2026</span>
           </div>
           <div className="flex gap-6">
             <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors">Instagram</a>

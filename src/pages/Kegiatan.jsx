@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function Kegiatan() {
   return (
@@ -11,7 +12,7 @@ function Kegiatan() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Galeri <span className="text-neon">Kegiatan</span></h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">Dokumentasi program kerja dan acara BEM FH UI.</p>
+          <p className="text-gray-300 max-w-2xl mx-auto">Dokumentasi program kerja dan acara BEM FH UNAND.</p>
         </motion.div>
 
         <div className="space-y-12">
@@ -30,7 +31,9 @@ function Kegiatan() {
                 <div className="inline-block px-3 py-1 rounded-full bg-brand-neon/20 text-brand-neon text-xs font-bold mb-4">Agustus 2026</div>
                 <h3 className="text-3xl font-bold mb-4">Olimpiade Hukum Nasional</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">Kompetisi peradilan semu dan debat hukum tingkat nasional yang diselenggarakan untuk mengasah kemampuan praktis mahasiswa hukum seluruh Indonesia.</p>
-                <button className="px-6 py-3 rounded-full border border-white/30 hover:border-brand-neon hover:text-brand-neon transition-colors font-semibold">Lihat Detail</button>
+                <Link to={`/kegiatan/${item}`} className="inline-block px-6 py-3 rounded-full border border-white/30 hover:border-brand-neon hover:text-brand-neon transition-colors font-semibold">
+                  Lihat Detail
+                </Link>
               </div>
             </motion.div>
           ))}

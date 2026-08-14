@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function Departemen() {
   const departments = [
@@ -20,7 +21,7 @@ function Departemen() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Profil <span className="text-neon">Departemen</span></h1>
-          <p className="text-gray-400 max-w-2xl mx-auto">Mengenal lebih dekat ujung tombak pergerakan BEM FH UI.</p>
+          <p className="text-gray-400 max-w-2xl mx-auto">Mengenal lebih dekat ujung tombak pergerakan BEM FH UNAND.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -28,12 +29,13 @@ function Departemen() {
             <motion.div
               key={index}
               whileHover={{ scale: 1.05 }}
-              className="bg-black/30 border border-brand-neon/30 p-8 rounded-2xl text-center group cursor-pointer hover:bg-brand-neon/10 transition-colors"
             >
-              <div className="w-20 h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:border-brand-neon transition-colors">
-                <span className="text-2xl font-bold text-white/50 group-hover:text-brand-neon">{index + 1}</span>
-              </div>
-              <h3 className="text-xl font-bold">{dept}</h3>
+              <Link to={`/departemen/${index + 1}`} className="block h-full bg-black/30 border border-brand-neon/30 p-8 rounded-2xl text-center group cursor-pointer hover:bg-brand-neon/10 transition-colors">
+                <div className="w-20 h-20 mx-auto rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:border-brand-neon transition-colors">
+                  <span className="text-2xl font-bold text-white/50 group-hover:text-brand-neon">{index + 1}</span>
+                </div>
+                <h3 className="text-xl font-bold">{dept}</h3>
+              </Link>
             </motion.div>
           ))}
         </div>
