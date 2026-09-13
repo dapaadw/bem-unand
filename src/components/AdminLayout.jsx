@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Compass, LogOut } from 'lucide-react';
 
 function AdminLayout() {
   const location = useLocation();
@@ -8,6 +8,7 @@ function AdminLayout() {
   const menuItems = [
     { path: '/admin', name: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { path: '/admin/news', name: 'Manajemen Berita', icon: <FileText size={20} /> },
+    { path: '/admin/visi-misi', name: 'Visi & Misi', icon: <Compass size={20} /> },
   ];
 
   return (
