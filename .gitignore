@@ -24,3 +24,24 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Next.js
+.next
+next-env.d.ts
+AGENTS.md
+CLAUDE.md
+
+# Env / secrets
+.env
+.env*.local
+
+# Prisma / SQLite
+/prisma/*.db
+/prisma/*.db-journal
+
+# Uploaded files
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# DB backups
+/backups/
