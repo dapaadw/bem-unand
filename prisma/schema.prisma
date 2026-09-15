@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  SUPERUSER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+
+  auditLogs AuditLog[]
+}
+
+model Profile {
+  id              Int      @id @default(1)
+  title           String   @default("")
+  subtitle        String   @default("")
+  heroImageUrl    String?
+  heroImageAlt    String?
+  backgroundColor String?
+  ctaText         String?
+  ctaLink         String?
+  visiMisi        String?
+  logoPhilosophy  String?
+  updatedAt       DateTime @updatedAt
+}
+
+model Contacts {
+  id           Int      @id @default(1)
+  whatsappUrl  String?
+  instagramUrl String?
+  email        String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Publikasi {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  publishedAt    DateTime
+  author         String
+  category       String
+  body           String
+  attachmentUrl  String?
+  createdBy      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum KegiatanType {
+  LOMBA
+  INTERNAL
+}
+
+model Kegiatan {
+  id               String       @id @default(cuid())
+  type             KegiatanType
+  name             String
+  slug             String       @unique
+  date             DateTime
+  location         String
+  organizer        String
+  description      String
+  publicationUrl   String?
+  registrationUrl  String?
+  createdBy        String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Departemen {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  photoUrl    String?
+  description String?
+
+  staff    DepartemenStaff[]
+  proker   ProgramKerja[]
+  contact  DepartemenContact?
+}
+
+model DepartemenStaff {
+  id            String     @id @default(cuid())
+  departemenId  String
+  departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
+  name          String
+  role          String
+  photoUrl      String?
+  identity      String?
+  achievements  String?
+}
+
+model ProgramKerja {
+  id            String     @id @default(cuid())
+  departemenId  String
+  departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+}
+
+model DepartemenContact {
+  id            String     @id @default(cuid())
+  departemenId  String     @unique
+  departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
+  whatsappUrl   String?
+  instagramUrl  String?
+}
+
+enum AspirasiStatus {
+  BARU
+  DIPROSES
+  SELESAI
+}
+
+model Aspirasi {
+  id           String         @id @default(cuid())
+  nama         String?
+  nim          String?
+  cp           String?
+  email        String?
+  pihakDituju  String
+  deskripsi    String
+  buktiUrl     String?
+  harapan      String?
+  status       AspirasiStatus @default(BARU)
+  isAnonymous  Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+model GuideLink {
+  id        String   @id @default(cuid())
+  category  String
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  action     AuditAction
+  entityType String
+  entityId   String
+  summary    String
+  createdAt  DateTime    @default(now())
+}
