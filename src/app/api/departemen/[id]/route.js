@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
+import { departmentProfile, departmentDetails } from '../../../../lib/departemen';
 
 export async function GET(_request, { params }) {
   const { id } = await params;
@@ -14,8 +15,7 @@ export async function GET(_request, { params }) {
   return NextResponse.json(item);
 }
 
-// PUT updates departemen core fields only (name/photo/description).
-// Staff/proker/contact are managed via their own sub-resources.
+// Profile and related details can be saved independently.
 export async function PUT(request, { params }) {
   const { session, error } = await requireRole(['ADMIN']);
   if (error) return error;
@@ -25,13 +25,11 @@ export async function PUT(request, { params }) {
   const existing = await prisma.departemen.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
+  const validated = departmentProfile(body, existing);
+  if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
   const updated = await prisma.departemen.update({
     where: { id },
-    data: {
-      name: body.name ?? existing.name,
-      photoUrl: body.photoUrl ?? existing.photoUrl,
-      description: body.description ?? existing.description,
-    },
+    data: validated.data,
   });
 
   await logAction({
@@ -60,14 +58,14 @@ export async function PATCH(request, { params }) {
   const existing = await prisma.departemen.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
-  const staff = Array.isArray(body?.staff) ? body.staff : [];
-  const proker = Array.isArray(body?.proker) ? body.proker : [];
-  const contact = body?.contact || null;
+  const validated = departmentDetails(body);
+  if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
+  const { staff, proker, contact } = validated.data;
 
   await prisma.$transaction([
-    prisma.departemenStaff.deleteMany({ where: { departemenId: id } }),
-    prisma.programKerja.deleteMany({ where: { departemenId: id } }),
-    ...(staff.length
+    ...(staff !== undefined ? [prisma.departemenStaff.deleteMany({ where: { departemenId: id } })] : []),
+    ...(proker !== undefined ? [prisma.programKerja.deleteMany({ where: { departemenId: id } })] : []),
+    ...(staff?.length
       ? [prisma.departemenStaff.createMany({
           data: staff.map((s) => ({
             departemenId: id,
@@ -79,7 +77,7 @@ export async function PATCH(request, { params }) {
           })),
         })]
       : []),
-    ...(proker.length
+    ...(proker?.length
       ? [prisma.programKerja.createMany({
           data: proker.map((p) => ({ departemenId: id, name: p.name, description: p.description || null })),
         })]
@@ -90,7 +88,7 @@ export async function PATCH(request, { params }) {
           update: { whatsappUrl: contact.whatsappUrl || null, instagramUrl: contact.instagramUrl || null },
           create: { departemenId: id, whatsappUrl: contact.whatsappUrl || null, instagramUrl: contact.instagramUrl || null },
         })]
-      : []),
+      : contact === null ? [prisma.departemenContact.deleteMany({ where: { departemenId: id } })] : []),
   ]);
 
   await logAction({
@@ -110,4 +108,17 @@ export async function PATCH(request, { params }) {
   });
 
   return NextResponse.json(updated);
+}
+
+export async function DELETE(_request, { params }) {
+  const { session, error } = await requireRole(['ADMIN']);
+  if (error) return error;
+  const { id } = await params;
+  const existing = await prisma.departemen.findUnique({ where: { id } });
+  if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
+  await prisma.departemen.delete({ where: { id } });
+  await logAction({ userId: session.userId, action: 'DELETE', entityType: 'Departemen', entityId: id, summary: `Menghapus departemen "${existing.name}"` });
+  revalidatePath('/departemen');
+  revalidatePath(`/departemen/${existing.slug}`);
+  return NextResponse.json({ ok: true });
 }

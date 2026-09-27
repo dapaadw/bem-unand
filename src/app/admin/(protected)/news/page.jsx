@@ -1,8 +1,10 @@
+import { requirePageRole } from '../../../../lib/requirePageRole';
 import { prisma } from '../../../../lib/prisma';
 import NewsManagerClient from '../../../../components/admin/NewsManagerClient';
 
 export default async function NewsManagerPage() {
-  const items = await prisma.publikasi.findMany({ orderBy: { publishedAt: 'desc' } });
+  await requirePageRole(['ADMIN']);
+  const items = await prisma.publikasi.findMany({ orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }] });
 
   const serializable = items.map((i) => ({
     ...i,

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
+import { revalidatePath } from 'next/cache';
 
 export async function PATCH(request, { params }) {
   const { session, error } = await requireRole(['ADMIN']);
@@ -26,5 +27,6 @@ export async function PATCH(request, { params }) {
     summary: `Mengubah status aspirasi menjadi ${body.status}`,
   });
 
-  return NextResponse.json(updated);
+  revalidatePath('/admin/aspirasi');
+  return NextResponse.json(updated, { headers: { 'Cache-Control': 'private, no-store' } });
 }

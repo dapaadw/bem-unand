@@ -1,33 +1,12 @@
 import Link from 'next/link';
-import { prisma } from '../../lib/prisma';
-
-const PAGE_SIZE = 9;
+import { loadPublications } from '../../lib/publicationQuery';
+import { publicationCategory } from '../../lib/publication';
 
 export const revalidate = 300;
 
 export default async function PublikasiPage({ searchParams }) {
-  const sp = await searchParams;
-  const page = Math.max(1, parseInt(sp?.page || '1', 10));
-  const q = sp?.q?.trim();
-  const category = sp?.category?.trim();
-
-  const where = {
-    ...(q ? { title: { contains: q } } : {}),
-    ...(category ? { category } : {}),
-  };
-
-  const [items, total, categories] = await Promise.all([
-    prisma.publikasi.findMany({
-      where,
-      orderBy: { publishedAt: 'desc' },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
-    }),
-    prisma.publikasi.count({ where }),
-    prisma.publikasi.findMany({ distinct: ['category'], select: { category: true } }),
-  ]);
-
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const { items, total, page, totalPages, categories, q, category } = await loadPublications(await searchParams);
+  const pageHref = (number) => `/publikasi?${new URLSearchParams({ page: String(number), ...(q ? { q } : {}), ...(category ? { category } : {}) })}`;
 
   return (
     <section className="min-h-screen px-6 pt-32 pb-16 container mx-auto">
@@ -37,39 +16,43 @@ export default async function PublikasiPage({ searchParams }) {
         <input
           type="text"
           name="q"
+          aria-label="Cari judul publikasi"
           defaultValue={q || ''}
           placeholder="Cari judul..."
-          className="flex-1 rounded-lg bg-white/5 border border-white/10 px-4 py-2 text-white focus:outline-none focus:border-brand-neon"
+          className="min-w-0 flex-1 rounded-lg bg-white/5 border border-white/10 px-4 py-2 text-white focus:outline-none focus:border-brand-neon"
         />
         <select
           name="category"
+          aria-label="Kategori publikasi"
           defaultValue={category || ''}
-          className="rounded-lg bg-white/5 border border-white/10 px-4 py-2 text-white"
+          className="rounded-lg bg-brand-dark border border-white/10 px-4 py-2 text-white"
         >
           <option value="">Semua Kategori</option>
           {categories.map((c) => (
-            <option key={c.category} value={c.category}>{c.category}</option>
+            <option key={c} value={c}>{c}</option>
           ))}
         </select>
         <button type="submit" className="px-5 py-2 rounded-lg bg-brand-neon text-brand-dark font-semibold">
           Cari
         </button>
+        {(q || category) && <Link href="/publikasi" className="px-4 py-2 text-brand-neon underline">Reset filter</Link>}
       </form>
+      <p className="text-sm text-gray-400 mb-6">{total} publikasi{q || category ? ' ditemukan' : ''}</p>
 
       {items.length === 0 ? (
-        <p className="text-gray-400">Belum ada publikasi.</p>
+        <p className="text-gray-400">{q || category ? 'Tidak ada publikasi yang cocok dengan pencarian atau kategori ini.' : 'Belum ada publikasi.'}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((item) => (
             <Link
               key={item.id}
               href={`/publikasi/${item.slug}`}
-              className="block bg-white/5 border border-white/10 rounded-xl p-5 hover:border-brand-neon transition-colors"
+              className="block min-w-0 break-words bg-white/5 border border-white/10 rounded-xl p-5 hover:border-brand-neon transition-colors"
             >
-              <span className="text-xs text-brand-neon uppercase tracking-wide">{item.category}</span>
+              <span className="text-xs text-brand-neon uppercase tracking-wide">{publicationCategory(item.category)}</span>
               <h2 className="text-lg font-semibold mt-2 mb-2">{item.title}</h2>
               <p className="text-sm text-gray-400">
-                {item.publishedAt.toLocaleDateString('id-ID')} &middot; {item.author}
+                {item.publishedAt.toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta' })} &middot; {item.author}
               </p>
             </Link>
           ))}
@@ -77,17 +60,22 @@ export default async function PublikasiPage({ searchParams }) {
       )}
 
       {totalPages > 1 && (
-        <div className="flex gap-2 justify-center mt-10">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+        <nav aria-label="Halaman publikasi" className="flex flex-wrap items-center gap-2 justify-center mt-10">
+          {page > 1 && <Link href={pageHref(page - 1)} className="px-3 py-2 rounded-lg bg-white/5">Sebelumnya</Link>}
+          {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => Math.max(1, Math.min(page - 2, totalPages - 4)) + i).map((p) => (
             <Link
               key={p}
-              href={`/publikasi?page=${p}${q ? `&q=${encodeURIComponent(q)}` : ''}${category ? `&category=${encodeURIComponent(category)}` : ''}`}
+              href={pageHref(p)}
+              aria-label={`Halaman ${p}`}
+              aria-current={p === page ? 'page' : undefined}
               className={`w-9 h-9 flex items-center justify-center rounded-lg ${p === page ? 'bg-brand-neon text-brand-dark font-bold' : 'bg-white/5 text-gray-300'}`}
             >
               {p}
             </Link>
           ))}
-        </div>
+          {page < totalPages && <Link href={pageHref(page + 1)} className="px-3 py-2 rounded-lg bg-white/5">Berikutnya</Link>}
+          <span className="text-sm text-gray-400">Halaman {page} dari {totalPages}</span>
+        </nav>
       )}
     </section>
   );

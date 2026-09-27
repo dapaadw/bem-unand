@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
+import { kegiatanPayload } from '../../../../lib/kegiatan';
 
 export async function GET(_request, { params }) {
   const { id } = await params;
@@ -22,20 +23,12 @@ export async function PUT(request, { params }) {
   const existing = await prisma.kegiatan.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
-  const type = body.type ?? existing.type;
+  const validated = kegiatanPayload(body, existing);
+  if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
 
   const updated = await prisma.kegiatan.update({
     where: { id },
-    data: {
-      type,
-      name: body.name ?? existing.name,
-      date: body.date ? new Date(body.date) : existing.date,
-      location: body.location ?? existing.location,
-      organizer: body.organizer ?? existing.organizer,
-      description: body.description ?? existing.description,
-      publicationUrl: body.publicationUrl ?? existing.publicationUrl,
-      registrationUrl: type === 'LOMBA' ? (body.registrationUrl ?? existing.registrationUrl) : null,
-    },
+    data: validated.data,
   });
 
   await logAction({
@@ -72,6 +65,7 @@ export async function DELETE(_request, { params }) {
   });
 
   revalidatePath('/kegiatan');
+  revalidatePath(`/kegiatan/${existing.slug}`);
   revalidatePath('/');
 
   return NextResponse.json({ ok: true });

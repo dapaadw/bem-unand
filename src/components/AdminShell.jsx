@@ -69,11 +69,19 @@ export default function AdminShell({ children, name, role }) {
         </div>
       </aside>
 
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
+      <main className="min-w-0 flex-1 flex flex-col h-screen overflow-hidden">
         <header className="md:hidden bg-black/50 border-b border-white/10 p-4 flex justify-between items-center">
           <h2 className="font-bold text-brand-neon">ADMIN PANEL</h2>
           <button onClick={handleLogout} className="text-sm text-gray-400">Logout</button>
         </header>
+        <nav className="md:hidden p-4 bg-black/50" aria-label="Menu admin mobile">
+          <label className="block text-sm">Menu admin
+            <select value={pathname} onChange={(e) => router.push(e.target.value)} className="mt-1 w-full rounded-lg bg-brand-dark border border-white/20 p-2">
+              {menuItems.map((item) => <option key={item.path} value={item.path}>{item.name}</option>)}
+            </select>
+          </label>
+          <Link href="/" className="inline-block mt-2 text-sm text-brand-neon">Ke Web Publik</Link>
+        </nav>
 
         <div className="flex-1 overflow-y-auto p-6 md:p-10 bg-gradient-radial-1">
           {children}

@@ -1,7 +1,9 @@
+import { requirePageRole } from '../../../../lib/requirePageRole';
 import { prisma } from '../../../../lib/prisma';
 import FhGuideManagerClient from '../../../../components/admin/FhGuideManagerClient';
 
 export default async function FhGuideManagerPage() {
+  await requirePageRole(['ADMIN']);
   const [links, faqs] = await Promise.all([
     prisma.guideLink.findMany({ orderBy: { category: 'asc' } }),
     prisma.faq.findMany({ orderBy: { createdAt: 'asc' } }),

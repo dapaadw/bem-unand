@@ -40,7 +40,7 @@ export default function SiteNav() {
           <h1 className="text-xl font-bold tracking-wider group-hover:text-neon transition-all">BEM FH UNAND</h1>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -50,9 +50,9 @@ export default function SiteNav() {
               {link.name}
             </Link>
           ))}
-          <button className="px-5 py-2 rounded-full border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-semibold transition-all duration-300 shadow-[0_0_10px_rgba(254,174,174,0.3)] hover:shadow-[0_0_20px_rgba(254,174,174,0.6)]">
+          <Link href="/#kontak" className="px-5 py-2 rounded-full border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-semibold transition-all duration-300 shadow-[0_0_10px_rgba(254,174,174,0.3)] hover:shadow-[0_0_20px_rgba(254,174,174,0.6)]">
             Hubungi Kami
-          </button>
+          </Link>
           <Link
             href="/admin"
             className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-brand-neon hover:text-brand-dark text-gray-200 text-sm font-medium transition-all duration-200 border border-white/10 hover:border-brand-neon"
@@ -63,7 +63,7 @@ export default function SiteNav() {
           </Link>
         </div>
 
-        <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+        <button aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={mobileMenuOpen} className="xl:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -72,7 +72,7 @@ export default function SiteNav() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 w-full bg-brand-dark/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
+          className="xl:hidden absolute top-full left-0 w-full bg-brand-dark/95 backdrop-blur-xl border-t border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
         >
           {navLinks.map((link) => (
             <Link
@@ -83,6 +83,7 @@ export default function SiteNav() {
               {link.name}
             </Link>
           ))}
+          <Link href="/#kontak" onClick={() => setMobileMenuOpen(false)} className="text-lg text-brand-neon">Hubungi Kami</Link>
           <Link
             href="/admin"
             className="flex items-center justify-center gap-2 mt-2 py-2.5 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon font-medium"

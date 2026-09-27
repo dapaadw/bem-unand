@@ -1,91 +1,60 @@
 'use client';
-
 import { useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
-
-export default function FhGuideManagerClient({ initialLinks, initialFaqs }) {
-  const [links, setLinks] = useState(initialLinks);
-  const [faqs, setFaqs] = useState(initialFaqs);
-  const [linkForm, setLinkForm] = useState({ category: '', title: '', url: '' });
-  const [faqForm, setFaqForm] = useState({ question: '', answer: '' });
+const empty = { link: { category: '', title: '', url: '' }, faq: { question: '', answer: '' } };
+const labels = { category: 'Kategori', title: 'Judul dokumen', url: 'URL Google Drive', question: 'Pertanyaan', answer: 'Jawaban' };
+function Editor({ kind, initialItems }) {
+  const [items, setItems] = useState(initialItems);
+  const [form, setForm] = useState(empty[kind]);
+  const [editing, setEditing] = useState('');
+  const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-
-  async function addLink(e) {
-    e.preventDefault();
-    setError('');
-    const res = await fetch('/api/fh-guide', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kind: 'link', ...linkForm }),
-    });
-    const data = await res.json();
-    if (!res.ok) return setError(data.error);
-    setLinks((prev) => [...prev, data]);
-    setLinkForm({ category: '', title: '', url: '' });
+  const [message, setMessage] = useState('');
+  const title = kind === 'link' ? 'Link' : 'FAQ';
+  async function submit(e) {
+    e.preventDefault(); setBusy(true); setError(''); setMessage('');
+    try {
+      const res = await fetch(editing ? '/api/fh-guide/' + kind + '/' + editing : '/api/fh-guide', { method: editing ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, kind }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Gagal menyimpan.');
+      setItems((old) => editing ? old.map((i) => i.id === editing ? data : i) : [...old, data]);
+      setForm(empty[kind]); setEditing(''); setMessage(title + ' berhasil disimpan.');
+    } catch (e) { setError(e.message || 'Terjadi kesalahan jaringan.'); }
+    finally { setBusy(false); }
   }
-
-  async function removeLink(id) {
-    const res = await fetch(`/api/fh-guide/link/${id}`, { method: 'DELETE' });
-    if (res.ok) setLinks((prev) => prev.filter((l) => l.id !== id));
+  async function remove(item) {
+    if (!window.confirm('Hapus ' + (item.title || item.question) + '?')) return;
+    setBusy(true); setError(''); setMessage('');
+    try {
+      const res = await fetch('/api/fh-guide/' + kind + '/' + item.id, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Gagal menghapus.');
+      setItems((old) => old.filter((i) => i.id !== item.id));
+      if (editing === item.id) { setEditing(''); setForm(empty[kind]); }
+      setMessage(title + ' berhasil dihapus.');
+    } catch (e) { setError(e.message || 'Terjadi kesalahan jaringan.'); }
+    finally { setBusy(false); }
   }
-
-  async function addFaq(e) {
-    e.preventDefault();
-    setError('');
-    const res = await fetch('/api/fh-guide', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kind: 'faq', ...faqForm }),
-    });
-    const data = await res.json();
-    if (!res.ok) return setError(data.error);
-    setFaqs((prev) => [...prev, data]);
-    setFaqForm({ question: '', answer: '' });
-  }
-
-  async function removeFaq(id) {
-    const res = await fetch(`/api/fh-guide/faq/${id}`, { method: 'DELETE' });
-    if (res.ok) setFaqs((prev) => prev.filter((f) => f.id !== id));
-  }
-
-  return (
-    <div className="space-y-10 max-w-2xl">
-      {error && <p className="text-sm text-red-400">{error}</p>}
-
-      <div className="bg-black/40 border border-white/10 rounded-xl p-6 space-y-4">
-        <h2 className="font-bold text-brand-neon">Direktori Link</h2>
-        <form onSubmit={addLink} className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <input required placeholder="Kategori" value={linkForm.category} onChange={(e) => setLinkForm({ ...linkForm, category: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-3 py-2" />
-          <input required placeholder="Judul" value={linkForm.title} onChange={(e) => setLinkForm({ ...linkForm, title: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-3 py-2" />
-          <input required placeholder="URL Drive" value={linkForm.url} onChange={(e) => setLinkForm({ ...linkForm, url: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-3 py-2" />
-          <button type="submit" className="md:col-span-3 flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-brand-neon text-brand-dark font-semibold"><Plus size={16} /> Tambah Link</button>
-        </form>
-        <div className="space-y-2">
-          {links.map((l) => (
-            <div key={l.id} className="flex justify-between items-center bg-white/5 rounded-lg px-3 py-2 text-sm">
-              <span>{l.category} &middot; {l.title}</span>
-              <button onClick={() => removeLink(l.id)} className="text-red-400"><Trash2 size={14} /></button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-black/40 border border-white/10 rounded-xl p-6 space-y-4">
-        <h2 className="font-bold text-brand-neon">FAQ</h2>
-        <form onSubmit={addFaq} className="space-y-2">
-          <input required placeholder="Pertanyaan" value={faqForm.question} onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value })} className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2" />
-          <textarea required placeholder="Jawaban" rows={3} value={faqForm.answer} onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value })} className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2" />
-          <button type="submit" className="flex items-center gap-1 px-4 py-2 rounded-lg bg-brand-neon text-brand-dark font-semibold"><Plus size={16} /> Tambah FAQ</button>
-        </form>
-        <div className="space-y-2">
-          {faqs.map((f) => (
-            <div key={f.id} className="flex justify-between items-center bg-white/5 rounded-lg px-3 py-2 text-sm">
-              <span>{f.question}</span>
-              <button onClick={() => removeFaq(f.id)} className="text-red-400"><Trash2 size={14} /></button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  return <section className="bg-black/40 border border-white/10 rounded-xl p-5 space-y-4">
+    <h2 className="font-bold text-brand-neon">{kind === 'link' ? 'Direktori Link' : 'FAQ'}</h2>
+    {error && <p role="alert" className="text-red-400">{error}</p>}
+    {message && <p role="status" className="text-brand-neon">{message}</p>}
+    <form onSubmit={submit} className="space-y-3">
+      <p className="text-sm text-gray-400">{editing ? 'Edit ' : 'Tambah '}{title}</p>
+      {Object.keys(empty[kind]).map((key) => <label key={key} className="block text-sm">{labels[key]}
+        {key === 'answer' ? <textarea required maxLength={10000} rows={4} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} className="mt-1 w-full bg-white/5 border border-white/20 rounded-lg p-2" /> : <input required type={key === 'url' ? 'url' : 'text'} maxLength={key === 'url' ? 2000 : key === 'category' ? 100 : key === 'question' ? 500 : 250} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} className="mt-1 w-full bg-white/5 border border-white/20 rounded-lg p-2" />}
+      </label>)}
+      {kind === 'link' && <p className="text-xs text-gray-400">Gunakan link dokumen atau folder Google Drive/Docs. Pastikan izin berbagi memungkinkan mahasiswa membukanya.</p>}
+      <div className="flex gap-3"><button disabled={busy} className="bg-brand-neon text-brand-dark rounded-lg px-4 py-2 disabled:opacity-50">{busy ? 'Menyimpan...' : editing ? 'Simpan ' + title : 'Tambah ' + title}</button>{editing && <button disabled={busy} type="button" onClick={() => { setEditing(''); setForm(empty[kind]); }} className="underline">Batal edit</button>}</div>
+    </form>
+    {!items.length && <p className="text-gray-400">Belum ada {title.toLowerCase()}.</p>}
+    <div className="space-y-3">{items.map((item) => <article key={item.id} className="bg-white/5 rounded-lg p-3 break-words">
+      <p className="font-semibold">{item.title || item.question}</p>
+      <p className="text-sm text-gray-400 whitespace-pre-wrap">{item.category || item.answer}</p>
+      {item.url && <p className="text-xs text-gray-400 break-all">{item.url}</p>}
+      <div className="mt-3 flex gap-4"><button disabled={busy} onClick={() => { setEditing(item.id); setForm(Object.fromEntries(Object.keys(empty[kind]).map((key) => [key, item[key]]))); setMessage(''); setError(''); }} className="text-brand-neon" aria-label={'Edit ' + (item.title || item.question)}>Edit</button><button disabled={busy} onClick={() => remove(item)} className="text-red-400" aria-label={'Hapus ' + (item.title || item.question)}>Hapus</button></div>
+    </article>)}</div>
+  </section>;
+}
+export default function FhGuideManagerClient({ initialLinks, initialFaqs }) {
+  return <div className="space-y-8 max-w-2xl"><Editor kind="link" initialItems={initialLinks} /><Editor kind="faq" initialItems={initialFaqs} /></div>;
 }

@@ -1,0 +1,2 @@
+ALTER TABLE "Aspirasi" ADD COLUMN "jenisPengajuan" TEXT NOT NULL DEFAULT 'LAINNYA';
+ALTER TABLE "Aspirasi" ADD COLUMN "keluhKesah" TEXT;

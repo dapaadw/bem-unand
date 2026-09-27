@@ -26,11 +26,11 @@
   }
 
   .bg-gradient-radial-1 {
-    background: radial-gradient(circle at center, #8e1616 0%, #4a0a0a 100%);
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--color-brand-dark), #8e1616 45%) 0%, var(--color-brand-dark) 100%);
   }
 
   .bg-gradient-radial-2 {
-    background: radial-gradient(circle at bottom right, #4a0a0a 0%, #1a0000 100%);
+    background: radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-brand-dark), #8e1616 25%) 0%, var(--color-brand-dark) 100%);
   }
 
   .bg-dark-overlay {
