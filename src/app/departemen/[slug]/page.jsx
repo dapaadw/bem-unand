@@ -55,7 +55,7 @@ export default async function DepartemenDetailPage({ params }) {
 
       {item.proker.length > 0 && (
         <div className="mb-8">
-          <h2 className="text-sm text-brand-neon uppercase tracking-wide mb-3">Program Kerja</h2>
+          <h2 className="text-sm text-brand-neon uppercase tracking-wide mb-3">Program Kerja &amp; Kegiatan</h2>
           <ul className="list-disc list-inside space-y-1 text-gray-300">
             {item.proker.map((p) => (
               <li key={p.id} className="break-words whitespace-pre-wrap">
@@ -66,7 +66,7 @@ export default async function DepartemenDetailPage({ params }) {
           </ul>
         </div>
       )}
-      {!item.proker.length && <p className="text-gray-400 mb-8">Program kerja belum tersedia.</p>}
+      {!item.proker.length && <p className="text-gray-400 mb-8">Program kerja dan kegiatan belum tersedia.</p>}
 
       {item.contact && (item.contact.whatsappUrl || item.contact.instagramUrl) && (
         <div className="flex flex-wrap gap-4">

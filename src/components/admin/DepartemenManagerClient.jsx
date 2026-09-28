@@ -76,7 +76,8 @@ export default function DepartemenManagerClient({ initialItems }) {
           </div>)}
         </section>
         <section className="bg-black/40 border border-white/10 rounded-xl p-6 space-y-4">
-          <h2 className="font-bold text-brand-neon">Program Kerja</h2>
+          <h2 className="font-bold text-brand-neon">Program Kerja &amp; Kegiatan</h2>
+          <p className="text-sm text-gray-400">Isi satu baris untuk setiap program kerja atau kegiatan departemen, beserta deskripsinya.</p>
           <button onClick={() => update({ proker: [...selected.proker, { name: '', description: '' }] })} className="px-3 py-2 rounded-lg bg-white/10">Tambah Program Kerja</button>
           {selected.proker.map((program, index) => <div key={program.id || index} className="border border-white/10 rounded-lg p-4 space-y-3">
             <Field label={`Nama program kerja ${index + 1}`} value={program.name} onChange={(value) => updateRow('proker', index, 'name', value)} />

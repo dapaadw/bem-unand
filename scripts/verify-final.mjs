@@ -129,7 +129,9 @@ try {
   assert.equal((await api('/api/profile', 'PUT', { ...original, backgroundColor: 'red' })).status, 400);
   assert.equal((await api('/api/profile', 'PUT', { ...original, backgroundColor: '#102030' })).status, 200);
   assert.ok((await api('/', 'GET', undefined, '')).data.includes('--color-brand-dark:#102030'));
-  await api('/api/profile', 'PUT', original);
+  assert.equal((await api('/api/profile', 'PUT', original || { backgroundColor: null })).status, 200);
+  const restored = (await api('/', 'GET', undefined, '')).data;
+  assert.ok(restored.includes('--color-brand-dark:' + (original?.backgroundColor || '#1a0000')));
   assert.ok(output.includes('[mailer] Mock:'));
   console.log('PASS: Aspirasi form/anonymous/tickets/upload privacy/status/date filters/CSV; FH Guide CRUD/validation/empty states; page/API roles; complete audit pagination/export; theme persistence; mocked notifications.');
   if (process.env.FINAL_VERIFY_REVIEW === '1') {
