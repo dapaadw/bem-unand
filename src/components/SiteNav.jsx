@@ -31,7 +31,13 @@ export default function SiteNav() {
   }, [pathname]);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-brand-dark/95 backdrop-blur-md shadow-lg shadow-black/50 border-b border-white/10 py-3' : 'bg-transparent py-5'}`}>
+    <nav
+      className={`fixed w-full z-50 transition-all duration-1000 ease-in-out border-b ${
+        isScrolled
+          ? 'bg-brand-dark/75 backdrop-blur-md shadow-lg shadow-black/50 border-white/20 py-3'
+          : 'bg-transparent border-transparent py-5'
+      }`}
+    >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3 cursor-pointer group">
           <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 p-1 bg-[radial-gradient(circle,_#ffffff_40%,_#8e1616_100%)] shadow-md shadow-black/40 group-hover:scale-105 transition-transform duration-300">
@@ -47,7 +53,7 @@ export default function SiteNav() {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-sm font-medium hover:text-brand-neon hover:scale-105 transition-all duration-200 flex items-center gap-1.5 ${pathname === link.href ? 'text-brand-neon' : 'text-gray-300'}`}
+              className={`text-sm font-medium font-besley hover:text-brand-neon hover:scale-105 transition-all duration-200 flex items-center gap-1.5 ${pathname === link.href ? 'text-brand-neon' : 'text-gray-300'}`}
             >
               {link.name}
             </Link>
@@ -72,7 +78,7 @@ export default function SiteNav() {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-lg font-medium transition-colors ${pathname === link.href ? 'text-brand-neon' : 'text-gray-300 hover:text-brand-neon'}`}
+              className={`text-lg font-medium font-montserrat transition-colors ${pathname === link.href ? 'text-brand-neon' : 'text-gray-300 hover:text-brand-neon'}`}
             >
               {link.name}
             </Link>
