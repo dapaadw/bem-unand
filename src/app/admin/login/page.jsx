@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -35,12 +37,23 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-dark px-6">
+    <div className="min-h-screen flex items-center justify-center bg-brand-dark px-6 relative">
+      {/* Tombol kembali di pojok atas */}
+      <div className="absolute top-6 left-6">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-zinc-300 hover:text-white transition-all group backdrop-blur-md"
+        >
+          <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform text-brand-neon" />
+          <span>Kembali ke Web</span>
+        </Link>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-black/50 border border-white/10 rounded-2xl p-8 space-y-5"
+        className="w-full max-w-sm bg-white/5 border border-white/10 rounded-2xl p-8 space-y-5"
       >
-        <h1 className="text-2xl font-bold text-brand-neon text-center">Admin Login</h1>
+        <h1 className="text-2xl font-bold text-brand-neon text-center">Dashboard</h1>
 
         {error && (
           <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
