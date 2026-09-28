@@ -28,8 +28,8 @@ export default async function DepartemenDetailPage({ params }) {
       {heads.map((kepala) => (
         <div key={kepala.id} className="bg-white/5 border border-white/10 rounded-xl p-5 mb-8 break-words">
           <h2 className="text-sm text-brand-neon uppercase tracking-wide mb-2">Kepala Departemen</h2>
-          <p className="font-semibold">{kepala.name}</p>
-          <p className="text-sm text-brand-neon mb-3">{kepala.role}</p>
+          <p className="font-semibold text-lg">{kepala.name}</p>
+          <p className="text-sm text-gray-400 mb-3">{kepala.role}</p>
           {kepala.photoUrl && isWebOrLocalUrl(kepala.photoUrl) && <img src={kepala.photoUrl} alt={kepala.name} loading="lazy" className="w-24 h-24 object-cover rounded-xl mb-3" />}
           {kepala.identity && <p className="text-sm text-gray-400 whitespace-pre-wrap">Identitas: {kepala.identity}</p>}
           {kepala.achievements && <p className="text-sm text-gray-400 mt-1 whitespace-pre-wrap">Prestasi: {kepala.achievements}</p>}

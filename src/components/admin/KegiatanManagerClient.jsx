@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 
-const emptyForm = { type: 'INTERNAL', name: '', date: '', time: '', publishedAt: '', location: '', organizer: '', description: '', publicationUrl: '', registrationUrl: '' };
+const emptyForm = { type: 'INTERNAL', name: '', date: '', time: '', publishedAt: '', location: '', organizer: '', description: '', publicationUrl: '', registrationUrl: '', imageUrl: '' };
 
 function localDateTime(value) {
   const date = new Date(value);
@@ -42,6 +42,7 @@ export default function KegiatanManagerClient({ initialItems }) {
       description: item.description,
       publicationUrl: item.publicationUrl || '',
       registrationUrl: item.registrationUrl || '',
+      imageUrl: item.imageUrl || '',
     });
     setEditingId(item.id);
     setFormOpen(true);
@@ -124,6 +125,7 @@ export default function KegiatanManagerClient({ initialItems }) {
             <input aria-label="Lokasi" required placeholder="Lokasi" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
             <input aria-label="Penyelenggara" required placeholder="Penyelenggara" value={form.organizer} onChange={(e) => setForm({ ...form, organizer: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
             <input aria-label="URL publikasi" placeholder="URL Publikasi (opsional)" value={form.publicationUrl} onChange={(e) => setForm({ ...form, publicationUrl: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
+            <input aria-label="URL poster kegiatan" placeholder="URL Poster / Banner Kegiatan (opsional)" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
             {form.type === 'LOMBA' && (
               <input aria-label="URL pendaftaran Google Form" placeholder="https://forms.gle/... (opsional)" value={form.registrationUrl} onChange={(e) => setForm({ ...form, registrationUrl: e.target.value })} className="rounded-lg bg-white/5 border border-white/10 px-4 py-2 md:col-span-2" />
             )}

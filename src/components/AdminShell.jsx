@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Home, FileText, CalendarDays, Building2, MessageSquareWarning, BookOpen, ScrollText, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, CalendarDays, Building2, MessageSquareWarning, BookOpen, ScrollText, LogOut } from 'lucide-react';
 
 export default function AdminShell({ children, name, role }) {
   const pathname = usePathname();
@@ -10,7 +10,6 @@ export default function AdminShell({ children, name, role }) {
 
   const menuItems = [
     { path: '/admin', name: 'Dashboard', icon: <LayoutDashboard size={20} />, roles: ['ADMIN', 'SUPERUSER'] },
-    { path: '/admin/home', name: 'Home', icon: <Home size={20} />, roles: ['ADMIN'] },
     { path: '/admin/news', name: 'Manajemen Berita', icon: <FileText size={20} />, roles: ['ADMIN'] },
     { path: '/admin/kegiatan', name: 'Kegiatan & Lomba', icon: <CalendarDays size={20} />, roles: ['ADMIN'] },
     { path: '/admin/departemen', name: 'Departemen', icon: <Building2 size={20} />, roles: ['ADMIN'] },

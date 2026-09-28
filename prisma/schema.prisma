@@ -56,6 +56,7 @@ model Publikasi {
   category       String
   body           String
   attachmentUrl  String?
+  imageUrl       String?
   createdBy      String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -79,6 +80,7 @@ model Kegiatan {
   description      String
   publicationUrl   String?
   registrationUrl  String?
+  imageUrl         String?
   createdBy        String?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt

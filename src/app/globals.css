@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -5,10 +6,15 @@
   --color-brand-red: #8e1616;
   --color-brand-dark: #1a0000;
 
-  --font-sans: 'Montserrat', 'Poppins', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Besley', serif, system-ui, sans-serif;
+  --font-montserrat: 'Montserrat', system-ui, sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-brand-dark);
     color: white;
@@ -17,6 +23,10 @@
 }
 
 @layer utilities {
+  .font-montserrat {
+    font-family: var(--font-montserrat, 'Montserrat', system-ui, sans-serif);
+  }
+
   .text-neon {
     color: var(--color-brand-neon);
     text-shadow: 0 0 5px rgba(254, 174, 174, 0.5),

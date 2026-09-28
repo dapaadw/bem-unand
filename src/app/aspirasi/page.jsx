@@ -47,7 +47,7 @@ export default function AspirasiPage() {
         <h1 className="text-3xl font-bold mb-4 text-brand-neon">Aspirasi Terkirim</h1>
         <p className="text-gray-300">Terima kasih, aspirasimu sudah kami terima dan akan segera ditindaklanjuti.</p>
 
-        <div className="mt-8 inline-block bg-white/5 border border-brand-neon/30 rounded-xl px-8 py-6">
+        <div className="mt-8 inline-block bg-white/5 border border-white/10 rounded-xl px-8 py-6">
           <p className="text-sm text-gray-400 mb-1">Kode Tiket Kamu</p>
           <p className="text-xl sm:text-2xl break-all font-bold tracking-wide text-brand-neon">{ticketCode}</p>
         </div>
@@ -62,7 +62,7 @@ export default function AspirasiPage() {
 
   return (
     <section className="min-h-screen px-6 pt-32 pb-16 container mx-auto max-w-2xl">
-      <h1 className="text-3xl font-bold mb-2">Aspirasi</h1>
+      <h1 className="text-3xl font-bold mb-2">Aspirasi Mahasiswa</h1>
       <p className="text-gray-400 mb-8">Sampaikan keluh kesahmu. Bisa dikirim secara anonim.</p>
       <a href="/aspirasi/cek" className="inline-block mb-6 text-brand-neon underline">Sudah punya tiket? Cek status aspirasi</a>
 

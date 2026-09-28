@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 import { PUBLICATION_CATEGORIES, publicationCategory } from '../../lib/publication';
 
-const emptyForm = { title: '', publishedAt: '', author: '', category: '', body: '', attachmentUrl: '' };
+const emptyForm = { title: '', publishedAt: '', author: '', category: '', body: '', attachmentUrl: '', imageUrl: '' };
 
 export default function NewsManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
@@ -33,6 +33,7 @@ export default function NewsManagerClient({ initialItems }) {
       category: publicationCategory(item.category),
       body: item.body,
       attachmentUrl: item.attachmentUrl || '',
+      imageUrl: item.imageUrl || '',
     });
     setEditingId(item.id);
     setFormOpen(true);
@@ -127,6 +128,9 @@ export default function NewsManagerClient({ initialItems }) {
             </label>
             <label className="text-sm text-gray-300 md:col-span-2">URL lampiran/sumber (opsional)
               <input placeholder="https://... atau /uploads/sumber.pdf" value={form.attachmentUrl} onChange={(e) => setForm({ ...form, attachmentUrl: e.target.value })} className="block mt-1 w-full rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
+            </label>
+            <label className="text-sm text-gray-300 md:col-span-2">URL Gambar / Thumbnail (opsional)
+              <input placeholder="https://... atau /uploads/berita.jpg" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="block mt-1 w-full rounded-lg bg-white/5 border border-white/10 px-4 py-2" />
             </label>
           </div>
           <label className="block text-sm text-gray-300">Isi publikasi
