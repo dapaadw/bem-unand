@@ -3,6 +3,7 @@ import { prisma } from '../../../lib/prisma';
 import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
 import { isDepartmentHead, departmentContactUrl } from '../../../lib/departemen';
+import BackgroundTypography from '../../../components/BackgroundTypography';
 
 export const revalidate = 3600;
 
@@ -19,8 +20,10 @@ export default async function DepartemenDetailPage({ params }) {
   const others = item.staff.filter((s) => !isDepartmentHead(s.role));
 
   return (
-    <article className="min-h-screen px-6 pt-32 pb-16 container mx-auto max-w-3xl">
-      <Link href="/departemen" className="block mb-6 text-sm text-brand-neon hover:underline">← Kembali ke Departemen</Link>
+    <div className="min-h-screen relative overflow-hidden">
+      <BackgroundTypography />
+      <article className="px-6 pt-32 pb-16 container mx-auto max-w-3xl relative z-10">
+        <Link href="/departemen" className="block mb-6 text-sm text-brand-neon hover:underline">← Kembali ke Departemen</Link>
       <h1 className="text-3xl md:text-4xl font-bold mb-4 break-words">{item.name}</h1>
       {item.photoUrl && isWebOrLocalUrl(item.photoUrl) && <img src={item.photoUrl} alt={item.name} className="w-40 h-40 object-cover rounded-xl mb-6" />}
       {item.description && <p className="text-gray-300 mb-8 whitespace-pre-wrap break-words">{item.description}</p>}
@@ -78,6 +81,7 @@ export default async function DepartemenDetailPage({ params }) {
           )}
         </div>
       )}
-    </article>
+      </article>
+    </div>
   );
 }

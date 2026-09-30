@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, FileText, CalendarDays, Building2, MessageSquareWarning, BookOpen, ScrollText, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, CalendarDays, Building2, BookOpen, ScrollText, LogOut } from 'lucide-react';
 
 export default function AdminShell({ children, name, role }) {
   const pathname = usePathname();
@@ -13,7 +13,6 @@ export default function AdminShell({ children, name, role }) {
     { path: '/admin/news', name: 'Manajemen Berita', icon: <FileText size={20} />, roles: ['ADMIN'] },
     { path: '/admin/kegiatan', name: 'Kegiatan & Lomba', icon: <CalendarDays size={20} />, roles: ['ADMIN'] },
     { path: '/admin/departemen', name: 'Departemen', icon: <Building2 size={20} />, roles: ['ADMIN'] },
-    { path: '/admin/aspirasi', name: 'Aspirasi', icon: <MessageSquareWarning size={20} />, roles: ['ADMIN'] },
     { path: '/admin/fh-guide', name: 'FH Guide', icon: <BookOpen size={20} />, roles: ['ADMIN'] },
     { path: '/admin/audit-log', name: 'Audit Log', icon: <ScrollText size={20} />, roles: ['ADMIN', 'SUPERUSER'] },
   ].filter((item) => item.roles.includes(role));

@@ -1,45 +1,34 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Scale, Landmark, BookOpen, Flame, ShieldCheck, Award } from 'lucide-react';
-
 const defaultElements = [
   {
     title: 'Timbangan Keadilan',
-    icon: Scale,
     desc: 'Menegaskan komitmen BEM FH UNAND terhadap supremasi hukum, kesetaraan di hadapan hukum, dan pembelaan hak-hak masyarakat.',
   },
   {
     title: 'Gonjong Rumah Gadang',
-    icon: Landmark,
     desc: 'Identitas kultural Universitas Andalas di Ranah Minang, memegang teguh falsafah Adat Basandi Syarak, Syarak Basandi Kitabullah.',
   },
   {
     title: 'Aksara & Kesarjanaan',
-    icon: BookOpen,
     desc: 'Menjiwai nama Kabinet Aksara Juang sebagai simbol literasi hukum, ketajaman analisis intelektual, dan mimbar akademik yang progresif.',
   },
   {
     title: 'Api Semangat Perjuangan',
-    icon: Flame,
     desc: 'Simbol kobaran semangat yang pantang padam dalam mengawal aspirasi mahasiswa serta memperjuangkan keadilan sosial.',
   },
   {
     title: 'Lingkaran & Integritas',
-    icon: ShieldCheck,
     desc: 'Melambangkan kebulatan tekad, persatuan civitas akademika tanpa sekat primordial, serta integritas moral dalam memegang amanah.',
   },
   {
     title: 'Harmoni Marun & Emas',
-    icon: Award,
     desc: 'Merah marun melambangkan keberanian dan ketegasan sikap, berpadu kilau emas yang melambangkan kemuliaan dan masa depan gemilang.',
   },
 ];
 
 export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
-  const [activeIdx, setActiveIdx] = useState(null);
-
   return (
     <section id="filosofi-logo" className="scroll-mt-24 py-16 relative z-10">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -71,23 +60,17 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
 
         {/* 2-Column Showcase: Left = Logo BEM FH UNAND, Right = Philosophy Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Interactive Logo Badge */}
+          {/* Left Column: Logo Badge with Radial Glow */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center">
             <div className="relative flex flex-col items-center w-full max-w-sm">
               {/* Radial ambient glow */}
               <div
-                className={`absolute -inset-6 rounded-full blur-3xl transition-all duration-700 pointer-events-none ${
-                  activeIdx !== null ? 'bg-brand-neon/25 scale-110 opacity-100' : 'bg-brand-red/20 scale-95 opacity-70'
-                }`}
+                className="absolute -inset-6 rounded-full blur-3xl bg-brand-red/20 scale-95 opacity-70 pointer-events-none"
               />
 
               {/* Circular Logo Badge */}
               <div
-                className={`relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full p-4 sm:p-5 bg-[radial-gradient(circle,_#ffffff_40%,_#8e1616_100%)] transition-all duration-500 flex items-center justify-center ${
-                  activeIdx !== null
-                    ? 'scale-105 shadow-[0_0_50px_rgba(254,174,174,0.4)] ring-4 ring-brand-neon/50'
-                    : 'shadow-[0_0_30px_rgba(142,22,22,0.5)] ring-2 ring-white/10 hover:scale-102'
-                }`}
+                className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full p-4 sm:p-5 bg-[radial-gradient(circle,_#ffffff_40%,_#8e1616_100%)] shadow-[0_0_30px_rgba(142,22,22,0.5)] ring-2 ring-white/10 hover:scale-102 transition-all duration-500 flex items-center justify-center"
               >
                 <img
                   src="/logo.png"
@@ -95,93 +78,44 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
                   className="w-full h-full object-contain filter drop-shadow-md select-none transition-transform duration-500"
                 />
               </div>
-
-              {/* Dynamic Interactive Reference Pill */}
-              <div className="mt-6 min-h-[44px] flex items-center justify-center">
-                {activeIdx !== null ? (
-                  <motion.div
-                    key={activeIdx}
-                    initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    transition={{ duration: 0.2 }}
-                    className="px-4 py-1.5 rounded-full bg-brand-neon/15 border border-brand-neon/40 text-brand-neon text-xs font-semibold flex items-center gap-2 shadow-[0_0_15px_rgba(254,174,174,0.2)]"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-brand-neon animate-pulse" />
-                    <span>Merujuk: {defaultElements[activeIdx].title}</span>
-                  </motion.div>
-                ) : (
-                  <p className="text-xs text-gray-400 italic">
-                    Arahkan kursor ke filosofi di kanan untuk menyorot
-                  </p>
-                )}
-              </div>
             </div>
           </div>
 
           {/* Right Column: Philosophy Cards (Shifted to the Right) */}
           <div className="lg:col-span-7">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-              {defaultElements.map((elem, idx) => {
-                const isHovered = activeIdx === idx;
-                const IconComponent = elem.icon;
-
-                return (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-30px' }}
-                    transition={{
-                      duration: 0.6,
-                      delay: 0.06 * idx,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    onMouseEnter={() => setActiveIdx(idx)}
-                    onMouseLeave={() => setActiveIdx(null)}
-                    className={`rounded-xl p-5 transition-all duration-300 flex flex-col justify-between cursor-pointer border ${
-                      isHovered
-                        ? 'bg-brand-red/25 border-brand-neon scale-[1.04] -translate-y-1 shadow-[0_0_25px_rgba(254,174,174,0.3)] z-10'
-                        : activeIdx !== null
-                        ? 'bg-white/5 border-white/10 opacity-60 scale-[0.99]'
-                        : 'bg-white/5 border-white/10 hover:border-brand-neon/60 hover:bg-white/10'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <div
-                          className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
-                            isHovered
-                              ? 'bg-brand-neon text-brand-dark scale-110 shadow-md shadow-brand-neon/30'
-                              : 'bg-brand-neon/10 border border-brand-neon/20 text-brand-neon'
-                          }`}
-                        >
-                          <IconComponent size={20} />
-                        </div>
-                        <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider transition-colors ${
-                            isHovered
-                              ? 'bg-brand-neon text-brand-dark'
-                              : 'text-gray-500 bg-white/5'
-                          }`}
-                        >
-                          0{idx + 1}
-                        </span>
-                      </div>
-                      <h3
-                        className={`text-base font-semibold mb-2 transition-colors ${
-                          isHovered ? 'text-brand-neon' : 'text-white'
-                        }`}
+              {defaultElements.map((elem, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.06 * idx,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="group rounded-xl p-5 transition-all duration-300 flex flex-col justify-between cursor-pointer border bg-white/5 border-white/10 hover:border-brand-neon hover:bg-brand-red/20 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(254,174,174,0.25)]"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span
+                        className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider transition-colors text-gray-400 bg-white/5 border border-white/10 group-hover:bg-brand-neon group-hover:text-brand-dark"
                       >
-                        {elem.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                        {elem.desc}
-                      </p>
+                        0{idx + 1}
+                      </span>
                     </div>
-                  </motion.div>
-                );
-              })}
+                    <h3
+                      className="text-base font-semibold mb-2 transition-colors text-white group-hover:text-brand-neon"
+                    >
+                      {elem.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                      {elem.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>

@@ -65,7 +65,7 @@ try {
   // Inspect rendered sections, excluding React's serialized payload.
   const renderedSections = (document) => document.slice(document.indexOf('<section'), document.lastIndexOf('</section>') + 10);
   html = renderedSections(html);
-  for (const text of ['Verification Home', 'Verification photo', 'Verification vision', 'Verification philosophy', 'youtube-nocookie.com/embed/abcdefghijk', 'id="kontak"', 'mailto:test@example.com', '09:30']) assert.ok(html.includes(text), text);
+  for (const text of ['Verification Home', 'Verification photo', 'Verification vision', 'Verification philosophy', 'youtube-nocookie.com/embed/ixO2bbWHgVE', 'id="kontak"', 'mailto:test@example.com', '09:30']) assert.ok(html.includes(text), text);
   assert.ok(!html.includes('Verification activity 1'));
   for (let index = 5; index > 2; index--) assert.ok(html.indexOf(`Verification activity ${index}`) < html.indexOf(`Verification activity ${index - 1}`));
   assert.equal((await api(`/api/kegiatan/${ids[0]}`, 'PUT', { publishedAt: '2026-09-27T00:00:00Z' })).status, 200);

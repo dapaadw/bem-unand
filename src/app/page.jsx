@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { prisma } from '../lib/prisma';
-import { youtubeEmbedUrl, isWebOrLocalUrl } from '../lib/homeMedia';
+import { youtubeEmbedUrl } from '../lib/homeMedia';
 import { ArrowDown, Mail, MapPin } from 'lucide-react';
 import { InstagramIcon, WhatsAppIcon } from '../components/SocialIcons';
 import HeroContentAnimation from '../components/home/HeroContentAnimation';
@@ -27,10 +26,10 @@ export default async function HomePage() {
   const emailAddress = contacts?.email || 'bemfhunand.official@gmail.com';
 
   const title = profile?.title || 'BEM FH UNAND';
-  const subtitle =
+  const _subtitle =
     profile?.subtitle ||
     'Pusat informasi, advokasi, publikasi ilmiah, dan penyalur aspirasi seluruh mahasiswa Fakultas Hukum Universitas Andalas.';
-  const video = youtubeEmbedUrl(profile?.videoUrl || 'https://www.youtube.com/watch?v=mCshOnYXFXA');
+  const video = youtubeEmbedUrl('https://www.youtube.com/watch?v=ixO2bbWHgVE');
 
   const visi =
     'Terwujudnya BEM FH UNAND sebagai episentrum pergerakan dan advokasi yang progresif, inklusif, responsif, dan berintegritas demi terwujudnya keadilan sosial serta kemaslahatan mahasiswa dan masyarakat.';
@@ -46,42 +45,40 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Typography Watermark Grid ("KABINET AKSARA JUANG" & "SEMANGAT PERJUANGAN") */}
-      <BackgroundTypography />
+      <BackgroundTypography fadeFromHero />
 
       {/* Hero Section */}
       <section className="relative z-10 min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Right-Side Photo with Grayscale & Gradient Fade (only right half displayed) */}
-        <div className="absolute right-0 top-0 bottom-0 w-full lg:w-3/5 h-full pointer-events-none flex items-center justify-end z-0 overflow-hidden">
+        {/* Centered Photo with Color & Bottom Fade towards Visi Misi */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center z-0 overflow-hidden">
           <div
             className="relative w-full h-full"
             style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 20%, black 65%, black 100%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)',
             }}
           >
             <img
               src={profile?.heroImageUrl || '/hero.jpg'}
               alt={profile?.heroImageAlt || 'Verification photo'}
-              className="w-full h-full object-cover object-[75%_center] grayscale contrast-110 brightness-95 opacity-75 lg:opacity-85"
+              className="w-full h-full object-cover object-center brightness-60"
               fetchPriority="high"
             />
-            {/* Ambient Overlays to Blend Softly into Background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark/70 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/80 via-transparent to-brand-dark/40 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/40 to-transparent pointer-events-none" />
+            {/* Fade only at the bottom towards Visi Misi */}
+            <div className="absolute inset-x-0 bottom-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-brand-dark pointer-events-none" />
           </div>
         </div>
 
         {/* Left-Side Content Container with Fluid Entrance */}
-        <div className="relative z-10 container mx-auto px-6 md:px-12 flex items-center">
+        <div className="relative z-10 container mx-auto px-6 md:px-12 flex items-center text-nowrap">
           <HeroContentAnimation className="max-w-xl sm:ml-8 md:ml-16 lg:ml-20 py-12">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-2 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold sm:font-black tracking-normal text-white mb-2 leading-tight drop-shadow-lg">
               {title}
             </h1>
-            <p className="text-xl sm:text-2xl font-semibold text-brand-neon mb-3">
+            <p className="text-xl sm:text-2xl font-bold text-brand-neon mb-3 drop-shadow">
               Kabinet Aksara Juang
             </p>
-            <p className="text-sm sm:text-base font-medium text-gray-300 italic mb-8">
+            <p className="text-sm sm:text-base font-medium text-gray-300 italic mb-8 drop-shadow">
               &ldquo;Semangat Beraksi, Perjuangkan Aspirasi&rdquo;
             </p>
 
@@ -181,21 +178,23 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* WhatsApp - Maroon theme logo & badge */}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white/5 border border-white/10 hover:border-brand-neon rounded-xl p-5 transition-colors flex flex-col items-center text-center group"
+              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon mb-3 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <WhatsAppIcon size={20} className="text-brand-neon" />
+              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
+                <WhatsAppIcon size={22} className="text-brand-neon" />
               </div>
-              <span className="text-xs text-gray-400 uppercase tracking-wide block mb-1">WhatsApp</span>
-              <span className="text-xs font-semibold text-white group-hover:text-brand-neon transition-colors truncate w-full">
-                +62 812-3456-7890
-              </span>
+              <div className="min-w-0 flex-1 text-left">
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">WhatsApp</span>
+                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block">
+                  +62 812-3456-7890
+                </span>
+              </div>
             </a>
 
             {/* Instagram - Maroon theme logo & badge */}
@@ -203,40 +202,46 @@ export default async function HomePage() {
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white/5 border border-white/10 hover:border-brand-neon rounded-xl p-5 transition-colors flex flex-col items-center text-center group"
+              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon mb-3 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <InstagramIcon size={20} className="text-brand-neon" />
+              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
+                <InstagramIcon size={22} className="text-brand-neon" />
               </div>
-              <span className="text-xs text-gray-400 uppercase tracking-wide block mb-1">Instagram</span>
-              <span className="text-xs font-semibold text-white group-hover:text-brand-neon transition-colors truncate w-full">
-                @bemfhua
-              </span>
+              <div className="min-w-0 flex-1 text-left">
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Instagram</span>
+                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block">
+                  @bemfhua
+                </span>
+              </div>
             </a>
 
             {/* Email */}
             <a
               href={`mailto:${emailAddress}`}
-              className="bg-white/5 border border-white/10 hover:border-brand-neon rounded-xl p-5 transition-colors flex flex-col items-center text-center group"
+              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon mb-3 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <Mail size={20} className="text-brand-neon" />
+              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
+                <Mail size={22} className="text-brand-neon" />
               </div>
-              <span className="text-xs text-gray-400 uppercase tracking-wide block mb-1">Email</span>
-              <span className="text-xs font-semibold text-white group-hover:text-brand-neon transition-colors truncate w-full">
-                {emailAddress}
-              </span>
+              <div className="min-w-0 flex-1 text-left">
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Email</span>
+                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block break-all sm:break-normal">
+                  {emailAddress}
+                </span>
+              </div>
             </a>
 
             {/* Sekretariat */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col items-center text-center">
-              <div className="w-10 h-10 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon mb-3">
-                <MapPin size={20} className="text-brand-neon" />
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 sm:p-5 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0">
+                <MapPin size={22} className="text-brand-neon" />
               </div>
-              <span className="text-xs text-gray-400 uppercase tracking-wide block mb-1">Sekretariat</span>
-              <span className="text-xs font-semibold text-white leading-snug">
-                PKM FH UNAND, Padang
-              </span>
+              <div className="min-w-0 flex-1 text-left">
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Sekretariat</span>
+                <span className="text-sm sm:text-base font-semibold text-white block leading-snug">
+                  PKM FH UNAND, Padang
+                </span>
+              </div>
             </div>
           </div>
         </div>

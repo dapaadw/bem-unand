@@ -14,7 +14,7 @@ export default async function SiteFooter() {
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 p-0.5 bg-[radial-gradient(circle,_#ffffff_40%,_#8e1616_100%)] shadow-md shadow-black/40">
+              <div className="w-8 h-8 flex items-center justify-center shrink-0">
                 <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <span className="font-semibold tracking-wider font-montserrat">BEM FH UNAND © 2026</span>

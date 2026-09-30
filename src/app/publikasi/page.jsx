@@ -3,6 +3,7 @@ import { loadPublications } from '../../lib/publicationQuery';
 import { publicationCategory } from '../../lib/publication';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
 import { Search, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import BackgroundTypography from '../../components/BackgroundTypography';
 
 export const revalidate = 300;
 
@@ -18,7 +19,9 @@ export default async function PublikasiPage({ searchParams }) {
   const featuredItem = items.length > 0 ? items[0] : null;
 
   return (
-    <section className="min-h-screen px-6 pt-32 pb-20 container mx-auto max-w-6xl">
+    <div className="min-h-screen relative overflow-hidden">
+      <BackgroundTypography />
+      <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
       {/* Page Header */}
       <div className="text-center mb-10">
         <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">
@@ -248,5 +251,6 @@ export default async function PublikasiPage({ searchParams }) {
         </nav>
       )}
     </section>
-  );
+  </div>
+);
 }
