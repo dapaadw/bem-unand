@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
+import { logAction } from '../../../../lib/audit';
 import { revalidatePath } from 'next/cache';
 
 export async function PATCH(request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['ADMIN', 'SUPERUSER']);
   if (error) return error;
 
   const { id } = await params;
@@ -16,16 +17,14 @@ export async function PATCH(request, { params }) {
   const existing = await prisma.aspirasi.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
-  const updated = await prisma.$transaction(async (tx) => {
-    const item = await tx.aspirasi.update({ where: { id }, data: { status: body.status } });
-    await tx.auditLog.create({ data: {
-      userId: session.userId,
-      action: 'UPDATE',
-      entityType: 'Aspirasi',
-      entityId: id,
-      summary: `Mengubah status aspirasi menjadi ${body.status}`,
-    } });
-    return item;
+  const updated = await prisma.aspirasi.update({ where: { id }, data: { status: body.status } });
+
+  await logAction({
+    userId: session.userId,
+    action: 'UPDATE',
+    entityType: 'Aspirasi',
+    entityId: id,
+    summary: `Mengubah status aspirasi menjadi ${body.status}`,
   });
 
   revalidatePath('/admin/aspirasi');

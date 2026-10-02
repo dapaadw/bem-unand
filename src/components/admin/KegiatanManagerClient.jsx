@@ -1,23 +1,35 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import {
   Plus,
   Pencil,
   Trash2,
   X,
-  Search,
-  Trophy,
+  CalendarDays,
   Calendar,
+  Clock,
   MapPin,
   Building,
+  Trophy,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
   ExternalLink,
-  CalendarDays,
-  Clock,
 } from 'lucide-react';
 
-const emptyForm = { type: 'INTERNAL', name: '', date: '', time: '', publishedAt: '', location: '', organizer: '', description: '', publicationUrl: '', registrationUrl: '' };
+const emptyForm = {
+  type: 'INTERNAL',
+  name: '',
+  date: '',
+  time: '',
+  publishedAt: '',
+  location: '',
+  organizer: '',
+  description: '',
+  publicationUrl: '',
+  registrationUrl: '',
+};
 
 function localDateTime(value) {
   const date = new Date(value);
@@ -26,8 +38,6 @@ function localDateTime(value) {
 
 export default function KegiatanManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
-  const [search, setSearch] = useState('');
-  const [typeFilter, setTypeFilter] = useState('ALL');
   const [formOpen, setFormOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -35,17 +45,14 @@ export default function KegiatanManagerClient({ initialItems }) {
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [message, setMessage] = useState('');
-  const sortItems = (list) => [...list].sort((a, b) => new Date(b.date) - new Date(a.date) || b.id.localeCompare(a.id));
+  const sortItems = (list) =>
+    [...list].sort(
+      (a, b) => new Date(b.date) - new Date(a.date) || b.id.localeCompare(a.id)
+    );
 
   function openCreate() {
     setMessage('');
-    setForm({
-      ...emptyForm,
-      publishedAt: localDateTime(new Date()),
-      date: new Date().toISOString().slice(0, 10),
-      location: 'Fakultas Hukum Universitas Andalas',
-      organizer: 'BEM FH UNAND',
-    });
+    setForm({ ...emptyForm, publishedAt: localDateTime(new Date()) });
     setEditingId(null);
     setFormOpen(true);
     setError('');
@@ -84,7 +91,7 @@ export default function KegiatanManagerClient({ initialItems }) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Gagal menyimpan.');
+        setError(data.error || 'Gagal menyimpan agenda kegiatan.');
         return;
       }
       if (editingId) {
@@ -93,7 +100,7 @@ export default function KegiatanManagerClient({ initialItems }) {
         setItems((prev) => sortItems([data, ...prev]));
       }
       setFormOpen(false);
-      setMessage('Kegiatan tersimpan.');
+      setMessage(editingId ? 'Agenda kegiatan diperbarui.' : 'Agenda kegiatan baru berhasil disimpan.');
     } catch {
       setError('Terjadi kesalahan jaringan.');
     } finally {
@@ -102,403 +109,323 @@ export default function KegiatanManagerClient({ initialItems }) {
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(`Hapus kegiatan "${name}"? Tindakan ini tidak dapat dibatalkan.`)) return;
+    if (!confirm(`Hapus agenda kegiatan "${name}"? Tindakan ini tidak dapat dibatalkan.`)) return;
     setDeletingId(id);
     setError('');
     setMessage('');
     try {
       const res = await fetch(`/api/kegiatan/${id}`, { method: 'DELETE' });
-      if (!res.ok) { const data = await res.json(); setError(data.error || 'Gagal menghapus kegiatan.'); return; }
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || 'Gagal menghapus kegiatan.');
+        return;
+      }
       setItems((prev) => prev.filter((i) => i.id !== id));
       if (editingId === id) setFormOpen(false);
-      setMessage('Kegiatan dihapus.');
-    } catch { setError('Terjadi kesalahan jaringan.'); }
-    finally { setDeletingId(null); }
+      setMessage('Agenda kegiatan berhasil dihapus.');
+    } catch {
+      setError('Terjadi kesalahan jaringan.');
+    } finally {
+      setDeletingId(null);
+    }
   }
-
-  const counts = useMemo(() => {
-    return {
-      ALL: items.length,
-      LOMBA: items.filter((i) => i.type === 'LOMBA').length,
-      INTERNAL: items.filter((i) => i.type === 'INTERNAL').length,
-    };
-  }, [items]);
-
-  const filtered = useMemo(() => {
-    return items.filter((item) => {
-      if (typeFilter !== 'ALL' && item.type !== typeFilter) return false;
-      if (!search.trim()) return true;
-
-      const q = search.toLowerCase();
-      return (
-        item.name.toLowerCase().includes(q) ||
-        item.organizer.toLowerCase().includes(q) ||
-        item.location.toLowerCase().includes(q) ||
-        item.description.toLowerCase().includes(q)
-      );
-    });
-  }, [items, search, typeFilter]);
 
   return (
     <div className="space-y-6">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-xl md:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <Trophy size={22} className="text-brand-neon" />
-            <span>Manajemen Kegiatan & Kompetisi</span>
-          </h1>
-          <p className="text-xs text-zinc-400 mt-0.5">
-            Kelola agenda kerja internal, seminar, dan informasi perlombaan mahasiswa.
-          </p>
-        </div>
-
+      {/* Top Action Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <button
           onClick={openCreate}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(254,174,174,0.3)] self-start sm:self-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow-md hover:shadow-brand-neon/20 transition-all self-start sm:self-auto"
         >
           <Plus size={16} />
-          <span>Tambah Kegiatan Baru</span>
+          <span>Tambah Agenda / Lomba Baru</span>
         </button>
+
+        {items.length > 0 && (
+          <p className="text-xs text-gray-400 self-center">
+            Menampilkan <span className="text-brand-neon font-semibold">{items.length}</span> agenda kegiatan
+          </p>
+        )}
       </div>
 
-      {/* Messages */}
-      {message && <p role="status" className="text-xs text-brand-neon font-semibold">{message}</p>}
-      {error && !formOpen && <p role="alert" className="text-xs text-red-400 font-semibold">{error}</p>}
-
-      {/* Control Bar: Search & Type Tabs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/[0.04] border border-white/10 p-4 rounded-2xl backdrop-blur-md">
-        {/* Search */}
-        <div className="relative flex-1 max-w-md">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
-          <input
-            type="text"
-            placeholder="Cari kegiatan, lokasi, atau penyelenggara..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-          />
-          {search && (
-            <button
-              onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-400 hover:text-white"
-            >
-              ✕
-            </button>
-          )}
+      {message && (
+        <div
+          role="status"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm animate-in fade-in"
+        >
+          <CheckCircle2 size={18} className="shrink-0 text-emerald-400" />
+          <span>{message}</span>
         </div>
+      )}
 
-        {/* Type Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          {[
-            { key: 'ALL', label: 'Semua', count: counts.ALL },
-            { key: 'LOMBA', label: 'Lomba & Kompetisi', count: counts.LOMBA },
-            { key: 'INTERNAL', label: 'Internal BEM', count: counts.INTERNAL },
-          ].map((tab) => {
-            const active = typeFilter === tab.key;
-            return (
-              <button
-                key={tab.key}
-                onClick={() => setTypeFilter(tab.key)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  active
-                    ? 'bg-brand-neon text-brand-dark shadow-[0_0_10px_rgba(254,174,174,0.3)]'
-                    : 'bg-white/5 text-zinc-300 hover:bg-white/10 hover:text-white border border-white/5'
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                    active ? 'bg-brand-dark/30 text-brand-dark' : 'bg-white/10 text-zinc-400'
-                  }`}
-                >
-                  {tab.count}
-                </span>
-              </button>
-            );
-          })}
+      {error && (
+        <div
+          role="alert"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm animate-in fade-in"
+        >
+          <AlertCircle size={18} className="shrink-0 text-red-400" />
+          <span>{error}</span>
         </div>
-      </div>
+      )}
 
-      {/* Form Drawer / Box (Create / Edit) */}
+      {/* Form Drawer / Container */}
       {formOpen && (
-        <div className="rounded-2xl bg-black/60 border border-brand-neon/30 p-6 backdrop-blur-xl shadow-2xl space-y-4">
-          <div className="flex justify-between items-center pb-3 border-b border-white/10">
-            <h2 className="font-bold text-base text-brand-neon flex items-center gap-2">
-              <CalendarDays size={18} />
-              <span>{editingId ? 'Edit Kegiatan' : 'Tambah Kegiatan Baru'}</span>
-            </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 space-y-6 shadow-xl animate-in fade-in slide-in-from-top-4"
+        >
+          <div className="flex justify-between items-center pb-4 border-b border-white/10">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                <CalendarDays size={18} />
+              </div>
+              <h2 className="font-bold text-base text-white">
+                {editingId ? 'Edit Agenda / Lomba' : 'Tambah Agenda / Lomba Baru'}
+              </h2>
+            </div>
             <button
+              aria-label="Tutup form kegiatan"
               type="button"
               onClick={() => setFormOpen(false)}
-              className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
-              aria-label="Tutup form kegiatan"
+              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
             >
               <X size={18} />
             </button>
           </div>
 
-          {error && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
-              {error}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Jenis Kegiatan
+              <select
+                aria-label="Jenis kegiatan"
+                value={form.type}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    type: e.target.value,
+                    registrationUrl: e.target.value === 'INTERNAL' ? '' : form.registrationUrl,
+                  })
+                }
+                className="mt-1.5 block w-full rounded-xl bg-brand-dark border border-white/10 px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              >
+                <option value="INTERNAL">Kegiatan Internal BEM</option>
+                <option value="LOMBA">Lomba / Kompetisi Eksternal</option>
+              </select>
+            </label>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Tipe Kegiatan *</label>
-                <select
-                  aria-label="Jenis kegiatan"
-                  value={form.type}
-                  onChange={(e) => setForm({ ...form, type: e.target.value, registrationUrl: e.target.value === 'INTERNAL' ? '' : form.registrationUrl })}
-                  className="w-full rounded-xl bg-zinc-900 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
-                >
-                  <option value="INTERNAL">Kegiatan Internal BEM</option>
-                  <option value="LOMBA">Lomba / Kompetisi Mahasiswa</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Nama Kegiatan / Agenda *</label>
-                <input
-                  required
-                  aria-label="Nama kegiatan"
-                  placeholder="Contoh: Law Fair BEM FH UNAND 2026"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Tanggal Pelaksanaan *</label>
-                <input
-                  required
-                  aria-label="Tanggal kegiatan"
-                  type="date"
-                  value={form.date}
-                  onChange={(e) => setForm({ ...form, date: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
-                  <Clock size={11} />
-                  Waktu Kegiatan (WIB, opsional)
-                </label>
-                <input
-                  type="time"
-                  value={form.time}
-                  onChange={(e) => setForm({ ...form, time: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Tanggal Publikasi *</label>
-                <input
-                  required
-                  type="datetime-local"
-                  value={form.publishedAt}
-                  onChange={(e) => setForm({ ...form, publishedAt: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Lokasi / Tempat *</label>
-                <input
-                  required
-                  aria-label="Lokasi"
-                  placeholder="Contoh: Gedung Serbaguna FH UNAND / Zoom Cloud"
-                  value={form.location}
-                  onChange={(e) => setForm({ ...form, location: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Penyelenggara *</label>
-                <input
-                  required
-                  aria-label="Penyelenggara"
-                  placeholder="Contoh: Kementerian PSDM & Olahraga"
-                  value={form.organizer}
-                  onChange={(e) => setForm({ ...form, organizer: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">URL Publikasi / Leaflet (Opsional)</label>
-                <input
-                  aria-label="URL publikasi"
-                  placeholder="https://..."
-                  value={form.publicationUrl}
-                  onChange={(e) => setForm({ ...form, publicationUrl: e.target.value })}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
-
-              {form.type === 'LOMBA' && (
-                <div className="md:col-span-2 space-y-1">
-                  <label className="text-[11px] font-semibold text-brand-neon">URL Pendaftaran / Panduan Lomba (Google Form / Link)</label>
-                  <input
-                    aria-label="URL pendaftaran Google Form"
-                    placeholder="https://forms.gle/..."
-                    value={form.registrationUrl}
-                    onChange={(e) => setForm({ ...form, registrationUrl: e.target.value })}
-                    className="w-full rounded-xl bg-brand-neon/[0.05] border border-brand-neon/30 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon transition-all"
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-[11px] font-semibold text-zinc-300">Deskripsi Lengkap Kegiatan *</label>
-              <textarea
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Nama Kegiatan / Kompetisi
+              <input
+                aria-label="Nama kegiatan"
                 required
-                aria-label="Deskripsi"
-                placeholder="Jelaskan mengenai tujuan, target audiens, dan detail acara..."
-                rows={5}
-                value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
-                className="w-full rounded-xl bg-white/5 border border-white/10 p-4 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all leading-relaxed"
+                placeholder="Contoh: Law Fair Nasional 2026"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
-            </div>
+            </label>
 
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setFormOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
-              >
-                Batal
-              </button>
-              <button
-                disabled={saving}
-                type="submit"
-                className="px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]"
-              >
-                {saving ? 'Menyimpan...' : editingId ? 'Simpan Perubahan' : 'Terbitkan Kegiatan'}
-              </button>
-            </div>
-          </form>
-        </div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Tanggal Pelaksanaan
+              <input
+                aria-label="Tanggal kegiatan"
+                required
+                type="date"
+                value={form.date}
+                onChange={(e) => setForm({ ...form, date: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Waktu Kegiatan (WIB, Opsional)
+              <input
+                type="time"
+                value={form.time}
+                onChange={(e) => setForm({ ...form, time: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Lokasi / Tempat Pelaksanaan
+              <input
+                aria-label="Lokasi"
+                required
+                placeholder="Contoh: Gedung Serbaguna FH UNAND / Zoom"
+                value={form.location}
+                onChange={(e) => setForm({ ...form, location: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Penyelenggara
+              <input
+                aria-label="Penyelenggara"
+                required
+                placeholder="Contoh: BEM FH UNAND / Universitas Indonesia"
+                value={form.organizer}
+                onChange={(e) => setForm({ ...form, organizer: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Tanggal &amp; Waktu Terbit
+              <input
+                aria-label="Tanggal publikasi"
+                required
+                type="datetime-local"
+                value={form.publishedAt}
+                onChange={(e) => setForm({ ...form, publishedAt: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              URL Publikasi / Poster (Opsional)
+              <input
+                aria-label="URL publikasi"
+                placeholder="https://... atau /uploads/poster.jpg"
+                value={form.publicationUrl}
+                onChange={(e) => setForm({ ...form, publicationUrl: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            {form.type === 'LOMBA' && (
+              <label className="text-xs font-semibold uppercase tracking-wider text-gray-300 md:col-span-2">
+                URL Pendaftaran / Registrasi Lomba (Google Form / Link)
+                <input
+                  aria-label="URL pendaftaran Google Form"
+                  placeholder="https://forms.gle/... atau link pendaftaran resmi"
+                  value={form.registrationUrl}
+                  onChange={(e) => setForm({ ...form, registrationUrl: e.target.value })}
+                  className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+                />
+              </label>
+            )}
+          </div>
+
+          <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
+            Deskripsi Lengkap Kegiatan
+            <textarea
+              aria-label="Deskripsi"
+              required
+              placeholder="Jelaskan detail susunan acara, tema, syarat keikutsertaan, narahubung, dll..."
+              rows={6}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all leading-relaxed"
+            />
+          </label>
+
+          <div className="flex items-center gap-3 pt-2">
+            <button
+              disabled={saving}
+              type="submit"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow hover:shadow-brand-neon/20 transition-all disabled:opacity-50"
+            >
+              {saving ? <Loader2 size={16} className="animate-spin" /> : null}
+              <span>{saving ? 'Menyimpan...' : editingId ? 'Perbarui Agenda' : 'Simpan Agenda'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setFormOpen(false)}
+              className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-medium transition-colors"
+            >
+              Batal
+            </button>
+          </div>
+        </form>
       )}
 
-      {/* Kegiatan Count & Cards */}
+      {/* List of Activities */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between text-xs text-zinc-400 px-1">
-          <p>
-            Menampilkan <span className="font-semibold text-white">{filtered.length}</span> dari{' '}
-            <span className="font-semibold text-white">{items.length}</span> kegiatan
-          </p>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="py-16 text-center rounded-2xl bg-white/[0.02] border border-dashed border-white/10 space-y-3">
-            <div className="inline-flex p-3.5 rounded-2xl bg-white/5 border border-white/10 text-zinc-400">
-              <CalendarDays size={28} />
-            </div>
-            <h3 className="text-sm font-bold text-white">Tidak ada kegiatan yang cocok</h3>
-            <p className="text-xs text-zinc-400 max-w-sm mx-auto">
-              {search
-                ? `Tidak ditemukan kegiatan dengan kata kunci "${search}".`
-                : 'Belum ada kegiatan yang didaftarkan.'}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-3">
-            {filtered.map((item) => {
-              const isLomba = item.type === 'LOMBA';
-
-              return (
-                <div
-                  key={item.id}
-                  className="group rounded-2xl bg-white/[0.04] hover:bg-white/[0.06] border border-white/10 hover:border-brand-neon/30 p-4 md:p-5 transition-all duration-200 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg"
-                >
-                  <div className="space-y-1.5 min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md border flex items-center gap-1 ${
-                          isLomba
-                            ? 'bg-blue-500/15 text-blue-300 border-blue-500/30'
-                            : 'bg-brand-red/20 text-brand-neon border-brand-neon/30'
-                        }`}
-                      >
-                        {isLomba ? <Trophy size={11} /> : <Calendar size={11} />}
-                        <span>{isLomba ? 'Lomba & Kompetisi' : 'Internal BEM'}</span>
-                      </span>
-
-                      <span className="text-zinc-500">·</span>
-                      <span className="flex items-center gap-1 text-xs text-zinc-400">
-                        <Calendar size={12} />
-                        {item.date ? item.date.slice(0, 10) : '-'}
-                        {item.time ? ` · ${item.time} WIB` : ''}
-                      </span>
-
-                      <span className="text-zinc-500">·</span>
-                      <span className="flex items-center gap-1 text-xs text-zinc-400">
-                        <MapPin size={12} />
-                        {item.location}
-                      </span>
-
-                      <span className="text-zinc-500">·</span>
-                      <span className="flex items-center gap-1 text-xs text-zinc-400">
-                        <Building size={12} />
-                        {item.organizer}
-                      </span>
-                    </div>
-
-                    <h3 className="font-bold text-sm md:text-base text-white group-hover:text-brand-neon transition-colors line-clamp-1">
-                      {item.name}
-                    </h3>
-
-                    <p className="text-xs text-zinc-400 line-clamp-1 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/5">
-                    {item.slug && (
-                      <Link
-                        href={`/kegiatan/${item.slug}`}
-                        target="_blank"
-                        className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors"
-                        title="Lihat Halaman Publik"
-                      >
-                        <ExternalLink size={15} />
-                      </Link>
-                    )}
-
-                    <button
-                      onClick={() => openEdit(item)}
-                      disabled={saving || deletingId !== null}
-                      className="flex items-center gap-1 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-zinc-200 hover:text-brand-neon transition-colors border border-white/5"
-                      aria-label={`Edit ${item.name}`}
-                      title="Edit Kegiatan"
-                    >
-                      <Pencil size={14} />
-                      <span className="hidden sm:inline">Edit</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleDelete(item.id, item.name)}
-                      disabled={saving || deletingId !== null}
-                      className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors border border-red-500/20 disabled:opacity-50"
-                      aria-label={`Hapus ${item.name}`}
-                      title="Hapus Kegiatan"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  </div>
+        {items.map((item) => {
+          const isLomba = item.type === 'LOMBA';
+          return (
+            <div
+              key={item.id}
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all group"
+            >
+              <div className="min-w-0 flex-1 space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                      isLomba
+                        ? 'bg-amber-500/10 text-amber-300 border-amber-500/20'
+                        : 'bg-brand-neon/10 text-brand-neon border-brand-neon/20'
+                    }`}
+                  >
+                    {isLomba ? 'Kompetisi / Lomba' : 'Kegiatan Internal'}
+                  </span>
+                  <span className="text-gray-500 text-xs">•</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <Calendar size={12} className="text-gray-500" />
+                    {item.date.slice(0, 10)}
+                    {item.time ? ` (${item.time} WIB)` : ''}
+                  </span>
+                  <span className="text-gray-500 text-xs">•</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <MapPin size={12} className="text-gray-500" />
+                    {item.location}
+                  </span>
                 </div>
-              );
-            })}
+
+                <h3 className="font-bold text-base text-white group-hover:text-brand-neon transition-colors line-clamp-1">
+                  {item.name}
+                </h3>
+                <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                  {item.description}
+                </p>
+                <div className="text-[11px] text-gray-500 flex items-center gap-1.5">
+                  <Building size={12} />
+                  <span>Penyelenggara: {item.organizer}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0 self-end sm:self-center border-t sm:border-t-0 pt-3 sm:pt-0 border-white/5 w-full sm:w-auto justify-end">
+                {item.registrationUrl && (
+                  <a
+                    href={item.registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl text-amber-400 hover:text-amber-300 hover:bg-amber-400/10 transition-colors"
+                    title="Buka form pendaftaran"
+                  >
+                    <ExternalLink size={15} />
+                  </a>
+                )}
+                <button
+                  aria-label={`Edit ${item.name}`}
+                  disabled={saving || deletingId !== null}
+                  onClick={() => openEdit(item)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-medium border border-white/10 transition-colors"
+                >
+                  <Pencil size={13} className="text-brand-neon" />
+                  <span>Edit</span>
+                </button>
+                <button
+                  aria-label={`Hapus ${item.name}`}
+                  disabled={saving || deletingId !== null}
+                  onClick={() => handleDelete(item.id, item.name)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-rose-500/20 transition-colors disabled:opacity-50"
+                >
+                  <Trash2 size={13} />
+                  <span>Hapus</span>
+                </button>
+              </div>
+            </div>
+          );
+        })}
+
+        {items.length === 0 && (
+          <div className="text-center py-16 rounded-2xl bg-white/[0.02] border border-white/10 p-6">
+            <CalendarDays size={40} className="mx-auto text-gray-500 mb-3" />
+            <p className="text-gray-400 text-sm">Belum ada agenda kegiatan atau lomba.</p>
           </div>
         )}
       </div>

@@ -10,13 +10,22 @@ export default async function AdminProtectedLayout({ children }) {
     redirect('/admin/login');
   }
 
-  const unreadAspirasi = await prisma.aspirasi.count({
-    where: { status: 'BARU' },
-  }).catch(() => 0);
+  let unreadAspirasi = 0;
+  try {
+    unreadAspirasi = await prisma.aspirasi.count({ where: { status: 'BARU' } });
+  } catch (err) {
+    console.error('Failed to count unread aspirasi:', err);
+  }
 
   return (
-    <AdminShell name={session.name} role={session.role} unreadAspirasi={unreadAspirasi}>
+    <AdminShell
+      name={session.name}
+      role={session.role}
+      email={session.email || ''}
+      unreadAspirasi={unreadAspirasi}
+    >
       {children}
     </AdminShell>
   );
 }
+

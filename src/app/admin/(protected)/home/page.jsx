@@ -1,7 +1,7 @@
+import { Sliders } from 'lucide-react';
 import { requirePageRole } from '../../../../lib/requirePageRole';
 import { prisma } from '../../../../lib/prisma';
 import HomeSettingsClient from '../../../../components/admin/HomeSettingsClient';
-import { Home } from 'lucide-react';
 
 export default async function HomeSettingsPage() {
   await requirePageRole(['ADMIN']);
@@ -12,14 +12,16 @@ export default async function HomeSettingsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-xl md:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-          <Home size={22} className="text-brand-neon" />
-          <span>Konfigurasi Profil Beranda</span>
-        </h1>
-        <p className="text-xs text-zinc-400 mt-0.5">
-          Atur konten hero, profil organisasi, visi misi, dan informasi kontak pada halaman utama web.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-white/10">
+        <div>
+          <h1 className="text-xl md:text-2xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
+            <Sliders className="text-brand-neon" size={24} />
+            <span>Pengaturan Website Utama</span>
+          </h1>
+          <p className="text-xs md:text-sm text-gray-400 mt-1">
+            Konfigurasi hero banner, visi &amp; misi, filosofi logo, warna tema, serta kontak resmi organisasi.
+          </p>
+        </div>
       </div>
       <HomeSettingsClient initialProfile={profile} initialContacts={contacts} />
     </div>

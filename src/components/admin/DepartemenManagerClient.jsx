@@ -1,25 +1,40 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
-  Plus,
-  Trash2,
   Building2,
   Users,
-  Layers,
-  Phone,
+  Briefcase,
+  PhoneCall,
+  Plus,
+  Trash2,
+  Save,
   CheckCircle2,
   AlertCircle,
-  Save,
-} from 'lucide-react';
+  Loader2,
+  Image as ImageIcon,
+  UserPlus,
+  FolderPlus,
+} from "lucide-react";
 
-function Field({ label, value, onChange, multiline = false }) {
-  const inputClass = 'mt-1 block w-full min-w-0 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all';
-  const props = { value: value || '', onChange: (event) => onChange(event.target.value), className: inputClass };
+function Field({
+  label,
+  value,
+  onChange,
+  multiline = false,
+  placeholder = "",
+}) {
+  const props = {
+    value: value || "",
+    onChange: (event) => onChange(event.target.value),
+    placeholder,
+    className:
+      "mt-1.5 block w-full min-w-0 rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all",
+  };
   return (
-    <label className="block text-[11px] font-semibold text-zinc-300">
+    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
       {label}
-      {multiline ? <textarea {...props} rows={3} className={`${inputClass} leading-relaxed`} /> : <input {...props} />}
+      {multiline ? <textarea {...props} rows={3} /> : <input {...props} />}
     </label>
   );
 }
@@ -27,279 +42,553 @@ function Field({ label, value, onChange, multiline = false }) {
 export default function DepartemenManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
   const [selectedId, setSelectedId] = useState(initialItems[0]?.id || null);
-  const [newName, setNewName] = useState('');
+  const [newName, setNewName] = useState("");
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const selected = items.find((item) => item.id === selectedId);
 
   function update(patch) {
-    setItems((previous) => previous.map((item) => item.id === selectedId ? { ...item, ...patch } : item));
-  }
-  function updateRow(list, index, field, value) {
-    update({ [list]: selected[list].map((row, position) => position === index ? { ...row, [field]: value } : row) });
+    setItems((previous) =>
+      previous.map((item) =>
+        item.id === selectedId ? { ...item, ...patch } : item,
+      ),
+    );
   }
 
-  function showToast(msg, error = false) {
-    setMessage(msg);
-    setIsError(error);
+  function updateRow(list, index, field, value) {
+    update({
+      [list]: selected[list].map((row, position) =>
+        position === index ? { ...row, [field]: value } : row,
+      ),
+    });
   }
 
   async function perform(method, body) {
-    setSaving(true); setMessage(''); setIsError(false);
+    setSaving(true);
+    setMessage("");
+    setError("");
     try {
-      const response = await fetch(method === 'POST' ? '/api/departemen' : `/api/departemen/${selectedId}`, {
-        method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined,
-      });
+      const response = await fetch(
+        method === "POST" ? "/api/departemen" : `/api/departemen/${selectedId}`,
+        {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: body ? JSON.stringify(body) : undefined,
+        },
+      );
       const data = await response.json();
-      if (!response.ok) { showToast(data.error || 'Gagal menyimpan perubahan.', true); return; }
-      if (method === 'DELETE') {
-        const remaining = items.filter((item) => item.id !== selectedId);
-        setItems(remaining); setSelectedId(remaining[0]?.id || null); showToast('Departemen dihapus.');
-      } else if (method === 'POST') {
-        setItems((previous) => [...previous, data].sort((a, b) => a.name.localeCompare(b.name)));
-        setSelectedId(data.id); setNewName(''); showToast('Departemen ditambahkan. Lengkapi profil dan detailnya.');
-      } else {
-        setItems((previous) => previous.map((item) => item.id === selectedId ? { ...item, ...data } : item).sort((a, b) => a.name.localeCompare(b.name)));
-        showToast(method === 'PUT' ? 'Profil tersimpan.' : 'Staff, program kerja, dan kontak tersimpan.');
+      if (!response.ok) {
+        setError(data.error || "Gagal menyimpan perubahan.");
+        return;
       }
-    } catch { showToast('Terjadi kesalahan jaringan. Silakan coba lagi.', true); }
-    finally { setSaving(false); }
-  }
-
-  if (!selected && items.length === 0) {
-    return (
-      <div className="space-y-6">
-        {/* Add Departemen Form */}
-        <form onSubmit={(event) => { event.preventDefault(); perform('POST', { name: newName }); }} className="flex flex-col sm:flex-row gap-3">
-          <input aria-label="Nama departemen baru" required disabled={saving} value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="Nama departemen baru" className="min-w-0 flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all" />
-          <button disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]">
-            <Plus size={14} />
-            <span>Tambah Departemen</span>
-          </button>
-        </form>
-        <div className="py-16 text-center rounded-2xl bg-white/[0.02] border border-dashed border-white/10">
-          <Building2 size={32} className="mx-auto text-zinc-500 mb-2" />
-          <p className="text-zinc-400 text-sm">Belum ada departemen yang terdaftar.</p>
-        </div>
-      </div>
-    );
+      if (method === "DELETE") {
+        const remaining = items.filter((item) => item.id !== selectedId);
+        setItems(remaining);
+        setSelectedId(remaining[0]?.id || null);
+        setMessage("Departemen berhasil dihapus.");
+      } else if (method === "POST") {
+        setItems((previous) =>
+          [...previous, data].sort((a, b) => a.name.localeCompare(b.name)),
+        );
+        setSelectedId(data.id);
+        setNewName("");
+        setMessage(
+          "Departemen baru berhasil ditambahkan. Lengkapi profil dan detailnya.",
+        );
+      } else {
+        setItems((previous) =>
+          previous
+            .map((item) =>
+              item.id === selectedId ? { ...item, ...data } : item,
+            )
+            .sort((a, b) => a.name.localeCompare(b.name)),
+        );
+        setMessage(
+          method === "PUT"
+            ? "Profil departemen tersimpan."
+            : "Staff, program kerja, dan kontak berhasil diperbarui.",
+        );
+      }
+    } catch {
+      setError("Terjadi kesalahan jaringan. Silakan coba lagi.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
     <div className="space-y-6">
-      {/* Add Departemen Form */}
-      <form onSubmit={(event) => { event.preventDefault(); perform('POST', { name: newName }); }} className="flex flex-col sm:flex-row gap-3">
-        <input aria-label="Nama departemen baru" required disabled={saving} value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="Nama departemen baru" className="min-w-0 flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all" />
-        <button disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]">
-          <Plus size={14} />
+      {/* Top Creation Bar */}
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          perform("POST", { name: newName });
+        }}
+        className="flex flex-col sm:flex-row gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-sm"
+      >
+        <div className="relative flex-1">
+          <input
+            aria-label="Nama departemen baru"
+            required
+            disabled={saving}
+            value={newName}
+            onChange={(event) => setNewName(event.target.value)}
+            placeholder="Ketik nama departemen atau biro baru..."
+            className="w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={saving || !newName.trim()}
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow-md hover:shadow-brand-neon/20 transition-all disabled:opacity-50 shrink-0"
+        >
+          {saving ? (
+            <Loader2 size={16} className="animate-spin" />
+          ) : (
+            <Plus size={16} />
+          )}
           <span>Tambah Departemen</span>
         </button>
       </form>
 
-      {/* Toast / Notification Banner */}
+      {/* Status Banners */}
       {message && (
         <div
-          className={`p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold ${
-            isError
-              ? 'bg-red-500/10 border border-red-500/20 text-red-300'
-              : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
-          }`}
+          role="status"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm animate-in fade-in"
         >
-          {isError ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}
+          <CheckCircle2 size={18} className="shrink-0 text-emerald-400" />
           <span>{message}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Column: Department List */}
-        <div className="lg:col-span-1 space-y-2">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 px-1">
-            Daftar Departemen & Biro ({items.length})
+      {error && (
+        <div
+          role="alert"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm animate-in fade-in"
+        >
+          <AlertCircle size={18} className="shrink-0 text-red-400" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {!selected ? (
+        <div className="text-center py-16 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
+          <Building2 size={40} className="mx-auto text-gray-500 mb-3" />
+          <p className="text-gray-400 text-sm">
+            Belum ada departemen yang terdaftar.
           </p>
-          <div className="space-y-1.5 max-h-[75vh] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/10">
-            {items.map((d) => {
-              const isSelected = d.id === selectedId;
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+          {/* Department List Sidebar */}
+          <div className="md:col-span-1 space-y-1.5 md:sticky md:top-4 max-h-[75vh] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/10">
+            <div className="px-2 py-1 mb-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                Pilih Departemen ({items.length})
+              </span>
+            </div>
+            {items.map((item) => {
+              const isActive = selectedId === item.id;
               return (
                 <button
-                  key={d.id}
+                  key={item.id}
                   disabled={saving}
-                  aria-pressed={isSelected}
+                  aria-pressed={isActive}
                   onClick={() => {
-                    setSelectedId(d.id);
-                    setMessage('');
-                    setIsError(false);
+                    setSelectedId(item.id);
+                    setMessage("");
+                    setError("");
                   }}
-                  className={`w-full text-left p-3 rounded-xl text-xs font-medium transition-all flex flex-col gap-1 ${
-                    isSelected
-                      ? 'bg-gradient-to-r from-brand-red/50 to-brand-neon/15 text-white border border-brand-neon/40 shadow-[0_0_15px_rgba(254,174,174,0.12)]'
-                      : 'bg-white/[0.03] text-zinc-300 hover:bg-white/[0.06] hover:text-white border border-white/5'
+                  className={`w-full text-left px-3.5 py-3 rounded-xl text-xs transition-all duration-150 flex flex-col gap-1 border ${
+                    isActive
+                      ? "bg-gradient-to-r from-brand-red/60 to-brand-neon/15 border-brand-neon/40 text-white font-semibold shadow-sm"
+                      : "border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/[0.04]"
                   }`}
                 >
-                  <span className={`font-semibold ${isSelected ? 'text-brand-neon' : 'text-white'}`}>
-                    {d.name}
+                  <span className="truncate block font-medium text-[13px]">
+                    {item.name}
                   </span>
-                  <div className="flex items-center gap-2 text-[10px] text-zinc-400">
-                    <span>{d.staff?.length || 0} Staf</span>
-                    <span>·</span>
-                    <span>{d.proker?.length || 0} Proker</span>
+                  <div className="flex items-center gap-2 text-[10px] text-gray-400">
+                    <span>{item.staff?.length || 0} Staf</span>
+                    <span>•</span>
+                    <span>{item.proker?.length || 0} Proker</span>
                   </div>
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Right Column: Active Department Detail Forms */}
-        {selected && (
-          <fieldset disabled={saving} className="lg:col-span-3 space-y-6 min-w-0">
-            {/* Section 1: Profil Utama */}
-            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/5">
-                <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                  <Building2 size={18} />
-                  <span>Profil Departemen: {selected.name}</span>
-                </h2>
+          {/* Department Detail Editor */}
+          <fieldset
+            disabled={saving}
+            className="md:col-span-3 space-y-8 min-w-0"
+          >
+            {/* Section 1: Profil */}
+            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                    <Building2 size={18} />
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-base text-white">
+                      Profil Departemen
+                    </h2>
+                    <p className="text-xs text-gray-400">
+                      Nama, foto, dan penjelasan ringkas fungsi departemen
+                    </p>
+                  </div>
+                </div>
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-400">
+                  ID: {selected.id}
+                </span>
               </div>
 
               <div className="space-y-4">
-                <Field label="Nama Departemen" value={selected.name} onChange={(name) => update({ name })} />
-                <Field label="URL Foto Departemen / Logo" value={selected.photoUrl} onChange={(photoUrl) => update({ photoUrl })} />
-                <Field label="Deskripsi Singkat Departemen" multiline value={selected.description} onChange={(description) => update({ description })} />
+                <Field
+                  label="Nama Departemen"
+                  value={selected.name}
+                  onChange={(name) => update({ name })}
+                  placeholder="Contoh: Departemen Kastrat"
+                />
+                <Field
+                  label="URL Foto Departemen / Path Lokal"
+                  value={selected.photoUrl}
+                  onChange={(photoUrl) => update({ photoUrl })}
+                  placeholder="Contoh: /images/departemen/kastrat.jpg"
+                />
+                <Field
+                  label="Deskripsi Singkat"
+                  multiline
+                  value={selected.description}
+                  onChange={(description) => update({ description })}
+                  placeholder="Jelaskan peran, visi, atau fokus kerja departemen..."
+                />
+              </div>
 
-                <div className="flex flex-wrap gap-3 justify-end">
-                  <button
-                    onClick={() => perform('PUT', { name: selected.name, photoUrl: selected.photoUrl, description: selected.description })}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]"
-                  >
-                    <Save size={14} />
-                    <span>Simpan Profil Departemen</span>
-                  </button>
-                </div>
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() =>
+                    perform("PUT", {
+                      name: selected.name,
+                      photoUrl: selected.photoUrl,
+                      description: selected.description,
+                    })
+                  }
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs shadow hover:bg-rose-200 transition-all"
+                >
+                  <Save size={14} />
+                  <span>Simpan Profil</span>
+                </button>
 
                 <button
-                  onClick={() => { if (confirm(`Hapus departemen "${selected.name}" beserta seluruh staf, program kerja, dan kontaknya?`)) perform('DELETE'); }}
-                  className="inline-flex items-center gap-1.5 text-xs text-red-400 border border-red-400/30 rounded-xl px-4 py-2 hover:bg-red-500/10 transition-colors"
+                  type="button"
+                  onClick={() => {
+                    if (
+                      confirm(
+                        `Hapus departemen "${selected.name}" beserta seluruh staf, program kerja, dan kontaknya? Tindakan ini tidak dapat dibatalkan.`,
+                      )
+                    ) {
+                      perform("DELETE");
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs text-rose-300 hover:text-rose-200 hover:bg-rose-950/40 border border-rose-800/40 rounded-xl px-3.5 py-2 transition-colors"
                 >
                   <Trash2 size={13} />
-                  <span>Hapus Departemen Terpilih</span>
+                  <span>Hapus Departemen Ini</span>
                 </button>
               </div>
-            </div>
+            </section>
 
             {/* Section 2: Staff / BPH */}
-            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/5">
-                <div>
-                  <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
+            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
                     <Users size={18} />
-                    <span>Staf & BPH Departemen ({selected.staff?.length || 0})</span>
-                  </h2>
-                  <p className="text-xs text-zinc-400 mt-0.5">
-                    Gunakan jabatan Kepala Departemen atau Ketua untuk kepala. Wakil Ketua tetap ditampilkan sebagai jajaran.
-                  </p>
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-base text-white">
+                      Staf / Jajaran Pengurus
+                    </h2>
+                    <p className="text-xs text-gray-400">
+                      Gunakan jabatan Kepala Departemen / Ketua untuk posisi
+                      pimpinan.
+                    </p>
+                  </div>
                 </div>
-
                 <button
-                  onClick={() => update({ staff: [...selected.staff, { name: '', role: '', photoUrl: '', identity: '', achievements: '' }] })}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
+                  type="button"
+                  onClick={() =>
+                    update({
+                      staff: [
+                        ...selected.staff,
+                        {
+                          name: "",
+                          role: "",
+                          photoUrl: "",
+                          identity: "",
+                          achievements: "",
+                        },
+                      ],
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors self-start sm:self-auto"
                 >
-                  <Plus size={14} />
+                  <UserPlus size={14} className="text-brand-neon" />
                   <span>Tambah Staf</span>
                 </button>
               </div>
 
-              <div className="space-y-3">
-                {selected.staff.length === 0 ? (
-                  <p className="text-xs text-zinc-400 py-4 text-center">Belum ada data staf yang ditambahkan.</p>
-                ) : (
-                  selected.staff.map((s, idx) => (
-                    <div key={s.id || idx} className="p-4 rounded-xl bg-black/20 border border-white/5 space-y-3">
+              {selected.staff.length === 0 ? (
+                <div className="text-center py-8 rounded-xl border border-dashed border-white/10">
+                  <p className="text-xs text-gray-400">
+                    Belum ada staf ditambahkan untuk departemen ini.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {selected.staff.map((staff, index) => (
+                    <div
+                      key={staff.id || index}
+                      className="border border-white/10 rounded-xl p-4 bg-black/20 space-y-3 relative group"
+                    >
+                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                        <span className="text-xs font-bold text-brand-neon">
+                          Staf #{index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label={`Hapus staf ${index + 1}`}
+                          onClick={() =>
+                            update({
+                              staff: selected.staff.filter(
+                                (_, position) => position !== index,
+                              ),
+                            })
+                          }
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                        >
+                          <Trash2 size={13} />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {[['name', 'Nama staf'], ['role', 'Jabatan'], ['photoUrl', 'URL foto staf'], ['identity', 'Identitas'], ['achievements', 'Prestasi']].map(([field, label]) => (
-                          <Field key={field} label={`${label} ${idx + 1}`} value={s[field]} onChange={(value) => updateRow('staff', idx, field, value)} multiline={field === 'achievements'} />
+                        {[
+                          ["name", "Nama Staf", "Nama lengkap mahasiswa"],
+                          [
+                            "role",
+                            "Jabatan",
+                            "Contoh: Kepala Departemen / Staf Ahli",
+                          ],
+                          [
+                            "photoUrl",
+                            "URL Foto / Path",
+                            "Contoh: /images/staff/nama.jpg",
+                          ],
+                          [
+                            "identity",
+                            "Identitas / Jurusan",
+                            "Contoh: Ilmu Hukum 2023",
+                          ],
+                          [
+                            "achievements",
+                            "Prestasi / Keterangan",
+                            "Penghargaan atau peran khusus",
+                          ],
+                        ].map(([field, label, placeholder]) => (
+                          <div
+                            key={field}
+                            className={
+                              field === "achievements" ? "sm:col-span-2" : ""
+                            }
+                          >
+                            <Field
+                              label={label}
+                              value={staff[field]}
+                              onChange={(value) =>
+                                updateRow("staff", index, field, value)
+                              }
+                              multiline={field === "achievements"}
+                              placeholder={placeholder}
+                            />
+                          </div>
                         ))}
                       </div>
-                      <button
-                        aria-label={`Hapus staf ${idx + 1}`}
-                        onClick={() => update({ staff: selected.staff.filter((_, i) => i !== idx) })}
-                        className="inline-flex items-center gap-1 p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-xs"
-                      >
-                        <Trash2 size={14} />
-                        <span>Hapus Staff</span>
-                      </button>
                     </div>
-                  ))
-                )}
-              </div>
-            </div>
+                  ))}
+                </div>
+              )}
+            </section>
 
             {/* Section 3: Program Kerja */}
-            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/5">
-                <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                  <Layers size={18} />
-                  <span>Program Kerja ({selected.proker?.length || 0})</span>
-                </h2>
-
+            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                    <Briefcase size={18} />
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-base text-white">
+                      Program Kerja (Proker)
+                    </h2>
+                    <p className="text-xs text-gray-400">
+                      Daftar agenda & program utama departemen
+                    </p>
+                  </div>
+                </div>
                 <button
-                  onClick={() => update({ proker: [...selected.proker, { name: '', description: '' }] })}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
+                  type="button"
+                  onClick={() =>
+                    update({
+                      proker: [
+                        ...selected.proker,
+                        { name: "", description: "" },
+                      ],
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors self-start sm:self-auto"
                 >
-                  <Plus size={14} />
+                  <FolderPlus size={14} className="text-brand-neon" />
                   <span>Tambah Proker</span>
                 </button>
               </div>
 
-              <div className="space-y-3">
-                {selected.proker.length === 0 ? (
-                  <p className="text-xs text-zinc-400 py-4 text-center">Belum ada program kerja yang didaftarkan.</p>
-                ) : (
-                  selected.proker.map((p, idx) => (
-                    <div key={p.id || idx} className="p-4 rounded-xl bg-black/20 border border-white/5 space-y-3">
-                      <Field label={`Nama program kerja ${idx + 1}`} value={p.name} onChange={(value) => updateRow('proker', idx, 'name', value)} />
-                      <Field label={`Deskripsi program kerja ${idx + 1}`} multiline value={p.description} onChange={(value) => updateRow('proker', idx, 'description', value)} />
-                      <button
-                        aria-label={`Hapus program kerja ${idx + 1}`}
-                        onClick={() => update({ proker: selected.proker.filter((_, i) => i !== idx) })}
-                        className="inline-flex items-center gap-1 p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-xs"
-                      >
-                        <Trash2 size={14} />
-                        <span>Hapus Program Kerja</span>
-                      </button>
+              {selected.proker.length === 0 ? (
+                <div className="text-center py-8 rounded-xl border border-dashed border-white/10">
+                  <p className="text-xs text-gray-400">
+                    Belum ada program kerja yang didaftarkan.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {selected.proker.map((program, index) => (
+                    <div
+                      key={program.id || index}
+                      className="border border-white/10 rounded-xl p-4 bg-black/20 space-y-3"
+                    >
+                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                        <span className="text-xs font-bold text-brand-neon">
+                          Program #{index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label={`Hapus program kerja ${index + 1}`}
+                          onClick={() =>
+                            update({
+                              proker: selected.proker.filter(
+                                (_, position) => position !== index,
+                              ),
+                            })
+                          }
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                        >
+                          <Trash2 size={13} />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+
+                      <Field
+                        label="Nama Program Kerja"
+                        value={program.name}
+                        onChange={(value) =>
+                          updateRow("proker", index, "name", value)
+                        }
+                        placeholder="Contoh: Diskusi Publik Nasional 2026"
+                      />
+                      <Field
+                        label="Deskripsi Program Kerja"
+                        multiline
+                        value={program.description}
+                        onChange={(value) =>
+                          updateRow("proker", index, "description", value)
+                        }
+                        placeholder="Jelaskan tujuan, output, dan sasaran dari program kerja ini..."
+                      />
                     </div>
-                  ))
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* Section 4: Kontak Departemen */}
+            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-white/10">
+                <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                  <PhoneCall size={18} />
+                </div>
+                <div>
+                  <h2 className="font-bold text-base text-white">
+                    Kontak Resmi Departemen
+                  </h2>
+                  <p className="text-xs text-gray-400">
+                    Tautan saluran komunikasi mahasiswa ke departemen
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Field
+                  label="WhatsApp Departemen"
+                  value={selected.contact?.whatsappUrl}
+                  onChange={(whatsappUrl) =>
+                    update({ contact: { ...selected.contact, whatsappUrl } })
+                  }
+                  placeholder="https://wa.me/6281234567890"
+                />
+                <Field
+                  label="Instagram Departemen"
+                  value={selected.contact?.instagramUrl}
+                  onChange={(instagramUrl) =>
+                    update({ contact: { ...selected.contact, instagramUrl } })
+                  }
+                  placeholder="https://instagram.com/bemfhunand_kastrat"
+                />
+              </div>
+            </section>
+
+            {/* Action Bar (Static / Inline per UI/UX guidelines) */}
+            <div className="p-5 rounded-2xl bg-black/[0.4] backdrop-blur-sm border border-white/10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-xs text-gray-300 text-center sm:text-left">
+                <span className="h-2 w-2 rounded-full bg-brand-neon shrink-0 animate-pulse" />
+                <span>
+                  Perubahan staf, proker, dan kontak akan diterapkan setelah
+                  menekan tombol simpan detail.
+                </span>
+              </div>
+
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() =>
+                  perform("PATCH", {
+                    staff: selected.staff,
+                    proker: selected.proker,
+                    contact: selected.contact,
+                  })
+                }
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow-md hover:shadow-brand-neon/20 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Menyimpan Perubahan...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save size={16} />
+                    <span>Simpan Staff, Proker &amp; Kontak</span>
+                  </>
                 )}
-              </div>
-            </div>
-
-            {/* Section 4: Kontak & Final Save Button */}
-            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-              <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                <Phone size={18} />
-                <span>Contact Person Departemen</span>
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label="WhatsApp Link (https://wa.me/62...)" value={selected.contact?.whatsappUrl} onChange={(whatsappUrl) => update({ contact: { ...selected.contact, whatsappUrl } })} />
-                <Field label="Instagram Link (https://instagram.com/...)" value={selected.contact?.instagramUrl} onChange={(instagramUrl) => update({ contact: { ...selected.contact, instagramUrl } })} />
-              </div>
-
-              <p className="text-xs text-zinc-400">Penambahan/penghapusan staf dan program kerja berlaku setelah tombol simpan detail ditekan.</p>
-
-              <div className="pt-2 flex justify-end">
-                <button
-                  onClick={() => perform('PATCH', { staff: selected.staff, proker: selected.proker, contact: selected.contact })}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_15px_rgba(254,174,174,0.3)]"
-                >
-                  <Save size={14} />
-                  <span>{saving ? 'Menyimpan...' : 'Simpan Staf, Proker & Kontak'}</span>
-                </button>
-              </div>
+              </button>
             </div>
           </fieldset>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

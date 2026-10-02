@@ -1,158 +1,258 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
-  Home,
   FileText,
   CalendarDays,
   Building2,
   MessageSquareWarning,
   BookOpen,
   ScrollText,
+  Sliders,
   LogOut,
   ExternalLink,
   Menu,
   X,
   ChevronRight,
-  ShieldCheck,
-  Sparkles,
-} from 'lucide-react';
+  Shield,
+  GraduationCap,
+} from "lucide-react";
 
 const MENU_GROUPS = [
   {
-    title: 'UTAMA',
+    title: "Ringkasan & Analitik",
     items: [
-      { path: '/admin', name: 'Dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'SUPERUSER'] },
+      {
+        path: "/admin",
+        name: "Dashboard Overview",
+        icon: LayoutDashboard,
+        roles: ["ADMIN", "SUPERUSER"],
+        badgeKey: null,
+      },
     ],
   },
   {
-    title: 'MANAJEMEN KONTEN',
+    title: "Manajemen Konten",
     items: [
-      { path: '/admin/news', name: 'Publikasi & Berita', icon: FileText, roles: ['ADMIN'] },
-      { path: '/admin/kegiatan', name: 'Kegiatan & Lomba', icon: CalendarDays, roles: ['ADMIN'] },
-      { path: '/admin/departemen', name: 'Departemen & Biro', icon: Building2, roles: ['ADMIN'] },
-      { path: '/admin/fh-guide', name: 'FH Guide', icon: BookOpen, roles: ['ADMIN'] },
-      { path: '/admin/home', name: 'Pengaturan Beranda', icon: Home, roles: ['ADMIN'] },
+      {
+        path: "/admin/news",
+        name: "Publikasi & Berita",
+        icon: FileText,
+        roles: ["ADMIN"],
+        badgeKey: null,
+      },
+      {
+        path: "/admin/kegiatan",
+        name: "Agenda & Lomba",
+        icon: CalendarDays,
+        roles: ["ADMIN"],
+        badgeKey: null,
+      },
+      {
+        path: "/admin/fh-guide",
+        name: "FH Guide & FAQ",
+        icon: BookOpen,
+        roles: ["ADMIN"],
+        badgeKey: null,
+      },
     ],
   },
   {
-    title: 'LAYANAN & SISTEM',
+    title: "Organisasi & Layanan",
     items: [
-      { path: '/admin/aspirasi', name: 'Aspirasi Mahasiswa', icon: MessageSquareWarning, roles: ['ADMIN'], badgeKey: 'aspirasi' },
-      { path: '/admin/audit-log', name: 'Audit Log & Keamanan', icon: ScrollText, roles: ['ADMIN', 'SUPERUSER'] },
+      {
+        path: "/admin/aspirasi",
+        name: "Aspirasi Mahasiswa",
+        icon: MessageSquareWarning,
+        roles: ["ADMIN"],
+        badgeKey: "aspirasi",
+      },
+      {
+        path: "/admin/departemen",
+        name: "Departemen & Staff",
+        icon: Building2,
+        roles: ["ADMIN"],
+        badgeKey: null,
+      },
+      {
+        path: "/admin/home",
+        name: "Pengaturan Web",
+        icon: Sliders,
+        roles: ["ADMIN"],
+        badgeKey: null,
+      },
+    ],
+  },
+  {
+    title: "Sistem & Kepatuhan",
+    items: [
+      {
+        path: "/admin/audit-log",
+        name: "Audit Trail Sistem",
+        icon: ScrollText,
+        roles: ["ADMIN", "SUPERUSER"],
+        badgeKey: null,
+      },
     ],
   },
 ];
 
-const ROUTE_LABELS = {
-  '/admin': 'Dashboard Overview',
-  '/admin/news': 'Manajemen Publikasi & Berita',
-  '/admin/kegiatan': 'Manajemen Kegiatan & Lomba',
-  '/admin/departemen': 'Struktur & Staf Departemen',
-  '/admin/fh-guide': 'Pusat Informasi & FAQ FH Guide',
-  '/admin/home': 'Konfigurasi Profil Beranda',
-  '/admin/aspirasi': 'Pusat Aspirasi & Masukan Mahasiswa',
-  '/admin/audit-log': 'Rekam Jejak Sistem & Audit Log',
-};
-
-export default function AdminShell({ children, name, role, unreadAspirasi = 0 }) {
+export default function AdminShell({
+  children,
+  name = "Pengguna",
+  role = "ADMIN",
+  email = "",
+  unreadAspirasi = 0,
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   async function handleLogout() {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/admin/login');
-    router.refresh();
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/admin/login");
+      router.refresh();
+    } catch (err) {
+      console.error("Logout error:", err);
+      setIsLoggingOut(false);
+    }
   }
 
-  const currentTitle = ROUTE_LABELS[pathname] || 'Admin Workspace';
-  const activeMenuItem = MENU_GROUPS.flatMap((group) => group.items).find((item) =>
-    item.path === pathname || (item.path !== '/admin' && pathname.startsWith(item.path))
-  );
-  const CurrentIcon = activeMenuItem?.icon || Sparkles;
+  // Active page title and icon
+  let currentTitle = "Dashboard Overview";
+  let CurrentIcon = LayoutDashboard;
+  for (const group of MENU_GROUPS) {
+    for (const item of group.items) {
+      if (
+        pathname === item.path ||
+        (item.path !== "/admin" && pathname.startsWith(item.path))
+      ) {
+        currentTitle = item.name;
+        CurrentIcon = item.icon;
+        break;
+      }
+    }
+  }
 
-  // Flat menu items for mobile dropdown
-  const menuItems = MENU_GROUPS.flatMap((group) => group.items).filter((item) => item.roles.includes(role));
+  const isDosen = role === "SUPERUSER";
+  const roleDisplayTitle = isDosen ? "Dosen Pembina" : "Administrator BEM";
 
-  const NavContent = () => (
-    <div className="flex flex-col h-full">
+  // Navigation Component (shared between desktop sidebar and mobile drawer)
+  const SidebarContent = ({ onNavigate }) => (
+    <div className="flex flex-col h-full bg-brand-dark/95 backdrop-blur-xl text-white">
       {/* Brand Header */}
-      <div className="p-5 border-b border-white/10 flex items-center justify-between">
-        <Link href="/admin" className="flex items-center gap-3 group">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-brand-red to-black p-1 border border-brand-neon/30 flex items-center justify-center shadow-[0_0_15px_rgba(142,22,22,0.5)] group-hover:border-brand-neon/70 transition-all">
-            <img src="/logo.png" alt="Logo" className="h-full w-full object-contain" />
+      <div className="p-4 lg:p-5 border-b border-white/10 flex items-center justify-between gap-3 bg-gradient-to-r from-brand-red/30 via-brand-dark to-transparent shrink-0">
+        <Link
+          href="/admin"
+          onClick={onNavigate}
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon rounded-xl p-1"
+        >
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-red to-brand-dark border border-brand-neon/40 flex items-center justify-center p-1.5 shadow-sm group-hover:border-brand-neon transition-colors shrink-0">
+            <img
+              src="/logo.png"
+              alt="Logo BEM FH UNAND"
+              className="h-full w-auto object-contain"
+            />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm tracking-wider text-white">BEM FH UNAND</span>
-              
-            </div>
-            <p className="text-[11px] text-gray-400 font-mono tracking-tight">Admin Console</p>
+          <div className="min-w-0">
+            <span className="font-extrabold text-sm tracking-wide text-white group-hover:text-brand-neon transition-colors block truncate">
+              BEM FH UNAND
+            </span>
+            <p className="text-[10px] font-semibold text-brand-neon uppercase tracking-widest truncate">
+              Admin Portal
+            </p>
           </div>
         </Link>
-        {mobileOpen && (
+
+        {/* Mobile close button */}
+        {onNavigate && (
           <button
-            onClick={() => setMobileOpen(false)}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 md:hidden"
-            aria-label="Tutup Menu"
+            type="button"
+            onClick={onNavigate}
+            className="p-2 rounded-xl text-gray-400 hover:text-white hover:bg-white/10 md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+            aria-label="Tutup navigasi"
           >
             <X size={18} />
           </button>
         )}
       </div>
 
-      {/* Navigation Groups */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5 scrollbar-thin scrollbar-thumb-white/10">
+      {/* System Status Banner */}
+      <div className="px-4 py-2 border-b border-white/5 bg-white/[0.02] flex items-center justify-between text-xs shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-400 inline-block shadow-sm animate-pulse" />
+          <span className="text-[11px] text-gray-400">Sistem:</span>
+          <span className="text-[11px] font-medium text-emerald-400">
+            Terhubung
+          </span>
+        </div>
+        <span className="text-[10px] font-mono text-brand-neon/90 bg-brand-neon/10 px-2 py-0.5 rounded border border-brand-neon/20">
+          FH UNAND
+        </span>
+      </div>
+
+      {/* Vertical Navigation Groups */}
+      <nav
+        className="flex-1 overflow-y-auto px-3 py-4 space-y-5 scrollbar-thin scrollbar-thumb-white/10"
+        aria-label="Menu Utama Admin"
+      >
         {MENU_GROUPS.map((group) => {
-          const visibleItems = group.items.filter((item) => item.roles.includes(role));
+          const visibleItems = group.items.filter((item) =>
+            item.roles.includes(role),
+          );
           if (visibleItems.length === 0) return null;
 
           return (
-            <div key={group.title} className="space-y-1">
-              <p className="px-3 text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
-                {group.title}
-              </p>
-              <div className="space-y-1 mt-1">
+            <div key={group.title} className="space-y-1.5">
+              <div className="flex items-center justify-between px-3 mb-1">
+                <p className="text-[10px] font-bold tracking-widest text-brand-neon/80 uppercase">
+                  {group.title}
+                </p>
+                <div className="h-px flex-1 ml-2 bg-white/5" />
+              </div>
+
+              <div className="space-y-1">
                 {visibleItems.map((item) => {
                   const Icon = item.icon;
-                  const isActive = pathname === item.path;
+                  const isActive =
+                    pathname === item.path ||
+                    (item.path !== "/admin" && pathname.startsWith(item.path));
 
                   return (
                     <Link
                       key={item.path}
                       href={item.path}
-                      onClick={() => setMobileOpen(false)}
-                      className={`group relative flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
+                      onClick={onNavigate}
+                      className={`group relative flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon ${
                         isActive
-                          ? 'bg-gradient-to-r from-brand-red/50 to-brand-neon/15 text-brand-neon border border-brand-neon/40 shadow-[0_0_20px_rgba(254,174,174,0.12)]'
-                          : 'text-zinc-300 hover:text-white hover:bg-white/[0.06]'
+                          ? "bg-gradient-to-r from-brand-red/60 to-brand-neon/15 text-white font-semibold border border-brand-neon/40 shadow-sm"
+                          : "text-gray-300 hover:text-white hover:bg-white/[0.06] border border-transparent"
                       }`}
                     >
-                      <div className="flex items-center gap-3 min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
                         <div
                           className={`p-1.5 rounded-lg transition-colors ${
                             isActive
-                              ? 'bg-brand-neon/20 text-brand-neon shadow-[0_0_8px_rgba(254,174,174,0.4)]'
-                              : 'text-zinc-400 group-hover:text-zinc-200 group-hover:bg-white/5'
+                              ? "bg-brand-neon/20 text-brand-neon"
+                              : "text-gray-400 group-hover:text-white group-hover:bg-white/5"
                           }`}
                         >
-                          <Icon size={16} />
+                          <Icon size={16} aria-hidden="true" />
                         </div>
                         <span className="truncate">{item.name}</span>
                       </div>
 
-                      {item.badgeKey === 'aspirasi' && unreadAspirasi > 0 && (
-                        <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-pulse">
-                          {unreadAspirasi}
+                      {item.badgeKey === "aspirasi" && unreadAspirasi > 0 && (
+                        <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-brand-neon text-brand-dark shadow-sm">
+                          {unreadAspirasi} Baru
                         </span>
-                      )}
-
-                      {isActive && (
-                        <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-brand-neon shadow-[0_0_8px_#FEAEAE]" />
                       )}
                     </Link>
                   );
@@ -163,41 +263,81 @@ export default function AdminShell({ children, name, role, unreadAspirasi = 0 })
         })}
       </nav>
 
-      {/* Admin Profile & Actions */}
-      <div className="p-3 border-t border-white/10 bg-black/30 space-y-2">
+      {/* User Info & Actions Footer */}
+      <div className="p-3 border-t border-white/10 bg-black/40 space-y-2.5 shrink-0">
         <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/5 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-brand-red to-zinc-900 border border-brand-neon/30 flex items-center justify-center font-bold text-sm text-brand-neon shadow-[0_0_10px_rgba(142,22,22,0.4)]">
-            {name ? name.charAt(0).toUpperCase() : 'A'}
+          <div
+            className={`h-9 w-9 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 border ${
+              isDosen
+                ? "bg-gradient-to-br from-amber-600 to-brand-dark text-amber-200 border-amber-400/40"
+                : "bg-gradient-to-br from-brand-red to-brand-dark text-brand-neon border-brand-neon/40"
+            }`}
+          >
+            {isDosen ? (
+              <GraduationCap size={18} aria-hidden="true" />
+            ) : name ? (
+              name.charAt(0).toUpperCase()
+            ) : (
+              "A"
+            )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold text-white truncate">{name}</p>
+            <p
+              className="text-xs font-semibold text-white truncate"
+              title={name}
+            >
+              {name}
+            </p>
+            {email ? (
+              <p
+                className="text-[10px] text-gray-400 truncate font-mono"
+                title={email}
+              >
+                {email}
+              </p>
+            ) : null}
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
-              <span className="text-[10px] text-zinc-400 font-medium tracking-tight uppercase">
-                {role}
+              <span
+                className={`inline-block w-1.5 h-1.5 rounded-full ${
+                  isDosen ? "bg-amber-400" : "bg-brand-neon"
+                }`}
+              />
+              <span
+                className={`text-[10px] font-semibold tracking-wider uppercase truncate ${
+                  isDosen ? "text-amber-300" : "text-brand-neon"
+                }`}
+              >
+                {roleDisplayTitle}
               </span>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-1.5 pt-1">
+        <div className="grid grid-cols-2 gap-1.5">
           <Link
             href="/"
             target="_blank"
-            className="flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium text-zinc-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors border border-white/5"
-            title="Buka Web Publik"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+            title="Buka Website Publik BEM FH UNAND di tab baru"
           >
-            <ExternalLink size={13} />
-            <span>Web</span>
+            <ExternalLink
+              size={13}
+              className="text-brand-neon"
+              aria-hidden="true"
+            />
+            <span>Web Publik</span>
           </Link>
 
           <button
+            type="button"
             onClick={handleLogout}
-            className="flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors border border-red-500/10"
-            title="Keluar dari Admin Panel"
+            disabled={isLoggingOut}
+            className="flex items-center justify-center gap-1.5 px-2.5 py-2 text-[11px] font-medium text-rose-300 hover:text-rose-200 hover:bg-rose-950/40 rounded-lg transition-colors border border-rose-900/40 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+            title="Keluar dari sesi admin"
           >
-            <LogOut size={13} />
-            <span>Logout</span>
+            <LogOut size={13} aria-hidden="true" />
+            <span>{isLoggingOut ? "Keluar..." : "Logout"}</span>
           </button>
         </div>
       </div>
@@ -205,71 +345,123 @@ export default function AdminShell({ children, name, role, unreadAspirasi = 0 })
   );
 
   return (
-    <div className="min-h-screen bg-brand-dark flex text-white font-sans selection:bg-brand-neon selection:text-brand-dark antialiased">
-      {/* Desktop Sidebar */}
-      <aside className="w-64 bg-black/60 backdrop-blur-xl border-r border-white/10 flex-col hidden md:flex shrink-0 z-30">
-        <NavContent />
+    <div className="min-h-screen bg-brand-dark flex text-white font-sans selection:bg-brand-neon selection:text-brand-dark antialiased overflow-hidden">
+      {/* Desktop Persistent Left Sidebar (Vertical Layout) */}
+      <aside
+        className="w-64 lg:w-72 bg-black/50 border-r border-white/10 flex-col hidden md:flex shrink-0 z-30 h-screen"
+        aria-label="Sidebar Navigasi Admin"
+      >
+        <SidebarContent />
       </aside>
 
-      {/* Mobile Drawer Backdrop & Drawer */}
+      {/* Mobile Drawer Sheet */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden flex">
+        <div
+          className="fixed inset-0 z-50 md:hidden flex"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigasi Menu Mobile"
+        >
           <div
             className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
           />
-          <div className="relative w-72 max-w-[85vw] bg-zinc-950 border-r border-white/10 shadow-2xl flex flex-col z-10">
-            <NavContent />
-          </div>
+          <aside className="relative w-72 max-w-[85vw] bg-brand-dark border-r border-white/10 shadow-2xl flex flex-col z-10 h-full">
+            <SidebarContent onNavigate={() => setMobileOpen(false)} />
+          </aside>
         </div>
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative bg-brand-dark">
+        {/* Fixed Ambient Background Canvas */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0 bg-brand-dark overflow-hidden select-none"
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-gradient-radial-1 opacity-95" />
+          <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[720px] h-[360px] bg-brand-neon/10 blur-[130px] rounded-full" />
+          <div className="absolute -bottom-36 right-0 w-[580px] h-[380px] bg-brand-red/25 blur-[140px] rounded-full" />
+        </div>
+
         {/* Top Header Bar */}
-        <header className="h-16 px-4 md:px-8 bg-black/40 backdrop-blur-md border-b border-white/10 flex items-center justify-between shrink-0 z-20">
+        <header className="relative h-16 px-4 md:px-8 bg-black/40 backdrop-blur-md border-b border-white/10 flex items-center justify-between shrink-0 z-20">
           <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => setMobileOpen(true)}
-              className="p-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/10 md:hidden focus:outline-none focus:ring-2 focus:ring-brand-neon"
-              aria-label="Buka Menu"
+              className="p-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+              aria-label="Buka menu navigasi"
             >
               <Menu size={20} />
             </button>
 
             {/* Breadcrumb Trail */}
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-zinc-300 font-medium hidden sm:inline">Admin</span>
-              <ChevronRight size={14} className="text-zinc-400 hidden sm:inline" />
-              <span className="text-brand-neon font-semibold flex items-center gap-1.5">
-                <CurrentIcon size={13} className="text-brand-neon animate-pulse" />
-                {currentTitle}
+            <nav
+              className="flex items-center gap-2 text-xs"
+              aria-label="Breadcrumb"
+            >
+              <span className="text-gray-400 font-medium hidden sm:inline">
+                Admin Portal
               </span>
-            </div>
+              <ChevronRight
+                size={14}
+                className="text-gray-500 hidden sm:inline"
+                aria-hidden="true"
+              />
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white font-semibold">
+                <CurrentIcon
+                  size={14}
+                  className="text-brand-neon"
+                  aria-hidden="true"
+                />
+                <span>{currentTitle}</span>
+              </div>
+            </nav>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-[11px] text-zinc-300">
-              <ShieldCheck size={13} className="text-emerald-400" />
-              <span>Sesi Aman</span>
-              <span className="text-zinc-400">·</span>
-              <span className="font-mono text-zinc-200">{role}</span>
-            </div>
-
-            <Link
-              href="/"
-              target="_blank"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-zinc-200 border border-white/10 transition-colors"
+            {/* Faculty Advisor / Admin Role Pill */}
+            <div
+              className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border text-[11px] ${
+                isDosen
+                  ? "bg-amber-500/10 border-amber-500/30 text-amber-200"
+                  : "bg-white/[0.04] border-white/10 text-gray-300"
+              }`}
             >
-              <ExternalLink size={13} className="text-brand-neon" />
-              <span className="hidden sm:inline">Lihat Web</span>
-            </Link>
+              {isDosen ? (
+                <GraduationCap
+                  size={13}
+                  className="text-amber-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <Shield
+                  size={13}
+                  className="text-brand-neon"
+                  aria-hidden="true"
+                />
+              )}
+              <span className="font-medium">{roleDisplayTitle}</span>
+              <span className="text-gray-500">·</span>
+              <span className="text-gray-400 font-mono text-[10px]">
+                {new Date().toLocaleDateString("id-ID", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                })}
+              </span>
+            </div>
           </div>
         </header>
 
         {/* Dynamic Page Scroll Area */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-gradient-radial-1 scrollbar-thin scrollbar-thumb-white/10">
-          <div className="max-w-7xl mx-auto w-full">
+        <main
+          role="main"
+          className="relative z-10 flex-1 overflow-y-auto overscroll-y-contain p-4 md:p-8 pb-28 scroll-smooth bg-transparent scrollbar-thin scrollbar-thumb-white/15 hover:scrollbar-thumb-brand-neon/30"
+        >
+          <div className="max-w-7xl mx-auto w-full space-y-6 pb-8">
             {children}
           </div>
         </main>

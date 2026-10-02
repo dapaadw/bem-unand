@@ -58,7 +58,7 @@ export default function SiteNav() {
             className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-brand-neon hover:text-brand-dark text-gray-200 text-sm font-medium transition-all duration-200 border border-white/10 hover:border-brand-neon"
             title="Admin Panel"
           >
-            <Shield size={14} />
+            <Shield size={16} />
             <span>Pengurus</span>
           </Link>
         </div>
@@ -89,7 +89,7 @@ export default function SiteNav() {
             className="flex items-center justify-center gap-2 mt-2 py-2.5 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon font-medium"
           >
             <Shield size={18} />
-            <span>Pengurus</span>
+            <span>Admin Panel</span>
           </Link>
         </motion.div>
       )}

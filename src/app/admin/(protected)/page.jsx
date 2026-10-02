@@ -1,519 +1,979 @@
-import Link from 'next/link';
-import { prisma } from '../../../lib/prisma';
-import { getSession } from '../../../lib/session';
+import Link from "next/link";
+import { prisma } from "../../../lib/prisma";
+import { getSession } from "../../../lib/session";
 import {
   FileText,
   CalendarDays,
+  Building2,
   MessageSquareWarning,
   ScrollText,
-  ArrowUpRight,
-  CheckCircle2,
-  AlertCircle,
+  ExternalLink,
   Plus,
   Users,
-  Trophy,
-  ArrowRight,
-  ExternalLink,
+  BarChart3,
+  GraduationCap,
+  Shield,
+  MapPin,
+  Tag,
+  ArrowUpRight,
+  Sparkles,
   LayoutDashboard,
-} from 'lucide-react';
-
-export const dynamic = 'force-dynamic';
+} from "lucide-react";
 
 export default async function AdminDashboardPage() {
   const session = await getSession();
+  const isDosen = session.role === "SUPERUSER";
 
+  // Fetch real data from database in parallel
   const [
-    publikasiCount,
-    kegiatanTotal,
-    kegiatanLomba,
-    kegiatanInternal,
-    departemenCount,
-    staffCount,
     aspirasiTotal,
     aspirasiBaru,
     aspirasiDiproses,
     aspirasiSelesai,
+    aspirasiKeluhan,
+    aspirasiSaran,
+    aspirasiAspirasi,
+    aspirasiLainnya,
+    publikasiCount,
+    kegiatanCount,
+    kegiatanLombaCount,
+    kegiatanInternalCount,
+    departemenCount,
+    staffCount,
+    prokerCount,
     recentAspirasi,
+    upcomingKegiatan,
     recentPublikasi,
     recentAuditLogs,
+    departemenHighlights,
   ] = await Promise.all([
-    prisma.publikasi.count().catch(() => 0),
-    prisma.kegiatan.count().catch(() => 0),
-    prisma.kegiatan.count({ where: { type: 'LOMBA' } }).catch(() => 0),
-    prisma.kegiatan.count({ where: { type: 'INTERNAL' } }).catch(() => 0),
-    prisma.departemen.count().catch(() => 0),
-    prisma.departemenStaff.count().catch(() => 0),
-    prisma.aspirasi.count().catch(() => 0),
-    prisma.aspirasi.count({ where: { status: 'BARU' } }).catch(() => 0),
-    prisma.aspirasi.count({ where: { status: 'DIPROSES' } }).catch(() => 0),
-    prisma.aspirasi.count({ where: { status: 'SELESAI' } }).catch(() => 0),
+    prisma.aspirasi.count(),
+    prisma.aspirasi.count({ where: { status: "BARU" } }),
+    prisma.aspirasi.count({ where: { status: "DIPROSES" } }),
+    prisma.aspirasi.count({ where: { status: "SELESAI" } }),
+    prisma.aspirasi.count({ where: { jenisPengajuan: "KELUHAN" } }),
+    prisma.aspirasi.count({ where: { jenisPengajuan: "SARAN" } }),
+    prisma.aspirasi.count({ where: { jenisPengajuan: "ASPIRASI" } }),
+    prisma.aspirasi.count({ where: { jenisPengajuan: "LAINNYA" } }),
+    prisma.publikasi.count(),
+    prisma.kegiatan.count(),
+    prisma.kegiatan.count({ where: { type: "LOMBA" } }),
+    prisma.kegiatan.count({ where: { type: "INTERNAL" } }),
+    prisma.departemen.count(),
+    prisma.departemenStaff.count(),
+    prisma.programKerja.count(),
     prisma.aspirasi.findMany({
-      orderBy: { createdAt: 'desc' },
       take: 4,
-    }).catch(() => []),
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    }),
+    prisma.kegiatan.findMany({
+      take: 4,
+      orderBy: [{ date: "asc" }, { id: "asc" }],
+    }),
     prisma.publikasi.findMany({
-      orderBy: { publishedAt: 'desc' },
       take: 4,
-    }).catch(() => []),
+      orderBy: [{ publishedAt: "desc" }, { id: "desc" }],
+    }),
     prisma.auditLog.findMany({
-      include: { user: true },
-      orderBy: { createdAt: 'desc' },
       take: 5,
-    }).catch(() => []),
+      include: { user: { select: { name: true, role: true } } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    }),
+    prisma.departemen.findMany({
+      take: 4,
+      include: {
+        _count: {
+          select: { staff: true, proker: true },
+        },
+      },
+      orderBy: { name: "asc" },
+    }),
   ]);
 
-  // Compute percentages for aspirasi
-  const baruPct = aspirasiTotal > 0 ? Math.round((aspirasiBaru / aspirasiTotal) * 100) : 0;
-  const diprosesPct = aspirasiTotal > 0 ? Math.round((aspirasiDiproses / aspirasiTotal) * 100) : 0;
-  const selesaiPct = aspirasiTotal > 0 ? Math.round((aspirasiSelesai / aspirasiTotal) * 100) : 0;
+  // Derived real ratios
+  const resolutionRate =
+    aspirasiTotal > 0
+      ? Math.round((aspirasiSelesai / aspirasiTotal) * 100)
+      : 100;
+  const baruPercentage =
+    aspirasiTotal > 0 ? Math.round((aspirasiBaru / aspirasiTotal) * 100) : 0;
+  const diprosesPercentage =
+    aspirasiTotal > 0
+      ? Math.round((aspirasiDiproses / aspirasiTotal) * 100)
+      : 0;
+  const selesaiPercentage =
+    aspirasiTotal > 0 ? Math.round((aspirasiSelesai / aspirasiTotal) * 100) : 0;
 
-  const stats = [
-    {
-      title: 'Aspirasi Mahasiswa',
-      value: aspirasiTotal,
-      subtext: `${aspirasiBaru} Perlu Tindak Lanjut`,
-      badge: aspirasiBaru > 0 ? `${aspirasiBaru} BARU` : 'Tuntas',
-      badgeColor: aspirasiBaru > 0 ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-      icon: MessageSquareWarning,
-      href: '/admin/aspirasi',
-      glow: 'group-hover:border-amber-500/40',
-    },
-    {
-      title: 'Publikasi & Artikel',
-      value: publikasiCount,
-      subtext: 'Rilis, kajian, berita & opini',
-      badge: `${publikasiCount} Artikel`,
-      badgeColor: 'bg-brand-neon/20 text-brand-neon border-brand-neon/30',
-      icon: FileText,
-      href: '/admin/news',
-      glow: 'group-hover:border-brand-neon/40',
-    },
-    {
-      title: 'Agenda & Kompetisi',
-      value: kegiatanTotal,
-      subtext: `${kegiatanLomba} Lomba · ${kegiatanInternal} Internal`,
-      badge: `${kegiatanLomba} Lomba Aktif`,
-      badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-      icon: Trophy,
-      href: '/admin/kegiatan',
-      glow: 'group-hover:border-blue-500/40',
-    },
-    {
-      title: 'Struktur Organisasi',
-      value: departemenCount,
-      subtext: `${staffCount} Anggota & Pengurus`,
-      badge: `${staffCount} Personel`,
-      badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-      icon: Users,
-      href: '/admin/departemen',
-      glow: 'group-hover:border-purple-500/40',
-    },
-  ];
+  // Contextual Greeting
+  const currentHour = new Date().getHours();
+  let greetingTime = "Selamat Datang";
+  if (currentHour >= 4 && currentHour < 11) greetingTime = "Selamat Pagi";
+  else if (currentHour >= 11 && currentHour < 15)
+    greetingTime = "Selamat Siang";
+  else if (currentHour >= 15 && currentHour < 18) greetingTime = "Selamat Sore";
+  else greetingTime = "Selamat Malam";
 
   return (
-    <div className="space-y-8 pb-10">
-      {/* Welcome Banner & Quick Action Center */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-red/60 via-brand-dark/90 to-black border border-brand-neon/20 p-6 md:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-brand-neon/10 blur-3xl pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-brand-neon">
-              <LayoutDashboard size={13} />
-              <span>Pusat Kendali Administrasi</span>
+    <div className="space-y-6 pb-8">
+      {/* 1. Executive Briefing Hero Banner */}
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-red/35 via-brand-dark/95 to-black/90 border border-white/10 p-6 md:p-8 backdrop-blur-xl shadow-xl">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/30 text-xs text-brand-neon font-semibold">
+              <LayoutDashboard size={13} aria-hidden="true" />
+              <span>
+                Portal Tata Kelola &amp; Administrasi Organisasi Mahasiswa
+              </span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
-              Selamat datang, <span className="text-brand-neon">{session.name}</span>
+
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              {greetingTime},{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-rose-100 to-brand-neon">
+                {session.name}
+              </span>
             </h1>
-            <p className="text-zinc-300 text-xs md:text-sm max-w-xl leading-relaxed">
-              Pantau masukan mahasiswa, kelola artikel publikasi, dan atur seluruh data operasional BEM Fakultas Hukum Universitas Andalas.
+
+            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+              {isDosen
+                ? "Panel Khusus Dosen Pembina Kemahasiswaan & Pengarah BEM FH UNAND. Memantau akuntabilitas aspirasi mahasiswa, kepatuhan program kerja, persiapan agenda lomba, dan transparansi rekam jejak sistem."
+                : "Pusat Kendali Pengurus BEM FH UNAND. Kelola publikasi informasi, koordinasi agenda kegiatan & lomba, serta tindak lanjuti aspirasi civitas akademika secara cepat dan transparan."}
             </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px] text-gray-400">
+              <span className="flex items-center gap-1.5">
+                <Shield
+                  size={13}
+                  className="text-brand-neon"
+                  aria-hidden="true"
+                />
+                <span>
+                  Otentikasi:{" "}
+                  <strong className="text-white">{session.role}</strong>
+                </span>
+              </span>
+              <span className="text-gray-600">|</span>
+              <span>Tahun Kepengurusan 2026/2027</span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="/admin/news"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(254,174,174,0.3)]"
-            >
-              <Plus size={16} />
-              <span>Tulis Publikasi</span>
-            </Link>
+          {/* Quick Actions */}
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-2 shrink-0">
+            {isDosen ? (
+              <>
+                <Link
+                  href="/admin/aspirasi"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-neon text-brand-dark hover:brightness-105 text-xs font-bold transition-all shadow-sm"
+                >
+                  <MessageSquareWarning size={15} aria-hidden="true" />
+                  <span>Tinjau Aspirasi ({aspirasiBaru} Baru)</span>
+                </Link>
+                <Link
+                  href="/admin/audit-log"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] text-white border border-white/10 text-xs font-medium transition-all"
+                >
+                  <ScrollText
+                    size={15}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>Inspeksi Audit Trail</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/admin/news"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-neon text-brand-dark hover:brightness-105 text-xs font-bold transition-all shadow-sm"
+                >
+                  <Plus size={15} aria-hidden="true" />
+                  <span>Tulis Publikasi Baru</span>
+                </Link>
+                <Link
+                  href="/admin/kegiatan"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] text-white border border-white/10 text-xs font-medium transition-all"
+                >
+                  <CalendarDays
+                    size={15}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>Tambah Agenda Kegiatan</span>
+                </Link>
+                <Link
+                  href="/admin/aspirasi"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-gray-300 hover:text-white border border-white/5 text-xs font-medium transition-all"
+                >
+                  <MessageSquareWarning
+                    size={15}
+                    className="text-amber-400"
+                    aria-hidden="true"
+                  />
+                  <span>Tinjau Aspirasi ({aspirasiBaru} Baru)</span>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
 
-            <Link
-              href="/admin/kegiatan"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/15 transition-all"
-            >
-              <CalendarDays size={16} className="text-brand-neon" />
-              <span>Tambah Kegiatan</span>
-            </Link>
+      {/* 2. Primary KPI Executive Stats Grid */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* KPI 1: Aspirasi */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 backdrop-blur-md hover:border-brand-neon/40 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3">
+          <div className="flex items-center justify-between text-gray-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Aspirasi Mahasiswa
+            </span>
+            <div className="p-2 rounded-xl bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
+              <MessageSquareWarning size={16} aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-2 justify-between">
+            <span className="text-3xl font-extrabold text-brand-neon">
+              {aspirasiTotal}
+            </span>
+            <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              {resolutionRate}% Tuntas
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-white/5 text-[11px] text-center">
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-brand-neon block">
+                {aspirasiBaru}
+              </span>
+              <span className="text-gray-400 text-[10px]">Baru</span>
+            </div>
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-amber-300 block">
+                {aspirasiDiproses}
+              </span>
+              <span className="text-gray-400 text-[10px]">Proses</span>
+            </div>
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-emerald-400 block">
+                {aspirasiSelesai}
+              </span>
+              <span className="text-gray-400 text-[10px]">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        {/* KPI 2: Kegiatan & Prestasi */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 backdrop-blur-md hover:border-brand-neon/40 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3">
+          <div className="flex items-center justify-between text-gray-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Agenda &amp; Prestasi
+            </span>
+            <div className="p-2 rounded-xl bg-brand-red/30 text-rose-300 border border-brand-neon/30">
+              <CalendarDays size={16} aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-2 justify-between">
+            <span className="text-3xl font-extrabold text-white">
+              {kegiatanCount}
+            </span>
+            <span className="text-xs font-medium text-brand-neon bg-brand-neon/10 px-2 py-0.5 rounded-full border border-brand-neon/20">
+              {kegiatanLombaCount} Lomba
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-white/5 text-[11px] text-center">
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-rose-200 block">
+                {kegiatanLombaCount}
+              </span>
+              <span className="text-gray-400 text-[10px]">
+                Kompetisi Mahasiswa
+              </span>
+            </div>
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-gray-200 block">
+                {kegiatanInternalCount}
+              </span>
+              <span className="text-gray-400 text-[10px]">Internal BEM</span>
+            </div>
+          </div>
+        </div>
+
+        {/* KPI 3: Publikasi */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 backdrop-blur-md hover:border-brand-neon/40 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3">
+          <div className="flex items-center justify-between text-gray-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Publikasi &amp; Berita
+            </span>
+            <div className="p-2 rounded-xl bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
+              <FileText size={16} aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-2 justify-between">
+            <span className="text-3xl font-extrabold text-white">
+              {publikasiCount}
+            </span>
+            <span className="text-xs font-medium text-brand-neon bg-brand-neon/10 px-2 py-0.5 rounded-full border border-brand-neon/20">
+              Tayang Publik
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-1.5 pt-2 border-t border-white/5 text-[11px] text-center">
+            <div className="p-3.5 rounded-lg bg-black/30 border border-white/5 text-[11px] text-gray-300 flex items-center justify-between">
+              <span className="font-bold text-gray-200 block">
+                {publikasiCount}
+              </span>
+              <span className="text-gray-400 text-[10px]">
+                Artikel & Berita{" "}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* KPI 4: Departemen */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 backdrop-blur-md hover:border-brand-neon/40 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between space-y-3">
+          <div className="flex items-center justify-between text-gray-400">
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              Departemen &amp; BPH
+            </span>
+            <div className="p-2 rounded-xl bg-brand-red/30 text-rose-300 border border-brand-neon/30">
+              <Building2 size={16} aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-2 justify-between">
+            <span className="text-3xl font-extrabold text-white">
+              {departemenCount}
+            </span>
+            <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              {staffCount} Staff Aktif
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-1.5 pt-2 border-t border-white/5 text-[11px] text-center">
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-rose-200 block">
+                {staffCount}
+              </span>
+              <span className="text-gray-400 text-[10px]">
+                Pengurus / Staff
+              </span>
+            </div>
+            <div className="bg-black/30 p-1.5 rounded-lg border border-white/5">
+              <span className="font-bold text-gray-200 block">
+                {prokerCount}
+              </span>
+              <span className="text-gray-400 text-[10px]">Program Kerja</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Panel Khusus Pengurus Dosen & Admin (Akuntabilitas Aspirasi & Agenda Kemahasiswaan) */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* Left: Rekapitulasi Aspirasi Mahasiswa (7 Cols) */}
+        <div className="lg:col-span-7 rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
+                  <BarChart3 size={16} aria-hidden="true" />
+                </div>
+                <h2 className="text-base font-bold text-white">
+                  Akuntabilitas Penanganan Aspirasi
+                </h2>
+              </div>
+              <p className="text-xs text-gray-400 mt-0.5">
+                Status penyelesaian pengaduan dan pemetaan isu civitas akademika
+              </p>
+            </div>
 
             <Link
               href="/admin/aspirasi"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-red/50 hover:bg-brand-red/80 text-white font-semibold text-xs border border-brand-neon/30 transition-all"
+              className="inline-flex items-center gap-1 text-xs text-brand-neon hover:text-white font-medium hover:underline self-start sm:self-auto"
             >
-              <MessageSquareWarning size={16} className="text-amber-300" />
-              <span>Tinjau Aspirasi</span>
+              <span>Buka Pengelola</span>
+              <ArrowUpRight size={13} aria-hidden="true" />
             </Link>
           </div>
-        </div>
-      </div>
 
-      {/* KPI Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((item) => {
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`group relative rounded-2xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 ${item.glow} p-5 transition-all duration-300 backdrop-blur-md flex flex-col justify-between shadow-lg hover:-translate-y-1`}
-            >
-              <div>
-                <div className="flex items-center justify-between">
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-brand-neon group-hover:scale-110 transition-transform">
-                    <Icon size={20} />
-                  </div>
-                  <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${item.badgeColor}`}>
-                    {item.badge}
+          {/* Progress Distribution Bar */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-xs text-gray-300">
+              <span className="font-semibold text-white tracking-wide">
+                Distribusi Status Aspirasi
+              </span>
+              <span className="font-mono text-gray-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md text-[11px]">
+                {aspirasiTotal} Total Pengajuan
+              </span>
+            </div>
+
+            {/* Thicker, Highly Visible Progress Bar */}
+            <div className="h-10 sm:h-10 w-full bg-black/50 rounded-xl overflow-hidden flex border border-white/10 p-1 gap-1 shadow-inner">
+              {aspirasiTotal === 0 ? (
+                <div className="h-full w-full bg-white/10 rounded-lg flex items-center justify-center text-[10px] text-gray-500 font-medium">
+                  Belum ada data
+                </div>
+              ) : (
+                <>
+                  {baruPercentage > 0 && (
+                    <div
+                      style={{ width: `${baruPercentage}%` }}
+                      className="h-full bg-brand-neon rounded-lg flex items-center justify-center transition-all duration-500 overflow-hidden shadow-sm"
+                      title={`Baru: ${aspirasiBaru} (${baruPercentage}%)`}
+                    >
+                      {baruPercentage >= 12 && (
+                        <span className="text-[11px] font-bold text-brand-dark tracking-tight select-none">
+                          {baruPercentage}%
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {diprosesPercentage > 0 && (
+                    <div
+                      style={{ width: `${diprosesPercentage}%` }}
+                      className="h-full bg-amber-400 rounded-lg flex items-center justify-center transition-all duration-500 overflow-hidden shadow-sm"
+                      title={`Diproses: ${aspirasiDiproses} (${diprosesPercentage}%)`}
+                    >
+                      {diprosesPercentage >= 12 && (
+                        <span className="text-[11px] font-bold text-brand-dark tracking-tight select-none">
+                          {diprosesPercentage}%
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {selesaiPercentage > 0 && (
+                    <div
+                      style={{ width: `${selesaiPercentage}%` }}
+                      className="h-full bg-emerald-400 rounded-lg flex items-center justify-center transition-all duration-500 overflow-hidden shadow-sm"
+                      title={`Selesai: ${aspirasiSelesai} (${selesaiPercentage}%)`}
+                    >
+                      {selesaiPercentage >= 12 && (
+                        <span className="text-[11px] font-bold text-brand-dark tracking-tight select-none">
+                          {selesaiPercentage}%
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Legend & Breakdown Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
+              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-brand-neon shrink-0 shadow-sm" />
+                  <span className="text-gray-300 font-medium">Baru</span>
+                </div>
+                <span className="font-mono text-white font-bold">
+                  {aspirasiBaru}{" "}
+                  <span className="text-gray-400 font-normal">
+                    ({baruPercentage}%)
                   </span>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-3xl font-extrabold tracking-tight text-white group-hover:text-brand-neon transition-colors">
-                    {item.value}
-                  </p>
-                  <p className="text-xs font-semibold text-zinc-300 mt-1">{item.title}</p>
-                  <p className="text-[11px] text-zinc-400 mt-0.5">{item.subtext}</p>
-                </div>
+                </span>
               </div>
-
-              <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-zinc-400 group-hover:text-brand-neon">
-                <span>Kelola Data</span>
-                <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0 shadow-sm" />
+                  <span className="text-gray-300 font-bold">Diproses</span>
+                </div>
+                <span className="font-mono text-white font-bold">
+                  {aspirasiDiproses}{" "}
+                  <span className="text-gray-400 font-normal">
+                    ({diprosesPercentage}%)
+                  </span>
+                </span>
               </div>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Visual Data Breakdown: Aspirasi Distribution Bar */}
-      <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <div>
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <MessageSquareWarning size={18} className="text-brand-neon" />
-              <span>Status Distribusi Aspirasi Mahasiswa</span>
-            </h2>
-            <p className="text-xs text-zinc-400 mt-0.5">
-              Rasio tindak lanjut aspirasi yang masuk melalui platform publik ({aspirasiTotal} total)
-            </p>
+              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shrink-0 shadow-sm" />
+                  <span className="text-gray-300 font-medium">Selesai</span>
+                </div>
+                <span className="font-mono text-white font-bold">
+                  {aspirasiSelesai}{" "}
+                  <span className="text-gray-400 font-normal">
+                    ({selesaiPercentage}%)
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
 
-          <Link
-            href="/admin/aspirasi"
-            className="text-xs text-brand-neon hover:underline flex items-center gap-1 font-medium"
-          >
-            <span>Buka Seluruh Aspirasi</span>
-            <ArrowRight size={13} />
-          </Link>
+          {/* Issue Types Breakdown */}
+          <div className="space-y-2.5  pt-1">
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+              Pemetaan Kategori Isu
+            </p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5 space-y-1">
+                <span className="text-[10px] font-semibold text-brand-neon uppercase tracking-wider block">
+                  Keluhan
+                </span>
+                <p className="text-xl font-bold text-white">
+                  {aspirasiKeluhan}
+                </p>
+                <p className="text-[10px] text-gray-400">
+                  Akademik &amp; Sarpras
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5 space-y-1">
+                <span className="text-[10px] font-semibold text-amber-300 uppercase tracking-wider block">
+                  Saran
+                </span>
+                <p className="text-xl font-bold text-white">{aspirasiSaran}</p>
+                <p className="text-[10px] text-gray-400">Usulan Program</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5 space-y-1">
+                <span className="text-[10px] font-semibold text-rose-200 uppercase tracking-wider block">
+                  Aspirasi
+                </span>
+                <p className="text-xl font-bold text-white">
+                  {aspirasiAspirasi}
+                </p>
+                <p className="text-[10px] text-gray-400">Kebijakan Kampus</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/30 border border-white/5 space-y-1">
+                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block">
+                  Lainnya
+                </span>
+                <p className="text-xl font-bold text-white">
+                  {aspirasiLainnya}
+                </p>
+                <p className="text-[10px] text-gray-400">Pertanyaan Umum</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {aspirasiTotal === 0 ? (
-          <div className="py-6 text-center text-xs text-zinc-400 bg-white/[0.02] rounded-xl border border-dashed border-white/10">
-            Belum ada aspirasi mahasiswa yang tercatat di database.
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {/* Visual Multi-Segment Bar */}
-            <div className="w-full h-4 rounded-full bg-black/40 overflow-hidden flex p-0.5 border border-white/10">
-              {baruPct > 0 && (
-                <div
-                  style={{ width: `${baruPct}%` }}
-                  title={`Baru: ${aspirasiBaru} (${baruPct}%)`}
-                  className="h-full bg-amber-400 rounded-l-full transition-all duration-500 shadow-[0_0_10px_rgba(251,191,36,0.5)]"
-                />
-              )}
-              {diprosesPct > 0 && (
-                <div
-                  style={{ width: `${diprosesPct}%` }}
-                  title={`Diproses: ${aspirasiDiproses} (${diprosesPct}%)`}
-                  className="h-full bg-sky-400 transition-all duration-500 shadow-[0_0_10px_rgba(56,189,248,0.5)]"
-                />
-              )}
-              {selesaiPct > 0 && (
-                <div
-                  style={{ width: `${selesaiPct}%` }}
-                  title={`Selesai: ${aspirasiSelesai} (${selesaiPct}%)`}
-                  className="h-full bg-emerald-400 rounded-r-full transition-all duration-500 shadow-[0_0_10px_rgba(52,211,153,0.5)]"
-                />
-              )}
-            </div>
-
-            {/* Metrics Legend */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]" />
-                  <span className="text-xs font-medium text-amber-200">Menunggu Tindakan (Baru)</span>
-                </div>
-                <span className="text-xs font-bold text-amber-300 font-mono">
-                  {aspirasiBaru} ({baruPct}%)
-                </span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
-                  <span className="text-xs font-medium text-sky-200">Sedang Diproses</span>
-                </div>
-                <span className="text-xs font-bold text-sky-300 font-mono">
-                  {aspirasiDiproses} ({diprosesPct}%)
-                </span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
-                  <span className="text-xs font-medium text-emerald-200">Selesai Ditindak</span>
-                </div>
-                <span className="text-xs font-bold text-emerald-300 font-mono">
-                  {aspirasiSelesai} ({selesaiPct}%)
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Three Columns: Recent Aspirasi, Recent Publications, Recent Audit Log */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Urgent Aspirasi Stream */}
-        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
+        {/* Right: Agenda & Kompetisi Mendatang (5 Cols) */}
+        <div className="lg:col-span-5 rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                  <AlertCircle size={16} className="text-amber-400" />
-                  <span>Aspirasi Terbaru</span>
-                </h3>
-                <p className="text-[11px] text-zinc-400 mt-0.5">Prioritas respon mahasiswa</p>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <CalendarDays
+                    size={16}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>Agenda &amp; Lomba Terdekat</span>
+                </h2>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Monitoring kegiatan kemahasiswaan
+                </p>
               </div>
+
               <Link
-                href="/admin/aspirasi"
-                className="text-xs text-brand-neon hover:underline font-medium"
+                href="/admin/kegiatan"
+                className="text-xs text-brand-neon hover:text-white font-medium hover:underline"
               >
-                Lihat Semua
+                Semua
               </Link>
             </div>
 
-            <div className="space-y-3">
-              {recentAspirasi.length === 0 ? (
-                <p className="text-xs text-zinc-400 py-6 text-center">Belum ada aspirasi tercatat.</p>
-              ) : (
-                recentAspirasi.map((item) => (
+            {upcomingKegiatan.length === 0 ? (
+              <div className="py-8 text-center text-xs text-gray-400 space-y-1.5">
+                <p>Belum ada agenda kegiatan yang terdaftar.</p>
+                {!isDosen && (
+                  <Link
+                    href="/admin/kegiatan"
+                    className="text-brand-neon hover:underline"
+                  >
+                    Tambah agenda pertama
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {upcomingKegiatan.map((item) => {
+                  const itemDate = new Date(item.date);
+                  const isLomba = item.type === "LOMBA";
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-xl bg-black/30 border border-white/5 hover:border-brand-neon/30 transition-all space-y-1.5 group"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span
+                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
+                            isLomba
+                              ? "bg-brand-red/30 text-rose-200 border-brand-neon/30"
+                              : "bg-white/10 text-gray-300 border-white/10"
+                          }`}
+                        >
+                          {isLomba ? "Lomba Mahasiswa" : "Internal BEM"}
+                        </span>
+
+                        <span className="text-[11px] font-mono text-gray-400">
+                          {itemDate.toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xs font-semibold text-white group-hover:text-brand-neon transition-colors line-clamp-1">
+                        {item.name}
+                      </h3>
+
+                      <div className="flex items-center justify-between text-[11px] text-gray-400 pt-0.5">
+                        <span className="flex items-center gap-1 truncate max-w-[180px]">
+                          <MapPin
+                            size={11}
+                            className="text-brand-neon shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span className="truncate">{item.location}</span>
+                        </span>
+                        <span className="text-gray-400 truncate max-w-[130px]">
+                          {item.organizer}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="pt-2 border-t border-white/10">
+            <Link
+              href="/admin/kegiatan"
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-gray-300 hover:text-white font-medium block border border-white/5 transition-colors"
+            >
+              Lihat Kalender Lengkap
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Three-Column Activity Stream */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Stream 1: Aspirasi Masuk */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div>
+                <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                  <MessageSquareWarning
+                    size={16}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>Aspirasi Terkini</span>
+                </h3>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Aduan masuk civitas akademika
+                </p>
+              </div>
+              <Link
+                href="/admin/aspirasi"
+                className="text-xs text-brand-neon hover:text-white hover:underline"
+              >
+                Kelola
+              </Link>
+            </div>
+
+            {recentAspirasi.length === 0 ? (
+              <p className="text-xs text-gray-400 py-6 text-center">
+                Belum ada aspirasi terdaftar.
+              </p>
+            ) : (
+              <div className="space-y-2.5">
+                {recentAspirasi.map((item) => (
                   <div
                     key={item.id}
-                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/15 transition-all space-y-1.5"
+                    className="p-3 rounded-xl bg-black/30 border border-white/5 hover:border-brand-neon/20 transition-all space-y-1.5"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-semibold text-zinc-200 truncate">
-                        {item.isAnonymous ? 'Anonim' : (item.nama || 'Mahasiswa')} &rarr; {item.pihakDituju}
+                      <span className="font-mono text-[10px] text-brand-neon bg-brand-neon/10 px-2 py-0.5 rounded border border-brand-neon/20 font-bold">
+                        {item.ticketCode}
                       </span>
                       <span
-                        className={`text-[9px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
-                          item.status === 'BARU'
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                            : item.status === 'DIPROSES'
-                            ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
-                            : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                          item.status === "BARU"
+                            ? "bg-rose-500/20 text-rose-300 border-rose-500/30"
+                            : item.status === "DIPROSES"
+                              ? "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                              : "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
                         }`}
                       >
                         {item.status}
                       </span>
                     </div>
 
-                    <p className="text-[11px] text-zinc-300 line-clamp-2 leading-relaxed">
-                      {item.deskripsi}
-                    </p>
+                    <div className="text-xs">
+                      <p className="text-white font-medium">
+                        {item.isAnonymous ? "Anonim" : item.nama || "Mahasiswa"}
+                        <span className="text-gray-400 font-normal">
+                          {" "}
+                          · {item.jenisPengajuan}
+                        </span>
+                      </p>
+                      <p className="text-gray-300 text-[11px] line-clamp-2 mt-1 leading-relaxed">
+                        {item.deskripsi}
+                      </p>
+                    </div>
 
-                    <div className="flex items-center justify-between text-[10px] text-zinc-400 pt-0.5">
-                      <span>
-                        {new Date(item.createdAt).toLocaleDateString('id-ID', {
-                          day: 'numeric',
-                          month: 'short',
-                        })}
+                    <div className="flex items-center justify-between text-[10px] text-gray-400 pt-1 border-t border-white/5">
+                      <span className="truncate">
+                        Tujuan: {item.pihakDituju}
                       </span>
                       <Link
                         href="/admin/aspirasi"
-                        className="text-brand-neon hover:underline font-medium"
+                        className="text-brand-neon hover:text-white underline"
                       >
-                        Respon &rarr;
+                        Respon
                       </Link>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="mt-4 pt-3 border-t border-white/5">
+          <div className="pt-2 border-t border-white/10">
             <Link
               href="/admin/aspirasi"
-              className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-zinc-300 hover:text-white font-medium block transition-colors border border-white/5"
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-gray-300 hover:text-white font-medium block border border-white/5 transition-colors"
             >
-              Buka Pengelola Aspirasi
+              Semua Aspirasi
             </Link>
           </div>
         </div>
 
-        {/* Recent Publikasi Stream */}
-        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
+        {/* Stream 2: Publikasi Terkini */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
                 <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                  <FileText size={16} className="text-brand-neon" />
+                  <FileText
+                    size={16}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
                   <span>Publikasi Terkini</span>
                 </h3>
-                <p className="text-[11px] text-zinc-400 mt-0.5">Artikel & rilis yang sudah tayang</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Artikel dan rilis pers BEM
+                </p>
               </div>
               <Link
                 href="/admin/news"
-                className="text-xs text-brand-neon hover:underline font-medium"
+                className="text-xs text-brand-neon hover:text-white hover:underline"
               >
                 Kelola
               </Link>
             </div>
 
-            <div className="space-y-3">
-              {recentPublikasi.length === 0 ? (
-                <p className="text-xs text-zinc-400 py-6 text-center">Belum ada publikasi terbit.</p>
-              ) : (
-                recentPublikasi.map((pub) => (
+            {recentPublikasi.length === 0 ? (
+              <p className="text-xs text-gray-400 py-6 text-center">
+                Belum ada artikel publikasi.
+              </p>
+            ) : (
+              <div className="space-y-2.5">
+                {recentPublikasi.map((pub) => (
                   <div
                     key={pub.id}
-                    className="p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/15 transition-all space-y-1.5"
+                    className="p-3 rounded-xl bg-black/30 border border-white/5 hover:border-brand-neon/20 transition-all space-y-1.5"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.2 rounded bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
                         {pub.category}
                       </span>
-                      <span className="text-[10px] text-zinc-400">
-                        {pub.publishedAt ? pub.publishedAt.toISOString().slice(0, 10) : '-'}
+                      <span className="text-[10px] text-gray-400 font-mono">
+                        {pub.publishedAt
+                          ? new Date(pub.publishedAt).toLocaleDateString(
+                              "id-ID",
+                              {
+                                day: "numeric",
+                                month: "short",
+                              },
+                            )
+                          : "-"}
                       </span>
                     </div>
 
-                    <h4 className="text-xs font-semibold text-white line-clamp-1">
+                    <h4 className="text-xs font-semibold text-white line-clamp-2 leading-snug">
                       {pub.title}
                     </h4>
 
-                    <div className="flex items-center justify-between text-[10px] text-zinc-400 pt-0.5">
-                      <span>Oleh {pub.author}</span>
+                    <div className="flex items-center justify-between text-[10px] text-gray-400 pt-1 border-t border-white/5">
+                      <span className="truncate">Oleh: {pub.author}</span>
                       {pub.slug && (
                         <Link
                           href={`/publikasi/${pub.slug}`}
                           target="_blank"
-                          className="text-brand-neon hover:underline flex items-center gap-1 font-medium"
+                          className="text-brand-neon hover:text-white flex items-center gap-1 font-medium"
                         >
                           <span>Baca</span>
-                          <ExternalLink size={10} />
+                          <ExternalLink size={10} aria-hidden="true" />
                         </Link>
                       )}
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="mt-4 pt-3 border-t border-white/5">
+          <div className="pt-2 border-t border-white/10">
             <Link
               href="/admin/news"
-              className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-zinc-300 hover:text-white font-medium block transition-colors border border-white/5"
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-gray-300 hover:text-white font-medium block border border-white/5 transition-colors"
             >
-              Buka Semua Publikasi
+              Semua Publikasi
             </Link>
           </div>
         </div>
 
-        {/* Audit Log / Activity Trail */}
-        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
+        {/* Stream 3: Audit Trail Log */}
+        <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md flex flex-col justify-between space-y-4">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div>
                 <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                  <ScrollText size={16} className="text-brand-neon" />
-                  <span>Aktivitas Sistem</span>
+                  <ScrollText
+                    size={16}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>Audit Trail Sistem</span>
                 </h3>
-                <p className="text-[11px] text-zinc-400 mt-0.5">Audit log modifikasi data</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Catatan mutasi data sistem
+                </p>
               </div>
               <Link
                 href="/admin/audit-log"
-                className="text-xs text-brand-neon hover:underline font-medium"
+                className="text-xs text-brand-neon hover:text-white hover:underline"
               >
                 Semua
               </Link>
             </div>
 
-            <div className="space-y-2.5">
-              {recentAuditLogs.length === 0 ? (
-                <p className="text-xs text-zinc-400 py-6 text-center">Belum ada aktivitas audit log.</p>
-              ) : (
-                recentAuditLogs.map((log) => (
+            {recentAuditLogs.length === 0 ? (
+              <p className="text-xs text-gray-400 py-6 text-center">
+                Belum ada catatan aktivitas audit.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {recentAuditLogs.map((log) => (
                   <div
                     key={log.id}
-                    className="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-start gap-2.5 text-xs"
+                    className="p-2.5 rounded-xl bg-black/30 border border-white/5 text-xs space-y-1"
                   >
-                    <div
-                      className={`p-1.5 rounded-lg shrink-0 mt-0.5 ${
-                        log.action === 'CREATE'
-                          ? 'bg-emerald-500/20 text-emerald-400'
-                          : log.action === 'DELETE'
-                          ? 'bg-red-500/20 text-red-400'
-                          : 'bg-blue-500/20 text-blue-400'
-                      }`}
-                    >
-                      <CheckCircle2 size={12} />
+                    <div className="flex items-center justify-between gap-1.5 text-[11px]">
+                      <span className="font-semibold text-white truncate max-w-[130px]">
+                        {log.user?.name || "Admin"}
+                      </span>
+                      <span className="text-[10px] text-gray-400 font-mono shrink-0">
+                        {new Date(log.createdAt).toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "short",
+                        })}
+                      </span>
                     </div>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-semibold text-zinc-200 truncate text-[11px]">
-                          {log.user?.name || 'Admin'}
-                        </span>
-                        <span className="text-[9px] text-zinc-400 font-mono shrink-0">
-                          {new Date(log.createdAt).toLocaleDateString('id-ID', {
-                            day: 'numeric',
-                            month: 'short',
-                          })}
-                        </span>
-                      </div>
-                      <p className="text-zinc-300 text-[11px] mt-0.5 truncate">
-                        {log.summary}
-                      </p>
-                      <div className="flex items-center gap-1.5 mt-1 text-[9px] text-zinc-400">
-                        <span className="font-semibold uppercase tracking-wider text-brand-neon">
-                          {log.action}
-                        </span>
-                        <span>·</span>
-                        <span>{log.entityType}</span>
-                      </div>
+                    <p className="text-gray-300 text-[11px] line-clamp-1">
+                      {log.summary}
+                    </p>
+
+                    <div className="flex items-center gap-1.5 text-[9px] text-gray-400 pt-0.5">
+                      <span
+                        className={`font-bold uppercase tracking-wider px-1.5 py-0.2 rounded ${
+                          log.action === "CREATE"
+                            ? "text-emerald-400 bg-emerald-500/10"
+                            : log.action === "DELETE"
+                              ? "text-rose-400 bg-rose-500/10"
+                              : "text-blue-400 bg-blue-500/10"
+                        }`}
+                      >
+                        {log.action}
+                      </span>
+                      <span>·</span>
+                      <span>{log.entityType}</span>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="mt-4 pt-3 border-t border-white/5">
+          <div className="pt-2 border-t border-white/10">
             <Link
               href="/admin/audit-log"
-              className="w-full py-2 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-zinc-300 hover:text-white font-medium block transition-colors border border-white/5"
+              className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-center text-xs text-gray-300 hover:text-white font-medium block border border-white/5 transition-colors"
             >
-              Lihat Rekam Jejak
+              Log Lengkap
             </Link>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 5. Departemen & Program Kerja Status */}
+      <section className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 backdrop-blur-md space-y-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Building2
+                size={16}
+                className="text-brand-neon"
+                aria-hidden="true"
+              />
+              <span>Departemen &amp; Program Kerja Kabinet</span>
+            </h3>
+            <p className="text-xs text-gray-400 mt-0.5">
+              Pemantauan struktur pengurus dan program kerja yang diawasi dosen
+              pembina
+            </p>
+          </div>
+          <Link
+            href="/admin/departemen"
+            className="text-xs text-brand-neon hover:text-white hover:underline"
+          >
+            Lihat 16 Departemen
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {departemenHighlights.map((dept) => (
+            <div
+              key={dept.id}
+              className="p-3.5 rounded-xl bg-black/30 border border-white/5 hover:border-brand-neon/30 transition-all space-y-1.5 group"
+            >
+              <h4 className="font-semibold text-xs text-white group-hover:text-brand-neon transition-colors line-clamp-1">
+                {dept.name}
+              </h4>
+              <p className="text-[11px] text-gray-300 line-clamp-2 leading-relaxed">
+                {dept.description ||
+                  "Deskripsi departemen belum dikonfigurasi."}
+              </p>
+              <div className="flex items-center justify-between text-[10px] text-gray-400 pt-1.5 border-t border-white/5">
+                <span className="flex items-center gap-1">
+                  <Users
+                    size={11}
+                    className="text-brand-neon"
+                    aria-hidden="true"
+                  />
+                  <span>{dept._count.staff} Staff</span>
+                </span>
+                <span className="flex items-center gap-1">
+                  <Tag size={11} className="text-rose-300" aria-hidden="true" />
+                  <span>{dept._count.proker} Proker</span>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
