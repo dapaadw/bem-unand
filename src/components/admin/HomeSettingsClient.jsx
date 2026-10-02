@@ -14,62 +14,68 @@ import {
   Eye,
   BookHeart,
   MessageCircle,
+  Image,
+  Video,
+  Palette,
 } from 'lucide-react';
 
 export default function HomeSettingsClient({ initialProfile, initialContacts }) {
-  const [profile, setProfile] = useState(initialProfile || { title: '', subtitle: '', ctaText: '', ctaLink: '', visiMisi: '', logoPhilosophy: '' });
+  const [profile, setProfile] = useState(initialProfile || { title: '', subtitle: '', ctaText: '', ctaLink: '', visiMisi: '', logoPhilosophy: '', backgroundColor: '#1a0000', heroImageUrl: '', heroImageAlt: '', videoUrl: '' });
   const [contacts, setContacts] = useState(initialContacts || { whatsappUrl: '', instagramUrl: '', email: '' });
   const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
-
-  function showToast(msg, error = false) {
-    setMessage(msg);
-    setIsError(error);
-    setTimeout(() => setMessage(''), 4000);
-  }
 
   async function saveProfile() {
     setSaving(true);
-    const res = await fetch('/api/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(profile),
-    });
-    setSaving(false);
-    if (res.ok) showToast('Profil beranda berhasil disimpan.');
-    else showToast('Gagal menyimpan profil.', true);
+    setMessage('');
+    setError('');
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile),
+      });
+      const data = await res.json();
+      if (res.ok) setMessage('Profil beranda berhasil disimpan.');
+      else setError(data.error || 'Gagal menyimpan profil.');
+    } catch { setError('Terjadi kesalahan jaringan. Silakan coba lagi.'); }
+    finally { setSaving(false); }
   }
 
   async function saveContacts() {
     setSaving(true);
-    const res = await fetch('/api/contacts', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(contacts),
-    });
-    const data = await res.json();
-    setSaving(false);
-    if (res.ok) {
-      showToast('Kontak berhasil disimpan.');
-    } else {
-      showToast(data.error || 'Gagal menyimpan kontak.', true);
-    }
+    setMessage('');
+    setError('');
+    try {
+      const res = await fetch('/api/contacts', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contacts),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage('Kontak berhasil disimpan.');
+      } else {
+        setError(data.error || 'Gagal menyimpan kontak.');
+      }
+    } catch { setError('Terjadi kesalahan jaringan. Silakan coba lagi.'); }
+    finally { setSaving(false); }
   }
 
   return (
     <div className="space-y-6">
       {/* Toast / Notification Banner */}
       {message && (
-        <div
-          className={`p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold ${
-            isError
-              ? 'bg-red-500/10 border border-red-500/20 text-red-300'
-              : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
-          }`}
-        >
-          {isError ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}
+        <div className="p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+          <CheckCircle2 size={16} />
           <span>{message}</span>
+        </div>
+      )}
+      {error && (
+        <div className="p-4 rounded-xl flex items-center gap-2.5 text-xs font-semibold bg-red-500/10 border border-red-500/20 text-red-300">
+          <AlertCircle size={16} />
+          <span>{error}</span>
         </div>
       )}
 
@@ -84,6 +90,61 @@ export default function HomeSettingsClient({ initialProfile, initialContacts }) 
             <p className="text-xs text-zinc-400 mt-0.5">
               Konten utama yang ditampilkan pada bagian hero halaman beranda.
             </p>
+          </div>
+        </div>
+
+        {/* Background Color */}
+        <div className="flex items-center gap-4">
+          <div className="space-y-1">
+            <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+              <Palette size={11} />
+              Warna latar tema
+            </label>
+            <input type="color" value={profile.backgroundColor || '#1a0000'} onChange={(e) => setProfile({ ...profile, backgroundColor: e.target.value })} className="block w-20 h-10 rounded-lg border border-white/10 cursor-pointer" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] text-zinc-400">Pilih warna gelap agar tulisan tetap terbaca. Warna diterapkan setelah Simpan Profil.</p>
+            <button type="button" onClick={() => setProfile({ ...profile, backgroundColor: '#1a0000' })} className="text-[11px] text-brand-neon hover:underline">Gunakan warna bawaan</button>
+          </div>
+        </div>
+
+        {/* Hero Image & Video */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+              <Image size={11} />
+              URL Foto Hero
+            </label>
+            <input
+              value={profile.heroImageUrl || ''}
+              onChange={(e) => setProfile({ ...profile, heroImageUrl: e.target.value })}
+              placeholder="https://... atau /uploads/foto.jpg"
+              className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+              <FileText size={11} />
+              Deskripsi Foto (teks alternatif)
+            </label>
+            <input
+              value={profile.heroImageAlt || ''}
+              onChange={(e) => setProfile({ ...profile, heroImageAlt: e.target.value })}
+              className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
+            />
+          </div>
+          <div className="md:col-span-2 space-y-1">
+            <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+              <Video size={11} />
+              URL Video Profil YouTube
+            </label>
+            <input
+              value={profile.videoUrl || ''}
+              onChange={(e) => setProfile({ ...profile, videoUrl: e.target.value })}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
+            />
+            <p className="text-[10px] text-zinc-400">Foto dan video tampil setelah URL diisi. Video ditampilkan di bawah Visi &amp; Misi.</p>
           </div>
         </div>
 
@@ -211,7 +272,6 @@ export default function HomeSettingsClient({ initialProfile, initialContacts }) 
 
           <div className="space-y-1">
             <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
-              {/* <Instagram size={11} /> */}
               Instagram Link
             </label>
             <input
@@ -224,7 +284,6 @@ export default function HomeSettingsClient({ initialProfile, initialContacts }) 
 
           <div className="space-y-1">
             <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
-              {/* <Mail size={11} /> */}
               Email
             </label>
             <input

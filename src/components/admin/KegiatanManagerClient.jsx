@@ -14,18 +14,15 @@ import {
   Building,
   ExternalLink,
   CalendarDays,
+  Clock,
 } from 'lucide-react';
 
-const emptyForm = {
-  type: 'INTERNAL',
-  name: '',
-  date: '',
-  location: '',
-  organizer: '',
-  description: '',
-  publicationUrl: '',
-  registrationUrl: '',
-};
+const emptyForm = { type: 'INTERNAL', name: '', date: '', time: '', publishedAt: '', location: '', organizer: '', description: '', publicationUrl: '', registrationUrl: '' };
+
+function localDateTime(value) {
+  const date = new Date(value);
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+}
 
 export default function KegiatanManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
@@ -36,17 +33,18 @@ export default function KegiatanManagerClient({ initialItems }) {
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [message, setMessage] = useState('');
+  const sortItems = (list) => [...list].sort((a, b) => new Date(b.date) - new Date(a.date) || b.id.localeCompare(a.id));
 
   function openCreate() {
+    setMessage('');
     setForm({
-      type: 'INTERNAL',
-      name: '',
+      ...emptyForm,
+      publishedAt: localDateTime(new Date()),
       date: new Date().toISOString().slice(0, 10),
       location: 'Fakultas Hukum Universitas Andalas',
       organizer: 'BEM FH UNAND',
-      description: '',
-      publicationUrl: '',
-      registrationUrl: '',
     });
     setEditingId(null);
     setFormOpen(true);
@@ -54,10 +52,13 @@ export default function KegiatanManagerClient({ initialItems }) {
   }
 
   function openEdit(item) {
+    setMessage('');
     setForm({
       type: item.type,
       name: item.name,
-      date: item.date ? item.date.slice(0, 10) : '',
+      date: item.date.slice(0, 10),
+      time: item.time || '',
+      publishedAt: localDateTime(item.publishedAt),
       location: item.location,
       organizer: item.organizer,
       description: item.description,
@@ -79,7 +80,7 @@ export default function KegiatanManagerClient({ initialItems }) {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, publishedAt: new Date(form.publishedAt).toISOString() }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -87,11 +88,12 @@ export default function KegiatanManagerClient({ initialItems }) {
         return;
       }
       if (editingId) {
-        setItems((prev) => prev.map((i) => (i.id === editingId ? data : i)));
+        setItems((prev) => sortItems(prev.map((i) => (i.id === editingId ? data : i))));
       } else {
-        setItems((prev) => [data, ...prev]);
+        setItems((prev) => sortItems([data, ...prev]));
       }
       setFormOpen(false);
+      setMessage('Kegiatan tersimpan.');
     } catch {
       setError('Terjadi kesalahan jaringan.');
     } finally {
@@ -101,8 +103,17 @@ export default function KegiatanManagerClient({ initialItems }) {
 
   async function handleDelete(id, name) {
     if (!confirm(`Hapus kegiatan "${name}"? Tindakan ini tidak dapat dibatalkan.`)) return;
-    const res = await fetch(`/api/kegiatan/${id}`, { method: 'DELETE' });
-    if (res.ok) setItems((prev) => prev.filter((i) => i.id !== id));
+    setDeletingId(id);
+    setError('');
+    setMessage('');
+    try {
+      const res = await fetch(`/api/kegiatan/${id}`, { method: 'DELETE' });
+      if (!res.ok) { const data = await res.json(); setError(data.error || 'Gagal menghapus kegiatan.'); return; }
+      setItems((prev) => prev.filter((i) => i.id !== id));
+      if (editingId === id) setFormOpen(false);
+      setMessage('Kegiatan dihapus.');
+    } catch { setError('Terjadi kesalahan jaringan.'); }
+    finally { setDeletingId(null); }
   }
 
   const counts = useMemo(() => {
@@ -150,6 +161,10 @@ export default function KegiatanManagerClient({ initialItems }) {
           <span>Tambah Kegiatan Baru</span>
         </button>
       </div>
+
+      {/* Messages */}
+      {message && <p role="status" className="text-xs text-brand-neon font-semibold">{message}</p>}
+      {error && !formOpen && <p role="alert" className="text-xs text-red-400 font-semibold">{error}</p>}
 
       {/* Control Bar: Search & Type Tabs */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/[0.04] border border-white/10 p-4 rounded-2xl backdrop-blur-md">
@@ -217,6 +232,7 @@ export default function KegiatanManagerClient({ initialItems }) {
               type="button"
               onClick={() => setFormOpen(false)}
               className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Tutup form kegiatan"
             >
               <X size={18} />
             </button>
@@ -233,8 +249,9 @@ export default function KegiatanManagerClient({ initialItems }) {
               <div className="space-y-1">
                 <label className="text-[11px] font-semibold text-zinc-300">Tipe Kegiatan *</label>
                 <select
+                  aria-label="Jenis kegiatan"
                   value={form.type}
-                  onChange={(e) => setForm({ ...form, type: e.target.value })}
+                  onChange={(e) => setForm({ ...form, type: e.target.value, registrationUrl: e.target.value === 'INTERNAL' ? '' : form.registrationUrl })}
                   className="w-full rounded-xl bg-zinc-900 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
                 >
                   <option value="INTERNAL">Kegiatan Internal BEM</option>
@@ -246,6 +263,7 @@ export default function KegiatanManagerClient({ initialItems }) {
                 <label className="text-[11px] font-semibold text-zinc-300">Nama Kegiatan / Agenda *</label>
                 <input
                   required
+                  aria-label="Nama kegiatan"
                   placeholder="Contoh: Law Fair BEM FH UNAND 2026"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -257,6 +275,7 @@ export default function KegiatanManagerClient({ initialItems }) {
                 <label className="text-[11px] font-semibold text-zinc-300">Tanggal Pelaksanaan *</label>
                 <input
                   required
+                  aria-label="Tanggal kegiatan"
                   type="date"
                   value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
@@ -265,9 +284,34 @@ export default function KegiatanManagerClient({ initialItems }) {
               </div>
 
               <div className="space-y-1">
+                <label className="text-[11px] font-semibold text-zinc-300 flex items-center gap-1.5">
+                  <Clock size={11} />
+                  Waktu Kegiatan (WIB, opsional)
+                </label>
+                <input
+                  type="time"
+                  value={form.time}
+                  onChange={(e) => setForm({ ...form, time: e.target.value })}
+                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] font-semibold text-zinc-300">Tanggal Publikasi *</label>
+                <input
+                  required
+                  type="datetime-local"
+                  value={form.publishedAt}
+                  onChange={(e) => setForm({ ...form, publishedAt: e.target.value })}
+                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-neon/60 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1">
                 <label className="text-[11px] font-semibold text-zinc-300">Lokasi / Tempat *</label>
                 <input
                   required
+                  aria-label="Lokasi"
                   placeholder="Contoh: Gedung Serbaguna FH UNAND / Zoom Cloud"
                   value={form.location}
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
@@ -279,6 +323,7 @@ export default function KegiatanManagerClient({ initialItems }) {
                 <label className="text-[11px] font-semibold text-zinc-300">Penyelenggara *</label>
                 <input
                   required
+                  aria-label="Penyelenggara"
                   placeholder="Contoh: Kementerian PSDM & Olahraga"
                   value={form.organizer}
                   onChange={(e) => setForm({ ...form, organizer: e.target.value })}
@@ -289,6 +334,7 @@ export default function KegiatanManagerClient({ initialItems }) {
               <div className="space-y-1">
                 <label className="text-[11px] font-semibold text-zinc-300">URL Publikasi / Leaflet (Opsional)</label>
                 <input
+                  aria-label="URL publikasi"
                   placeholder="https://..."
                   value={form.publicationUrl}
                   onChange={(e) => setForm({ ...form, publicationUrl: e.target.value })}
@@ -300,6 +346,7 @@ export default function KegiatanManagerClient({ initialItems }) {
                 <div className="md:col-span-2 space-y-1">
                   <label className="text-[11px] font-semibold text-brand-neon">URL Pendaftaran / Panduan Lomba (Google Form / Link)</label>
                   <input
+                    aria-label="URL pendaftaran Google Form"
                     placeholder="https://forms.gle/..."
                     value={form.registrationUrl}
                     onChange={(e) => setForm({ ...form, registrationUrl: e.target.value })}
@@ -313,6 +360,7 @@ export default function KegiatanManagerClient({ initialItems }) {
               <label className="text-[11px] font-semibold text-zinc-300">Deskripsi Lengkap Kegiatan *</label>
               <textarea
                 required
+                aria-label="Deskripsi"
                 placeholder="Jelaskan mengenai tujuan, target audiens, dan detail acara..."
                 rows={5}
                 value={form.description}
@@ -389,6 +437,7 @@ export default function KegiatanManagerClient({ initialItems }) {
                       <span className="flex items-center gap-1 text-xs text-zinc-400">
                         <Calendar size={12} />
                         {item.date ? item.date.slice(0, 10) : '-'}
+                        {item.time ? ` · ${item.time} WIB` : ''}
                       </span>
 
                       <span className="text-zinc-500">·</span>
@@ -428,7 +477,9 @@ export default function KegiatanManagerClient({ initialItems }) {
 
                     <button
                       onClick={() => openEdit(item)}
+                      disabled={saving || deletingId !== null}
                       className="flex items-center gap-1 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-zinc-200 hover:text-brand-neon transition-colors border border-white/5"
+                      aria-label={`Edit ${item.name}`}
                       title="Edit Kegiatan"
                     >
                       <Pencil size={14} />
@@ -437,7 +488,9 @@ export default function KegiatanManagerClient({ initialItems }) {
 
                     <button
                       onClick={() => handleDelete(item.id, item.name)}
-                      className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors border border-red-500/20"
+                      disabled={saving || deletingId !== null}
+                      className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors border border-red-500/20 disabled:opacity-50"
+                      aria-label={`Hapus ${item.name}`}
                       title="Hapus Kegiatan"
                     >
                       <Trash2 size={15} />

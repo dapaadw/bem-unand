@@ -29,11 +29,13 @@ model Profile {
   subtitle        String   @default("")
   heroImageUrl    String?
   heroImageAlt    String?
+  videoUrl        String?
   backgroundColor String?
   ctaText         String?
   ctaLink         String?
   visiMisi        String?
   logoPhilosophy  String?
+  createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
@@ -70,6 +72,8 @@ model Kegiatan {
   name             String
   slug             String       @unique
   date             DateTime
+  time             String?
+  publishedAt      DateTime     @default(now())
   location         String
   organizer        String
   description      String
@@ -125,13 +129,23 @@ enum AspirasiStatus {
   SELESAI
 }
 
+enum JenisPengajuan {
+  ASPIRASI
+  KELUHAN
+  SARAN
+  LAINNYA
+}
+
 model Aspirasi {
   id           String         @id @default(cuid())
+  ticketCode   String         @unique
   nama         String?
   nim          String?
   cp           String?
   email        String?
   pihakDituju  String
+  jenisPengajuan JenisPengajuan @default(LAINNYA)
+  keluhKesah   String?
   deskripsi    String
   buktiUrl     String?
   harapan      String?

@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
+import { publicationPayload } from '../../../../lib/publication';
 
 export async function GET(_request, { params }) {
   const { id } = await params;
@@ -22,16 +23,11 @@ export async function PUT(request, { params }) {
   const existing = await prisma.publikasi.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
+  const validated = publicationPayload(body, existing);
+  if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
   const updated = await prisma.publikasi.update({
     where: { id },
-    data: {
-      title: body.title ?? existing.title,
-      publishedAt: body.publishedAt ? new Date(body.publishedAt) : existing.publishedAt,
-      author: body.author ?? existing.author,
-      category: body.category ?? existing.category,
-      body: body.body ?? existing.body,
-      attachmentUrl: body.attachmentUrl ?? existing.attachmentUrl,
-    },
+    data: validated.data,
   });
 
   await logAction({
@@ -68,6 +64,7 @@ export async function DELETE(_request, { params }) {
   });
 
   revalidatePath('/publikasi');
+  revalidatePath(`/publikasi/${existing.slug}`);
   revalidatePath('/');
 
   return NextResponse.json({ ok: true });

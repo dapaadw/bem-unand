@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions } from './src/lib/session.js';
 
-export async function middleware(request) {
+export async function proxy(request) {
   if (request.nextUrl.pathname.startsWith('/admin/login')) {
     return NextResponse.next();
   }

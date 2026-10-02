@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { STATUS_LABEL } from '../../lib/aspirasi';
 import {
   Search,
   ExternalLink,
@@ -14,6 +16,7 @@ import {
   Hash,
   Eye,
   MessageSquareWarning,
+  Phone,
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
@@ -21,44 +24,45 @@ const STATUS_CONFIG = {
     label: 'BARU',
     badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
     dot: 'bg-amber-400',
-    btn: 'hover:bg-amber-500/20 hover:text-amber-300 hover:border-amber-500/30',
   },
   DIPROSES: {
     label: 'DIPROSES',
     badge: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
     dot: 'bg-sky-400',
-    btn: 'hover:bg-sky-500/20 hover:text-sky-300 hover:border-sky-500/30',
   },
   SELESAI: {
     label: 'SELESAI',
     badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
     dot: 'bg-emerald-400',
-    btn: 'hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/30',
   },
 };
 
 export default function AspirasiManagerClient({ initialItems }) {
+  const router = useRouter();
   const [items, setItems] = useState(initialItems);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [updatingId, setUpdatingId] = useState(null);
+  const [message, setMessage] = useState('');
 
   async function updateStatus(id, status) {
     setUpdatingId(id);
+    setMessage('');
     try {
       const res = await fetch(`/api/aspirasi/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
       });
-      if (res.ok) {
-        const updated = await res.json();
-        setItems((prev) =>
-          prev.map((i) => (i.id === id ? { ...i, status: updated.status } : i))
-        );
-      }
-    } catch {
-      // ignore
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Gagal mengubah status.');
+      setItems((prev) =>
+        prev.map((i) => (i.id === id ? { ...i, status: data.status } : i))
+      );
+      setMessage('Status berhasil diperbarui.');
+      router.refresh();
+    } catch (error) {
+      setMessage(error.message || 'Terjadi kesalahan jaringan.');
     } finally {
       setUpdatingId(null);
     }
@@ -87,13 +91,20 @@ export default function AspirasiManagerClient({ initialItems }) {
       const matchHarapan = item.harapan?.toLowerCase().includes(q);
       const matchNim = item.nim?.toLowerCase().includes(q);
       const matchEmail = item.email?.toLowerCase().includes(q);
+      const matchTicket = item.ticketCode?.toLowerCase().includes(q);
+      const matchKeluh = item.keluhKesah?.toLowerCase().includes(q);
 
-      return matchName || matchPihak || matchDeskripsi || matchHarapan || matchNim || matchEmail;
+      return matchName || matchPihak || matchDeskripsi || matchHarapan || matchNim || matchEmail || matchTicket || matchKeluh;
     });
   }, [items, search, statusFilter]);
 
   return (
     <div className="space-y-6">
+      {/* Status message */}
+      {message && (
+        <p role="status" className="text-xs text-brand-neon font-semibold">{message}</p>
+      )}
+
       {/* Control Bar: Search & Status Filter Chips */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/[0.04] border border-white/10 p-4 rounded-2xl backdrop-blur-md">
         {/* Search input */}
@@ -104,7 +115,7 @@ export default function AspirasiManagerClient({ initialItems }) {
           />
           <input
             type="text"
-            placeholder="Cari aspirasi, pengirim, atau tujuan..."
+            placeholder="Cari aspirasi, pengirim, kode tiket..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 focus:ring-1 focus:ring-brand-neon/60 transition-all"
@@ -193,11 +204,11 @@ export default function AspirasiManagerClient({ initialItems }) {
           const isUpdating = updatingId === item.id;
 
           return (
-            <div
+            <article
               key={item.id}
-              className="rounded-2xl bg-white/[0.04] hover:bg-white/[0.06] border border-white/10 hover:border-brand-neon/30 p-5 md:p-6 transition-all duration-200 backdrop-blur-md shadow-lg space-y-4"
+              className="rounded-2xl bg-white/[0.04] hover:bg-white/[0.06] border border-white/10 hover:border-brand-neon/30 p-5 md:p-6 transition-all duration-200 backdrop-blur-md shadow-lg space-y-4 break-words"
             >
-              {/* Header: Sender & Target Info */}
+              {/* Header: Ticket Code, Sender & Target Info */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-brand-neon shrink-0 mt-0.5">
@@ -206,6 +217,9 @@ export default function AspirasiManagerClient({ initialItems }) {
 
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
+                      {item.ticketCode && (
+                        <span className="font-bold text-sm text-brand-neon">{item.ticketCode}</span>
+                      )}
                       <span className="font-bold text-sm text-white">
                         {item.isAnonymous ? 'Pengirim Anonim' : item.nama || 'Mahasiswa'}
                       </span>
@@ -216,6 +230,9 @@ export default function AspirasiManagerClient({ initialItems }) {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-400 mt-1">
+                      {item.jenisPengajuan && (
+                        <span className="text-zinc-300 font-medium">{item.jenisPengajuan}</span>
+                      )}
                       <span className="flex items-center gap-1">
                         <Clock size={12} />
                         {new Date(item.createdAt).toLocaleString('id-ID', {
@@ -224,13 +241,20 @@ export default function AspirasiManagerClient({ initialItems }) {
                           year: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit',
-                        })}
+                        })} WIB
                       </span>
 
                       {!item.isAnonymous && item.nim && (
                         <span className="flex items-center gap-1 font-mono text-zinc-300">
                           <Hash size={12} />
                           NIM: {item.nim}
+                        </span>
+                      )}
+
+                      {!item.isAnonymous && item.cp && (
+                        <span className="flex items-center gap-1 text-zinc-300">
+                          <Phone size={12} />
+                          CP: {item.cp}
                         </span>
                       )}
 
@@ -250,16 +274,27 @@ export default function AspirasiManagerClient({ initialItems }) {
                     className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border ${cfg.badge}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${cfg.dot}`} />
-                    {cfg.label}
+                    {STATUS_LABEL[item.status] || cfg.label}
                   </span>
                 </div>
               </div>
 
-              {/* Body: Deskripsi & Harapan */}
+              {/* Body: Keluh Kesah, Deskripsi & Harapan */}
               <div className="space-y-3">
+                {item.keluhKesah && (
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-neon mb-1">
+                      Ringkasan / Keluh Kesah:
+                    </p>
+                    <p className="text-xs md:text-sm text-white leading-relaxed whitespace-pre-line bg-brand-neon/[0.04] p-3.5 rounded-xl border border-brand-neon/15 font-semibold">
+                      {item.keluhKesah}
+                    </p>
+                  </div>
+                )}
+
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">
-                    Isi Aspirasi / Keluhan:
+                    Isi Aspirasi / Deskripsi:
                   </p>
                   <p className="text-xs md:text-sm text-zinc-200 leading-relaxed whitespace-pre-line bg-black/20 p-3.5 rounded-xl border border-white/5">
                     {item.deskripsi}
@@ -272,7 +307,7 @@ export default function AspirasiManagerClient({ initialItems }) {
                       Harapan Mahasiswa:
                     </p>
                     <p className="text-xs md:text-sm text-zinc-300 italic bg-brand-neon/[0.04] p-3 rounded-xl border border-brand-neon/15">
-                      "{item.harapan}"
+                      &quot;{item.harapan}&quot;
                     </p>
                   </div>
                 )}
@@ -283,7 +318,7 @@ export default function AspirasiManagerClient({ initialItems }) {
                 <div>
                   {item.buktiUrl ? (
                     <a
-                      href={item.buktiUrl}
+                      href={`/api/aspirasi/${item.id}/bukti`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-brand-neon text-xs font-medium border border-white/10 transition-colors"
@@ -301,18 +336,15 @@ export default function AspirasiManagerClient({ initialItems }) {
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] text-zinc-400 hidden md:inline">Ubah Status:</span>
                   <div className="inline-flex rounded-xl p-1 bg-black/40 border border-white/10 gap-1">
-                    {[
-                      { key: 'BARU', icon: AlertCircle, label: 'Baru' },
-                      { key: 'DIPROSES', icon: RefreshCw, label: 'Diproses' },
-                      { key: 'SELESAI', icon: CheckCircle2, label: 'Selesai' },
-                    ].map((s) => {
-                      const active = item.status === s.key;
-                      const Icon = s.icon;
+                    {Object.entries(STATUS_LABEL).map(([key, label]) => {
+                      const active = item.status === key;
+                      const Icon = key === 'BARU' ? AlertCircle : key === 'DIPROSES' ? RefreshCw : CheckCircle2;
                       return (
                         <button
-                          key={s.key}
-                          onClick={() => updateStatus(item.id, s.key)}
+                          key={key}
+                          onClick={() => updateStatus(item.id, key)}
                           disabled={active || isUpdating}
+                          aria-label={`Ubah ${item.ticketCode || ''} menjadi ${label}`}
                           className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
                             active
                               ? 'bg-white/15 text-white font-bold shadow-sm'
@@ -320,14 +352,14 @@ export default function AspirasiManagerClient({ initialItems }) {
                           }`}
                         >
                           <Icon size={12} className={active ? 'text-brand-neon' : ''} />
-                          <span>{s.label}</span>
+                          <span>{label}</span>
                         </button>
                       );
                     })}
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           );
         })}
       </div>

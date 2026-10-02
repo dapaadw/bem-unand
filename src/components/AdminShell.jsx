@@ -75,6 +75,9 @@ export default function AdminShell({ children, name, role, unreadAspirasi = 0 })
   );
   const CurrentIcon = activeMenuItem?.icon || Sparkles;
 
+  // Flat menu items for mobile dropdown
+  const menuItems = MENU_GROUPS.flatMap((group) => group.items).filter((item) => item.roles.includes(role));
+
   const NavContent = () => (
     <div className="flex flex-col h-full">
       {/* Brand Header */}

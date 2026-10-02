@@ -1,8 +1,10 @@
+import { requirePageRole } from '../../../../lib/requirePageRole';
 import { prisma } from '../../../../lib/prisma';
 import HomeSettingsClient from '../../../../components/admin/HomeSettingsClient';
 import { Home } from 'lucide-react';
 
 export default async function HomeSettingsPage() {
+  await requirePageRole(['ADMIN']);
   const [profile, contacts] = await Promise.all([
     prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.contacts.findUnique({ where: { id: 1 } }),

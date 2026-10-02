@@ -13,108 +13,90 @@ import {
   Save,
 } from 'lucide-react';
 
+function Field({ label, value, onChange, multiline = false }) {
+  const inputClass = 'mt-1 block w-full min-w-0 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all';
+  const props = { value: value || '', onChange: (event) => onChange(event.target.value), className: inputClass };
+  return (
+    <label className="block text-[11px] font-semibold text-zinc-300">
+      {label}
+      {multiline ? <textarea {...props} rows={3} className={`${inputClass} leading-relaxed`} /> : <input {...props} />}
+    </label>
+  );
+}
+
 export default function DepartemenManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
   const [selectedId, setSelectedId] = useState(initialItems[0]?.id || null);
+  const [newName, setNewName] = useState('');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const selected = items.find((item) => item.id === selectedId);
 
-  const selected = items.find((d) => d.id === selectedId);
-
-  function updateSelected(patch) {
-    setItems((prev) => prev.map((d) => (d.id === selectedId ? { ...d, ...patch } : d)));
+  function update(patch) {
+    setItems((previous) => previous.map((item) => item.id === selectedId ? { ...item, ...patch } : item));
+  }
+  function updateRow(list, index, field, value) {
+    update({ [list]: selected[list].map((row, position) => position === index ? { ...row, [field]: value } : row) });
   }
 
-  async function handleSaveProfile() {
-    setSaving(true);
-    setMessage('');
-    setIsError(false);
+  function showToast(msg, error = false) {
+    setMessage(msg);
+    setIsError(error);
+  }
+
+  async function perform(method, body) {
+    setSaving(true); setMessage(''); setIsError(false);
     try {
-      const res = await fetch(`/api/departemen/${selectedId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: selected.name, photoUrl: selected.photoUrl, description: selected.description }),
+      const response = await fetch(method === 'POST' ? '/api/departemen' : `/api/departemen/${selectedId}`, {
+        method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined,
       });
-      setSaving(false);
-      if (res.ok) {
-        setMessage('Profil departemen berhasil disimpan.');
+      const data = await response.json();
+      if (!response.ok) { showToast(data.error || 'Gagal menyimpan perubahan.', true); return; }
+      if (method === 'DELETE') {
+        const remaining = items.filter((item) => item.id !== selectedId);
+        setItems(remaining); setSelectedId(remaining[0]?.id || null); showToast('Departemen dihapus.');
+      } else if (method === 'POST') {
+        setItems((previous) => [...previous, data].sort((a, b) => a.name.localeCompare(b.name)));
+        setSelectedId(data.id); setNewName(''); showToast('Departemen ditambahkan. Lengkapi profil dan detailnya.');
       } else {
-        setIsError(true);
-        setMessage('Gagal menyimpan profil departemen.');
+        setItems((previous) => previous.map((item) => item.id === selectedId ? { ...item, ...data } : item).sort((a, b) => a.name.localeCompare(b.name)));
+        showToast(method === 'PUT' ? 'Profil tersimpan.' : 'Staff, program kerja, dan kontak tersimpan.');
       }
-    } catch {
-      setSaving(false);
-      setIsError(true);
-      setMessage('Terjadi kesalahan jaringan.');
-    }
+    } catch { showToast('Terjadi kesalahan jaringan. Silakan coba lagi.', true); }
+    finally { setSaving(false); }
   }
 
-  async function handleSaveDetails() {
-    setSaving(true);
-    setMessage('');
-    setIsError(false);
-    try {
-      const res = await fetch(`/api/departemen/${selectedId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ staff: selected.staff, proker: selected.proker, contact: selected.contact }),
-      });
-      const data = await res.json();
-      setSaving(false);
-      if (res.ok) {
-        setItems((prev) => prev.map((d) => (d.id === selectedId ? data : d)));
-        setMessage('Staff, program kerja, dan kontak berhasil disimpan.');
-      } else {
-        setIsError(true);
-        setMessage('Gagal menyimpan detail departemen.');
-      }
-    } catch {
-      setSaving(false);
-      setIsError(true);
-      setMessage('Terjadi kesalahan jaringan.');
-    }
-  }
-
-  function addStaff() {
-    updateSelected({ staff: [...selected.staff, { name: '', role: '', identity: '', achievements: '' }] });
-  }
-
-  function updateStaff(idx, field, value) {
-    const staff = [...selected.staff];
-    staff[idx] = { ...staff[idx], [field]: value };
-    updateSelected({ staff });
-  }
-
-  function removeStaff(idx) {
-    updateSelected({ staff: selected.staff.filter((_, i) => i !== idx) });
-  }
-
-  function addProker() {
-    updateSelected({ proker: [...selected.proker, { name: '', description: '' }] });
-  }
-
-  function updateProker(idx, field, value) {
-    const proker = [...selected.proker];
-    proker[idx] = { ...proker[idx], [field]: value };
-    updateSelected({ proker });
-  }
-
-  function removeProker(idx) {
-    updateSelected({ proker: selected.proker.filter((_, i) => i !== idx) });
-  }
-
-  if (!selected) {
+  if (!selected && items.length === 0) {
     return (
-      <div className="py-16 text-center rounded-2xl bg-white/[0.02] border border-dashed border-white/10">
-        <Building2 size={32} className="mx-auto text-zinc-500 mb-2" />
-        <p className="text-zinc-400 text-sm">Belum ada departemen yang terdaftar.</p>
+      <div className="space-y-6">
+        {/* Add Departemen Form */}
+        <form onSubmit={(event) => { event.preventDefault(); perform('POST', { name: newName }); }} className="flex flex-col sm:flex-row gap-3">
+          <input aria-label="Nama departemen baru" required disabled={saving} value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="Nama departemen baru" className="min-w-0 flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all" />
+          <button disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]">
+            <Plus size={14} />
+            <span>Tambah Departemen</span>
+          </button>
+        </form>
+        <div className="py-16 text-center rounded-2xl bg-white/[0.02] border border-dashed border-white/10">
+          <Building2 size={32} className="mx-auto text-zinc-500 mb-2" />
+          <p className="text-zinc-400 text-sm">Belum ada departemen yang terdaftar.</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
+      {/* Add Departemen Form */}
+      <form onSubmit={(event) => { event.preventDefault(); perform('POST', { name: newName }); }} className="flex flex-col sm:flex-row gap-3">
+        <input aria-label="Nama departemen baru" required disabled={saving} value={newName} onChange={(event) => setNewName(event.target.value)} placeholder="Nama departemen baru" className="min-w-0 flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all" />
+        <button disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]">
+          <Plus size={14} />
+          <span>Tambah Departemen</span>
+        </button>
+      </form>
+
       {/* Toast / Notification Banner */}
       {message && (
         <div
@@ -141,9 +123,12 @@ export default function DepartemenManagerClient({ initialItems }) {
               return (
                 <button
                   key={d.id}
+                  disabled={saving}
+                  aria-pressed={isSelected}
                   onClick={() => {
                     setSelectedId(d.id);
                     setMessage('');
+                    setIsError(false);
                   }}
                   className={`w-full text-left p-3 rounded-xl text-xs font-medium transition-all flex flex-col gap-1 ${
                     isSelected
@@ -166,221 +151,154 @@ export default function DepartemenManagerClient({ initialItems }) {
         </div>
 
         {/* Right Column: Active Department Detail Forms */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Section 1: Profil Utama */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/5">
-              <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                <Building2 size={18} />
-                <span>Profil Departemen: {selected.name}</span>
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Nama Departemen</label>
-                <input
-                  value={selected.name}
-                  onChange={(e) => updateSelected({ name: e.target.value })}
-                  placeholder="Nama departemen"
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
+        {selected && (
+          <fieldset disabled={saving} className="lg:col-span-3 space-y-6 min-w-0">
+            {/* Section 1: Profil Utama */}
+            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
+                  <Building2 size={18} />
+                  <span>Profil Departemen: {selected.name}</span>
+                </h2>
               </div>
 
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">URL Foto Departemen / Logo</label>
-                <input
-                  value={selected.photoUrl || ''}
-                  onChange={(e) => updateSelected({ photoUrl: e.target.value })}
-                  placeholder="https://..."
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all"
-                />
-              </div>
+              <div className="space-y-4">
+                <Field label="Nama Departemen" value={selected.name} onChange={(name) => update({ name })} />
+                <Field label="URL Foto Departemen / Logo" value={selected.photoUrl} onChange={(photoUrl) => update({ photoUrl })} />
+                <Field label="Deskripsi Singkat Departemen" multiline value={selected.description} onChange={(description) => update({ description })} />
 
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Deskripsi Singkat Departemen</label>
-                <textarea
-                  value={selected.description || ''}
-                  onChange={(e) => updateSelected({ description: e.target.value })}
-                  placeholder="Tulis ringkasan tugas dan fungsi departemen..."
-                  rows={3}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 p-4 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60 transition-all leading-relaxed"
-                />
-              </div>
+                <div className="flex flex-wrap gap-3 justify-end">
+                  <button
+                    onClick={() => perform('PUT', { name: selected.name, photoUrl: selected.photoUrl, description: selected.description })}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]"
+                  >
+                    <Save size={14} />
+                    <span>Simpan Profil Departemen</span>
+                  </button>
+                </div>
 
-              <div className="flex justify-end">
                 <button
-                  onClick={handleSaveProfile}
-                  disabled={saving}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_12px_rgba(254,174,174,0.3)]"
+                  onClick={() => { if (confirm(`Hapus departemen "${selected.name}" beserta seluruh staf, program kerja, dan kontaknya?`)) perform('DELETE'); }}
+                  className="inline-flex items-center gap-1.5 text-xs text-red-400 border border-red-400/30 rounded-xl px-4 py-2 hover:bg-red-500/10 transition-colors"
                 >
-                  <Save size={14} />
-                  <span>Simpan Profil Departemen</span>
+                  <Trash2 size={13} />
+                  <span>Hapus Departemen Terpilih</span>
                 </button>
               </div>
             </div>
-          </div>
 
-          {/* Section 2: Staff / BPH */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/5">
-              <div>
-                <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                  <Users size={18} />
-                  <span>Staf & BPH Departemen ({selected.staff?.length || 0})</span>
-                </h2>
-                <p className="text-xs text-zinc-400 mt-0.5">
-                  Tandai kepala departemen pada kolom Jabatan/Role (contoh: "Kepala Departemen").
-                </p>
+            {/* Section 2: Staff / BPH */}
+            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                <div>
+                  <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
+                    <Users size={18} />
+                    <span>Staf & BPH Departemen ({selected.staff?.length || 0})</span>
+                  </h2>
+                  <p className="text-xs text-zinc-400 mt-0.5">
+                    Gunakan jabatan Kepala Departemen atau Ketua untuk kepala. Wakil Ketua tetap ditampilkan sebagai jajaran.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => update({ staff: [...selected.staff, { name: '', role: '', photoUrl: '', identity: '', achievements: '' }] })}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
+                >
+                  <Plus size={14} />
+                  <span>Tambah Staf</span>
+                </button>
               </div>
 
-              <button
-                onClick={addStaff}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
-              >
-                <Plus size={14} />
-                <span>Tambah Staf</span>
-              </button>
+              <div className="space-y-3">
+                {selected.staff.length === 0 ? (
+                  <p className="text-xs text-zinc-400 py-4 text-center">Belum ada data staf yang ditambahkan.</p>
+                ) : (
+                  selected.staff.map((s, idx) => (
+                    <div key={s.id || idx} className="p-4 rounded-xl bg-black/20 border border-white/5 space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {[['name', 'Nama staf'], ['role', 'Jabatan'], ['photoUrl', 'URL foto staf'], ['identity', 'Identitas'], ['achievements', 'Prestasi']].map(([field, label]) => (
+                          <Field key={field} label={`${label} ${idx + 1}`} value={s[field]} onChange={(value) => updateRow('staff', idx, field, value)} multiline={field === 'achievements'} />
+                        ))}
+                      </div>
+                      <button
+                        aria-label={`Hapus staf ${idx + 1}`}
+                        onClick={() => update({ staff: selected.staff.filter((_, i) => i !== idx) })}
+                        className="inline-flex items-center gap-1 p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-xs"
+                      >
+                        <Trash2 size={14} />
+                        <span>Hapus Staff</span>
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {selected.staff.length === 0 ? (
-                <p className="text-xs text-zinc-400 py-4 text-center">Belum ada data staf yang ditambahkan.</p>
-              ) : (
-                selected.staff.map((s, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-xl bg-black/20 border border-white/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 items-center"
-                  >
-                    <input
-                      value={s.name}
-                      onChange={(e) => updateStaff(idx, 'name', e.target.value)}
-                      placeholder="Nama Lengkap"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <input
-                      value={s.role}
-                      onChange={(e) => updateStaff(idx, 'role', e.target.value)}
-                      placeholder="Jabatan / Role"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <input
-                      value={s.identity || ''}
-                      onChange={(e) => updateStaff(idx, 'identity', e.target.value)}
-                      placeholder="NIM / Angkatan"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <input
-                      value={s.achievements || ''}
-                      onChange={(e) => updateStaff(idx, 'achievements', e.target.value)}
-                      placeholder="Prestasi / Bio"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <button
-                      onClick={() => removeStaff(idx)}
-                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg justify-self-start sm:justify-self-end transition-colors"
-                      title="Hapus Staf"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+            {/* Section 3: Program Kerja */}
+            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
+                  <Layers size={18} />
+                  <span>Program Kerja ({selected.proker?.length || 0})</span>
+                </h2>
 
-          {/* Section 3: Program Kerja */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+                <button
+                  onClick={() => update({ proker: [...selected.proker, { name: '', description: '' }] })}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
+                >
+                  <Plus size={14} />
+                  <span>Tambah Proker</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {selected.proker.length === 0 ? (
+                  <p className="text-xs text-zinc-400 py-4 text-center">Belum ada program kerja yang didaftarkan.</p>
+                ) : (
+                  selected.proker.map((p, idx) => (
+                    <div key={p.id || idx} className="p-4 rounded-xl bg-black/20 border border-white/5 space-y-3">
+                      <Field label={`Nama program kerja ${idx + 1}`} value={p.name} onChange={(value) => updateRow('proker', idx, 'name', value)} />
+                      <Field label={`Deskripsi program kerja ${idx + 1}`} multiline value={p.description} onChange={(value) => updateRow('proker', idx, 'description', value)} />
+                      <button
+                        aria-label={`Hapus program kerja ${idx + 1}`}
+                        onClick={() => update({ proker: selected.proker.filter((_, i) => i !== idx) })}
+                        className="inline-flex items-center gap-1 p-2 text-red-400 hover:bg-red-500/10 rounded-lg transition-colors text-xs"
+                      >
+                        <Trash2 size={14} />
+                        <span>Hapus Program Kerja</span>
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Section 4: Kontak & Final Save Button */}
+            <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
               <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-                <Layers size={18} />
-                <span>Program Kerja ({selected.proker?.length || 0})</span>
+                <Phone size={18} />
+                <span>Contact Person Departemen</span>
               </h2>
 
-              <button
-                onClick={addProker}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/10 transition-colors"
-              >
-                <Plus size={14} />
-                <span>Tambah Proker</span>
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {selected.proker.length === 0 ? (
-                <p className="text-xs text-zinc-400 py-4 text-center">Belum ada program kerja yang didaftarkan.</p>
-              ) : (
-                selected.proker.map((p, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-xl bg-black/20 border border-white/5 grid grid-cols-1 md:grid-cols-3 gap-2 items-center"
-                  >
-                    <input
-                      value={p.name}
-                      onChange={(e) => updateProker(idx, 'name', e.target.value)}
-                      placeholder="Nama Program Kerja"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <input
-                      value={p.description || ''}
-                      onChange={(e) => updateProker(idx, 'description', e.target.value)}
-                      placeholder="Keterangan singkat proker"
-                      className="rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                    />
-                    <button
-                      onClick={() => removeProker(idx)}
-                      className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg justify-self-start md:justify-self-end transition-colors"
-                      title="Hapus Proker"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Section 4: Kontak & Final Save Button */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-md shadow-lg space-y-4">
-            <h2 className="font-bold text-sm md:text-base text-brand-neon flex items-center gap-2">
-              <Phone size={18} />
-              <span>Contact Person Departemen</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">WhatsApp Link</label>
-                <input
-                  value={selected.contact?.whatsappUrl || ''}
-                  onChange={(e) => updateSelected({ contact: { ...(selected.contact || {}), whatsappUrl: e.target.value } })}
-                  placeholder="https://wa.me/62..."
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Field label="WhatsApp Link (https://wa.me/62...)" value={selected.contact?.whatsappUrl} onChange={(whatsappUrl) => update({ contact: { ...selected.contact, whatsappUrl } })} />
+                <Field label="Instagram Link (https://instagram.com/...)" value={selected.contact?.instagramUrl} onChange={(instagramUrl) => update({ contact: { ...selected.contact, instagramUrl } })} />
               </div>
 
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-zinc-300">Instagram Link</label>
-                <input
-                  value={selected.contact?.instagramUrl || ''}
-                  onChange={(e) => updateSelected({ contact: { ...(selected.contact || {}), instagramUrl: e.target.value } })}
-                  placeholder="https://instagram.com/..."
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-brand-neon/60"
-                />
+              <p className="text-xs text-zinc-400">Penambahan/penghapusan staf dan program kerja berlaku setelah tombol simpan detail ditekan.</p>
+
+              <div className="pt-2 flex justify-end">
+                <button
+                  onClick={() => perform('PATCH', { staff: selected.staff, proker: selected.proker, contact: selected.contact })}
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_15px_rgba(254,174,174,0.3)]"
+                >
+                  <Save size={14} />
+                  <span>{saving ? 'Menyimpan...' : 'Simpan Staf, Proker & Kontak'}</span>
+                </button>
               </div>
             </div>
-
-            <div className="pt-2 flex justify-end">
-              <button
-                onClick={handleSaveDetails}
-                disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:bg-white disabled:opacity-50 transition-all shadow-[0_0_15px_rgba(254,174,174,0.3)]"
-              >
-                <Save size={14} />
-                <span>{saving ? 'Menyimpan...' : 'Simpan Staf, Proker & Kontak'}</span>
-              </button>
-            </div>
-          </div>
-        </div>
+          </fieldset>
+        )}
       </div>
     </div>
   );

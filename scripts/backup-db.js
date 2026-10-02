@@ -1,45 +1,31 @@
-// Simple SQLite backup: copies prisma/dev.db (or the file named in DATABASE_URL)
-// into backups/ with a timestamped filename, and prunes backups older than
-// RETENTION_DAYS. Intended to be run on a schedule (cron/Task Scheduler) —
-// see README section "Backup otomatis" for how to wire that up once the
-// campus server environment is confirmed.
-import { existsSync, mkdirSync, copyFileSync, readdirSync, statSync, unlinkSync } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..');
-const RETENTION_DAYS = parseInt(process.env.BACKUP_RETENTION_DAYS || '90', 10);
-
-function resolveDbPath() {
-  const url = process.env.DATABASE_URL || 'file:./prisma/dev.db';
-  const filePart = url.replace(/^file:/, '');
-  return path.isAbsolute(filePart) ? filePart : path.resolve(ROOT, 'prisma', path.basename(filePart));
-}
-
-function main() {
-  const dbPath = resolveDbPath();
-  if (!existsSync(dbPath)) {
-    console.error(`Database tidak ditemukan di ${dbPath}`);
-    process.exit(1);
+// SQLite VACUUM INTO produces a consistent snapshot: https://www.sqlite.org/lang_vacuum.html
+// Run: node --env-file=.env scripts/backup-db.js
+// Weekly scheduling and off-site copies must be configured on the deployment server.
+import { mkdir, cp, writeFile, access } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { PrismaClient } from '@prisma/client';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const fileUrl = process.env.DATABASE_URL || 'file:./dev.db';
+if (!fileUrl.startsWith('file:')) throw new Error('Backup ini hanya mendukung SQLite.');
+const source = path.resolve(root, 'prisma', fileUrl.slice(5));
+await access(source);
+const destination = path.join(root, 'backups', 'snapshot-' + new Date().toISOString().replace(/[:.]/g, '-'));
+await mkdir(destination, { recursive: true });
+const db = new PrismaClient({ datasourceUrl: 'file:' + source });
+try {
+  const snapshot = path.join(destination, 'database.db');
+  await db.$executeRawUnsafe("VACUUM INTO '" + snapshot.replace(/'/g, "''") + "'");
+  const check = new PrismaClient({ datasourceUrl: 'file:' + snapshot });
+  try {
+    const integrity = await check.$queryRawUnsafe('PRAGMA integrity_check');
+    if (integrity.length !== 1 || integrity[0].integrity_check !== 'ok') throw new Error('Pemeriksaan backup gagal.');
+  } finally { await check.$disconnect(); }
+  for (const [sourceDir, name] of [[path.join(root, 'public', 'uploads'), 'public-uploads'], [path.resolve(root, process.env.ASPIRASI_UPLOAD_DIR || 'storage/aspirasi'), 'aspirasi-private']]) {
+    try { await access(sourceDir); } catch (e) { if (e.code === 'ENOENT') continue; throw e; }
+    await cp(sourceDir, path.join(destination, name), { recursive: true, dereference: false });
   }
-
-  const backupDir = path.join(ROOT, 'backups');
-  mkdirSync(backupDir, { recursive: true });
-
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const dest = path.join(backupDir, `dev-${timestamp}.db`);
-  copyFileSync(dbPath, dest);
-  console.log(`Backup dibuat: ${dest}`);
-
-  const cutoff = Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000;
-  for (const file of readdirSync(backupDir)) {
-    const fullPath = path.join(backupDir, file);
-    if (statSync(fullPath).mtimeMs < cutoff) {
-      unlinkSync(fullPath);
-      console.log(`Backup lama dihapus: ${file}`);
-    }
-  }
-}
-
-main();
+  await writeFile(path.join(destination, 'manifest.json'), JSON.stringify({ createdAt: new Date().toISOString(), database: 'database.db', publicUploads: 'public-uploads', privateEvidence: 'aspirasi-private', note: 'Pause writes while backing up if replacing/deleting media concurrently. Keep complete snapshots private. Restore only with app stopped.' }, null, 2));
+  console.log('Backup database dan berkas selesai: ' + destination);
+  console.log('Backup lama dipertahankan; atur retensi dan jadwal mingguan pada server.');
+} finally { await db.$disconnect(); }

@@ -1,12 +1,15 @@
+import { requirePageRole } from '../../../../lib/requirePageRole';
 import { prisma } from '../../../../lib/prisma';
 import KegiatanManagerClient from '../../../../components/admin/KegiatanManagerClient';
 
 export default async function KegiatanManagerPage() {
-  const items = await prisma.kegiatan.findMany({ orderBy: { date: 'desc' } });
+  await requirePageRole(['ADMIN']);
+  const items = await prisma.kegiatan.findMany({ orderBy: [{ date: 'desc' }, { id: 'desc' }] });
 
   const serializable = items.map((i) => ({
     ...i,
     date: i.date.toISOString(),
+    publishedAt: i.publishedAt.toISOString(),
     createdAt: i.createdAt.toISOString(),
     updatedAt: i.updatedAt.toISOString(),
   }));

@@ -1,4 +1,5 @@
 import { prisma } from '../../lib/prisma';
+import { isDriveUrl } from '../../lib/fhGuide';
 
 export const revalidate = 3600;
 
@@ -12,10 +13,10 @@ export default async function FhGuidePage() {
     acc[link.category] = acc[link.category] || [];
     acc[link.category].push(link);
     return acc;
-  }, {});
+  }, Object.create(null));
 
   return (
-    <section className="min-h-screen px-6 pt-32 pb-16 container mx-auto max-w-3xl">
+    <section className="min-h-screen px-6 pt-32 pb-16 container mx-auto max-w-3xl break-words">
       <h1 className="text-3xl font-bold mb-2">FH Guide</h1>
       <p className="text-gray-400 mb-8">Direktori dokumen &amp; pertanyaan umum seputar akademik, administrasi, organisasi, dan layanan kampus.</p>
 
@@ -28,9 +29,7 @@ export default async function FhGuidePage() {
             <ul className="space-y-2">
               {items.map((link) => (
                 <li key={link.id}>
-                  <a href={link.url} target="_blank" rel="noreferrer" className="text-gray-200 hover:text-brand-neon underline">
-                    {link.title}
-                  </a>
+                  {isDriveUrl(link.url) ? <a href={link.url} target="_blank" rel="noreferrer" className="text-gray-200 hover:text-brand-neon underline">{link.title} <span className="text-xs">(Google Drive, tab baru)</span></a> : <span>{link.title} — Link menunggu pembaruan admin.</span>}
                 </li>
               ))}
             </ul>
@@ -38,6 +37,7 @@ export default async function FhGuidePage() {
         ))
       )}
 
+      {faqs.length === 0 && <div><h2 className="text-2xl font-bold mb-4 text-brand-neon">FAQ</h2><p className="text-gray-400">FAQ belum tersedia.</p></div>}
       {faqs.length > 0 && (
         <div>
           <h2 className="text-2xl font-bold mb-4 text-brand-neon">FAQ</h2>
