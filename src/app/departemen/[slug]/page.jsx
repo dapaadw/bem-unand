@@ -3,6 +3,7 @@ import { prisma } from '../../../lib/prisma';
 import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
 import { isDepartmentHead, departmentContactUrl } from '../../../lib/departemen';
+import BackgroundTypography from '../../../components/BackgroundTypography';
 
 export const revalidate = 3600;
 
@@ -19,8 +20,10 @@ export default async function DepartemenDetailPage({ params }) {
   const others = item.staff.filter((s) => !isDepartmentHead(s.role));
 
   return (
-    <article className="min-h-screen px-6 pt-32 pb-16 container mx-auto max-w-3xl">
-      <Link href="/departemen" className="block mb-6 text-sm text-brand-neon hover:underline">← Kembali ke Departemen</Link>
+    <div className="min-h-screen relative overflow-hidden">
+      <BackgroundTypography />
+      <article className="px-6 pt-32 pb-16 container mx-auto max-w-3xl relative z-10">
+        <Link href="/departemen" className="block mb-6 text-sm text-brand-neon hover:underline">← Kembali ke Departemen</Link>
       <h1 className="text-3xl md:text-4xl font-bold mb-4 break-words">{item.name}</h1>
       {item.photoUrl && isWebOrLocalUrl(item.photoUrl) && <img src={item.photoUrl} alt={item.name} className="w-40 h-40 object-cover rounded-xl mb-6" />}
       {item.description && <p className="text-gray-300 mb-8 whitespace-pre-wrap break-words">{item.description}</p>}
@@ -28,8 +31,8 @@ export default async function DepartemenDetailPage({ params }) {
       {heads.map((kepala) => (
         <div key={kepala.id} className="bg-white/5 border border-white/10 rounded-xl p-5 mb-8 break-words">
           <h2 className="text-sm text-brand-neon uppercase tracking-wide mb-2">Kepala Departemen</h2>
-          <p className="font-semibold">{kepala.name}</p>
-          <p className="text-sm text-brand-neon mb-3">{kepala.role}</p>
+          <p className="font-semibold text-lg">{kepala.name}</p>
+          <p className="text-sm text-gray-400 mb-3">{kepala.role}</p>
           {kepala.photoUrl && isWebOrLocalUrl(kepala.photoUrl) && <img src={kepala.photoUrl} alt={kepala.name} loading="lazy" className="w-24 h-24 object-cover rounded-xl mb-3" />}
           {kepala.identity && <p className="text-sm text-gray-400 whitespace-pre-wrap">Identitas: {kepala.identity}</p>}
           {kepala.achievements && <p className="text-sm text-gray-400 mt-1 whitespace-pre-wrap">Prestasi: {kepala.achievements}</p>}
@@ -78,6 +81,7 @@ export default async function DepartemenDetailPage({ params }) {
           )}
         </div>
       )}
-    </article>
+      </article>
+    </div>
   );
 }

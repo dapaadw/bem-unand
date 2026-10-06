@@ -42,6 +42,10 @@ export function kegiatanPayload(body, existing = null) {
     data[field] = value?.trim() || null;
   }
   if (data.publicationUrl && !isWebOrLocalUrl(data.publicationUrl)) return { error: 'Link publikasi harus menggunakan URL http/https atau path lokal.' };
+  const image = body.imageUrl === undefined ? existing?.imageUrl : body.imageUrl;
+  if (image !== undefined && image !== null && typeof image !== 'string') return { error: 'URL poster/gambar tidak valid.' };
+  data.imageUrl = image?.trim() || null;
+  if (data.imageUrl && !isWebOrLocalUrl(data.imageUrl)) return { error: 'Poster/gambar harus menggunakan URL http/https atau path lokal.' };
   if (data.type === 'INTERNAL') data.registrationUrl = null;
   else if (data.registrationUrl && !isGoogleFormUrl(data.registrationUrl)) return { error: 'Pendaftaran lomba harus menggunakan link Google Form HTTPS (forms.gle atau docs.google.com/forms/).' };
   return { data };

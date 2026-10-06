@@ -3,7 +3,7 @@ import { requireRole } from '../../../../lib/requireRole';
 import { aspirasiWhere, STATUS_LABEL } from '../../../../lib/aspirasi';
 import { toCsv } from '../../../../lib/csv';
 export async function GET(request) {
-  const { error } = await requireRole(['ADMIN', 'SUPERUSER']);
+  const { error } = await requireRole(['ADMIN']);
   if (error) return error;
   let where;
   try { where = aspirasiWhere(Object.fromEntries(new URL(request.url).searchParams)); }

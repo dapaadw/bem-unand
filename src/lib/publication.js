@@ -35,6 +35,10 @@ export function publicationPayload(body, existing = null) {
   if (attachment !== undefined && attachment !== null && typeof attachment !== 'string') return { error: 'URL lampiran tidak valid.' };
   data.attachmentUrl = attachment?.trim() || null;
   if (data.attachmentUrl && !isWebOrLocalUrl(data.attachmentUrl)) return { error: 'Lampiran harus menggunakan URL http/https atau path lokal.' };
+  const image = body.imageUrl === undefined ? existing?.imageUrl : body.imageUrl;
+  if (image !== undefined && image !== null && typeof image !== 'string') return { error: 'URL gambar tidak valid.' };
+  data.imageUrl = image?.trim() || null;
+  if (data.imageUrl && !isWebOrLocalUrl(data.imageUrl)) return { error: 'Gambar harus menggunakan URL http/https atau path lokal.' };
   return { data };
 }
 
