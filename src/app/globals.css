@@ -2,15 +2,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-neon: #FEAEAE;
-  --color-brand-red: #8e1616;
-  --color-brand-dark: #14080a;
-  --color-brand-burgundy: #30050d;
-  --color-brand-crimson: #4d0d12;
-  --color-brand-crimson-hover: #661118;
-  --color-brand-ivory: #f7f2e3;
-  --color-brand-ivory-muted: #c5b8b8;
-  --color-brand-card: #200a0f;
+  /* ========================================================
+     PALET WARNA UTAMA WEBSITE
+     ======================================================== */
+  --color-brand-dark: #210501;          /* 1. Background utama halaman */
+  --color-brand-card: #1A0101;          /* 2. Background kartu / panel / kontak */
+  --color-brand-card-hover: #260202;    /* 3. Background kartu saat di-hover */
+  --color-brand-burgundy: #3d0905;      /* 4. Background kotak ikon */
+  --color-brand-crimson: #63160a;       /* 5. Warna tombol utama (Visi Misi, Hubungi Kami) */
+  --color-brand-crimson-hover: #7d1f0e; /* 6. Warna tombol saat di-hover */
+  --color-brand-border: #4f1408;        /* 7. Warna border marun kartu */
+  --color-brand-border-hover: #6e1c0d;  /* 8. Warna border saat di-hover */
+  --color-brand-ivory: #f7f2e3;         /* 9. Warna teks utama (putih gading) */
+  --color-brand-ivory-muted: #c9b8b5;   /* 10. Warna teks sekunder / deskripsi */
+  --color-brand-neon: #FEAEAE;          /* 11. Warna aksen highlight / pink coral */
+  --color-brand-red: #941b08;           /* 12. Aksen gradien radial */
+  --color-brand-maroon: #140101;        /* 13. Warna SiteNav */
 
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -48,11 +55,11 @@
   }
 
   .bg-gradient-radial-1 {
-    background: radial-gradient(circle at center, color-mix(in srgb, var(--color-brand-dark), #8e1616 45%) 0%, var(--color-brand-dark) 100%);
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--color-brand-dark), var(--color-brand-red) 45%) 0%, var(--color-brand-dark) 100%);
   }
 
   .bg-gradient-radial-2 {
-    background: radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-brand-dark), #8e1616 25%) 0%, var(--color-brand-dark) 100%);
+    background: radial-gradient(circle at bottom right, color-mix(in srgb, var(--color-brand-dark), var(--color-brand-red) 25%) 0%, var(--color-brand-dark) 100%);
   }
 
   .bg-dark-overlay {

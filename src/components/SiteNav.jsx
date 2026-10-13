@@ -46,8 +46,8 @@ export default function SiteNav() {
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ease-in-out border-b ${
         isScrolled
-          ? 'bg-[#14080a]/95 backdrop-blur-md shadow-lg shadow-black/50 border-white/10 py-3'
-          : 'bg-[#14080a]/90 backdrop-blur-sm border-white/10 py-4'
+          ? 'bg-brand-maroon/90 backdrop-blur-md shadow-lg shadow-black/50 border-white/10 py-5'
+          : 'bg-black/0 border-white/0 py-6'
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
@@ -56,10 +56,10 @@ export default function SiteNav() {
             <img src="/logo.png" alt="Logo BEM FH UNAND" className="w-full h-full object-contain" />
           </div>
           <div>
-            <h1 className="text-base sm:text-lg font-bold tracking-wider text-[#f7f2e3] font-montserrat leading-tight">
+            <h1 className="text-base sm:text-lg font-bold tracking-wider text-brand-ivory font-montserrat leading-tight">
               BEM FH UNAND
             </h1>
-            <p className="text-[11px] text-[#c5b8b8] leading-none mt-0.5">
+            <p className="text-[11px] text-brand-ivory-muted leading-none mt-0.5">
               Fakultas Hukum &middot; Universitas Andalas
             </p>
           </div>
@@ -78,15 +78,15 @@ export default function SiteNav() {
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   className={`relative py-1 text-sm font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'text-[#f7f2e3] font-semibold'
-                      : 'text-[#c5b8b8] hover:text-[#f7f2e3]'
+                      ? 'text-brand-ivory font-semibold'
+                      : 'text-brand-ivory-muted hover:text-brand-ivory'
                   }`}
                 >
                   <span>{link.name}</span>
                   {isActive && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute bottom-0 left-0 w-full h-[2px] bg-[#f7f2e3]"
+                      className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-ivory"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -97,7 +97,7 @@ export default function SiteNav() {
 
           <Link
             href="/#kontak"
-            className="px-4 py-2 rounded bg-[#4a0d13] hover:bg-[#60111a] border border-[#6b141d] text-[#f7f2e3] font-medium text-sm transition-all duration-200 flex items-center gap-1.5 shadow-sm"
+            className="px-4 py-2 rounded bg-brand-crimson hover:bg-brand-crimson-hover border border-brand-border text-brand-ivory font-medium text-sm transition-all duration-200 flex items-center gap-1.5 shadow-sm"
           >
             <span>Hubungi Kami</span>
             <ArrowUpRight size={15} />
@@ -153,7 +153,7 @@ export default function SiteNav() {
               animate={{ opacity: 1, y: 0, scaleY: 1 }}
               exit={{ opacity: 0, y: -16, scaleY: 0.95 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="xl:hidden absolute top-full left-0 w-full bg-[#14080a]/98 backdrop-blur-2xl border-t border-b border-[#f7f2e3]/10 px-6 py-6 flex flex-col gap-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] origin-top"
+              className="xl:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-2xl border-t border-b border-white/10 px-6 py-6 flex flex-col gap-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] origin-top"
             >
               {navLinks.map((link, idx) => {
                 const isActive = !link.external && pathname === link.href;
@@ -175,8 +175,8 @@ export default function SiteNav() {
                       onClick={() => setMobileMenuOpen(false)}
                       className={`group flex items-center justify-between px-4 py-3 rounded text-base font-semibold font-sans transition-colors duration-200 ${
                         isActive
-                          ? 'text-[#f7f2e3] bg-[#30050d] border border-[#4d0d12]'
-                          : 'text-[#c5b8b8] hover:text-[#f7f2e3] hover:bg-white/5'
+                          ? 'text-brand-ivory bg-brand-burgundy border border-brand-border'
+                          : 'text-brand-ivory-muted hover:text-brand-ivory hover:bg-white/5'
                       }`}
                     >
                       <span>{link.name}</span>
@@ -196,12 +196,12 @@ export default function SiteNav() {
                   delay: 0.04 + navLinks.length * 0.035,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="pt-3 border-t border-[#f7f2e3]/10 mt-2"
+                className="pt-3 border-t border-brand-ivory/10 mt-2"
               >
                 <Link
                   href="/#kontak"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 px-5 rounded bg-[#4a0d13] hover:bg-[#60111a] border border-[#6b141d] text-[#f7f2e3] font-semibold text-center block transition-all duration-200 shadow-lg shadow-black/40 flex items-center justify-center gap-2"
+                  className="w-full py-3 px-5 rounded bg-brand-crimson hover:bg-brand-crimson-hover border border-brand-border text-brand-ivory font-semibold text-center block transition-all duration-200 shadow-lg shadow-black/40 flex items-center justify-center gap-2"
                 >
                   <span>Hubungi Kami</span>
                   <ArrowUpRight size={16} />

@@ -15,10 +15,10 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12 text-left"
         >
-          <span className="text-xs text-[#FEAEAE] uppercase tracking-wider font-semibold block mb-1">
+          <span className="text-xs text-brand-neon uppercase tracking-wider font-semibold block mb-1">
             Landasan Pergerakan
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#f7f2e3] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-ivory tracking-tight">
             Visi &amp; Misi
           </h2>
         </motion.div>
@@ -29,7 +29,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="p-8 rounded bg-[#200a0f] border border-[#4d0d12] text-[#f7f2e3] whitespace-pre-wrap leading-relaxed text-base"
+            className="p-8 rounded bg-brand-card border border-brand-border text-brand-ivory whitespace-pre-wrap leading-relaxed text-base"
           >
             {profileVisiMisi}
           </motion.div>
@@ -41,29 +41,29 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-5 bg-[#200a0f] border border-[#4d0d12] rounded p-7 sm:p-9 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#661118] transition-colors"
+              className="lg:col-span-5 bg-brand-card border border-brand-border rounded p-7 sm:p-9 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-brand-border-hover transition-colors"
             >
               {/* Subtle crimson ambient glow */}
               <div
                 aria-hidden="true"
-                className="absolute -top-12 -right-12 w-48 h-48 bg-[#4d0d12]/30 rounded-full blur-3xl pointer-events-none"
+                className="absolute -top-12 -right-12 w-48 h-48 bg-brand-border/30 rounded-full blur-3xl pointer-events-none"
               />
 
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <span className="px-3 py-1 rounded bg-[#30050d] border border-[#4d0d12] text-[#FEAEAE] text-xs font-semibold uppercase tracking-wider">
-                    Visi Utama
+                  <span className="px-4 py-1 rounded bg-brand-burgundy border border-brand-border text-brand-neon text-s font-semibold uppercase tracking-wider">
+                    Visi
                   </span>
-                  <Quote className="text-[#4d0d12] group-hover:text-[#661118] transition-colors" size={32} />
+                  <Quote className="text-brand-border group-hover:text-brand-border-hover transition-colors" size={32} />
                 </div>
 
-                <blockquote className="text-base sm:text-lg lg:text-xl font-medium text-[#f7f2e3] leading-relaxed">
+                <blockquote className="text-base sm:text-lg lg:text-xl font-medium text-brand-ivory leading-relaxed">
                   {visi}
                 </blockquote>
               </div>
 
-              <div className="pt-8 mt-6 border-t border-[#4d0d12]/60 flex items-center justify-between text-xs text-[#a89f9f]">
-                <span className="font-semibold text-[#f7f2e3]">Kabinet Aksara Juang</span>
+              <div className="pt-8 mt-6 border-t border-brand-border/60 flex items-center justify-between text-xs text-brand-ivory-muted">
+                <span className="font-semibold text-brand-ivory">Kabinet Aksara Juang</span>
                 <span>BEM FH UNAND</span>
               </div>
             </motion.div>
@@ -74,10 +74,10 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-7 bg-[#16070a]/70 border border-[#4d0d12]/40 rounded p-7 sm:p-9 flex flex-col justify-center"
+              className="lg:col-span-7 bg-brand-card/70 border border-brand-border/40 rounded p-7 sm:p-9 flex flex-col justify-center"
             >
-              <h3 className="text-xl font-bold text-[#f7f2e3] mb-6 flex items-center gap-2">
-                <span>Misi Strategis</span>
+              <h3 className="text-xl font-bold text-brand-ivory mb-6 flex items-center gap-2">
+                <span>Misi</span>
               </h3>
 
               <div className="space-y-4">
@@ -92,12 +92,12 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
                       delay: 0.08 * idx,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="flex items-start gap-4 pb-4 border-b border-[#f7f2e3]/10 last:border-b-0 last:pb-0 group"
+                    className="flex items-start gap-4 pb-4 border-b border-brand-ivory/10 last:border-b-0 last:pb-0 group"
                   >
-                    <span className="w-8 h-8 rounded bg-[#30050d] border border-[#4d0d12] text-[#f7f2e3] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 group-hover:border-[#FEAEAE]/50 group-hover:text-[#FEAEAE] transition-colors">
+                    <span className="w-8 h-8 rounded bg-brand-burgundy border border-brand-border text-brand-ivory font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 group-hover:border-brand-neon/50 group-hover:text-brand-neon transition-colors">
                       {String(idx + 1).padStart(2, '0')}
                     </span>
-                    <p className="text-sm sm:text-base text-[#c5b8b8] leading-relaxed group-hover:text-[#f7f2e3] transition-colors">
+                    <p className="text-sm sm:text-base text-brand-ivory-muted leading-relaxed group-hover:text-brand-ivory transition-colors">
                       {item}
                     </p>
                   </motion.div>
