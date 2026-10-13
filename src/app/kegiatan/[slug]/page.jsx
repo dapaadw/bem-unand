@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
 import { isGoogleFormUrl } from '../../../lib/kegiatan';
 import CopyLinkButton from '../../../components/CopyLinkButton';
-import BackgroundTypography from '../../../components/BackgroundTypography';
 import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft } from 'lucide-react';
 
 export const revalidate = 300;
@@ -17,7 +16,6 @@ export default async function KegiatanDetailPage({ params }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography columns={2} />
       <article className="px-6 pt-32 pb-20 container mx-auto max-w-4xl relative z-10">
       {/* Back button */}
       <Link

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '../../lib/prisma';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import BackgroundTypography from '../../components/BackgroundTypography';
 
 export const revalidate = 3600;
 
@@ -10,7 +9,6 @@ export default async function DepartemenPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography />
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
         <div className="text-center mb-12">
           <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">

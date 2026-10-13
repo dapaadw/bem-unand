@@ -3,7 +3,6 @@ import { loadPublications } from '../../lib/publicationQuery';
 import { publicationCategory } from '../../lib/publication';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
 import { Search, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
-import BackgroundTypography from '../../components/BackgroundTypography';
 
 export const revalidate = 300;
 
@@ -20,7 +19,6 @@ export default async function PublikasiPage({ searchParams }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography />
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
       {/* Page Header */}
       <div className="text-center mb-10">

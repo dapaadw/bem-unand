@@ -3,7 +3,6 @@ import { prisma } from '../../lib/prisma';
 import { kegiatanFilters } from '../../lib/kegiatan';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
 import { Search, Trophy, Calendar, Clock, MapPin, ArrowRight, ChevronDown } from 'lucide-react';
-import BackgroundTypography from '../../components/BackgroundTypography';
 
 export const revalidate = 300;
 
@@ -22,7 +21,6 @@ export default async function KegiatanPage({ searchParams }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography columns={2} />
       <section className="px-4 sm:px-6 pt-32 pb-20 container mx-auto max-w-7xl relative z-10">
       {/* Page Header */}
       <div className="text-center mb-10">

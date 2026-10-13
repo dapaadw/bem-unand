@@ -1,14 +1,12 @@
 import { prisma } from '../lib/prisma';
 import { youtubeEmbedUrl } from '../lib/homeMedia';
-import { ArrowDown, Mail, MapPin } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowDownRight, ArrowUpRight, Mail, MapPin } from 'lucide-react';
 import { InstagramIcon, WhatsAppIcon } from '../components/SocialIcons';
 import HeroContentAnimation from '../components/home/HeroContentAnimation';
 import VisiMisiInteractive from '../components/home/VisiMisiInteractive';
 import FilosofiLogoInteractive from '../components/home/FilosofiLogoInteractive';
-import FluidScrollSection from '../components/home/FluidScrollSection';
 import AgendaHomeInteractive from '../components/home/AgendaHomeInteractive';
-import BackgroundTypography from '../components/home/BackgroundTypography';
-
 export const revalidate = 3600;
 
 export default async function HomePage() {
@@ -26,121 +24,191 @@ export default async function HomePage() {
   const emailAddress = contacts?.email || 'bemfhunand.official@gmail.com';
 
   const title = profile?.title || 'BEM FH UNAND';
-  const _subtitle =
+  const subtitle =
     profile?.subtitle ||
     'Pusat informasi, advokasi, publikasi ilmiah, dan penyalur aspirasi seluruh mahasiswa Fakultas Hukum Universitas Andalas.';
-  const video = youtubeEmbedUrl('https://www.youtube.com/watch?v=ixO2bbWHgVE');
+
+  // URL Video Profil YouTube (Hardcode: ganti link di sini kapan saja)
+  const video = youtubeEmbedUrl('https://www.youtube.com/watch?v=Nfs-Moa_1Ko');
 
   const visi =
-    'Terwujudnya BEM FH UNAND sebagai episentrum pergerakan dan advokasi yang progresif, inklusif, responsif, dan berintegritas demi terwujudnya keadilan sosial serta kemaslahatan mahasiswa dan masyarakat.';
+    'Mewujudkan Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas yang berlandaskan nilai-nilai humanisme dalam membangun gerakan mahasiswa yang kritis, inklusif, berintegritas, serta berkomitmen terhadap perjuangan keadilan dan kemanusiaan.';
 
   const misi = [
-    'Mengoptimalkan fungsi advokasi dan pelayanan mahasiswa yang responsif, solutif, dan berpihak pada kesejahteraan civitas akademika.',
-    'Menumbuhkan budaya intelektual kritis, riset hukum strategis, dan pengawalan kebijakan publik yang konstruktif.',
-    'Mempererat sinergi, kolaborasi, dan harmonisasi antar kelembagaan di lingkungan FH UNAND maupun eksternal kampus.',
-    'Mengembangkan potensi kepemimpinan, minat bakat, dan karakter mahasiswa yang berintegritas dan berwawasan luas.',
-    'Menghadirkan aksi nyata dan pengabdian masyarakat yang solutif serta berdampak bagi lingkungan sekitar.',
+    'Membangun ruang gerakan mahasiswa yang kritis dan progresif melalui diskusi, kajian, dan advokasi terhadap berbagai isu hukum, sosial, dan kemasyarakatan.',
+    'Menumbuhkan nilai humanisme dan solidaritas dalam setiap kegiatan kemahasiswaan dengan mengedepankan kepedulian terhadap sesama serta keberpihakan pada keadilan dan kemanusian',
+    'Mewujudkan organisasi yang inklusif dengan membuka ruang bagi seluruh Masyarakat fakultas hukum universitas andalas untuk berkontribusi dalam kegiatan BEM tanpa diskriminasi.',
+    'Menguatkan peran BEM sebagai wadah perjuangan aspirasi mahasiswa dengan menjalin kerja sama strategis dengan UKM F dan HIMA yang ada di fakultas hukum universitas andalas.',
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background Typography Watermark Grid ("KABINET AKSARA JUANG" & "SEMANGAT PERJUANGAN") */}
-      <BackgroundTypography fadeFromHero />
-
-      {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center overflow-hidden pt-20">
-        {/* Centered Photo with Color & Bottom Fade towards Visi Misi */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center z-0 overflow-hidden">
-          <div
-            className="relative w-full h-full"
-            style={{
-              maskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, transparent 100%)',
-            }}
-          >
-            <img
-              src={profile?.heroImageUrl || '/hero.jpg'}
-              alt={profile?.heroImageAlt || 'Verification photo'}
-              className="w-full h-full object-cover object-center brightness-60"
-              fetchPriority="high"
-            />
-            {/* Fade only at the bottom towards Visi Misi */}
-            <div className="absolute inset-x-0 bottom-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-brand-dark pointer-events-none" />
-          </div>
+    <div className="min-h-screen relative overflow-hidden bg-[#14080a] text-[#f7f2e3]">
+      {/* Hero Section: Full screen reaching bottom, zoomed/cropped to fill, 75% opacity with gradient to website background color (#14080a) */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#14080a]">
+        {/* Full-width and full-height image container, zoomed/cropped with object-cover and scale */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden">
+          <img
+            src={profile?.heroImageUrl || '/hero.PNG'}
+            alt="Foto pengurus BEM FH UNAND"
+            className="w-full h-full object-cover object-[center_35%] scale-105 opacity-35"
+            fetchPriority="high"
+          />
         </div>
 
-        {/* Left-Side Content Container with Fluid Entrance */}
-        <div className="relative z-10 container mx-auto px-6 md:px-12 flex items-center text-nowrap">
-          <HeroContentAnimation className="max-w-xl sm:ml-8 md:ml-16 lg:ml-20 py-12">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold sm:font-black tracking-normal text-white mb-2 leading-tight drop-shadow-lg">
+        {/* Top gradient for smooth navbar blending */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-32 md:h-44 bg-gradient-to-b from-[#14080a]/90 via-[#14080a]/40 to-transparent pointer-events-none z-[1]"
+        />
+
+        {/* Bottom gradient fading smoothly to website background color (#14080a) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-48 sm:h-64 md:h-80 lg:h-96 bg-gradient-to-t from-[#14080a] via-[#14080a]/80 via-40% to-transparent pointer-events-none z-[1]"
+        />
+
+        {/* Content Container: Centered */}
+        <div className="container mx-auto px-6 md:px-12 max-w-4xl relative z-10 pt-28 pb-16 lg:py-24 flex flex-col items-center justify-center text-center">
+          <HeroContentAnimation className="w-full flex flex-col items-center text-center">
+            {/* 2-line Subtitle Header */}
+            <div className="mb-5 space-y-0.5 text-xs font-semibold tracking-wider uppercase text-[#c5b8b8] text-center drop-shadow-md">
+              <p>BADAN EKSEKUTIF MAHASISWA</p>
+              <p>FAKULTAS HUKUM UNIVERSITAS ANDALAS</p>
+            </div>
+
+            {/* Centered Main Title */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#f7f2e3] tracking-tight leading-tight mb-4 font-montserrat text-center drop-shadow-lg">
               {title}
             </h1>
-            <p className="text-xl sm:text-2xl font-bold text-brand-neon mb-3 drop-shadow">
+
+            {/* Kabinet Name */}
+            <h2 className="text-xl sm:text-2xl font-bold text-[#f7f2e3] mb-2 text-center drop-shadow-md">
               Kabinet Aksara Juang
-            </p>
-            <p className="text-sm sm:text-base font-medium text-gray-300 italic mb-8 drop-shadow">
+            </h2>
+
+            {/* Tagline */}
+            <p className="text-base sm:text-lg text-[#c5b8b8] italic mb-6 text-center drop-shadow-md">
               &ldquo;Semangat Beraksi, Perjuangkan Aspirasi&rdquo;
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            {/* Narrative Description */}
+            <p className="text-sm sm:text-base text-[#c5b8b8] leading-relaxed mb-8 max-w-2xl mx-auto text-center drop-shadow-md">
+              {subtitle}
+            </p>
+
+            {/* Actions: Visi & Misi Button (1x boxy) & Kegiatan link (underline) */}
+            <div className="flex items-center justify-center gap-6 flex-wrap">
               <a
                 href="#visi-misi"
-                className="px-5 py-2.5 rounded-lg bg-brand-neon text-brand-dark font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer shadow-lg shadow-black/30"
+                className="px-5 py-2.5 rounded bg-[#4a0d13] hover:bg-[#60111a] border border-[#6b141d] text-[#f7f2e3] font-semibold text-sm transition-all duration-200 flex items-center gap-2 group shadow-lg"
               >
-                <span>Lihat Visi &amp; Misi</span>
-                <ArrowDown size={16} />
+                <span>Visi &amp; Misi</span>
+                <ArrowDownRight size={16} className="group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
               </a>
               <a
-                href="#kontak"
-                className="px-5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white font-medium hover:border-brand-neon hover:text-brand-neon transition-colors cursor-pointer"
+                href="#kegiatan"
+                className="text-sm font-medium text-[#f7f2e3] hover:text-[#FEAEAE] underline underline-offset-8 decoration-[#f7f2e3]/40 hover:decoration-[#FEAEAE] transition-colors drop-shadow"
               >
-                Hubungi Kami
+                Kegiatan &amp; publikasi
               </a>
             </div>
           </HeroContentAnimation>
         </div>
       </section>
 
-      {/* Visi & Misi Section - Fluid Interactive Reveal */}
+      {/* Quick Nav Button Bar: 3 Columns Directly Matching Image 2 */}
+      <section className="bg-[#14080a] border-y border-white/10 relative z-10">
+        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+            {/* Button 1: Publikasi */}
+            <Link
+              href="/publikasi"
+              className="py-6 px-6 md:px-8 flex items-center justify-between group hover:bg-[#20080d] transition-colors duration-200"
+            >
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors">
+                  Publikasi
+                </h3>
+                <p className="text-xs sm:text-sm text-[#a89f9f] mt-1">
+                  Informasi dan Kajian
+                </p>
+              </div>
+              <ArrowUpRight
+                size={18}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
+            </Link>
+
+            {/* Button 2: Kegiatan */}
+            <Link
+              href="/kegiatan"
+              className="py-6 px-6 md:px-8 flex items-center justify-between group hover:bg-[#20080d] transition-colors duration-200"
+            >
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors">
+                  Kegiatan
+                </h3>
+                <p className="text-xs sm:text-sm text-[#a89f9f] mt-1">
+                  Agenda Mahasiswa
+                </p>
+              </div>
+              <ArrowUpRight
+                size={18}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
+            </Link>
+
+            {/* Button 3: Aspirasi */}
+            <Link
+              href="/aspirasi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-6 px-6 md:px-8 flex items-center justify-between group hover:bg-[#20080d] transition-colors duration-200"
+            >
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors">
+                  Aspirasi
+                </h3>
+                <p className="text-xs sm:text-sm text-[#a89f9f] mt-1">
+                  Saluran Aspirasi
+                </p>
+              </div>
+              <ArrowUpRight
+                size={18}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Visi & Misi Section: 2 Columns */}
       <VisiMisiInteractive
         visi={visi}
         misi={misi}
         profileVisiMisi={profile?.visiMisi}
       />
 
-      {/* Video Mengenal BEM FH UNAND - Fluid Scroll Section with Ambient Glow (No Mockup Chassis) */}
+      {/* Video Profil Section: Seamless background matching home page (#14080a), centered video with text above */}
       {video && (
-        <FluidScrollSection className="py-20 relative">
-          {/* Centered Short Section Divider */}
-          <div className="w-1/3 max-w-md mx-auto h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-16" aria-hidden="true" />
-
-          <div className="container mx-auto px-6 max-w-5xl text-center relative z-10">
-            <div className="mb-10 text-center">
-              <span className="text-xs text-brand-neon uppercase tracking-wide font-medium block">
+        <section id="video-profil" className="scroll-mt-24 py-20 relative z-10">
+          <div className="container mx-auto px-6 max-w-5xl">
+            {/* Header / Narrative above video: Centered */}
+            <div className="max-w-3xl mx-auto text-center mb-10">
+              <span className="text-xs text-[#FEAEAE] uppercase tracking-wider font-semibold block mb-2">
                 Profil Organisasi
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mt-1">Mengenal BEM FH UNAND</h2>
-              <p className="text-sm text-gray-400 mt-2 max-w-xl mx-auto leading-relaxed">
-                Tayangan profil pengenalan organisasi, dinamika pergerakan, dan dedikasi bagi almamater.
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#f7f2e3] tracking-tight leading-tight mb-4 font-montserrat">
+                Mengenal BEM FH UNAND
+              </h2>
+              <p className="text-sm sm:text-base text-[#c5b8b8] leading-relaxed">
+                Melalui video ini, kami mengajak Anda mengenal lebih dekat struktur, visi, misi, serta sinergi dari seluruh Presidium, Departemen, Biro, Kantor dan Lembaga yang bergerak bersama dalam satu irama perjuangan.
               </p>
             </div>
 
-            {/* Video Container with Pure Ambient Glow */}
-            <div className="relative mx-auto max-w-4xl">
-              {/* Outer Maroon Radial Glow / Backlight */}
-              <div
-                aria-hidden="true"
-                className="absolute -inset-4 sm:-inset-8 md:-inset-12 rounded-3xl bg-[radial-gradient(ellipse_at_center,_#8e1616_0%,_rgba(142,22,22,0.45)_45%,_transparent_75%)] blur-2xl md:blur-[70px] opacity-85 -z-10 pointer-events-none"
-              />
-
-              {/* Inner Soft Neon Maroon Accent Glow */}
-              <div
-                aria-hidden="true"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 bg-gradient-to-r from-brand-red/50 via-brand-neon/25 to-brand-red/50 rounded-full blur-[60px] md:blur-[90px] opacity-70 -z-10 pointer-events-none"
-              />
-
-              {/* Pure Video Player without Mockup Chassis */}
-              <div className="aspect-video w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl shadow-black/80 relative">
+            {/* Centered 16:9 Video Player */}
+            <div className="max-w-4xl mx-auto">
+              <div className="aspect-video w-full rounded overflow-hidden bg-black shadow-2xl shadow-black/80 border border-white/10 ring-1 ring-white/5 relative">
                 <iframe
                   src={video}
                   title="Video Profil BEM FH UNAND"
@@ -153,99 +221,119 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </FluidScrollSection>
+        </section>
       )}
 
-      {/* Filosofi Logo Section - Logo on Left, Philosophy on Right with Hover Highlight & Scale */}
+      {/* Filosofi Logo Section */}
       <FilosofiLogoInteractive profileLogoPhilosophy={profile?.logoPhilosophy} />
 
-      {/* Agenda Terkini Section - Animated Right-aligned Header & Left-emerging Cards */}
+      {/* Kegiatan & Lomba: Format Asli Dikembalikan (4 Kolom dengan corner radius 1x) */}
       <AgendaHomeInteractive activities={activities} />
 
-      {/* Kontak Section - Header on Left, Contact Boxes Centered */}
-      <FluidScrollSection id="kontak" className="scroll-mt-24 py-16">
-        <div className="container mx-auto px-6 max-w-4xl">
-          {/* Centered Short Section Divider */}
-          <div className="w-1/3 max-w-md mx-auto h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-12" aria-hidden="true" />
-
-          <div className="mb-8 text-left flex flex-col items-start">
-            <span className="text-xs text-brand-neon uppercase tracking-wide font-medium block">
-              Hubungi Kami
+      {/* Kontak Kami Section: Background aligned with home page (#14080a), vertically stacked communication channels */}
+      <section id="kontak" className="scroll-mt-24 py-20 relative z-10">
+        <div className="container mx-auto px-6 max-w-3xl">
+          <div className="mb-8 text-left">
+            <span className="text-xs text-[#FEAEAE] uppercase tracking-wider font-semibold block mb-1">
+              Saluran Komunikasi
             </span>
-            <h2 className="text-3xl font-bold text-white mt-1">Kontak</h2>
-            <p className="text-sm text-gray-400 mt-2 max-w-md text-left">
-              Saluran komunikasi dan alamat resmi BEM FH UNAND.
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#f7f2e3] tracking-tight font-montserrat">
+              Kontak Kami
+            </h2>
+            <p className="text-sm sm:text-base text-[#c5b8b8] mt-2 leading-relaxed">
+              Saluran komunikasi resmi serta sekretariat pengurus BEM FH UNAND.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* WhatsApp - Maroon theme logo & badge */}
+          <div className="flex flex-col gap-3.5">
+            {/* WhatsApp */}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
+              className="bg-[#1a0a0e] border border-white/10 hover:border-white/20 hover:bg-[#220a10] rounded p-4 sm:p-5 transition-all flex items-center justify-between group shadow-lg shadow-black/20"
             >
-              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <WhatsAppIcon size={22} className="text-brand-neon" />
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded bg-[#28060d] border border-white/10 flex items-center justify-center text-[#FEAEAE] group-hover:scale-105 transition-transform shrink-0">
+                  <WhatsAppIcon size={22} />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[11px] sm:text-xs text-[#a89f9f] uppercase tracking-wider block font-medium">WhatsApp</span>
+                  <span className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors truncate block">
+                    +62 812-3456-7890
+                  </span>
+                </div>
               </div>
-              <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">WhatsApp</span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block">
-                  +62 812-3456-7890
-                </span>
-              </div>
+              <ArrowUpRight
+                size={20}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
             </a>
 
-            {/* Instagram - Maroon theme logo & badge */}
+            {/* Instagram */}
             <a
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
+              className="bg-[#1a0a0e] border border-white/10 hover:border-white/20 hover:bg-[#220a10] rounded p-4 sm:p-5 transition-all flex items-center justify-between group shadow-lg shadow-black/20"
             >
-              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <InstagramIcon size={22} className="text-brand-neon" />
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded bg-[#28060d] border border-white/10 flex items-center justify-center text-[#FEAEAE] group-hover:scale-105 transition-transform shrink-0">
+                  <InstagramIcon size={22} />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[11px] sm:text-xs text-[#a89f9f] uppercase tracking-wider block font-medium">Instagram</span>
+                  <span className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors truncate block">
+                    @bemfhua
+                  </span>
+                </div>
               </div>
-              <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Instagram</span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block">
-                  @bemfhua
-                </span>
-              </div>
+              <ArrowUpRight
+                size={20}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
             </a>
 
             {/* Email */}
             <a
               href={`mailto:${emailAddress}`}
-              className="bg-white/5 border border-white/10 hover:border-brand-neon hover:bg-white/[0.08] rounded-xl p-4 sm:p-5 transition-all flex items-center gap-4 group"
+              className="bg-[#1a0a0e] border border-white/10 hover:border-white/20 hover:bg-[#220a10] rounded p-4 sm:p-5 transition-all flex items-center justify-between group shadow-lg shadow-black/20"
             >
-              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0 group-hover:scale-105 group-hover:bg-brand-red/30 transition-all">
-                <Mail size={22} className="text-brand-neon" />
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded bg-[#28060d] border border-white/10 flex items-center justify-center text-[#FEAEAE] group-hover:scale-105 transition-transform shrink-0">
+                  <Mail size={22} />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[11px] sm:text-xs text-[#a89f9f] uppercase tracking-wider block font-medium">Email</span>
+                  <span className="text-base sm:text-lg font-bold text-[#f7f2e3] group-hover:text-[#FEAEAE] transition-colors truncate block">
+                    {emailAddress}
+                  </span>
+                </div>
               </div>
-              <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Email</span>
-                <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors block break-all sm:break-normal">
-                  {emailAddress}
-                </span>
-              </div>
+              <ArrowUpRight
+                size={20}
+                className="text-[#a89f9f] group-hover:text-[#FEAEAE] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0 ml-4"
+              />
             </a>
 
             {/* Sekretariat */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-4 sm:p-5 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-brand-red/20 border border-brand-red/40 flex items-center justify-center text-brand-neon shrink-0">
-                <MapPin size={22} className="text-brand-neon" />
-              </div>
-              <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Sekretariat</span>
-                <span className="text-sm sm:text-base font-semibold text-white block leading-snug">
-                  PKM FH UNAND, Padang
-                </span>
+            <div className="bg-[#1a0a0e] border border-white/10 rounded p-4 sm:p-5 transition-all flex items-center justify-between shadow-lg shadow-black/20">
+              <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded bg-[#28060d] border border-white/10 flex items-center justify-center text-[#FEAEAE] shrink-0">
+                  <MapPin size={22} />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[11px] sm:text-xs text-[#a89f9f] uppercase tracking-wider block font-medium">Sekretariat</span>
+                  <span className="text-base sm:text-lg font-bold text-[#f7f2e3] block">
+                    PKM FH UNAND, Padang
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </FluidScrollSection>
+      </section>
     </div>
   );
 }
+

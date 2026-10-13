@@ -4,7 +4,13 @@
 @theme {
   --color-brand-neon: #FEAEAE;
   --color-brand-red: #8e1616;
-  --color-brand-dark: #1a0000;
+  --color-brand-dark: #14080a;
+  --color-brand-burgundy: #30050d;
+  --color-brand-crimson: #4d0d12;
+  --color-brand-crimson-hover: #661118;
+  --color-brand-ivory: #f7f2e3;
+  --color-brand-ivory-muted: #c5b8b8;
+  --color-brand-card: #200a0f;
 
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -18,7 +24,7 @@
 
   body {
     background-color: var(--color-brand-dark);
-    color: white;
+    color: var(--color-brand-ivory);
     font-family: var(--font-sans);
   }
 }
@@ -52,10 +58,5 @@
   .bg-dark-overlay {
     background: linear-gradient(to bottom, rgba(26, 0, 0, 0.6) 0%, rgba(26, 0, 0, 0.95) 100%);
   }
-
-  @media (max-width: 1439px) {
-    .home-bg-typography {
-      display: none !important;
-    }
-  }
 }
+

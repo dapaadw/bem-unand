@@ -8,10 +8,8 @@ import {
   FileText,
   CalendarDays,
   Building2,
-  MessageSquareWarning,
   BookOpen,
   ScrollText,
-  Sliders,
   LogOut,
   ExternalLink,
   Menu,
@@ -64,23 +62,9 @@ const MENU_GROUPS = [
     title: "Organisasi & Layanan",
     items: [
       {
-        path: "/admin/aspirasi",
-        name: "Aspirasi Mahasiswa",
-        icon: MessageSquareWarning,
-        roles: ["ADMIN"],
-        badgeKey: "aspirasi",
-      },
-      {
         path: "/admin/departemen",
         name: "Departemen & Staff",
         icon: Building2,
-        roles: ["ADMIN"],
-        badgeKey: null,
-      },
-      {
-        path: "/admin/home",
-        name: "Pengaturan Web",
-        icon: Sliders,
         roles: ["ADMIN"],
         badgeKey: null,
       },
@@ -105,7 +89,6 @@ export default function AdminShell({
   name = "Pengguna",
   role = "ADMIN",
   email = "",
-  unreadAspirasi = 0,
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -249,11 +232,6 @@ export default function AdminShell({
                         <span className="truncate">{item.name}</span>
                       </div>
 
-                      {item.badgeKey === "aspirasi" && unreadAspirasi > 0 && (
-                        <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-brand-neon text-brand-dark shadow-sm">
-                          {unreadAspirasi} Baru
-                        </span>
-                      )}
                     </Link>
                   );
                 })}
