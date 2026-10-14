@@ -4,7 +4,8 @@ import CopyLinkButton from '../../../components/CopyLinkButton';
 import Link from 'next/link';
 import { publicationCategory } from '../../../lib/publication';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
-import BackgroundTypography from '../../../components/BackgroundTypography';
+
+
 
 export const revalidate = 300;
 
@@ -16,7 +17,6 @@ export default async function PublikasiDetailPage({ params }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography />
       <article className="px-6 pt-32 pb-16 container mx-auto max-w-3xl relative z-10">
         <Link href="/publikasi" className="block mb-6 text-sm text-brand-neon hover:underline">← Kembali ke Publikasi</Link>
       <div className="mb-3">

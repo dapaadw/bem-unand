@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import { isDriveUrl } from '../../lib/fhGuide';
-import BackgroundTypography from '../../components/BackgroundTypography';
+
+
 import { ChevronDown, ExternalLink } from 'lucide-react';
 
 export const revalidate = 3600;
@@ -19,7 +20,6 @@ export default async function FhGuidePage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <BackgroundTypography />
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-4xl relative z-10 break-words">
         {/* Centered Page Header matching Home & other pages */}
         <div className="text-center mb-12">

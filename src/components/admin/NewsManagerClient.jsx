@@ -237,6 +237,17 @@ export default function NewsManagerClient({ initialItems }) {
                 className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+              URL Gambar / Thumbnail (Opsional)
+              <input
+                aria-label="URL gambar publikasi"
+                placeholder="https://... atau /uploads/berita.jpg"
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
           </div>
 
           <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">

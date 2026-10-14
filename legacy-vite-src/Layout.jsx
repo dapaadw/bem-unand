@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { InstagramIcon } from './SocialIcons';
 
 function Layout() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,12 +53,17 @@ function Layout() {
                 {link.name}
               </Link>
             ))}
-            <a 
-              href="/#kontak" 
-              className="px-5 py-2 rounded-full border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-semibold transition-all duration-300 shadow-[0_0_10px_rgba(254,174,174,0.3)] hover:shadow-[0_0_20px_rgba(254,174,174,0.6)]"
-            >
+            <button className="px-5 py-2 rounded-full border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-semibold transition-all duration-300 shadow-[0_0_10px_rgba(254,174,174,0.3)] hover:shadow-[0_0_20px_rgba(254,174,174,0.6)]">
               Hubungi Kami
-            </a>
+            </button>
+            <Link 
+              to="/admin" 
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-brand-neon hover:text-brand-dark text-gray-200 text-sm font-medium transition-all duration-200 border border-white/10 hover:border-brand-neon"
+              title="Admin Panel"
+            >
+              <Shield size={16} />
+              <span>Admin</span>
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -84,13 +88,13 @@ function Layout() {
                 {link.name}
               </Link>
             ))}
-            <a 
-              href="/#kontak" 
+            <Link 
+              to="/admin" 
               className="flex items-center justify-center gap-2 mt-2 py-2.5 rounded-xl bg-brand-neon/10 border border-brand-neon/30 text-brand-neon font-medium"
             >
-              <MessageCircle size={18} />
-              <span>Hubungi Kami</span>
-            </a>
+              <Shield size={18} />
+              <span>Admin Panel</span>
+            </Link>
           </motion.div>
         )}
       </nav>
@@ -109,27 +113,11 @@ function Layout() {
             </div>
             <span className="font-semibold tracking-wider">BEM FH UNAND © 2026</span>
           </div>
-          <div className="flex gap-6 items-center flex-wrap justify-center">
-            <a 
-              href="https://wa.me/6281234567890" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-gray-400 hover:text-brand-neon transition-colors flex items-center gap-2 text-sm"
-            >
-              <MessageCircle size={16} className="text-brand-neon" />
-              <span>WhatsApp</span>
-            </a>
-            <a 
-              href="https://instagram.com/bemfhunand" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-gray-400 hover:text-brand-neon transition-colors flex items-center gap-2 text-sm"
-            >
-              <InstagramIcon size={16} className="text-brand-neon" />
-              <span>Instagram</span>
-            </a>
-            <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors text-sm">Twitter/X</a>
-            <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors text-sm">LinkedIn</a>
+          <div className="flex gap-6 items-center">
+            <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors">Instagram</a>
+            <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors">Twitter/X</a>
+            <a href="#" className="text-gray-500 hover:text-brand-neon transition-colors">LinkedIn</a>
+            <Link to="/admin" className="text-gray-500 hover:text-brand-neon transition-colors text-sm border-l border-white/20 pl-6">Admin Panel</Link>
           </div>
         </div>
       </footer>

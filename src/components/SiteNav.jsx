@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield } from 'lucide-react';
 
+import { ArrowUpRight } from 'lucide-react';
+
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Publikasi', href: '/publikasi' },
@@ -21,7 +23,7 @@ export default function SiteNav() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -43,47 +45,63 @@ export default function SiteNav() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-1000 ease-in-out border-b ${
+      className={`fixed w-full z-50 transition-all duration-300 ease-in-out border-b ${
         isScrolled
-          ? 'bg-brand-dark/70 backdrop-blur-md shadow-lg shadow-black/50 border-white/20 py-3'
-          : 'bg-transparent border-transparent py-5'
+          ? 'bg-brand-maroon/90 backdrop-blur-md shadow-lg shadow-black/50 border-white/10 py-5'
+          : 'bg-black/0 border-white/0 py-6'
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3 cursor-pointer group">
-          <div className="w-10 h-10 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+          <div className="w-9 h-9 flex items-center justify-center shrink-0">
             <img src="/logo.png" alt="Logo BEM FH UNAND" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-xl font-bold tracking-wider group-hover:text-neon transition-all font-montserrat">
-            BEM <span className="font-montserrat">FH UNAND</span>
-          </h1>
+          <div>
+            <h1 className="text-base sm:text-lg font-bold tracking-wider text-brand-ivory font-montserrat leading-tight">
+              BEM FH UNAND
+            </h1>
+            <p className="text-[11px] text-brand-ivory-muted leading-none mt-0.5">
+              Fakultas Hukum &middot; Universitas Andalas
+            </p>
+          </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden xl:flex items-center gap-2">
-          {navLinks.map((link) => {
-            const isActive = !link.external && pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                target={link.external ? '_blank' : undefined}
-                rel={link.external ? 'noopener noreferrer' : undefined}
-                className={`px-3.5 py-1.5 rounded-full text-sm font-bold font-sans transition-colors duration-200 flex items-center justify-center ${
-                  isActive
-                    ? 'text-brand-neon'
-                    : 'text-gray-200 hover:text-brand-neon'
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+        <div className="hidden xl:flex items-center gap-6">
+          <div className="flex items-center gap-5">
+            {navLinks.map((link) => {
+              const isActive = !link.external && pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  className={`relative py-1 text-sm font-medium transition-colors duration-200 ${
+                    isActive
+                      ? 'text-brand-ivory font-semibold'
+                      : 'text-brand-ivory-muted hover:text-brand-ivory'
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-ivory"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+
           <Link
             href="/#kontak"
-            className="ml-3 px-5 py-2 rounded-full border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-bold transition-all duration-300 shadow-[0_0_10px_rgba(254,174,174,0.3)] hover:shadow-[0_0_20px_rgba(254,174,174,0.6)]"
+            className="px-4 py-2 rounded bg-brand-crimson hover:bg-brand-crimson-hover border border-brand-border text-brand-ivory font-medium text-sm transition-all duration-200 flex items-center gap-1.5 shadow-sm"
           >
-            Hubungi Kami
+            <span>Hubungi Kami</span>
+            <ArrowUpRight size={15} />
           </Link>
         </div>
 
@@ -93,7 +111,7 @@ export default function SiteNav() {
           aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
           aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="xl:hidden relative w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 border border-white/10 flex flex-col justify-center items-center gap-1.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-brand-neon/50 cursor-pointer"
+          className="xl:hidden relative w-10 h-10 rounded bg-white/5 hover:bg-white/10 active:scale-95 border border-white/10 flex flex-col justify-center items-center gap-1.5 transition-all duration-200 focus:outline-none cursor-pointer"
         >
           <motion.span
             animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
@@ -136,7 +154,7 @@ export default function SiteNav() {
               animate={{ opacity: 1, y: 0, scaleY: 1 }}
               exit={{ opacity: 0, y: -16, scaleY: 0.95 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="xl:hidden absolute top-full left-0 w-full bg-brand-dark/95 backdrop-blur-2xl border-t border-b border-white/10 px-6 py-6 flex flex-col gap-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] origin-top"
+              className="xl:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-2xl border-t border-b border-white/10 px-6 py-6 flex flex-col gap-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] origin-top"
             >
               {navLinks.map((link, idx) => {
                 const isActive = !link.external && pathname === link.href;
@@ -156,10 +174,10 @@ export default function SiteNav() {
                       target={link.external ? '_blank' : undefined}
                       rel={link.external ? 'noopener noreferrer' : undefined}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`group flex items-center justify-between px-4 py-3 rounded-xl text-base font-bold font-sans transition-colors duration-200 ${
+                      className={`group flex items-center justify-between px-4 py-3 rounded text-base font-semibold font-sans transition-colors duration-200 ${
                         isActive
-                          ? 'text-brand-neon bg-white/5'
-                          : 'text-gray-200 hover:text-brand-neon'
+                          ? 'text-brand-ivory bg-brand-burgundy border border-brand-border'
+                          : 'text-brand-ivory-muted hover:text-brand-ivory hover:bg-white/5'
                       }`}
                     >
                       <span>{link.name}</span>
@@ -179,14 +197,15 @@ export default function SiteNav() {
                   delay: 0.04 + navLinks.length * 0.035,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="pt-3 border-t border-white/10 mt-2 flex flex-col gap-2"
+                className="pt-3 border-t border-brand-ivory/10 mt-2"
               >
                 <Link
                   href="/#kontak"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 px-5 rounded-xl border border-brand-neon text-brand-neon hover:bg-brand-neon hover:text-brand-dark font-semibold text-center block transition-all duration-300 shadow-[0_0_15px_rgba(254,174,174,0.25)] hover:shadow-[0_0_20px_rgba(254,174,174,0.5)]"
+                  className="w-full py-3 px-5 rounded bg-brand-crimson hover:bg-brand-crimson-hover border border-brand-border text-brand-ivory font-semibold text-center block transition-all duration-200 shadow-lg shadow-black/40 flex items-center justify-center gap-2"
                 >
-                  Hubungi Kami
+                  <span>Hubungi Kami</span>
+                  <ArrowUpRight size={16} />
                 </Link>
                 <Link
                   href="/admin"

@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
+
 import { revalidatePath } from 'next/cache';
 
 export async function PATCH(request, { params }) {
-  const { session, error } = await requireRole(['ADMIN', 'SUPERUSER']);
+  const { session, error } = await requireRole(['ADMIN']);
   if (error) return error;
 
   const { id } = await params;

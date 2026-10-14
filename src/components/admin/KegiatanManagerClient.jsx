@@ -29,6 +29,7 @@ const emptyForm = {
   description: '',
   publicationUrl: '',
   registrationUrl: '',
+  imageUrl: '',
 };
 
 function localDateTime(value) {
@@ -285,12 +286,23 @@ export default function KegiatanManagerClient({ initialItems }) {
             </label>
 
             <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
-              URL Publikasi / Poster (Opsional)
+              URL Publikasi (Opsional)
               <input
                 aria-label="URL publikasi"
-                placeholder="https://... atau /uploads/poster.jpg"
+                placeholder="https://... atau /uploads/publikasi.pdf"
                 value={form.publicationUrl}
                 onChange={(e) => setForm({ ...form, publicationUrl: e.target.value })}
+                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+              />
+            </label>
+
+            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300 md:col-span-2">
+              URL Poster / Banner Kegiatan (Opsional)
+              <input
+                aria-label="URL poster kegiatan"
+                placeholder="https://... atau /uploads/poster.jpg"
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
                 className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             </label>
