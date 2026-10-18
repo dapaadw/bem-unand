@@ -2,116 +2,165 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Trophy, Calendar, MapPin, ArrowRight } from 'lucide-react';
-import { isWebOrLocalUrl } from '../../lib/homeMedia';
+
+const defaultCards = [
+  {
+    tagLeft: '01 / DISKUSI',
+    tagRight: 'KAMPUS',
+    eyebrow: 'RUANG YANG BISA KITA BANGUN',
+    title: 'HUKUM, KAMPUS, DAN HAL-HAL DI SEKITAR KITA.',
+    desc: 'Ruang bertukar pikiran dan membaca isu bersama.',
+    footer: 'Diskusi Publik',
+  },
+  {
+    tagLeft: '02 / ADVOKASI',
+    tagRight: 'STUDI',
+    eyebrow: 'RUANG YANG BISA KITA BANGUN',
+    title: 'HUKUM, KAMPUS, DAN HAL-HAL DI SEKITAR KITA.',
+    desc: 'Ruang bertukar pikiran dan membaca isu bersama.',
+    footer: 'Kajian Kebijakan',
+  },
+  {
+    tagLeft: '03 / PENALARAN',
+    tagRight: 'RISET',
+    eyebrow: 'RUANG YANG BISA KITA BANGUN',
+    title: 'HUKUM, KAMPUS, DAN HAL-HAL DI SEKITAR KITA.',
+    desc: 'Ruang bertukar pikiran dan membaca isu bersama.',
+    footer: 'Diskusi Publik',
+  },
+  {
+    tagLeft: '04 / PENGABDIAN',
+    tagRight: 'SOSIAL',
+    eyebrow: 'RUANG YANG BISA KITA BANGUN',
+    title: 'HUKUM, KAMPUS, DAN HAL-HAL DI SEKITAR KITA.',
+    desc: 'Ruang bertukar pikiran dan membaca isu bersama.',
+    footer: 'Aksi Sosial',
+  },
+];
 
 export default function AgendaHomeInteractive({ activities = [] }) {
+  const cards = defaultCards.map((card, idx) => {
+    const dbItem = activities[idx];
+    return {
+      ...card,
+      href: dbItem?.slug ? `/kegiatan/${dbItem.slug}` : '/kegiatan',
+    };
+  });
+
   return (
-    <section id="kegiatan" className="scroll-mt-24 py-20 overflow-hidden relative z-10">
-      <div className="container mx-auto px-6 max-w-6xl">
-        {/* Header: Left-aligned with entrance animation from the left */}
+    <section id="kegiatan" className="scroll-mt-24 py-16 sm:py-20 relative z-10">
+      <div className="max-w-[1120px] mx-auto px-6 lg:px-0">
+        {/* Section Header (Node 100:1047) */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 text-left"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="border-b border-[#e3bbb9]/12 pb-5 mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-left"
         >
           <div>
-            <span className="text-xs text-brand-neon uppercase tracking-wider font-semibold block mb-1">
-              Agenda Terkini
+            <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
+              05 / WARTA &amp; AKTIVITAS
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-ivory tracking-tight font-montserrat">
-              Kegiatan
+            <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] text-[#f8f1e7] uppercase mt-1">
+              KEGIATAN
             </h2>
+            <p className="font-newsreader italic text-[18px] leading-[27px] text-[#f8f1e7]/70 mt-0.5">
+              Ada banyak cara untuk ambil peran.
+            </p>
           </div>
-          <div>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="font-mono-lib text-[11px] leading-[17px] tracking-[0.55px] text-[#f8f1e7]/50 uppercase">
+              PRATINJAU KONTEN KEGIATAN
+            </span>
             <Link
               href="/kegiatan"
-              className="text-sm font-semibold text-brand-neon hover:underline inline-flex items-center gap-1.5 group"
+              className="font-barlow font-bold text-[13px] leading-[20px] tracking-[0.65px] text-[#e3bbb9] uppercase inline-flex items-center gap-1.5 group hover:text-[#f8f1e7] transition-colors"
             >
-              <span>Lihat semua kegiatan</span>
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+              <span>LIHAT SEMUA KEGIATAN</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+                className="group-hover:translate-x-0.5 transition-transform"
+              >
+                <path
+                  d="M9.33333 3.33301L14 7.99967M14 7.99967L9.33333 12.6663M14 7.99967H2"
+                  stroke="currentColor"
+                  strokeWidth="1.33333"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </Link>
           </div>
         </motion.div>
 
-        {/* Kegiatan Cards: 4 columns with 1x boxy corner radius */}
+        {/* Four Compact Activity Cards Evenly Spaced (Node 100:1063) */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
-          {activities.map((item) => (
+          {cards.map((card, idx) => (
             <Link
-              key={item.id}
-              href={`/kegiatan/${item.slug}`}
-              className="block min-w-0 break-words bg-brand-card border border-brand-border/70 rounded overflow-hidden hover:border-brand-border-hover hover:bg-brand-card-hover transition-all duration-300 text-left flex flex-col justify-between group hover:-translate-y-1 shadow-lg shadow-black/30"
+              key={idx}
+              href={card.href}
+              className="rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 p-[25px] min-h-[264px] flex flex-col justify-between transition-all duration-300 group text-left"
             >
               <div>
-                {/* Event Thumbnail Image */}
-                <div className="h-40 w-full relative overflow-hidden bg-black/60 flex items-center justify-center border-b border-brand-border/50">
-                  {item.imageUrl && isWebOrLocalUrl(item.imageUrl) ? (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded bg-brand-burgundy border border-brand-border flex items-center justify-center text-brand-neon group-hover:scale-105 transition-transform">
-                      {item.type === 'LOMBA' ? (
-                        <Trophy size={22} />
-                      ) : (
-                        <Calendar size={22} />
-                      )}
-                    </div>
-                  )}
-                  <span className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded bg-brand-burgundy/90 border border-brand-border text-[10px] font-bold uppercase tracking-wider text-brand-neon backdrop-blur-sm">
-                    {item.type === 'LOMBA' ? 'Lomba' : 'Internal'}
-                  </span>
+                {/* Top metadata row */}
+                <div className="flex items-center justify-between font-mono-lib text-[11px] leading-[17px] uppercase mb-2">
+                  <span className="text-[#e3bbb9]">{card.tagLeft}</span>
+                  <span className="text-[#f8f1e7]/40">{card.tagRight}</span>
                 </div>
 
-                {/* Body Content */}
-                <div className="p-4">
-                  <span className="text-[11px] text-brand-ivory-muted font-medium block mb-1.5 flex items-center gap-1.5">
-                    <Calendar size={12} className="text-brand-neon shrink-0" />
-                    <span>
-                      {item.date
-                        ? new Date(item.date).toLocaleDateString('id-ID', {
-                            timeZone: 'Asia/Jakarta',
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric',
-                          })
-                        : ''}
-                      {item.time ? ` · ${item.time} WIB` : ''}
-                    </span>
-                  </span>
-                  <h3 className="text-sm font-bold text-brand-ivory group-hover:text-brand-neon transition-colors line-clamp-2 mb-2 leading-snug">
-                    {item.name}
-                  </h3>
-                  <p className="text-xs text-brand-ivory-muted truncate flex items-center gap-1">
-                    <MapPin size={12} className="text-brand-neon shrink-0" />
-                    <span className="truncate">{item.location}</span>
-                  </p>
-                </div>
+                {/* Eyebrow */}
+                <span className="font-dm font-semibold text-[11px] leading-[17px] tracking-[0.55px] text-[#e3bbb9]/80 uppercase block mt-2 mb-1.5">
+                  {card.eyebrow}
+                </span>
+
+                {/* Heading */}
+                <h3 className="font-barlow font-bold text-[18px] leading-[27px] tracking-[-0.45px] text-[#f8f1e7] group-hover:text-[#e3bbb9] transition-colors uppercase mb-2">
+                  {card.title}
+                </h3>
+
+                {/* Description */}
+                <p className="font-dm text-[13px] leading-[21px] text-[#f8f1e7]/70">
+                  {card.desc}
+                </p>
               </div>
 
-              <div className="px-4 pb-4 pt-2 border-t border-brand-border/40 flex items-center justify-between text-xs text-brand-neon font-semibold">
-                <span>Detail agenda</span>
-                <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
+              {/* Bottom border row */}
+              <div className="pt-3 mt-6 border-t border-[#e3bbb9]/50 flex items-center justify-between">
+                <span className="font-dm text-[12px] leading-[18px] text-[#f8f1e7]/50 group-hover:text-[#f8f1e7]/80 transition-colors">
+                  {card.footer}
+                </span>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  aria-hidden="true"
+                  className="text-[#e3bbb9] group-hover:translate-x-0.5 transition-transform"
+                >
+                  <path
+                    d="M5.25 2.91602L9.33333 6.99935L5.25 11.0827"
+                    stroke="currentColor"
+                    strokeWidth="1.16667"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             </Link>
           ))}
         </motion.div>
-
-        {!activities.length && (
-          <div className="py-10 text-center bg-brand-card rounded border border-brand-border/50 max-w-md mx-auto mt-6">
-            <p className="text-brand-ivory-muted text-sm">Belum ada kegiatan yang dipublikasikan saat ini.</p>
-          </div>
-        )}
       </div>
     </section>
   );

@@ -1,112 +1,169 @@
 'use client';
 
-import { motion } from 'framer-motion';
-const defaultElements = [
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const logoElements = [
   {
-    title: 'Kepalan Tangan',
+    tab: 'KEPALAN TANGAN',
+    heading: 'KEADILAN',
     desc: 'Kepalan tangan melambangkan tekad, keberanian, kekuatan, dan semangat juang yang tak pernah padam untuk memperjuangkan kebenaran, keadilan, dan perubahan.',
   },
   {
-    title: 'Sayap',
+    tab: 'SAYAP',
+    heading: 'GERAK MAJU & SEMANGAT',
     desc: 'Melambangkan gerak maju, kecepatan, semangat pantang menyerah, dan tekad untuk mencapai tujuan setinggi mungkin.',
   },
   {
-    title: 'Daun',
+    tab: 'DAUN',
+    heading: 'KESEIMBANGAN & HARMONI',
     desc: 'Melambangkan keseimbangan, persatuan, serta harmoni antara pemikiran dan tindakan dalam mewujudkan perubahan nyata.',
   },
   {
-    title: 'Bentuk simentris',
-    desc: 'Melambangkan kehidupan, semangat, dan harapan. Daun ini menggambarkan keberanian untuk tetap berdiri tegak dan terus maju.',
+    tab: 'BENTUK SIMETRIS',
+    heading: 'KEHIDUPAN & HARAPAN',
+    desc: 'Melambangkan kehidupan, semangat, dan harapan. Bentuk ini menggambarkan keberanian untuk tetap berdiri tegak dan terus maju.',
   },
 ];
 
 export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
-  return (
-    <section id="filosofi-logo" className="scroll-mt-24 py-20 relative z-10">
-      <div className="container mx-auto px-6 max-w-6xl">
-        {/* Header with fluid scroll reveal */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-12 text-left flex flex-col items-start"
-        >
-          <span className="text-xs text-brand-neon uppercase tracking-wider font-semibold block mb-1">
-            Identitas &amp; Makna
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-ivory tracking-tight">
-            Filosofi Logo
-          </h2>
-          <p className="text-sm sm:text-base text-brand-ivory-muted mt-2 max-w-xl text-left leading-relaxed">
-            Aksara Juang
-          </p>
-        </motion.div>
+  const [activeTab, setActiveTab] = useState(0);
+  const current = logoElements[activeTab] || logoElements[0];
 
+  return (
+    <section id="filosofi-logo" className="scroll-mt-24 py-16 sm:py-24 relative z-10">
+      <div className="max-w-[1120px] mx-auto px-6 lg:px-0">
         {profileLogoPhilosophy && (
-          <div className="mb-8 p-6 rounded bg-brand-card border border-brand-border text-brand-ivory text-sm whitespace-pre-wrap leading-relaxed text-left max-w-3xl">
+          <div className="mb-8 p-6 rounded-[4px] bg-[#1a1517]/60 border border-[#e3bbb9]/12 text-[#f8f1e7] text-sm whitespace-pre-wrap leading-relaxed text-left max-w-3xl font-dm">
             {profileLogoPhilosophy}
           </div>
         )}
 
-        {/* 2-Column Showcase: Left = Logo BEM FH UNAND, Right = Philosophy Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Logo Badge with Radial Glow */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center">
-            <div className="relative flex flex-col items-center w-full max-w-sm">
-              {/* Radial ambient glow */}
-              <div
-                className="absolute -inset-6 rounded-full blur-3xl bg-brand-border/40 scale-95 opacity-80 pointer-events-none"
-              />
-
-              {/* Circular Logo Badge */}
-              <div
-                className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full p-4 sm:p-5 bg-[radial-gradient(circle,_#ffffff_35%,var(--color-brand-burgundy)_100%)] shadow-[0_0_35px_rgba(77,13,18,0.6)] ring-2 ring-brand-border/50 hover:scale-102 transition-all duration-500 flex items-center justify-center"
+        {/* 2-Column Showcase (Node 100:1011) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Left: Emblem Surface (Node 100:1012) */}
+          <div className="lg:col-span-5 flex items-center justify-center">
+            <div className="w-full max-w-[340px] aspect-square rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 shadow-[0_25px_50px_rgba(0,0,0,0.45)] relative flex flex-col items-center justify-center overflow-hidden">
+              {/* Concentric delicate orbital circles in SVG (Node 100:1014) */}
+              <svg
+                viewBox="0 0 338 338"
+                fill="none"
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full pointer-events-none select-none"
               >
-                <img
-                  src="/logo_warna.png"
-                  alt="Logo BEM FH UNAND"
-                  className="w-full h-full object-contain filter drop-shadow-md select-none transition-transform duration-500"
-                />
+                <g opacity="0.2">
+                  <circle
+                    cx="169"
+                    cy="169"
+                    r="139.176"
+                    stroke="#E3BBB9"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                  />
+                  <circle
+                    cx="169"
+                    cy="169"
+                    r="109.353"
+                    stroke="#E3BBB9"
+                    strokeWidth="1.19"
+                  />
+                  <circle
+                    cx="169"
+                    cy="169"
+                    r="79.53"
+                    stroke="#E3BBB9"
+                    strokeWidth="1"
+                  />
+                </g>
+              </svg>
+
+              {/* Emblem Shape (Node 100:1018) */}
+              <div className="relative z-10 w-[128px] h-[128px] rounded-full bg-gradient-to-tr from-[#340c14] via-[#671c2d] to-[#4a1320] border-2 border-[#e3bbb9]/40 flex items-center justify-center shadow-lg">
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 64 64"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M32.0002 5.33398L5.3335 18.6673L32.0002 32.0007L58.6668 18.6673L32.0002 5.33398V5.33398M5.3335 45.334L32.0002 58.6673L58.6668 45.334M5.3335 32.0007L32.0002 45.334L58.6668 32.0007"
+                    stroke="#F8F1E7"
+                    strokeWidth="4.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+
+              {/* Caption below Emblem (Node 100:1021) */}
+              <div className="relative z-10 mt-6 text-center">
+                <span className="font-barlow font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
+                  LAMBANG RESMI
+                </span>
+                <span className="font-mono-lib text-[10px] leading-[15px] tracking-[0.5px] text-[#f8f1e7]/50 uppercase block mt-0.5">
+                  KABINET AKSARA JUANG
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Philosophy Cards */}
-          <div className="lg:col-span-7">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-              {defaultElements.map((elem, idx) => (
+          {/* Right: Heading with Muted Red JUANG + Four Tabs (Node 100:1027) */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
+              04 / IDENTITAS SIMBOLIK
+            </span>
+
+            <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] uppercase mt-1.5">
+              <span className="text-[#f8f1e7]">AKSARA </span>
+              <span className="text-[#671c2d]">JUANG</span>
+            </h2>
+
+            {/* Four Compact Tabs (Node 100:1032) */}
+            <div
+              role="tablist"
+              aria-label="Elemen Filosofi Logo"
+              className="flex flex-wrap items-center gap-2 mt-4 mb-5"
+            >
+              {logoElements.map((elem, idx) => {
+                const isSelected = activeTab === idx;
+                return (
+                  <button
+                    key={elem.tab}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => setActiveTab(idx)}
+                    className={`h-[32px] px-4 rounded-[3px] font-barlow font-bold text-[12px] leading-[18px] tracking-[0.6px] uppercase transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-[#e3bbb9] ${
+                      isSelected
+                        ? 'bg-[#671c2d] border border-[#e3bbb9]/30 text-[#f8f1e7]'
+                        : 'bg-[#1a1517]/60 border border-[#e3bbb9]/12 text-[#f8f1e7]/70 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/25'
+                    }`}
+                  >
+                    {elem.tab}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active Tab Content (Node 100:1041) */}
+            <div className="rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 p-6 min-h-[137px] flex flex-col justify-center">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-30px' }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.06 * idx,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="group rounded p-5 transition-all duration-300 flex flex-col justify-between cursor-default border bg-brand-card border-brand-border/60 hover:border-brand-border-hover hover:bg-brand-card-hover hover:scale-[1.01] hover:-translate-y-0.5 shadow-lg shadow-black/20"
+                  key={current.tab}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span
-                        className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded uppercase tracking-wider transition-colors text-brand-neon bg-brand-burgundy border border-brand-border"
-                      >
-                        0{idx + 1}
-                      </span>
-                    </div>
-                    <h3
-                      className="text-base font-bold mb-2 transition-colors text-brand-ivory group-hover:text-brand-neon"
-                    >
-                      {elem.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-brand-ivory-muted leading-relaxed">
-                      {elem.desc}
-                    </p>
-                  </div>
+                  <h3 className="font-barlow font-bold text-[20px] leading-[30px] tracking-[1px] text-[#e3bbb9] uppercase mb-2">
+                    {current.heading}
+                  </h3>
+                  <p className="font-dm text-[15px] leading-[24px] text-[#f8f1e7]/80">
+                    {current.desc}
+                  </p>
                 </motion.div>
-              ))}
+              </AnimatePresence>
             </div>
           </div>
         </div>
