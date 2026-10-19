@@ -64,15 +64,15 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
             {profileVisiMisi}
           </motion.div>
         ) : (
-          /* Two Balanced Columns (Node 100:1153) */
+          /* Two Balanced Columns (Node 149:4746) */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Full Vision Statement (Node 100:1154) */}
+            {/* Left Column: Full Vision Statement (Node 149:4747) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-5 rounded-[4px] bg-[#1a1517]/80 border border-[#e3bbb9]/12 p-7 sm:p-8 flex flex-col justify-between min-h-[380px] sm:min-h-[406px] shadow-[0_20px_40px_rgba(0,0,0,0.45)] backdrop-blur-sm"
+              className="lg:col-span-5 rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 p-7 sm:p-8 flex flex-col justify-between min-h-[380px] sm:min-h-[406px] shadow-[0_4px_6px_rgba(0,0,0,0.4)]"
             >
               <div>
                 <div className="mb-6">
@@ -92,7 +92,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
               </div>
             </motion.div>
 
-            {/* Right Column: Four Missions Accordion / Disclosures (Node 100:1167) */}
+            {/* Right Column: Four Missions Accordion / Disclosures (Node 149:4760) */}
             <div className="lg:col-span-7 flex flex-col gap-3.5">
               {missionItems.map((item, idx) => {
                 const isOpen = openIndex === idx;
@@ -107,7 +107,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
                       delay: 0.06 * idx,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="rounded-[4px] bg-[#1a1517]/80 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/25 transition-colors backdrop-blur-sm overflow-hidden"
+                    className="rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/25 transition-colors overflow-hidden"
                   >
                     <button
                       type="button"

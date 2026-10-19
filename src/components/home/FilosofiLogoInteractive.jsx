@@ -39,76 +39,30 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
           </div>
         )}
 
-        {/* 2-Column Showcase (Node 100:1011) */}
+        {/* 2-Column Showcase (Node 149:4691) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* Left: Emblem Surface (Node 100:1012) */}
+          {/* Left: Emblem Stage Card (Node 149:4711 / 149:4712) following FINAL_HOME card design */}
           <div className="lg:col-span-5 flex items-center justify-center">
-            <div className="w-full max-w-[340px] aspect-square rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 shadow-[0_25px_50px_rgba(0,0,0,0.45)] relative flex flex-col items-center justify-center overflow-hidden">
-              {/* Concentric delicate orbital circles in SVG (Node 100:1014) */}
-              <svg
-                viewBox="0 0 338 338"
-                fill="none"
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full pointer-events-none select-none"
-              >
-                <g opacity="0.2">
-                  <circle
-                    cx="169"
-                    cy="169"
-                    r="139.176"
-                    stroke="#E3BBB9"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                  <circle
-                    cx="169"
-                    cy="169"
-                    r="109.353"
-                    stroke="#E3BBB9"
-                    strokeWidth="1.19"
-                  />
-                  <circle
-                    cx="169"
-                    cy="169"
-                    r="79.53"
-                    stroke="#E3BBB9"
-                    strokeWidth="1"
-                  />
-                </g>
-              </svg>
-
-              {/* Emblem Shape (Node 100:1018) */}
-              <div className="relative z-10 w-[128px] h-[128px] rounded-full bg-gradient-to-tr from-[#340c14] via-[#671c2d] to-[#4a1320] border-2 border-[#e3bbb9]/40 flex items-center justify-center shadow-lg">
-                <svg
-                  width="64"
-                  height="64"
-                  viewBox="0 0 64 64"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M32.0002 5.33398L5.3335 18.6673L32.0002 32.0007L58.6668 18.6673L32.0002 5.33398V5.33398M5.3335 45.334L32.0002 58.6673L58.6668 45.334M5.3335 32.0007L32.0002 45.334L58.6668 32.0007"
-                    stroke="#F8F1E7"
-                    strokeWidth="4.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+            <div className="w-full max-w-[381px] min-h-[424px] rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 shadow-[0_4px_6px_rgba(0,0,0,0.4)] p-8 relative flex flex-col items-center justify-center overflow-hidden">
+              {/* Top Pill Badge (Node 149:4713) */}
+              <div className="mb-8 px-2.5 py-0.5 rounded-[2px] bg-[#762d2e] inline-flex items-center justify-center">
+                <span className="font-bricolage font-extrabold text-[12px] leading-[18px] tracking-[0.6px] text-[#f8f1e7] uppercase text-center">
+                  IDENTITAS SIMBOLIK KABINET
+                </span>
               </div>
 
-              {/* Caption below Emblem (Node 100:1021) */}
-              <div className="relative z-10 mt-6 text-center">
-                <span className="font-barlow font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
-                  LAMBANG RESMI
-                </span>
-                <span className="font-mono-lib text-[10px] leading-[15px] tracking-[0.5px] text-[#f8f1e7]/50 uppercase block mt-0.5">
-                  KABINET AKSARA JUANG
-                </span>
+              {/* Circular White Stage with Crimson Glow & Official Color Logo (Node 149:4715 / 149:4716) */}
+              <div className="relative z-10 w-[256px] h-[256px] rounded-full bg-white shadow-[0_0_36px_rgba(196,39,73,0.55),0_0_0_2px_rgba(255,255,255,0.1)] flex items-center justify-center p-5">
+                <img
+                  src="/logo_warna.png"
+                  alt="Lambang Resmi Kabinet Aksara Juang BEM FH UNAND"
+                  className="w-[216px] h-[216px] object-contain select-none"
+                />
               </div>
             </div>
           </div>
 
-          {/* Right: Heading with Muted Red JUANG + Four Tabs (Node 100:1027) */}
+          {/* Right: Heading with #c11a40 JUANG + Four Tabs (Node 149:4692) */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
               04 / IDENTITAS SIMBOLIK
@@ -116,10 +70,10 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
 
             <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] uppercase mt-1.5">
               <span className="text-[#f8f1e7]">AKSARA </span>
-              <span className="text-[#671c2d]">JUANG</span>
+              <span className="text-[#c11a40]">JUANG</span>
             </h2>
 
-            {/* Four Compact Tabs (Node 100:1032) */}
+            {/* Four Compact Tabs (Node 149:4697) */}
             <div
               role="tablist"
               aria-label="Elemen Filosofi Logo"
@@ -136,8 +90,8 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
                     onClick={() => setActiveTab(idx)}
                     className={`h-[32px] px-4 rounded-[3px] font-barlow font-bold text-[12px] leading-[18px] tracking-[0.6px] uppercase transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-[#e3bbb9] ${
                       isSelected
-                        ? 'bg-[#671c2d] border border-[#e3bbb9]/30 text-[#f8f1e7]'
-                        : 'bg-[#1a1517]/60 border border-[#e3bbb9]/12 text-[#f8f1e7]/70 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/25'
+                        ? 'bg-[#8f1b34] border border-[#e3bbb9]/35 text-[#f8f1e7] shadow-[0_0_15px_rgba(143,27,52,0.4)]'
+                        : 'bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 text-[#f8f1e7]/70 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/25'
                     }`}
                   >
                     {elem.tab}
@@ -146,8 +100,8 @@ export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
               })}
             </div>
 
-            {/* Active Tab Content (Node 100:1041) */}
-            <div className="rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 p-6 min-h-[137px] flex flex-col justify-center">
+            {/* Active Tab Content (Node 149:4706) */}
+            <div className="rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 p-6 min-h-[137px] flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current.tab}

@@ -1,27 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 
 @theme {
   /* ========================================================
-     PALET WARNA UTAMA WEBSITE (FRAME "FINALL!")
-     ======================================================== */
-  --color-brand-dark: #141213;          /* 1. Background utama halaman */
-  --color-brand-card: #1a1517;          /* 2. Background kartu / panel / kontak */
-  --color-brand-card-hover: #241b1e;    /* 3. Background kartu saat di-hover */
-  --color-brand-burgundy: #340c14;      /* 4. Background kotak ikon / emblem */
-  --color-brand-crimson: #671c2d;       /* 5. Warna tombol utama (Hubungi Kami, Tab aktif) */
-  --color-brand-crimson-hover: #7c2236; /* 6. Warna tombol saat di-hover */
-  --color-brand-border: #4a1c24;        /* 7. Warna border marun kartu */
-  --color-brand-border-hover: #671c2d;  /* 8. Warna border saat di-hover */
+     PALET WARNA UTAMA WEBSITE (FRAME "FINAL_HOME")
+      ======================================================== */
+  --color-brand-dark: #1a0a13;          /* 1. Background utama halaman (rich radiant maroon) */
+  --color-brand-card: #23121b;          /* 2. Background kartu / panel / kontak */
+  --color-brand-card-hover: #321825;    /* 3. Background kartu saat di-hover */
+  --color-brand-burgundy: #521526;      /* 4. Background kotak ikon / emblem */
+  --color-brand-crimson: #9e1c38;       /* 5. Warna tombol utama (Hubungi Kami, Tab aktif) lebih terang & atraktif */
+  --color-brand-crimson-hover: #ba2243; /* 6. Warna tombol saat di-hover */
+  --color-brand-border: #6d2031;        /* 7. Warna border marun kartu */
+  --color-brand-border-hover: #9e1c38;  /* 8. Warna border saat di-hover */
   --color-brand-ivory: #f8f1e7;         /* 9. Warna teks utama (putih gading) */
-  --color-brand-ivory-muted: #c9b8b5;   /* 10. Warna teks sekunder / deskripsi */
-  --color-brand-neon: #e3bbb9;          /* 11. Warna aksen rose / dusty pink */
-  --color-brand-red: #671c2d;           /* 12. Aksen gradien radial */
-  --color-brand-maroon: #1a1214;        /* 13. Warna SiteNav */
+  --color-brand-ivory-muted: #d4c0bd;   /* 10. Warna teks sekunder / deskripsi */
+  --color-brand-neon: #e8c4c2;          /* 11. Warna aksen rose / dusty pink */
+  --color-brand-red: #9e1c38;           /* 12. Aksen gradien radial */
+  --color-brand-maroon: #260e18;        /* 13. Warna SiteNav */
 
   --font-sans: 'DM Sans', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-dm: 'DM Sans', system-ui, sans-serif;
   --font-barlow: 'Barlow Condensed', system-ui, sans-serif;
+  --font-bricolage: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-newsreader: 'Newsreader', Georgia, serif;
   --font-mono-lib: 'Liberation Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-jakarta: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -43,6 +44,10 @@
 @layer utilities {
   .font-barlow {
     font-family: var(--font-barlow, 'Barlow Condensed', system-ui, sans-serif);
+  }
+
+  .font-bricolage {
+    font-family: var(--font-bricolage, 'Bricolage Grotesque', system-ui, sans-serif);
   }
 
   .font-newsreader {
@@ -67,25 +72,26 @@
   }
 
   .bg-finall-canvas {
-    background-color: #141213;
+    background-color: #050103;
     background-image:
-      radial-gradient(ellipse 70% 18% at 50% 8%, rgba(73, 16, 28, 0.48) 0%, rgba(52, 12, 20, 0.28) 42%, rgba(52, 12, 20, 0) 72%),
-      radial-gradient(ellipse 55% 16% at 80% 34%, rgba(73, 16, 28, 0.25) 0%, rgba(73, 16, 28, 0) 65%),
-      radial-gradient(ellipse 60% 18% at 20% 55%, rgba(107, 27, 36, 0.20) 0%, rgba(73, 16, 28, 0) 65%),
-      radial-gradient(ellipse 65% 20% at 50% 82%, rgba(73, 16, 28, 0.38) 0%, rgba(52, 12, 20, 0.22) 40%, rgba(52, 12, 20, 0) 72%),
+      radial-gradient(ellipse 85% 40% at 20% 8%, rgba(185, 38, 68, 0.38) 0%, rgba(135, 24, 48, 0.18) 45%, transparent 75%),
+      radial-gradient(ellipse 75% 35% at 85% 20%, rgba(175, 35, 62, 0.30) 0%, rgba(120, 20, 42, 0.14) 50%, transparent 75%),
+      radial-gradient(ellipse 80% 40% at 15% 48%, rgba(165, 32, 58, 0.38) 0%, rgba(115, 18, 40, 0.16) 55%, transparent 80%),
+      radial-gradient(ellipse 75% 35% at 80% 68%, rgba(170, 34, 60, 0.30) 0%, rgba(110, 18, 38, 0.14) 50%, transparent 75%),
+      radial-gradient(ellipse 85% 35% at 50% 88%, rgba(180, 36, 65, 0.36) 0%, rgba(120, 20, 44, 0.16) 50%, transparent 80%),
       linear-gradient(
         180deg,
-        #1e1417 0%,
-        #2c1319 5%,
-        #25171c 12%,
-        #1a1517 22%,
-        #141213 36%,
-        #191518 48%,
-        #131213 62%,
-        #1e1418 78%,
-        #2a141a 88%,
-        #191416 95%,
-        #121112 100%
+        #000000 0%,
+        #050103 8%,
+        #15040b 16%,
+        #2a0816 25%,
+        #0e0308 36%,
+        #280815 48%,
+        #0a0206 60%,
+        #2d0918 72%,
+        #12030a 84%,
+        #240613 92%,
+        #050103 100%
       );
   }
 

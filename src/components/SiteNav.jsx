@@ -49,21 +49,14 @@ export default function SiteNav() {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-[height,background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isScrolled
-          ? "h-[68px] sm:h-[72px] bg-[#161013]/92 backdrop-blur-md border-b border-[#e3bbb9]/15 shadow-xl shadow-black/25"
+          ? "h-[68px] sm:h-[72px] bg-[#161013]/92 backdrop-blur-md border-b border-[#e3bbb9]/15 shadow-xl shadow-black/30"
           : "h-[80px] sm:h-[86px] bg-transparent border-b border-transparent shadow-none"
       }`}
     >
-      <motion.div
-        layout
-        transition={{
-          type: "spring",
-          stiffness: 200,
-          damping: 24,
-          mass: 0.8,
-        }}
-        className={`mx-auto h-full flex justify-between items-center transition-[padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      <div
+        className={`w-full mx-auto h-full flex justify-between items-center transition-[max-width,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isScrolled
-            ? "max-w-[1560px] px-6 lg:px-12"
+            ? "max-w-[1520px] px-6 lg:px-12"
             : "max-w-[1160px] px-5 sm:px-6 lg:px-8"
         }`}
       >
@@ -112,9 +105,9 @@ export default function SiteNav() {
                       layoutId="nav-underline"
                       className="absolute -bottom-0.5 left-0 w-full h-[1.5px] bg-[#e3bbb9]"
                       transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
+                        type: "tween",
+                        ease: [0.22, 1, 0.36, 1],
+                        duration: 0.25,
                       }}
                     />
                   )}
@@ -124,10 +117,9 @@ export default function SiteNav() {
           </div>
 
           {/* Right: Action Button (Node 100:1311) */}
-
           <Link
             href="/#kontak"
-            className="w-[142px] h-[40px] rounded-[4px] bg-[#671c2d]/90 hover:bg-[#7c2236] border border-[#e3bbb9]/30 text-[#f8f1e7] font-dm font-semibold text-[13px] leading-[20px] tracking-[0.65px] uppercase transition-all duration-200 flex items-center justify-center"
+            className="w-[142px] h-[40px] rounded-[4px] bg-[#8f1b34]/90 hover:bg-[#a8203d] border border-[#e3bbb9]/30 text-[#f8f1e7] font-dm font-semibold text-[13px] leading-[20px] tracking-[0.65px] uppercase transition-all duration-200 flex items-center justify-center shadow-sm"
           >
             HUBUNGI KAMI
           </Link>
@@ -145,7 +137,7 @@ export default function SiteNav() {
             animate={
               mobileMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }
             }
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="w-5 h-0.5 bg-[#f8f1e7] rounded-full origin-center"
           />
           <motion.span
@@ -161,11 +153,11 @@ export default function SiteNav() {
             animate={
               mobileMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }
             }
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="w-5 h-0.5 bg-[#f8f1e7] rounded-full origin-center"
           />
         </button>
-      </motion.div>
+      </div>
 
       {/* Mobile Dropdown Menu */}
       <AnimatePresence>

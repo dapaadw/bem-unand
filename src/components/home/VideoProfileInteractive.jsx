@@ -32,7 +32,7 @@ export default function VideoProfileInteractive({ videoUrl }) {
           </p>
         </motion.div>
 
-        {/* Video Player Thumbnail / Embed (Node 100:995) */}
+        {/* Video Player Thumbnail / Embed (Node 149:4724) */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export default function VideoProfileInteractive({ videoUrl }) {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-[880px] mx-auto"
         >
-          <div className="w-full h-[320px] sm:h-[460px] md:h-[543px] rounded-[4px] bg-[#1a1517]/80 border border-[#e3bbb9]/12 overflow-hidden relative shadow-[0_25px_50px_rgba(0,0,0,0.55)] flex flex-col">
+          <div className="w-full h-[320px] sm:h-[460px] md:h-[543px] rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 overflow-hidden relative shadow-[0_25px_50px_rgba(0,0,0,0.55)] flex flex-col">
             {isPlaying && autoplayUrl ? (
               <iframe
                 src={autoplayUrl}
@@ -62,8 +62,8 @@ export default function VideoProfileInteractive({ videoUrl }) {
                   aria-label="Putar Video Profil BEM FH UNAND"
                   className="flex-1 w-full bg-[#110c0e]/95 relative flex flex-col items-center justify-center group cursor-pointer focus-visible:outline-2 focus-visible:outline-[#e3bbb9]"
                 >
-                  {/* Play button circle (Node 100:998) */}
-                  <div className="w-[80px] h-[80px] rounded-full bg-[#671c2d]/90 group-hover:bg-[#7c2236] border border-[#e3bbb9]/40 flex items-center justify-center shadow-[0_0_30px_rgba(103,28,45,0.5)] group-hover:scale-105 transition-all duration-300">
+                  {/* Play button circle (Node 149:4727) */}
+                  <div className="w-[80px] h-[80px] rounded-full bg-[#8f1b34]/95 group-hover:bg-[#a8203d] border border-[#e3bbb9]/50 flex items-center justify-center shadow-[0_0_36px_rgba(196,39,73,0.55)] group-hover:scale-105 transition-all duration-300">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                       <path
                         d="M10.667 6.66602V25.3327L25.3337 15.9993L10.667 6.66602"
@@ -72,10 +72,10 @@ export default function VideoProfileInteractive({ videoUrl }) {
                     </svg>
                   </div>
 
-                  {/* Preview label (Node 100:1003) */}
+                  {/* Preview label (Node 149:4732) */}
                   <div className="mt-4 px-3.5 py-1.5 rounded-[3px] bg-black/60 border border-white/10">
                     <span className="font-mono-lib text-[11px] sm:text-[12px] leading-[18px] tracking-[0.6px] text-[#f8f1e7]/80 uppercase">
-                      VIDEO PROFIL BEM FH UNAND &middot; PRATINJAU
+                      VIDEO PROFIL BEM FH UNAND — PRATINJAU
                     </span>
                   </div>
 

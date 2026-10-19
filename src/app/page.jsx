@@ -13,11 +13,19 @@ export default async function HomePage() {
   const [activities, profile, contacts] = await Promise.all([
     prisma.kegiatan.findMany({
       take: 4,
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }, { id: 'desc' }],
+      orderBy: [{ date: 'desc' }, { publishedAt: 'desc' }, { id: 'desc' }],
     }),
     prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.contacts.findUnique({ where: { id: 1 } }),
   ]);
+
+  const serializedActivities = activities.map((item) => ({
+    ...item,
+    date: item.date ? item.date.toISOString() : null,
+    publishedAt: item.publishedAt ? item.publishedAt.toISOString() : null,
+    createdAt: item.createdAt ? item.createdAt.toISOString() : null,
+    updatedAt: item.updatedAt ? item.updatedAt.toISOString() : null,
+  }));
 
   const whatsappUrl = contacts?.whatsappUrl || 'https://wa.me/6281234567890';
   const instagramUrl = contacts?.instagramUrl || 'https://www.instagram.com/bemfhua/';
@@ -26,7 +34,7 @@ export default async function HomePage() {
   const title = profile?.title || 'BEM FH UNAND';
   const subtitle =
     profile?.subtitle ||
-    'Pusat informasi, advokasi, publikasi ilmiah, dan penyalur aspirasi seluruh mahasiswa Fakultas Hukum Universitas Andalas.';
+    'PUSAT INFORMASI, ADVOKASI, PUBLIKASI ILMIAH, DAN PENYALUR ASPIRASI SELURUH MAHASISWA FAKULTAS HUKUM UNIVERSITAS ANDALAS';
 
   // URL Video Profil YouTube
   const video = youtubeEmbedUrl('https://www.youtube.com/watch?v=Nfs-Moa_1Ko');
@@ -44,7 +52,6 @@ export default async function HomePage() {
   const accessBlocks = [
     {
       num: '01 / LAYANAN',
-      tag: 'ASPIRASI',
       heading: 'ADA YANG INGIN DISUARAKAN?',
       footer: 'Kanal Advokasi & Aduan',
       href: '/aspirasi',
@@ -52,7 +59,6 @@ export default async function HomePage() {
     },
     {
       num: '02 / PARTISIPASI',
-      tag: 'KEGIATAN',
       heading: 'TEMUKAN RUANGMU.',
       footer: 'Agenda & Ruang Diskusi',
       href: '/kegiatan',
@@ -60,7 +66,6 @@ export default async function HomePage() {
     },
     {
       num: '03 / PEMIKIRAN',
-      tag: 'PUBLIKASI',
       heading: 'BUKA SUDUT PANDANG.',
       footer: 'Kajian Hukum & Riset',
       href: '/publikasi',
@@ -69,79 +74,64 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-finall-canvas text-[#f8f1e7]">
+    <div className="relative">
+
       {/* =================================================================
-          HERO SECTION: Background Image with Seamless Mask Fade
+          HERO SECTION: HALAMAN HOME ATAS (Node 149:4849)
           ================================================================= */}
-      <section className="relative min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] flex flex-col justify-center items-center pt-[110px] pb-10 sm:pb-14 overflow-hidden">
-        {/* Full-width hero background image with smooth alpha mask fade */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-16 overflow-hidden z-10">
+        {/* Full-width hero background image with smooth bottom alpha mask dissolving into canvas */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_35%,rgba(0,0,0,0.6)_65%,transparent_96%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_35%,rgba(0,0,0,0.6)_65%,transparent_96%)]"
+          className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_35%,rgba(0,0,0,0.5)_65%,transparent_98%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_35%,rgba(0,0,0,0.5)_65%,transparent_98%)]"
         >
           <img
             src={profile?.heroImageUrl || '/hero.PNG'}
             alt="Foto pengurus Kabinet Aksara Juang BEM FH UNAND"
-            className="w-full h-full object-cover object-[center_28%] opacity-35 scale-105"
+            className="w-full h-full object-cover object-[center_28%] opacity-40"
             fetchPriority="high"
           />
-          {/* Subtle dark tint to ensure text legibility */}
-          <div className="absolute inset-0 bg-[#141213]/40" />
+          {/* Soft tint over image for depth */}
+          <div className="absolute inset-0 bg-black/25 pointer-events-none" />
         </div>
 
-        {/* Top gradient from header */}
+        {/* Top deep black gradient overlay for header contrast */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#161013]/85 via-[#161013]/35 to-transparent pointer-events-none z-[1]"
+          className="absolute inset-x-0 top-0 h-56 sm:h-72 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-[1]"
         />
 
-        {/* Decorative Burgundy Ornament Layer with soft bottom mask fade (Node 100:1353 - Group 7) */}
+        {/* Ambient relaxed maroon aura behind content */}
         <div
           aria-hidden="true"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1450px] max-w-none h-[755px] pointer-events-none select-none z-[2] mix-blend-color-dodge opacity-45 [mask-image:linear-gradient(to_bottom,black_30%,transparent_95%)] [-webkit-mask-image:linear-gradient(to_bottom,black_30%,transparent_95%)]"
-        >
-          <img
-            src="/ornament-hero.png"
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </div>
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(188,34,68,0.32)_0%,rgba(130,20,48,0.16)_45%,transparent_75%)] pointer-events-none blur-3xl z-[1]"
+        />
 
-        {/* Hero Text Content (Node 100:1338 - Group 3) */}
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10 flex flex-col items-center text-center">
-          <HeroContentAnimation className="w-full flex flex-col items-center text-center">
-            {/* Eyebrow Badge (Node 100:889) */}
-            <div className="px-5 py-1.5 rounded-[8px] bg-[#671c2d]/70 border border-[#e3bbb9]/25 mb-4 shadow-lg backdrop-blur-sm">
-              <p className="font-dm font-semibold text-[10px] sm:text-[11px] leading-[16.5px] tracking-[1.1px] uppercase text-[#ffe8e7] text-center drop-shadow-sm">
-                BADAN EKSEKUTIF MAHASISWA
-                <br />
-                FAKULTAS HUKUM UNIVERSITAS ANDALAS
-              </p>
-            </div>
-
-            {/* Main Heading (Node 100:892) */}
-            <h1 className="font-barlow font-extrabold text-5xl sm:text-7xl md:text-[84px] leading-[0.92] tracking-[-2.1px] uppercase text-[#f8f1e7] text-center drop-shadow-lg">
+        {/* Hero Text Content (Centered Vertically & Horizontally) */}
+        <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10 flex flex-col items-center justify-center text-center my-auto">
+          <HeroContentAnimation className="w-full flex flex-col items-center justify-center text-center">
+            {/* Main Heading */}
+            <h1 className="font-barlow font-extrabold text-5xl sm:text-7xl md:text-[80px] leading-[0.95] tracking-tight uppercase text-[#f8f1e7] text-center drop-shadow-[0_11px_12.1px_rgba(0,0,0,1)]">
               {title}
             </h1>
 
-            {/* Subheading (Node 100:893) */}
-            <h2 className="font-newsreader font-normal text-2xl sm:text-4xl md:text-[50px] leading-[1.26] text-[#f8f1e7] text-center mt-3 drop-shadow-md">
+            {/* Subheading */}
+            <h2 className="font-newsreader font-normal text-2xl sm:text-3xl md:text-[44px] leading-tight text-[#f8f1e7]/95 text-center mt-3 drop-shadow-[0_11px_12.1px_rgba(0,0,0,1)]">
               KABINET AKSARA JUANG
             </h2>
 
-            {/* Description (Node 100:894) */}
-            <p className="font-jakarta font-normal text-xs sm:text-[15px] leading-[24px] sm:leading-[30px] uppercase text-[#e3e3e3] max-w-[648px] mx-auto text-center mt-3 drop-shadow-md">
+            {/* Description */}
+            <p className="font-jakarta font-semibold text-xs sm:text-sm md:text-[16px] leading-[1.5] md:leading-[25px] uppercase text-[#f8f1e7]/90 max-w-[760px] mx-auto text-center mt-3.5 drop-shadow-[0_11px_12.1px_rgba(0,0,0,1)]">
               {subtitle}
             </p>
 
-            {/* Jelajahi Button (Node 100:1336) */}
-            <div className="mt-5">
+            {/* Jelajahi Button */}
+            <div className="mt-7">
               <a
-                href="#visi-misi"
-                className="inline-flex items-center justify-center gap-1.5 px-4 h-[32px] rounded-[5px] bg-[#571b28] bg-gradient-to-r from-[#5a1e2a] to-[#37181c] border border-white/25 text-[#f1d8d7] font-dm font-semibold text-[14px] leading-[17px] tracking-[1.1px] uppercase hover:brightness-110 transition-all shadow-lg"
+                href="#layanan"
+                className="inline-flex items-center justify-center px-6 h-[34px] rounded-[5px] bg-[#1d151a]/85 border border-white/80 text-[#f1d8d7] font-dm font-semibold text-[14px] leading-[16px] tracking-[1.1px] uppercase hover:bg-[#2c1d24] transition-all shadow-[7px_5px_4px_rgba(0,0,0,1),0_11px_10.4px_rgba(0,0,0,0.39)]"
               >
-                <span>Jelajahi</span>
-                <span aria-hidden="true">&gt;</span>
+                <span>Jelajahi &gt;</span>
               </a>
             </div>
           </HeroContentAnimation>
@@ -149,11 +139,10 @@ export default async function HomePage() {
       </section>
 
       {/* =================================================================
-          SECTION 01: THREE ACCESS BLOCKS (Node 100:945)
+          SECTION 01: THREE ACCESS BLOCKS (Node 149:4805)
           ================================================================= */}
-      <section className="pt-2 sm:pt-4 pb-20 sm:pb-28 relative z-10">
+      <section id="layanan" className="pt-12 sm:pt-16 pb-16 sm:pb-24 relative z-10 scroll-mt-20">
         <div className="max-w-[1120px] mx-auto px-6 lg:px-0">
-          {/* Three Compact Rectangular Text Access Blocks (Node 100:945) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {accessBlocks.map((block) => (
               <Link
@@ -161,15 +150,12 @@ export default async function HomePage() {
                 href={block.href}
                 target={block.external ? '_blank' : undefined}
                 rel={block.external ? 'noopener noreferrer' : undefined}
-                className="rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 p-[29px] min-h-[191px] flex flex-col justify-between transition-all duration-200 group"
+                className="rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 p-[29px] min-h-[190px] flex flex-col justify-between transition-all duration-200 group shadow-[0_4px_6px_rgba(0,0,0,0.4)]"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3.5">
-                    <span className="font-mono-lib font-bold text-[11px] leading-[17px] tracking-[1.1px] text-[#e3bbb9] uppercase">
+                    <span className="font-mono-lib font-bold text-[11px] leading-[16.5px] tracking-[1.1px] text-[#e3bbb9] uppercase">
                       {block.num}
-                    </span>
-                    <span className="font-barlow font-bold text-[12px] leading-[18px] tracking-[0.6px] text-[#f8f1e7]/50 uppercase">
-                      {block.tag}
                     </span>
                   </div>
 
@@ -179,7 +165,7 @@ export default async function HomePage() {
                 </div>
 
                 <div className="pt-4 mt-5 border-t border-[#e3bbb9]/60 flex items-center justify-between">
-                  <span className="font-dm text-[13px] leading-[20px] text-[#f8f1e7]/65 group-hover:text-[#f8f1e7] transition-colors">
+                  <span className="font-dm text-[13px] leading-[19.5px] text-[#f8f1e7]/65 group-hover:text-[#f8f1e7] transition-colors">
                     {block.footer}
                   </span>
                   <svg
@@ -206,72 +192,57 @@ export default async function HomePage() {
       </section>
 
       {/* =================================================================
-          SECTION 02 & 03 WRAPPER WITH GROUP 6 ORNAMENT LAYER
+          SECTION 02 & 03: VISI MISI & VIDEO PROFIL
           ================================================================= */}
-      <div className="relative">
-        {/* Decorative Burgundy Ornament Layer (Node 100:1351 - Group 6) */}
-        <div
-          aria-hidden="true"
-          className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[1450px] max-w-none h-[755px] pointer-events-none select-none z-0 mix-blend-color-dodge opacity-85"
-        >
-          <img
-            src="/ornament-section.png"
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </div>
-
-        {/* Section 02: Visi & Misi (Node 100:1147) */}
+      <div className="relative z-10">
+        {/* Section 02: Visi & Misi (Node 149:4741) */}
         <VisiMisiInteractive
           visi={visi}
           misi={misi}
           profileVisiMisi={profile?.visiMisi}
         />
 
-        {/* Section 03: Mengenal BEM FH UNAND / Video Profil (Node 100:988) */}
+        {/* Section 03: Mengenal BEM FH UNAND / Video Profil (Node 149:4718) */}
         {video && <VideoProfileInteractive videoUrl={video} />}
       </div>
 
       {/* =================================================================
-          SECTION 04: IDENTITAS SIMBOLIK / FILOSOFI LOGO (Node 100:1011)
+          SECTION 04: IDENTITAS SIMBOLIK / FILOSOFI LOGO (Node 149:4691)
           ================================================================= */}
       <FilosofiLogoInteractive profileLogoPhilosophy={profile?.logoPhilosophy} />
 
       {/* =================================================================
-          SECTION 05: WARTA & AKTIVITAS / KEGIATAN (Node 100:1046)
+          SECTION 05: WARTA & AKTIVITAS / KEGIATAN (Node 149:4555)
           ================================================================= */}
-      <AgendaHomeInteractive activities={activities} />
+      <AgendaHomeInteractive activities={serializedActivities} />
 
       {/* =================================================================
-          SECTION 06: HUBUNGI KAMI / KONTAK RESMI (Node 100:1210)
+          SECTION 06: KONTAK RESMI (Node 153:7497)
           ================================================================= */}
-      <section id="kontak" className="scroll-mt-24 pt-16 sm:pt-20 pb-4 relative z-10">
+      <section id="kontak" className="scroll-mt-24 pt-16 sm:pt-20 pb-16 sm:pb-24 relative z-10">
         <div className="max-w-[1120px] mx-auto px-6 lg:px-0">
-          <div className="border-b border-[#e3bbb9]/12 pb-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
-            {/* Left Statement (Node 100:1212) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+            {/* Left Statement (Node 153:7499) */}
             <div className="lg:col-span-7 text-left">
-              <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
-                06 / HUBUNGI KAMI
-              </span>
-              <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] text-[#f8f1e7] uppercase mt-1.5">
+              <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] text-[#f8f1e7] uppercase">
                 KONTAK RESMI
               </h2>
-              <p className="font-dm text-base sm:text-[17px] leading-[28px] text-[#f8f1e7]/85 mt-3 max-w-[540px]">
+              <p className="font-dm text-lg sm:text-[20px] leading-[27.6px] text-[#f8f1e7] mt-3 max-w-[506px]">
                 Saluran komunikasi resmi serta sekretariat pengurus BEM FH UNAND. Terbuka bagi seluruh civitas akademika dan masyarakat luas.
               </p>
             </div>
 
-            {/* Right Compact Rows (Node 100:1219) */}
+            {/* Right Compact Rows (Node 153:7505) */}
             <div className="lg:col-span-5 flex flex-col gap-3 w-full">
-              {/* WhatsApp Row (Node 100:1220) */}
+              {/* WhatsApp Row (Node 153:7506) */}
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[66px] rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 px-4 flex items-center justify-between transition-all group"
+                className="h-[64px] rounded-[4px] bg-[#1f151a] backdrop-blur-[10px] hover:bg-[#281b22] px-4 flex items-center justify-between transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-[32px] h-[32px] rounded-[3px] bg-[#671c2d]/30 flex items-center justify-center shrink-0">
+                  <div className="w-[32px] h-[32px] rounded-[3px] flex items-center justify-center shrink-0">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path
                         d="M2 3.33333C2 2.59745 2.59745 2 3.33333 2H5.52C5.80683 2.00022 6.06136 2.18387 6.152 2.456L7.15067 5.45133C7.25528 5.76603 7.11267 6.10978 6.816 6.258L5.31133 7.01133C6.04888 8.64369 7.35631 9.95112 8.98867 10.6887L9.742 9.184C9.89022 8.88733 10.234 8.74472 10.5487 8.84933L13.544 9.848C13.8164 9.93871 14.0001 10.1936 14 10.4807V12.6667C14 13.4026 13.4026 14 12.6667 14H12C6.47733 14 2 9.52267 2 4V3.33333V3.33333"
@@ -286,20 +257,20 @@ export default async function HomePage() {
                     WhatsApp
                   </span>
                 </div>
-                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[20px] text-[#f8f1e7]/60">
+                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[19.5px] text-[#f8f1e7]">
                   Informasi kontak resmi
                 </span>
               </a>
 
-              {/* Instagram Row (Node 100:1229) */}
+              {/* Instagram Row (Node 153:7514) */}
               <a
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[66px] rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 px-4 flex items-center justify-between transition-all group"
+                className="h-[64px] rounded-[4px] bg-[#1f151a] backdrop-blur-[10px] hover:bg-[#281b22] px-4 flex items-center justify-between transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-[32px] h-[32px] rounded-[3px] bg-[#671c2d]/30 flex items-center justify-center shrink-0">
+                  <div className="w-[32px] h-[32px] rounded-[3px] flex items-center justify-center shrink-0">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path
                         d="M10.6663 7.58065C10.8351 8.71863 10.255 9.83655 9.22743 10.3538C8.19983 10.871 6.95637 10.6709 6.1429 9.85743C5.32943 9.04395 5.12934 7.8005 5.64656 6.7729C6.16378 5.7453 7.28169 5.16524 8.41967 5.33398C9.58166 5.50629 10.494 6.41867 10.6663 7.58065V7.58065M11.6663 4.33398H11.673M4.33301 1.33398H11.6663C13.3221 1.33398 14.6663 2.67824 14.6663 4.33398V11.6673C14.6663 13.3231 13.3221 14.6673 11.6663 14.6673H4.33301C2.67726 14.6673 1.33301 13.3231 1.33301 11.6673V4.33398C1.33301 2.67824 2.67726 1.33398 4.33301 1.33398L11.6663 4.33398"
@@ -314,18 +285,18 @@ export default async function HomePage() {
                     Instagram
                   </span>
                 </div>
-                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[20px] text-[#f8f1e7]/80">
+                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[19.5px] text-[#f8f1e7]">
                   @bemfhunand
                 </span>
               </a>
 
-              {/* Email Row (Node 100:1238) */}
+              {/* Email Row (Node 153:7522) */}
               <a
                 href={`mailto:${emailAddress}`}
-                className="h-[66px] rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 hover:border-[#e3bbb9]/30 hover:bg-[#241b1e]/80 px-4 flex items-center justify-between transition-all group"
+                className="h-[64px] rounded-[4px] bg-[#1f151a] backdrop-blur-[10px] hover:bg-[#281b22] px-4 flex items-center justify-between transition-all group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-[32px] h-[32px] rounded-[3px] bg-[#671c2d]/30 flex items-center justify-center shrink-0">
+                  <div className="w-[32px] h-[32px] rounded-[3px] flex items-center justify-center shrink-0">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path
                         d="M2 5.33398L7.26 8.84065C7.70805 9.13958 8.29195 9.13958 8.74 8.84065L14 5.33398M3.33333 12.6673H12.6667C13.4026 12.6673 14 12.0699 14 11.334V4.66732C14 3.93143 13.4026 3.33398 12.6667 3.33398H3.33333C2.59745 3.33398 2 3.93143 2 4.66732V11.334C2 12.0699 2.59745 12.6673 3.33333 12.6673L2 5.33398"
@@ -340,17 +311,17 @@ export default async function HomePage() {
                     Email
                   </span>
                 </div>
-                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[20px] text-[#f8f1e7]/60">
+                <span className="font-mono-lib text-[12px] sm:text-[13px] leading-[19.5px] text-[#f8f1e7]">
                   Informasi kontak resmi
                 </span>
               </a>
 
-              {/* Sekretariat Row (Node 100:1247) */}
-              <div className="min-h-[99px] rounded-[4px] bg-[#1a1517]/75 border border-[#e3bbb9]/12 p-4 flex flex-col justify-center">
+              {/* Sekretariat Row (Node 153:7530) */}
+              <div className="min-h-[97px] rounded-[4px] bg-[#1f151a] backdrop-blur-[10px] p-4 flex flex-col justify-center">
                 <span className="font-barlow font-bold text-[12px] leading-[18px] tracking-[0.6px] text-[#e3bbb9] uppercase block">
                   SEKRETARIAT
                 </span>
-                <p className="font-dm text-[13px] leading-[21px] text-[#f8f1e7]/70 mt-1">
+                <p className="font-dm text-[13px] leading-[21.1px] text-[#f8f1e7]/70 mt-1">
                   Fakultas Hukum Universitas Andalas, Padang, Sumatera Barat,
                   <br />
                   Indonesia
