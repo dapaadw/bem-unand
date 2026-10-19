@@ -47,14 +47,14 @@ export default function SiteNav() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-[height,background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`fixed top-0 left-0 w-full z-50 transition-[height,background-color,border-color,box-shadow,backdrop-filter] duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isScrolled
-          ? "h-[68px] sm:h-[72px] bg-[#161013]/92 backdrop-blur-md border-b border-[#e3bbb9]/15 shadow-xl shadow-black/30"
+          ? "h-[68px] sm:h-[80px] bg-[#161013]/92 backdrop-blur-md border-b border-[#e3bbb9]/15 shadow-xl shadow-black/30"
           : "h-[80px] sm:h-[86px] bg-transparent border-b border-transparent shadow-none"
       }`}
     >
       <div
-        className={`w-full mx-auto h-full flex justify-between items-center transition-[max-width,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`w-full mx-auto h-full flex justify-between items-center transition-[max-width,padding] duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isScrolled
             ? "max-w-[1520px] px-6 lg:px-12"
             : "max-w-[1160px] px-5 sm:px-6 lg:px-8"

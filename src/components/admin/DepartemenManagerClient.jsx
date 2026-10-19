@@ -6,15 +6,14 @@ import {
   Users,
   Briefcase,
   PhoneCall,
-  Plus,
-  Trash2,
   Save,
+  Trash2,
   CheckCircle2,
   AlertCircle,
   Loader2,
-  Image as ImageIcon,
   UserPlus,
   FolderPlus,
+  ShieldCheck,
 } from "lucide-react";
 
 function Field({
@@ -42,7 +41,6 @@ function Field({
 export default function DepartemenManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
   const [selectedId, setSelectedId] = useState(initialItems[0]?.id || null);
-  const [newName, setNewName] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -69,47 +67,28 @@ export default function DepartemenManagerClient({ initialItems }) {
     setMessage("");
     setError("");
     try {
-      const response = await fetch(
-        method === "POST" ? "/api/departemen" : `/api/departemen/${selectedId}`,
-        {
-          method,
-          headers: { "Content-Type": "application/json" },
-          body: body ? JSON.stringify(body) : undefined,
-        },
-      );
+      const response = await fetch(`/api/departemen/${selectedId}`, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: body ? JSON.stringify(body) : undefined,
+      });
       const data = await response.json();
       if (!response.ok) {
         setError(data.error || "Gagal menyimpan perubahan.");
         return;
       }
-      if (method === "DELETE") {
-        const remaining = items.filter((item) => item.id !== selectedId);
-        setItems(remaining);
-        setSelectedId(remaining[0]?.id || null);
-        setMessage("Departemen berhasil dihapus.");
-      } else if (method === "POST") {
-        setItems((previous) =>
-          [...previous, data].sort((a, b) => a.name.localeCompare(b.name)),
-        );
-        setSelectedId(data.id);
-        setNewName("");
-        setMessage(
-          "Departemen baru berhasil ditambahkan. Lengkapi profil dan detailnya.",
-        );
-      } else {
-        setItems((previous) =>
-          previous
-            .map((item) =>
-              item.id === selectedId ? { ...item, ...data } : item,
-            )
-            .sort((a, b) => a.name.localeCompare(b.name)),
-        );
-        setMessage(
-          method === "PUT"
-            ? "Profil departemen tersimpan."
-            : "Staff, program kerja, dan kontak berhasil diperbarui.",
-        );
-      }
+      setItems((previous) =>
+        previous
+          .map((item) =>
+            item.id === selectedId ? { ...item, ...data } : item,
+          )
+          .sort((a, b) => a.name.localeCompare(b.name)),
+      );
+      setMessage(
+        method === "PUT"
+          ? "Profil departemen tersimpan."
+          : "Staff, program kerja, dan kontak berhasil diperbarui.",
+      );
     } catch {
       setError("Terjadi kesalahan jaringan. Silakan coba lagi.");
     } finally {
@@ -119,38 +98,6 @@ export default function DepartemenManagerClient({ initialItems }) {
 
   return (
     <div className="space-y-6">
-      {/* Top Creation Bar */}
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          perform("POST", { name: newName });
-        }}
-        className="flex flex-col sm:flex-row gap-3 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-sm"
-      >
-        <div className="relative flex-1">
-          <input
-            aria-label="Nama departemen baru"
-            required
-            disabled={saving}
-            value={newName}
-            onChange={(event) => setNewName(event.target.value)}
-            placeholder="Ketik nama departemen atau biro baru..."
-            className="w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={saving || !newName.trim()}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow-md hover:shadow-brand-neon/20 transition-all disabled:opacity-50 shrink-0"
-        >
-          {saving ? (
-            <Loader2 size={16} className="animate-spin" />
-          ) : (
-            <Plus size={16} />
-          )}
-          <span>Tambah Departemen</span>
-        </button>
-      </form>
 
       {/* Status Banners */}
       {message && (
@@ -284,22 +231,10 @@ export default function DepartemenManagerClient({ initialItems }) {
                   <span>Simpan Profil</span>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (
-                      confirm(
-                        `Hapus departemen "${selected.name}" beserta seluruh staf, program kerja, dan kontaknya? Tindakan ini tidak dapat dibatalkan.`,
-                      )
-                    ) {
-                      perform("DELETE");
-                    }
-                  }}
-                  className="inline-flex items-center gap-1.5 text-xs text-rose-300 hover:text-rose-200 hover:bg-rose-950/40 border border-rose-800/40 rounded-xl px-3.5 py-2 transition-colors"
-                >
-                  <Trash2 size={13} />
-                  <span>Hapus Departemen Ini</span>
-                </button>
+                <div className="inline-flex items-center gap-1.5 text-xs text-[#e3bbb9]/70 bg-white/[0.04] border border-[#e3bbb9]/20 rounded-xl px-3.5 py-2 font-mono-lib">
+                  <ShieldCheck size={14} className="text-[#e3bbb9]" />
+                  <span>Struktur Tetap (Hardcoded)</span>
+                </div>
               </div>
             </section>
 

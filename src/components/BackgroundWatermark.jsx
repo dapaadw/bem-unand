@@ -1,8 +1,6 @@
 'use client';
 
-// Watermark coordinates matching Figma node 149:4504 "Background logo putih "
 // Color: #7C1D2B (R: 124, G: 29, B: 43)
-// Exact Figma rotations (-16.33deg and -343.67deg), no horizontal flips!
 
 const homeWatermarks = [
   { left: 984, top: 766, deg: -16.33 },

@@ -110,15 +110,12 @@ export async function PATCH(request, { params }) {
   return NextResponse.json(updated);
 }
 
-export async function DELETE(_request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
-  if (error) return error;
-  const { id } = await params;
-  const existing = await prisma.departemen.findUnique({ where: { id } });
-  if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
-  await prisma.departemen.delete({ where: { id } });
-  await logAction({ userId: session.userId, action: 'DELETE', entityType: 'Departemen', entityId: id, summary: `Menghapus departemen "${existing.name}"` });
-  revalidatePath('/departemen');
-  revalidatePath(`/departemen/${existing.slug}`);
-  return NextResponse.json({ ok: true });
+export async function DELETE() {
+  return NextResponse.json(
+    {
+      error:
+        'Penghapusan departemen dinonaktifkan. Struktur 13 Departemen, Biro, Lembaga, dan Kantor BEM FH UNAND telah ditetapkan secara permanen (hardcoded).',
+    },
+    { status: 405 }
+  );
 }

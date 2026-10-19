@@ -19,11 +19,11 @@ export default async function DepartemenManagerPage() {
             <span>Manajemen Departemen &amp; Biro</span>
           </h1>
           <p className="text-xs md:text-sm text-gray-400 mt-1">
-            Kelola profil, jajaran staf/BPH, program kerja, dan kontak resmi departemen BEM FH UNAND.
+            Struktur 13 Departemen, Biro, Lembaga, dan Kantor BEM FH UNAND bersifat tetap (hardcoded). Kelola foto, jajaran staf/BPH, program kerja, dan kontak resmi.
           </p>
         </div>
-        <span className="text-xs px-3 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-brand-neon font-medium self-start sm:self-auto">
-          {items.length} Departemen Terdaftar
+        <span className="text-xs px-3 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-brand-neon font-medium self-start sm:self-auto font-mono">
+          13 Departemen Tetap
         </span>
       </div>
       <DepartemenManagerClient initialItems={items} />
