@@ -1,22 +1,40 @@
-import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
 import { prisma } from '../../../lib/prisma';
-import { requireRole, slugify } from '../../../lib/requireRole';
-import { logAction } from '../../../lib/audit';
-import { departmentProfile } from '../../../lib/departemen';
+import { HARDCODED_DEPARTEMEN } from '../../../data/departemen';
 
 export async function GET() {
-  return NextResponse.json({ items: await prisma.departemen.findMany({ orderBy: { name: 'asc' } }) });
+  let dbItems = [];
+  try {
+    dbItems = await prisma.departemen.findMany({
+      include: { staff: true, proker: true, contact: true },
+      orderBy: { name: 'asc' },
+    });
+  } catch {
+    dbItems = [];
+  }
+
+  const dbMap = new Map(dbItems.map((d) => [d.slug, d]));
+  const items = HARDCODED_DEPARTEMEN.map((dept) => {
+    const db = dbMap.get(dept.slug);
+    return {
+      ...dept,
+      id: db?.id || dept.id,
+      photoUrl: db?.photoUrl || dept.photoUrl,
+      contact: db?.contact || null,
+      staff: (db?.staff && db.staff.length > 0) ? db.staff : dept.staff,
+      proker: (db?.proker && db.proker.length > 0) ? db.proker : dept.proker,
+    };
+  });
+
+  return NextResponse.json({ items });
 }
 
-export async function POST(request) {
-  const { session, error } = await requireRole(['ADMIN']);
-  if (error) return error;
-  const validated = departmentProfile(await request.json().catch(() => null));
-  if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
-  const item = await prisma.departemen.create({ data: { ...validated.data, slug: `${slugify(validated.data.name) || 'departemen'}-${randomUUID().slice(0, 8)}` }, include: { staff: true, proker: true, contact: true } });
-  await logAction({ userId: session.userId, action: 'CREATE', entityType: 'Departemen', entityId: item.id, summary: `Membuat departemen "${item.name}"` });
-  revalidatePath('/departemen');
-  return NextResponse.json(item, { status: 201 });
+export async function POST() {
+  return NextResponse.json(
+    {
+      error:
+        'Fitur penambahan departemen dinonaktifkan. Struktur 13 Departemen, Biro, Lembaga, dan Kantor BEM FH UNAND telah ditetapkan secara permanen (hardcoded).',
+    },
+    { status: 405 }
+  );
 }

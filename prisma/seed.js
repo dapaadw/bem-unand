@@ -3,40 +3,39 @@ import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-const DEPARTEMEN_NAMES = [
-  'Inspektorat Jenderal',
-  'Sekretaris Kabinet',
-  'Bendahara Kabinet',
-  'Departemen Dalam Negeri',
-  'Departemen Luar Negeri',
-  'Departemen Advokasi',
-  'Departemen Kajian Strategis',
-  'Departemen Pengembangan Sumber Daya Mahasiswa',
-  'Departemen Sosial Masyarakat',
-  'Departemen Minat dan Bakat',
-  'Departemen Kewirausahaan',
-  'Departemen Hubungan Masyarakat',
-  'Departemen Media dan Informasi',
-  'Departemen Agama dan Kerohanian',
-  'Departemen Riset dan Teknologi',
-  'Departemen Kesekretariatan',
-];
-
-function slugify(name) {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
+import { DEPARTEMEN_DATA } from '../scripts/seed-departemen.js';
 
 async function main() {
-  for (const name of DEPARTEMEN_NAMES) {
-    const slug = slugify(name);
-    await prisma.departemen.upsert({
-      where: { slug },
-      update: {},
-      create: { name, slug, description: `Deskripsi singkat ${name} (placeholder, edit di admin panel).` },
+  for (const item of DEPARTEMEN_DATA) {
+    const dept = await prisma.departemen.upsert({
+      where: { slug: item.slug },
+      update: {
+        name: item.name,
+        description: item.description,
+      },
+      create: {
+        name: item.name,
+        slug: item.slug,
+        description: item.description,
+      },
     });
+
+    if (item.prokers && item.prokers.length > 0) {
+      for (const p of item.prokers) {
+        const existing = await prisma.programKerja.findFirst({
+          where: { departemenId: dept.id, name: p.name },
+        });
+        if (!existing) {
+          await prisma.programKerja.create({
+            data: {
+              departemenId: dept.id,
+              name: p.name,
+              description: p.description,
+            },
+          });
+        }
+      }
+    }
   }
 
   const adminEmail = process.env.ADMIN_SEED_EMAIL || 'admin@bemfhunand.local';
