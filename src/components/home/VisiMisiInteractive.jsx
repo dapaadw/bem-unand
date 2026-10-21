@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Quote } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Quote } from "lucide-react";
 
 export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
   return (
@@ -11,7 +11,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mb-12 text-left"
         >
@@ -27,7 +27,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="p-8 rounded bg-brand-card border border-brand-border text-brand-ivory whitespace-pre-wrap leading-relaxed text-base"
           >
@@ -39,7 +39,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-5 bg-brand-card border border-brand-border rounded p-7 sm:p-9 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-brand-border-hover transition-colors"
             >
@@ -54,7 +54,10 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
                   <span className="px-4 py-1 rounded bg-brand-burgundy border border-brand-border text-brand-neon text-s font-semibold uppercase tracking-wider">
                     Visi
                   </span>
-                  <Quote className="text-brand-border group-hover:text-brand-border-hover transition-colors" size={32} />
+                  <Quote
+                    className="text-brand-border group-hover:text-brand-border-hover transition-colors"
+                    size={32}
+                  />
                 </div>
 
                 <blockquote className="text-base sm:text-lg lg:text-xl font-medium text-brand-ivory leading-relaxed">
@@ -63,7 +66,9 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
               </div>
 
               <div className="pt-8 mt-6 border-t border-brand-border/60 flex items-center justify-between text-xs text-brand-ivory-muted">
-                <span className="font-semibold text-brand-ivory">Kabinet Aksara Juang</span>
+                <span className="font-semibold text-brand-ivory">
+                  Kabinet Aksara Juang
+                </span>
                 <span>BEM FH UNAND</span>
               </div>
             </motion.div>
@@ -72,7 +77,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-7 bg-brand-card/70 border border-brand-border/40 rounded p-7 sm:p-9 flex flex-col justify-center"
             >
@@ -95,7 +100,7 @@ export default function VisiMisiInteractive({ visi, misi, profileVisiMisi }) {
                     className="flex items-start gap-4 pb-4 border-b border-brand-ivory/10 last:border-b-0 last:pb-0 group"
                   >
                     <span className="w-8 h-8 rounded bg-brand-burgundy border border-brand-border text-brand-ivory font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 group-hover:border-brand-neon/50 group-hover:text-brand-neon transition-colors">
-                      {String(idx + 1).padStart(2, '0')}
+                      {String(idx + 1).padStart(2, "0")}
                     </span>
                     <p className="text-sm sm:text-base text-brand-ivory-muted leading-relaxed group-hover:text-brand-ivory transition-colors">
                       {item}

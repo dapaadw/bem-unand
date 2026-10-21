@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Shield } from 'lucide-react';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield } from "lucide-react";
 
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from "lucide-react";
 
 const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Publikasi', href: '/publikasi' },
-  { name: 'Kegiatan', href: '/kegiatan' },
-  { name: 'Departemen', href: '/departemen' },
-  { name: 'FH Guide', href: '/fh-guide' },
-  { name: 'Aspirasi', href: 'https://forms.google.com', external: true },
+  { name: "Home", href: "/" },
+  { name: "Publikasi", href: "/publikasi" },
+  { name: "Kegiatan", href: "/kegiatan" },
+  { name: "Departemen", href: "/departemen" },
+  { name: "FH Guide", href: "/fh-guide" },
+  { name: "Aspirasi", href: "https://forms.google.com", external: true },
 ];
 
 export default function SiteNav() {
@@ -24,8 +24,8 @@ export default function SiteNav() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -34,12 +34,12 @@ export default function SiteNav() {
 
   useEffect(() => {
     if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
 
@@ -47,14 +47,18 @@ export default function SiteNav() {
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ease-in-out border-b ${
         isScrolled
-          ? 'bg-brand-maroon/90 backdrop-blur-md shadow-lg shadow-black/50 border-white/10 py-5'
-          : 'bg-black/0 border-white/0 py-6'
+          ? "bg-brand-maroon/90 backdrop-blur-md shadow-lg shadow-black/50 border-white/10 py-5"
+          : "bg-black/0 border-white/0 py-6"
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-3 cursor-pointer group">
           <div className="w-9 h-9 flex items-center justify-center shrink-0">
-            <img src="/logo.png" alt="Logo BEM FH UNAND" className="w-full h-full object-contain" />
+            <img
+              src="/logo.png"
+              alt="Logo BEM FH UNAND"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold tracking-wider text-brand-ivory font-montserrat leading-tight">
@@ -75,12 +79,12 @@ export default function SiteNav() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  target={link.external ? '_blank' : undefined}
-                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   className={`relative py-1 text-sm font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'text-brand-ivory font-semibold'
-                      : 'text-brand-ivory-muted hover:text-brand-ivory'
+                      ? "text-brand-ivory font-semibold"
+                      : "text-brand-ivory-muted hover:text-brand-ivory"
                   }`}
                 >
                   <span>{link.name}</span>
@@ -88,7 +92,11 @@ export default function SiteNav() {
                     <motion.span
                       layoutId="nav-underline"
                       className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-ivory"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </Link>
@@ -108,24 +116,32 @@ export default function SiteNav() {
         {/* Animated Hamburger Button */}
         <button
           type="button"
-          aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+          aria-label={mobileMenuOpen ? "Tutup menu" : "Buka menu"}
           aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="xl:hidden relative w-10 h-10 rounded bg-white/5 hover:bg-white/10 active:scale-95 border border-white/10 flex flex-col justify-center items-center gap-1.5 transition-all duration-200 focus:outline-none cursor-pointer"
         >
           <motion.span
-            animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            animate={
+              mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }
+            }
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className="w-5 h-0.5 bg-white rounded-full origin-center"
           />
           <motion.span
-            animate={mobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+            animate={
+              mobileMenuOpen
+                ? { opacity: 0, scaleX: 0 }
+                : { opacity: 1, scaleX: 1 }
+            }
             transition={{ duration: 0.2 }}
             className="w-5 h-0.5 bg-white rounded-full origin-center"
           />
           <motion.span
-            animate={mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            animate={
+              mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }
+            }
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
             className="w-5 h-0.5 bg-white rounded-full origin-center"
           />
         </button>
@@ -171,13 +187,13 @@ export default function SiteNav() {
                   >
                     <Link
                       href={link.href}
-                      target={link.external ? '_blank' : undefined}
-                      rel={link.external ? 'noopener noreferrer' : undefined}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`group flex items-center justify-between px-4 py-3 rounded text-base font-semibold font-sans transition-colors duration-200 ${
                         isActive
-                          ? 'text-brand-ivory bg-brand-burgundy border border-brand-border'
-                          : 'text-brand-ivory-muted hover:text-brand-ivory hover:bg-white/5'
+                          ? "text-brand-ivory bg-brand-burgundy border border-brand-border"
+                          : "text-brand-ivory-muted hover:text-brand-ivory hover:bg-white/5"
                       }`}
                     >
                       <span>{link.name}</span>
