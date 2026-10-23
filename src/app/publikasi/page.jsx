@@ -1,13 +1,14 @@
-import Link from 'next/link';
-import { loadPublications } from '../../lib/publicationQuery';
-import { publicationCategory } from '../../lib/publication';
-import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import { Search, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import Link from "next/link";
+import { loadPublications } from "../../lib/publicationQuery";
+import { publicationCategory } from "../../lib/publication";
+import { isWebOrLocalUrl } from "../../lib/homeMedia";
+import { Search, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
 
 export const revalidate = 300;
 
 export default async function PublikasiPage({ searchParams }) {
-  const { items, total, page, totalPages, categories, q, category } = await loadPublications(await searchParams);
+  const { items, total, page, totalPages, categories, q, category } =
+    await loadPublications(await searchParams);
   const pageHref = (number) =>
     `/publikasi?${new URLSearchParams({
       page: String(number),
@@ -23,37 +24,47 @@ export default async function PublikasiPage({ searchParams }) {
       <div className="border-b border-[#e3bbb9]/15 pb-6 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block mb-1">
-            03 / KAJIAN &amp; WARTA
+            01 / KAJIAN &amp; WARTA
           </span>
           <h1 className="font-barlow font-extrabold text-4xl sm:text-[46px] md:text-5xl leading-[1.05] tracking-[-1px] text-[#f8f1e7] uppercase mt-1">
             PUBLIKASI &amp; ARTIKEL
           </h1>
           <p className="font-dm text-sm sm:text-base leading-[24px] text-[#f8f1e7]/75 max-w-2xl mt-2">
-            Kumpulan kajian hukum, siaran pers, artikel ilmiah, dan warta kegiatan resmi Kabinet Aksara Juang BEM FH UNAND.
+            Kumpulan kajian hukum, siaran pers, artikel ilmiah, dan warta
+            kegiatan resmi Kabinet Aksara Juang BEM FH UNAND.
           </p>
         </div>
 
         <div className="shrink-0">
           <span className="font-mono-lib text-[11px] leading-[16px] text-[#e3bbb9] font-semibold inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#1b080e]/85 border border-[#e3bbb9]/20 shadow-sm uppercase tracking-wider">
-            {total} Publikasi{q || category ? ' Ditemukan' : ''}
+            {total} Publikasi{q || category ? " Ditemukan" : ""}
           </span>
         </div>
       </div>
 
       {/* Search Bar Box */}
       <div className="mb-10 rounded-[4px] bg-[#1a1517]/70 backdrop-blur-[10px] border border-[#e3bbb9]/15 p-4 sm:p-5">
-        <form method="get" action="/publikasi" className="flex flex-col sm:flex-row items-center gap-3 w-full">
+        <form
+          method="get"
+          action="/publikasi"
+          className="flex flex-col sm:flex-row items-center gap-3 w-full"
+        >
           <div className="relative flex-1 w-full">
-            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#f8f1e7]/40 pointer-events-none" />
+            <Search
+              size={16}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#f8f1e7]/40 pointer-events-none"
+            />
             <input
               type="text"
               name="q"
               aria-label="Cari judul atau topik publikasi"
-              defaultValue={q || ''}
+              defaultValue={q || ""}
               placeholder="Cari judul kajian, artikel, atau topik hukum..."
               className="w-full rounded-[4px] bg-[#22161c]/80 border border-[#e3bbb9]/20 pl-10 pr-4 py-2.5 text-sm text-[#f8f1e7] placeholder-[#f8f1e7]/40 focus:outline-none focus:border-[#e3bbb9]/60 font-dm transition-colors"
             />
-            {category && <input type="hidden" name="category" value={category} />}
+            {category && (
+              <input type="hidden" name="category" value={category} />
+            )}
           </div>
           <button
             type="submit"
@@ -93,7 +104,7 @@ export default async function PublikasiPage({ searchParams }) {
                 className="absolute inset-0 opacity-40 pointer-events-none"
                 style={{
                   background:
-                    'linear-gradient(180deg, #9e1933 0%, #6e1223 25%, #460b16 55%, #170308 100%)',
+                    "linear-gradient(180deg, #9e1933 0%, #6e1223 25%, #460b16 55%, #170308 100%)",
                 }}
               />
             )}
@@ -111,12 +122,12 @@ export default async function PublikasiPage({ searchParams }) {
             <div className="relative z-10 w-full mt-12">
               <div className="max-w-3xl mb-4">
                 <span className="font-mono-lib text-xs text-[#e3bbb9] uppercase block mb-3">
-                  {featuredItem.publishedAt.toLocaleDateString('id-ID', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                    timeZone: 'Asia/Jakarta',
-                  })}{' '}
+                  {featuredItem.publishedAt.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    timeZone: "Asia/Jakarta",
+                  })}{" "}
                   &middot; PENULIS: {featuredItem.author}
                 </span>
 
@@ -129,7 +140,9 @@ export default async function PublikasiPage({ searchParams }) {
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-[#e3bbb9]/20 w-full">
-                <span className="font-dm text-xs text-[#f8f1e7]/60">Kajian &amp; Opini BEM FH UNAND</span>
+                <span className="font-dm text-xs text-[#f8f1e7]/60">
+                  Kajian &amp; Opini BEM FH UNAND
+                </span>
                 <span className="inline-flex items-center gap-1.5 font-dm text-xs font-semibold text-[#e3bbb9] group-hover:translate-x-1 transition-transform">
                   Baca Selengkapnya &rarr;
                 </span>
@@ -143,11 +156,11 @@ export default async function PublikasiPage({ searchParams }) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-2">
           <Link
-            href={`/publikasi${q ? `?q=${encodeURIComponent(q)}` : ''}`}
+            href={`/publikasi${q ? `?q=${encodeURIComponent(q)}` : ""}`}
             className={`px-4 py-1.5 rounded-[3px] text-xs font-barlow font-bold uppercase tracking-wider transition-all ${
               !category
-                ? 'bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]'
-                : 'bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35'
+                ? "bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]"
+                : "bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35"
             }`}
           >
             Semua
@@ -155,11 +168,11 @@ export default async function PublikasiPage({ searchParams }) {
           {categories.map((c) => (
             <Link
               key={c}
-              href={`/publikasi?category=${encodeURIComponent(c)}${q ? `&q=${encodeURIComponent(q)}` : ''}`}
+              href={`/publikasi?category=${encodeURIComponent(c)}${q ? `&q=${encodeURIComponent(q)}` : ""}`}
               className={`px-4 py-1.5 rounded-[3px] text-xs font-barlow font-bold uppercase tracking-wider transition-all ${
                 category === c
-                  ? 'bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]'
-                  : 'bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35'
+                  ? "bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]"
+                  : "bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35"
               }`}
             >
               {c}
@@ -167,7 +180,7 @@ export default async function PublikasiPage({ searchParams }) {
           ))}
         </div>
         <p className="font-mono-lib text-xs text-[#f8f1e7]/50 uppercase">
-          {total} publikasi{q || category ? ' ditemukan' : ''}
+          {total} publikasi{q || category ? " ditemukan" : ""}
         </p>
       </div>
 
@@ -176,8 +189,8 @@ export default async function PublikasiPage({ searchParams }) {
         <div className="text-center py-16 rounded-[4px] bg-[#1a1517]/70 border border-[#e3bbb9]/15">
           <p className="font-dm text-sm text-[#f8f1e7]/60">
             {q || category
-              ? 'Tidak ada publikasi yang cocok dengan pencarian atau kategori ini.'
-              : 'Belum ada publikasi.'}
+              ? "Tidak ada publikasi yang cocok dengan pencarian atau kategori ini."
+              : "Belum ada publikasi."}
           </p>
         </div>
       ) : (
@@ -185,7 +198,8 @@ export default async function PublikasiPage({ searchParams }) {
           {items.map((item, idx) => {
             const numLabel = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
             const categoryName = publicationCategory(item.category);
-            const hasValidImage = item.imageUrl && isWebOrLocalUrl(item.imageUrl);
+            const hasValidImage =
+              item.imageUrl && isWebOrLocalUrl(item.imageUrl);
 
             return (
               <Link
@@ -196,8 +210,12 @@ export default async function PublikasiPage({ searchParams }) {
                 <div>
                   {/* Top metadata row */}
                   <div className="flex items-center justify-between font-mono-lib text-[11px] leading-[17px] uppercase mb-3">
-                    <span className="text-[#e3bbb9] font-medium">{numLabel} / {categoryName}</span>
-                    <span className="text-[#f8f1e7]/50 font-medium">BEM FH UNAND</span>
+                    <span className="text-[#e3bbb9] font-medium">
+                      {numLabel} / {categoryName}
+                    </span>
+                    <span className="text-[#f8f1e7]/50 font-medium">
+                      BEM FH UNAND
+                    </span>
                   </div>
 
                   {/* Visual Banner Box */}
@@ -205,7 +223,7 @@ export default async function PublikasiPage({ searchParams }) {
                     className="w-full h-[170px] mb-4 border border-[#48121f] rounded-[2px] relative flex items-center justify-center overflow-hidden bg-[#240c14]"
                     style={{
                       background:
-                        'linear-gradient(180deg, #9e1933 0%, #6e1223 15%, #460b16 35%, #27060d 60%, #170308 100%)',
+                        "linear-gradient(180deg, #9e1933 0%, #6e1223 15%, #460b16 35%, #27060d 60%, #170308 100%)",
                     }}
                   >
                     {hasValidImage ? (
@@ -235,11 +253,11 @@ export default async function PublikasiPage({ searchParams }) {
                   {/* Card Body */}
                   <div className="mb-2">
                     <span className="font-mono-lib text-[11px] text-[#e3bbb9] uppercase block mb-1">
-                      {item.publishedAt.toLocaleDateString('id-ID', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                        timeZone: 'Asia/Jakarta',
+                      {item.publishedAt.toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        timeZone: "Asia/Jakarta",
                       })}
                     </span>
                     <h2 className="font-barlow font-bold text-[18px] sm:text-[20px] leading-[25px] tracking-[-0.45px] text-[#f8f1e7] group-hover:text-[#e3bbb9] transition-colors uppercase line-clamp-2 mb-2">
@@ -281,7 +299,10 @@ export default async function PublikasiPage({ searchParams }) {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <nav aria-label="Halaman publikasi" className="flex items-center justify-center gap-4 mt-14 mb-6">
+        <nav
+          aria-label="Halaman publikasi"
+          className="flex items-center justify-center gap-4 mt-14 mb-6"
+        >
           {page > 1 ? (
             <Link
               href={pageHref(page - 1)}

@@ -1,16 +1,16 @@
-import Link from 'next/link';
-import { prisma } from '../../lib/prisma';
-import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import { HARDCODED_DEPARTEMEN } from '../../data/departemen';
-
-
+import Link from "next/link";
+import { prisma } from "../../lib/prisma";
+import { isWebOrLocalUrl } from "../../lib/homeMedia";
+import { HARDCODED_DEPARTEMEN } from "../../data/departemen";
 
 export const revalidate = 3600;
 
 export default async function DepartemenPage() {
   let dbItems = [];
   try {
-    dbItems = await prisma.departemen.findMany({ select: { slug: true, photoUrl: true } });
+    dbItems = await prisma.departemen.findMany({
+      select: { slug: true, photoUrl: true },
+    });
   } catch {
     dbItems = [];
   }
@@ -29,13 +29,14 @@ export default async function DepartemenPage() {
       <div className="border-b border-[#e3bbb9]/15 pb-6 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block mb-1">
-            01 / STRUKTUR ORGANISASI
+            03 / STRUKTUR ORGANISASI
           </span>
           <h1 className="font-barlow font-extrabold text-4xl sm:text-[46px] md:text-5xl leading-[1.05] tracking-[-1px] text-[#f8f1e7] uppercase mt-1">
             DEPARTEMEN &amp; BIRO
           </h1>
           <p className="font-dm text-sm sm:text-base leading-[24px] text-[#f8f1e7]/75 max-w-2xl mt-2">
-            Mengenal seluruh departemen, biro, lembaga, dan kantor kepengurusan Kabinet Aksara Juang BEM FH UNAND dalam menjalankan roda organisasi.
+            Mengenal seluruh departemen, biro, lembaga, dan kantor kepengurusan
+            Kabinet Aksara Juang BEM FH UNAND dalam menjalankan roda organisasi.
           </p>
         </div>
 
@@ -48,15 +49,18 @@ export default async function DepartemenPage() {
 
       {!items.length ? (
         <div className="text-center py-16 rounded-[4px] bg-[#1a1517]/70 border border-[#e3bbb9]/15">
-          <p className="font-dm text-sm text-[#f8f1e7]/60">Belum ada data departemen.</p>
+          <p className="font-dm text-sm text-[#f8f1e7]/60">
+            Belum ada data departemen.
+          </p>
         </div>
       ) : (
         /* 3-column layout matching user request */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, idx) => {
             const numLabel = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
-            const categoryLabel = item.category || 'Departemen';
-            const hasValidPhoto = item.photoUrl && isWebOrLocalUrl(item.photoUrl);
+            const categoryLabel = item.category || "Departemen";
+            const hasValidPhoto =
+              item.photoUrl && isWebOrLocalUrl(item.photoUrl);
 
             return (
               <Link
@@ -67,8 +71,12 @@ export default async function DepartemenPage() {
                 <div>
                   {/* Top metadata row */}
                   <div className="flex items-center justify-between font-mono-lib text-[11px] leading-[17px] uppercase mb-3">
-                    <span className="text-[#e3bbb9] font-medium">{numLabel} / {categoryLabel}</span>
-                    <span className="text-[#f8f1e7]/50 font-medium">BEM FH UNAND</span>
+                    <span className="text-[#e3bbb9] font-medium">
+                      {numLabel} / {categoryLabel}
+                    </span>
+                    <span className="text-[#f8f1e7]/50 font-medium">
+                      BEM FH UNAND
+                    </span>
                   </div>
 
                   {/* Visual Box with gradient fallback matching Home */}
@@ -76,7 +84,7 @@ export default async function DepartemenPage() {
                     className="w-full h-[175px] mb-4 border border-[#48121f] rounded-[2px] relative flex items-center justify-center overflow-hidden bg-[#240c14]"
                     style={{
                       background:
-                        'linear-gradient(180deg, #9e1933 0%, #6e1223 15%, #460b16 35%, #27060d 60%, #170308 100%)',
+                        "linear-gradient(180deg, #9e1933 0%, #6e1223 15%, #460b16 35%, #27060d 60%, #170308 100%)",
                     }}
                   >
                     {hasValidPhoto ? (

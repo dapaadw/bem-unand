@@ -113,17 +113,17 @@ export default function CustomFilterDropdown({
         aria-expanded={isOpen}
         aria-controls={listboxId}
         aria-label={ariaLabel || label || placeholder}
-        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 ${
+        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-none text-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 ${
           isSelected
-            ? 'bg-brand-neon/15 text-white border border-brand-neon/40 shadow-sm'
-            : 'bg-white/[0.04] text-gray-200 border border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+            ? 'bg-[#3a0d18] text-[#f8f1e7] border border-[#ba2243] shadow-sm'
+            : 'bg-[#14080e] text-[#d4c0bd] border border-[#6d2031] hover:bg-[#23121b] hover:border-[#9e1c38]'
         }`}
       >
         <div className="flex items-center gap-2 min-w-0 overflow-hidden">
           {LeadingIcon && (
             <span
               className={`shrink-0 ${
-                isSelected ? 'text-brand-neon' : 'text-gray-400'
+                isSelected ? 'text-brand-neon' : 'text-[#d4c0bd]/70'
               }`}
             >
               {LeadingIcon}
@@ -133,13 +133,13 @@ export default function CustomFilterDropdown({
             {selectedOption ? selectedOption.label : placeholder}
           </span>
           {selectedOption?.badge && (
-            <span className="shrink-0 text-[10px] px-1.5 py-0.2 rounded bg-white/10 text-gray-300 font-mono">
+            <span className="shrink-0 text-[10px] px-1.5 py-0.2 rounded-none bg-[#12060b] border border-[#6d2031] text-[#d4c0bd] font-mono">
               {selectedOption.badge}
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-1 shrink-0 text-gray-400">
+        <div className="flex items-center gap-1 shrink-0 text-[#d4c0bd]/70">
           {isSelected && (
             <span
               role="button"
@@ -153,7 +153,7 @@ export default function CustomFilterDropdown({
               }}
               title="Hapus pilihan"
               aria-label="Hapus filter ini"
-              className="p-0.5 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+              className="p-0.5 rounded-none hover:bg-[#521526] hover:text-[#f8f1e7] transition-colors cursor-pointer"
             >
               <X size={13} aria-hidden="true" />
             </span>
@@ -161,7 +161,7 @@ export default function CustomFilterDropdown({
           <ChevronDown
             size={14}
             className={`transition-transform duration-200 ${
-              isOpen ? 'rotate-180 text-brand-neon' : 'text-gray-400'
+              isOpen ? 'rotate-180 text-brand-neon' : 'text-[#d4c0bd]/70'
             }`}
             aria-hidden="true"
           />
@@ -173,28 +173,28 @@ export default function CustomFilterDropdown({
         <div
           id={listboxId}
           role="listbox"
-          className={`absolute z-50 mt-1.5 w-full min-w-[210px] max-w-[320px] rounded-xl bg-[#1a0505] border border-white/15 shadow-2xl backdrop-blur-xl p-1.5 text-xs text-white animate-in fade-in zoom-in-95 duration-150 ${
+          className={`absolute z-50 mt-1.5 w-full min-w-[210px] max-w-[320px] rounded-none bg-[#160a12] border border-[#6d2031] shadow-2xl p-1.5 text-xs text-[#f8f1e7] animate-in fade-in zoom-in-95 duration-150 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
           {/* Search box if enabled */}
           {searchable && (
-            <div className="p-1 mb-1 border-b border-white/10">
-              <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-black/40 border border-white/10">
-                <Search size={12} className="text-gray-400 shrink-0" aria-hidden="true" />
+            <div className="p-1 mb-1 border-b border-[#6d2031]">
+              <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-none bg-[#14080e] border border-[#6d2031]">
+                <Search size={12} className="text-[#d4c0bd]/60 shrink-0" aria-hidden="true" />
                 <input
                   ref={searchInputRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari..."
-                  className="w-full bg-transparent text-xs text-white placeholder-gray-500 focus:outline-none"
+                  className="w-full bg-transparent text-xs text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery('')}
-                    className="text-gray-400 hover:text-white"
+                    className="text-[#d4c0bd]/60 hover:text-[#f8f1e7]"
                   >
                     <X size={11} aria-hidden="true" />
                   </button>
@@ -204,17 +204,17 @@ export default function CustomFilterDropdown({
           )}
 
           {/* Options List */}
-          <div className="max-h-56 overflow-y-auto space-y-0.5 pr-0.5">
+          <div className="max-h-56 overflow-y-auto space-y-0.5 pr-0.5 scrollbar-thin scrollbar-thumb-[#6d2031]">
             {/* "All" Reset Option */}
             <button
               type="button"
               role="option"
               aria-selected={!value}
               onClick={() => handleSelect('')}
-              className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left transition-colors ${
+              className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-none text-left transition-colors ${
                 !value
-                  ? 'bg-brand-neon/20 text-brand-neon font-semibold'
-                  : 'text-gray-300 hover:bg-white/10 hover:text-white'
+                  ? 'bg-[#9e1c38]/40 text-[#f8f1e7] border border-[#9e1c38]/50 font-semibold'
+                  : 'text-[#d4c0bd] hover:bg-[#23121b] hover:text-[#f8f1e7]'
               }`}
             >
               <span>{placeholder}</span>
@@ -222,7 +222,7 @@ export default function CustomFilterDropdown({
             </button>
 
             {filteredOptions.length === 0 ? (
-              <div className="px-3 py-3 text-center text-[11px] text-gray-400">
+              <div className="px-3 py-3 text-center text-[11px] text-[#d4c0bd]">
                 Tidak ada pilihan ditemukan
               </div>
             ) : (
@@ -235,16 +235,16 @@ export default function CustomFilterDropdown({
                     role="option"
                     aria-selected={active}
                     onClick={() => handleSelect(opt.value)}
-                    className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-left transition-colors ${
+                    className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-none text-left transition-colors ${
                       active
-                        ? 'bg-brand-neon/20 text-brand-neon font-semibold'
-                        : 'text-gray-200 hover:bg-white/10 hover:text-white'
+                        ? 'bg-[#9e1c38]/40 text-[#f8f1e7] border border-[#9e1c38]/50 font-semibold'
+                        : 'text-[#d4c0bd] hover:bg-[#23121b] hover:text-[#f8f1e7]'
                     }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="truncate">{opt.label}</span>
                       {opt.badge && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-gray-300 font-mono shrink-0">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-none bg-[#12060b] border border-[#6d2031] text-[#d4c0bd] font-mono shrink-0">
                           {opt.badge}
                         </span>
                       )}

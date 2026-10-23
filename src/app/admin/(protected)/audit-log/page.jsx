@@ -20,9 +20,9 @@ export default async function AuditLogPage({ searchParams }) {
     where = buildAuditLogWhere(sp);
   } catch (error) {
     return (
-      <div className="p-6 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md space-y-3">
-        <h1 className="text-lg font-bold text-white">Audit Log Sistem</h1>
-        <p role="alert" className="text-rose-400 text-xs">
+      <div className="p-6 rounded-none bg-[#1a1517]/85 border border-[#6d2031] space-y-3">
+        <h1 className="text-lg font-bold text-[#f8f1e7]">Audit Log Sistem</h1>
+        <p role="alert" className="text-rose-300 text-xs">
           {error.message}
         </p>
         <Link
@@ -80,13 +80,13 @@ export default async function AuditLogPage({ searchParams }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-brand-neon/15 text-brand-neon border border-brand-neon/30">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#f8f1e7] tracking-tight flex items-center gap-2.5">
+            <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
               <ScrollText size={20} aria-hidden="true" />
             </div>
             <span>Audit Trail &amp; Kepatuhan</span>
           </h1>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs text-[#d4c0bd] mt-1">
             Rekam jejak setiap mutasi data oleh pengelola BEM FH UNAND untuk
             transparansi dan integritas
           </p>
@@ -94,7 +94,7 @@ export default async function AuditLogPage({ searchParams }) {
 
         <a
           href={`/api/audit-log/export${exportQuery ? `?${exportQuery}` : ""}`}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs hover:brightness-105 transition-all shadow-sm self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs transition-all shadow-sm self-start sm:self-auto"
         >
           <Download size={14} aria-hidden="true" />
           <span>Ekspor CSV Laporan</span>
@@ -102,7 +102,7 @@ export default async function AuditLogPage({ searchParams }) {
       </div>
 
       {/* Modern Interactive Filter Bar */}
-      <Suspense fallback={<div className="h-32 rounded-2xl bg-white/[0.04] border border-white/10 animate-pulse" />}>
+      <Suspense fallback={<div className="h-32 rounded-none bg-[#1a1517]/85 border border-[#6d2031] animate-pulse" />}>
         <AuditLogFilterBar
           admins={admins}
           entityTypes={entityTypes.map((e) => e.entityType)}
@@ -119,9 +119,9 @@ export default async function AuditLogPage({ searchParams }) {
       </Suspense>
 
       {/* Audit Log Table */}
-      <div className="relative z-10 rounded-2xl bg-white/[0.04] border border-white/10 overflow-hidden backdrop-blur-md">
+      <div className="relative z-10 rounded-none bg-[#1a1517]/85 border border-[#6d2031] overflow-hidden">
         {logs.length === 0 ? (
-          <div className="p-10 text-center text-xs text-gray-400 space-y-1.5">
+          <div className="p-10 text-center text-xs text-[#d4c0bd] space-y-1.5">
             <p>
               Tidak ada catatan aktivitas audit yang sesuai dengan kriteria
               filter.
@@ -136,7 +136,7 @@ export default async function AuditLogPage({ searchParams }) {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-black/30 text-gray-400 border-b border-white/10 uppercase tracking-wider text-[10px] font-bold">
+              <thead className="bg-[#1f0d16] text-[#e3bbb9] border-b border-[#6d2031] uppercase tracking-wider text-[10px] font-bold">
                 <tr>
                   <th className="py-3.5 px-4">Waktu (WIB)</th>
                   <th className="py-3.5 px-4">Pengguna</th>
@@ -145,13 +145,13 @@ export default async function AuditLogPage({ searchParams }) {
                   <th className="py-3.5 px-4">Ringkasan Mutasi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-[#6d2031]/30">
                 {logs.map((log) => (
                   <tr
                     key={log.id}
-                    className="hover:bg-white/[0.02] transition-colors"
+                    className="hover:bg-[#23121b]/60 transition-colors"
                   >
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-gray-400 whitespace-nowrap">
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-[#d4c0bd] whitespace-nowrap">
                       {log.createdAt.toLocaleString("id-ID", {
                         timeZone: "Asia/Jakarta",
                         day: "2-digit",
@@ -163,30 +163,30 @@ export default async function AuditLogPage({ searchParams }) {
                       WIB
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="font-semibold text-white block">
+                      <span className="font-semibold text-[#f8f1e7] block">
                         {log.user.name}
                       </span>
-                      <span className="text-[10px] text-gray-400 font-mono">
+                      <span className="text-[10px] text-[#d4c0bd]/80 font-mono">
                         {log.user.role}
                       </span>
                     </td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                        className={`inline-block px-2.5 py-0.5 rounded-none text-[10px] font-bold border ${
                           log.action === "CREATE"
-                            ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                            ? "bg-emerald-950/40 text-emerald-300 border-emerald-500/40"
                             : log.action === "DELETE"
-                              ? "bg-rose-500/20 text-rose-300 border-rose-500/30"
-                              : "bg-brand-neon/15 text-brand-neon border-brand-neon/30"
+                              ? "bg-[#3a0d18] text-rose-300 border-[#9e1c38]"
+                              : "bg-[#2a0e19] text-[#e3bbb9] border-[#6d2031]"
                         }`}
                       >
                         {log.action}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 font-medium text-gray-200">
+                    <td className="py-3.5 px-4 font-medium text-[#f8f1e7]">
                       {log.entityType}
                     </td>
-                    <td className="py-3.5 px-4 text-gray-300 max-w-md">
+                    <td className="py-3.5 px-4 text-[#d4c0bd] max-w-md">
                       {log.summary}
                     </td>
                   </tr>
@@ -197,7 +197,7 @@ export default async function AuditLogPage({ searchParams }) {
         )}
 
         {/* Pagination & Count Footer */}
-        <div className="p-4 border-t border-white/10 bg-black/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
+        <div className="p-4 border-t border-[#6d2031] bg-[#14080e] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#d4c0bd]">
           <p>
             Menampilkan <strong>{logs.length}</strong> dari{" "}
             <strong>{total}</strong> log aktivitas · Halaman {page} dari {pages}
@@ -207,13 +207,13 @@ export default async function AuditLogPage({ searchParams }) {
             {page > 1 ? (
               <Link
                 href={pageLink(page - 1)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
               >
                 <ChevronLeft size={13} aria-hidden="true" />
                 <span>Sebelumnya</span>
               </Link>
             ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/[0.02] text-gray-600 border border-white/5 cursor-not-allowed">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
                 <ChevronLeft size={13} aria-hidden="true" />
                 <span>Sebelumnya</span>
               </span>
@@ -222,13 +222,13 @@ export default async function AuditLogPage({ searchParams }) {
             {page < pages ? (
               <Link
                 href={pageLink(page + 1)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
               >
                 <span>Berikutnya</span>
                 <ChevronRight size={13} aria-hidden="true" />
               </Link>
             ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/[0.02] text-gray-600 border border-white/5 cursor-not-allowed">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
                 <span>Berikutnya</span>
                 <ChevronRight size={13} aria-hidden="true" />
               </span>

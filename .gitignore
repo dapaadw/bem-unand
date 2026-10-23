@@ -26,6 +26,9 @@ dist-ssr
 
 .vercel
 
+#remotion
+/remotion-video
+
 # Next.js
 .next
 next-env.d.ts

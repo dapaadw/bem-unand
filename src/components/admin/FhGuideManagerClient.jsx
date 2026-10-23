@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Link as LinkIcon,
   HelpCircle,
@@ -13,51 +13,56 @@ import {
   Loader2,
   Save,
   X,
-} from 'lucide-react';
+} from "lucide-react";
 
-const empty = { link: { category: '', title: '', url: '' }, faq: { question: '', answer: '' } };
+const empty = {
+  link: { category: "", title: "", url: "" },
+  faq: { question: "", answer: "" },
+};
 const labels = {
-  category: 'Kategori Dokumen',
-  title: 'Judul Dokumen / Panduan',
-  url: 'URL Dokumen / Google Drive',
-  question: 'Pertanyaan',
-  answer: 'Jawaban Lengkap',
+  category: "Kategori Dokumen",
+  title: "Judul Dokumen / Panduan",
+  url: "URL Dokumen / Google Drive",
+  question: "Pertanyaan",
+  answer: "Jawaban Lengkap",
 };
 
 function Editor({ kind, initialItems }) {
   const [items, setItems] = useState(initialItems);
   const [form, setForm] = useState(empty[kind]);
-  const [editing, setEditing] = useState('');
+  const [editing, setEditing] = useState("");
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const isLink = kind === 'link';
-  const title = isLink ? 'Link Dokumen' : 'FAQ (Pertanyaan Umum)';
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const isLink = kind === "link";
+  const title = isLink ? "Link Dokumen" : "FAQ (Pertanyaan Umum)";
 
   async function submit(e) {
     e.preventDefault();
     setBusy(true);
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
     try {
       const res = await fetch(
-        editing ? `/api/fh-guide/${kind}/${editing}` : '/api/fh-guide',
+        editing ? `/api/fh-guide/${kind}/${editing}` : "/api/fh-guide",
         {
-          method: editing ? 'PUT' : 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: editing ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...form, kind }),
-        }
+        },
       );
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Gagal menyimpan.');
+      if (!res.ok) throw new Error(data.error || "Gagal menyimpan.");
       setItems((old) =>
-        editing ? old.map((i) => (i.id === editing ? data : i)) : [...old, data]
+        editing
+          ? old.map((i) => (i.id === editing ? data : i))
+          : [...old, data],
       );
       setForm(empty[kind]);
-      setEditing('');
+      setEditing("");
       setMessage(`${title} berhasil disimpan.`);
     } catch (e) {
-      setError(e.message || 'Terjadi kesalahan jaringan.');
+      setError(e.message || "Terjadi kesalahan jaringan.");
     } finally {
       setBusy(false);
     }
@@ -66,61 +71,78 @@ function Editor({ kind, initialItems }) {
   async function remove(item) {
     if (!window.confirm(`Hapus ${item.title || item.question}?`)) return;
     setBusy(true);
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
     try {
-      const res = await fetch(`/api/fh-guide/${kind}/${item.id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/fh-guide/${kind}/${item.id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Gagal menghapus.');
+      if (!res.ok) throw new Error(data.error || "Gagal menghapus.");
       setItems((old) => old.filter((i) => i.id !== item.id));
       if (editing === item.id) {
-        setEditing('');
+        setEditing("");
         setForm(empty[kind]);
       }
       setMessage(`${title} berhasil dihapus.`);
     } catch (e) {
-      setError(e.message || 'Terjadi kesalahan jaringan.');
+      setError(e.message || "Terjadi kesalahan jaringan.");
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-6 shadow-sm">
-      <div className="flex items-center justify-between pb-3 border-b border-white/10">
+    <section className="bg-[#1a1517]/85 backdrop-blur-sm border border-[#6d2031] rounded-none p-6 space-y-6 shadow-sm">
+      <div className="flex items-center justify-between pb-3 border-b border-[#6d2031]/50">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+          <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
             {isLink ? <LinkIcon size={18} /> : <HelpCircle size={18} />}
           </div>
           <div>
-            <h2 className="font-bold text-base text-white">{isLink ? 'Direktori Dokumen & Link' : 'Daftar Pertanyaan Umum (FAQ)'}</h2>
-            <p className="text-xs text-gray-400">
-              {isLink ? 'Kumpulan tautan berkas panduan akademik/kemahasiswaan' : 'Pertanyaan dan jawaban penting seputar FH UNAND'}
+            <h2 className="font-bold text-base text-[#f8f1e7]">
+              {isLink
+                ? "Direktori Dokumen & Link"
+                : "Daftar Pertanyaan Umum (FAQ)"}
+            </h2>
+            <p className="text-xs text-[#d4c0bd]">
+              {isLink
+                ? "Kumpulan tautan berkas panduan akademik/kemahasiswaan"
+                : "Pertanyaan dan jawaban penting seputar FH UNAND"}
             </p>
           </div>
         </div>
-        <span className="text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300 font-mono">
+        <span className="text-xs px-2.5 py-1 rounded-none bg-[#1f151a] border border-[#6d2031] text-[#d4c0bd] font-mono">
           {items.length} item
         </span>
       </div>
 
       {error && (
-        <div role="alert" className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
-          <AlertCircle size={15} className="shrink-0 text-red-400" />
+        <div
+          role="alert"
+          className="flex items-center gap-2 p-3 rounded-none bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-xs"
+        >
+          <AlertCircle size={15} className="shrink-0 text-rose-400" />
           <span>{error}</span>
         </div>
       )}
       {message && (
-        <div role="status" className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs">
+        <div
+          role="status"
+          className="flex items-center gap-2 p-3 rounded-none bg-emerald-950/40 border border-emerald-600/40 text-emerald-300 text-xs"
+        >
           <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
           <span>{message}</span>
         </div>
       )}
 
       {/* Editor Form */}
-      <form onSubmit={submit} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3.5">
+      <form
+        onSubmit={submit}
+        className="p-4 rounded-none bg-[#12060b] border border-[#6d2031]/60 space-y-3.5"
+      >
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-brand-neon uppercase tracking-wider">
+          <span className="text-xs font-bold text-brand-neon uppercase tracking-wider font-mono-lib">
             {editing ? `Edit ${title}` : `Tambah ${title} Baru`}
           </span>
           {editing && (
@@ -128,10 +150,10 @@ function Editor({ kind, initialItems }) {
               disabled={busy}
               type="button"
               onClick={() => {
-                setEditing('');
+                setEditing("");
                 setForm(empty[kind]);
               }}
-              className="text-xs text-gray-400 hover:text-white flex items-center gap-1"
+              className="text-xs text-[#d4c0bd] hover:text-white flex items-center gap-1"
             >
               <X size={13} />
               <span>Batal</span>
@@ -140,9 +162,12 @@ function Editor({ kind, initialItems }) {
         </div>
 
         {Object.keys(empty[kind]).map((key) => (
-          <label key={key} className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
+          <label
+            key={key}
+            className="block text-xs font-semibold uppercase tracking-wider text-[#d4c0bd]"
+          >
             {labels[key]}
-            {key === 'answer' ? (
+            {key === "answer" ? (
               <textarea
                 required
                 maxLength={10000}
@@ -150,34 +175,59 @@ function Editor({ kind, initialItems }) {
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                 placeholder="Tuliskan jawaban yang lengkap dan jelas..."
-                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 p-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+                className="mt-1.5 block w-full rounded-none bg-[#14080e] border border-[#6d2031] p-3 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             ) : (
               <input
                 required
-                type={key === 'url' ? 'url' : 'text'}
-                maxLength={key === 'url' ? 2000 : key === 'category' ? 100 : key === 'question' ? 500 : 250}
+                type={key === "url" ? "url" : "text"}
+                maxLength={
+                  key === "url"
+                    ? 2000
+                    : key === "category"
+                      ? 100
+                      : key === "question"
+                        ? 500
+                        : 250
+                }
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                placeholder={key === 'url' ? 'https://drive.google.com/...' : `Ketik ${labels[key].toLowerCase()}...`}
-                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+                placeholder={
+                  key === "url"
+                    ? "https://drive.google.com/..."
+                    : `Ketik ${labels[key].toLowerCase()}...`
+                }
+                className="mt-1.5 block w-full rounded-none bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             )}
           </label>
         ))}
 
         {isLink && (
-          <p className="text-[11px] text-gray-400">
-            💡 Gunakan tautan dokumen atau folder Google Drive/Docs yang sudah disetel ke akses &quot;Siapa saja yang memiliki tautan&quot;.
+          <p className="text-[11px] text-[#d4c0bd]/80">
+            💡 Gunakan tautan dokumen atau folder Google Drive/Docs yang sudah
+            disetel ke akses &quot;Siapa saja yang memiliki tautan&quot;.
           </p>
         )}
 
         <button
           disabled={busy}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-xs shadow hover:shadow-brand-neon/20 transition-all disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all disabled:opacity-50"
         >
-          {busy ? <Loader2 size={14} className="animate-spin" /> : editing ? <Save size={14} /> : <Plus size={14} />}
-          <span>{busy ? 'Menyimpan...' : editing ? `Simpan Perubahan ${title}` : `Tambah ${title}`}</span>
+          {busy ? (
+            <Loader2 size={14} className="animate-spin" />
+          ) : editing ? (
+            <Save size={14} />
+          ) : (
+            <Plus size={14} />
+          )}
+          <span>
+            {busy
+              ? "Menyimpan..."
+              : editing
+                ? `Simpan Perubahan ${title}`
+                : `Tambah ${title}`}
+          </span>
         </button>
       </form>
 
@@ -186,19 +236,21 @@ function Editor({ kind, initialItems }) {
         {items.map((item) => (
           <article
             key={item.id}
-            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5 hover:border-white/15 transition-all group"
+            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12060b] border border-[#6d2031]/50 rounded-none p-3.5 hover:border-[#9e1c38] transition-all group"
           >
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex items-center gap-2">
                 {item.category && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-neon/10 text-brand-neon border border-brand-neon/20">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031] font-mono-lib">
                     {item.category}
                   </span>
                 )}
-                <p className="font-semibold text-sm text-white">{item.title || item.question}</p>
+                <p className="font-semibold text-sm text-[#f8f1e7]">
+                  {item.title || item.question}
+                </p>
               </div>
               {item.answer && (
-                <p className="text-xs text-gray-400 whitespace-pre-wrap line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[#d4c0bd] whitespace-pre-wrap line-clamp-2 leading-relaxed">
                   {item.answer}
                 </p>
               )}
@@ -220,11 +272,15 @@ function Editor({ kind, initialItems }) {
                 disabled={busy}
                 onClick={() => {
                   setEditing(item.id);
-                  setForm(Object.fromEntries(Object.keys(empty[kind]).map((key) => [key, item[key]])));
-                  setMessage('');
-                  setError('');
+                  setForm(
+                    Object.fromEntries(
+                      Object.keys(empty[kind]).map((key) => [key, item[key]]),
+                    ),
+                  );
+                  setMessage("");
+                  setError("");
                 }}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-xs transition-colors"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] text-xs border border-[#6d2031] transition-colors"
                 aria-label={`Edit ${item.title || item.question}`}
               >
                 <Pencil size={12} className="text-brand-neon" />
@@ -233,7 +289,7 @@ function Editor({ kind, initialItems }) {
               <button
                 disabled={busy}
                 onClick={() => remove(item)}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-none bg-[#3a0d18] hover:bg-[#521526] text-rose-200 text-xs border border-[#9e1c38]/60 transition-colors disabled:opacity-50"
                 aria-label={`Hapus ${item.title || item.question}`}
               >
                 <Trash2 size={12} />
@@ -244,7 +300,9 @@ function Editor({ kind, initialItems }) {
         ))}
 
         {!items.length && (
-          <p className="text-center py-8 text-xs text-gray-500">Belum ada {title.toLowerCase()} terdaftar.</p>
+          <p className="text-center py-8 text-xs text-[#d4c0bd]/60">
+            Belum ada {title.toLowerCase()} terdaftar.
+          </p>
         )}
       </div>
     </section>

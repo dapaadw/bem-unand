@@ -128,4 +128,18 @@
     background: rgba(254, 174, 174, 0.4);
   }
 
+  /* ========================================================
+     ADMIN PORTAL: FULL KOTAK (ZERO BORDER RADIUS)
+     Seluruh elemen admin strictly sharp / boxy tanpa rounded
+     ======================================================== */
+  .admin-portal,
+  .admin-portal *,
+  .admin-portal *::before,
+  .admin-portal *::after {
+    border-radius: 0px !important;
+  }
+
+  .admin-portal ::-webkit-scrollbar-thumb {
+    border-radius: 0px !important;
+  }
 }
