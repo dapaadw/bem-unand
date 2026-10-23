@@ -2,330 +2,267 @@ import Link from 'next/link';
 import { prisma } from '../../lib/prisma';
 import { kegiatanFilters } from '../../lib/kegiatan';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import { Search, Trophy, Calendar, Clock, MapPin, ChevronDown } from 'lucide-react';
+import { Search, Calendar, Clock, MapPin, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const revalidate = 300;
 
 export default async function KegiatanPage({ searchParams }) {
   const filter = kegiatanFilters(await searchParams);
-  const { q, type } = filter;
+  const { page: pageQuery } = await searchParams;
+  const page = Math.max(1, parseInt(pageQuery, 10) || 1);
+  const pageSize = 9;
 
-  const items = filter.error
-    ? []
-    : await prisma.kegiatan.findMany({
-        where: filter.where,
-        orderBy: [{ date: 'desc' }, { id: 'desc' }],
-      });
+  const where = filter.where || {};
+  const total = await prisma.kegiatan.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const currentPage = Math.min(page, totalPages);
 
-  const featuredItem = items.length > 0 && !q && !type ? items[0] : null;
+  const items = await prisma.kegiatan.findMany({
+    where,
+    orderBy: [{ publishedAt: 'desc' }, { date: 'desc' }, { id: 'desc' }],
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const featuredItem = items.length > 0 && !filter.q && !filter.type && currentPage === 1 ? items[0] : null;
+
+  function pageHref(newPage) {
+    const params = new URLSearchParams();
+    if (newPage > 1) params.set('page', String(newPage));
+    if (filter.q) params.set('q', filter.q);
+    if (filter.type) params.set('type', filter.type);
+    const qs = params.toString();
+    return `/kegiatan${qs ? `?${qs}` : ''}`;
+  }
 
   return (
-    <section className="px-6 pt-32 pb-24 max-w-[1120px] mx-auto relative z-10 text-left">
-      {/* Page Header */}
-      <div className="border-b border-[#e3bbb9]/15 pb-6 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block mb-1">
-            02 / AGENDA &amp; WARTA
-          </span>
-          <h1 className="font-barlow font-extrabold text-4xl sm:text-[46px] md:text-5xl leading-[1.05] tracking-[-1px] text-[#f8f1e7] uppercase mt-1">
-            KEGIATAN &amp; KOMPETISI
+    <div className="min-h-screen relative overflow-hidden">
+      <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
+        {/* Page Header */}
+        <div className="text-center mb-10">
+          {/* <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">
+            Agenda &amp; Acara
+          </span> */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+            Kegiatan
           </h1>
-          <p className="font-dm text-sm sm:text-base leading-[24px] text-[#f8f1e7]/75 max-w-2xl mt-2">
+          {/* <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base mb-8">
             Temukan informasi kompetisi hukum bergengsi, seminar nasional, serta seluruh agenda kegiatan mahasiswa Fakultas Hukum Universitas Andalas.
-          </p>
-        </div>
+          </p> */}
 
-        <div className="shrink-0">
-          <span className="font-mono-lib text-[11px] leading-[16px] text-[#e3bbb9] font-semibold inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#1b080e]/85 border border-[#e3bbb9]/20 shadow-sm uppercase tracking-wider">
-            {items.length} Agenda{q || type ? ' Ditemukan' : ''}
-          </span>
-        </div>
-      </div>
-
-      {/* Search & Filter Form */}
-      <div className="mb-10 rounded-[4px] bg-[#1a1517]/70 backdrop-blur-[10px] border border-[#e3bbb9]/15 p-4 sm:p-5">
-        <form
-          className="flex flex-col sm:flex-row items-center gap-3 w-full"
-          method="get"
-          action="/kegiatan"
-        >
-          <div className="relative flex-1 w-full">
-            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#f8f1e7]/40 pointer-events-none" />
-            <input
-              type="text"
-              name="q"
-              aria-label="Cari nama kegiatan atau lomba"
-              defaultValue={q || ''}
-              placeholder="Cari nama kegiatan atau kompetisi hukum..."
-              className="w-full rounded-[4px] bg-[#22161c]/80 border border-[#e3bbb9]/20 pl-10 pr-4 py-2.5 text-sm text-[#f8f1e7] placeholder-[#f8f1e7]/40 focus:outline-none focus:border-[#e3bbb9]/60 font-dm transition-colors"
-            />
-          </div>
-          <div className="relative w-full sm:w-auto">
-            <select
-              aria-label="Jenis kegiatan"
-              name="type"
-              defaultValue={filter.error ? '' : type}
-              className="w-full sm:w-auto appearance-none rounded-[4px] bg-[#22161c]/80 border border-[#e3bbb9]/20 pl-4 pr-10 py-2.5 text-sm text-[#f8f1e7] focus:outline-none focus:border-[#e3bbb9]/60 font-dm cursor-pointer transition-colors"
-            >
-              <option value="" className="bg-[#1a1517] text-[#f8f1e7]">Semua Tipe</option>
-              <option value="LOMBA" className="bg-[#1a1517] text-[#f8f1e7]">Lomba / Kompetisi</option>
-              <option value="INTERNAL" className="bg-[#1a1517] text-[#f8f1e7]">Kegiatan Internal</option>
-            </select>
-            <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#f8f1e7]/50 pointer-events-none" />
-          </div>
-          <button
-            type="submit"
-            className="w-full sm:w-auto px-6 py-2.5 rounded-[3px] bg-[#762d2e] hover:bg-[#8e1b2e] border border-[#e3bbb9]/30 text-[#f8f1e7] font-barlow font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-[0_2px_8px_rgba(118,45,46,0.5)] shrink-0"
+          {/* Search Form */}
+          <form
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-xl mx-auto"
+            method="get"
+            action="/kegiatan"
           >
-            Cari Agenda
-          </button>
-          {(q || type) && (
+            <div className="relative flex-1 w-full">
+              <input
+                type="text"
+                name="q"
+                aria-label="Cari nama kegiatan atau lomba"
+                defaultValue={filter.q || ''}
+                placeholder="Cari nama kegiatan atau lomba..."
+                className="w-full rounded-full bg-[#1a0a13]/50 border border-white/15 pl-11 pr-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-brand-neon transition-colors backdrop-blur-md"
+              />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" />
+            </div>
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-6 py-3 rounded-full bg-brand-neon text-brand-dark text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer shadow-md"
+            >
+              Cari
+            </button>
+          </form>
+        </div>
+
+        {/* Featured Big Card (if no search active) */}
+        {featuredItem && (
+          <div className="mb-12">
             <Link
-              href="/kegiatan"
-              className="px-2 py-1 text-xs font-mono-lib text-[#e3bbb9] hover:underline uppercase transition-opacity shrink-0"
+              href={`/kegiatan/${featuredItem.slug}`}
+              className="block relative rounded-3xl overflow-hidden border border-white/10 bg-[#1a0a13]/50 p-6 sm:p-8 md:p-10 min-h-[300px] md:min-h-[360px] flex flex-col justify-end group shadow-2xl hover:border-brand-neon hover:bg-[#23121b]/70 hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(254,174,174,0.18)] transition-all duration-500 ease-out backdrop-blur-md"
             >
-              Reset filter
-            </Link>
-          )}
-        </form>
-      </div>
-
-      {filter.error && (
-        <p role="alert" className="text-center text-red-400 mb-6 text-sm font-medium">
-          {filter.error}
-        </p>
-      )}
-
-      {/* Featured Event Banner (Hero Card) */}
-      {featuredItem && (
-        <div className="mb-12">
-          <Link
-            href={`/kegiatan/${featuredItem.slug}`}
-            className="block relative rounded-[4px] overflow-hidden border border-[#e3bbb9]/20 bg-[#1a1517]/70 backdrop-blur-[10px] p-6 sm:p-8 md:p-10 min-h-[320px] md:min-h-[380px] flex flex-col justify-end group shadow-[0_8px_24px_rgba(0,0,0,0.5)] hover:border-[#e3bbb9]/40 hover:bg-[#26161e]/85 transition-all duration-300 text-left"
-          >
-            {featuredItem.imageUrl && isWebOrLocalUrl(featuredItem.imageUrl) ? (
-              <>
+              {featuredItem.imageUrl && isWebOrLocalUrl(featuredItem.imageUrl) ? (
                 <img
                   src={featuredItem.imageUrl}
                   alt={featuredItem.name}
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+                  className="absolute inset-0 w-full h-full object-cover object-center opacity-60 group-hover:scale-105 transition-transform duration-700 pointer-events-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0e070a] via-[#1a0c12]/80 to-transparent pointer-events-none" />
-              </>
-            ) : (
-              <div
-                className="absolute inset-0 opacity-40 pointer-events-none"
-                style={{
-                  background:
-                    'linear-gradient(180deg, #9e1933 0%, #6e1223 25%, #460b16 55%, #170308 100%)',
-                }}
-              />
-            )}
-
-            {/* Top Badges */}
-            <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
-              <span className="font-mono-lib font-bold text-[11px] leading-[17px] uppercase tracking-[1.1px] text-[#e3bbb9] bg-[#1b080e]/90 px-3 py-1 rounded-[3px] border border-[#e3bbb9]/20">
-                AGENDA UTAMA / HIGHLIGHT
-              </span>
-              <span className="px-3 py-0.5 rounded-full bg-[#1b080e]/90 border border-white/20 text-[10px] font-jakarta font-bold uppercase tracking-wider text-[#f8f1e7] backdrop-blur-md">
-                {featuredItem.type === 'LOMBA' ? 'Lomba' : 'Kegiatan Internal'}
-              </span>
-            </div>
-
-            <div className="relative z-10 w-full mt-12">
-              <div className="max-w-3xl mb-4">
-                <div className="flex flex-wrap items-center gap-4 text-xs font-mono-lib text-[#e3bbb9] mb-3 uppercase">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar size={13} className="text-[#e3bbb9]" />
-                    {featuredItem.date.toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                      timeZone: 'Asia/Jakarta',
-                    })}
-                  </span>
-                  {featuredItem.time && (
-                    <span className="flex items-center gap-1.5">
-                      <Clock size={13} className="text-[#e3bbb9]" />
-                      {featuredItem.time} WIB
-                    </span>
-                  )}
-                  <span className="flex items-center gap-1.5">
-                    <MapPin size={13} className="text-[#e3bbb9]" />
-                    {featuredItem.location}
-                  </span>
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-red/30 via-black/80 to-brand-dark flex items-center justify-center text-brand-neon/30">
+                  <Calendar size={80} />
                 </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-80 h-80 bg-brand-neon/10 rounded-full blur-3xl pointer-events-none" />
 
-                <h2 className="font-barlow font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#f8f1e7] group-hover:text-[#e3bbb9] transition-colors uppercase leading-tight mb-3">
-                  {featuredItem.name}
-                </h2>
-                <p className="font-dm text-sm sm:text-base leading-[24px] text-[#f8f1e7]/80 line-clamp-2 md:line-clamp-3">
-                  {featuredItem.description}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between pt-4 border-t border-[#e3bbb9]/20 w-full">
-                <span className="font-dm text-xs text-[#f8f1e7]/60">Penyelenggara: {featuredItem.organizer}</span>
-                <span className="inline-flex items-center gap-1.5 font-dm text-xs font-semibold text-[#e3bbb9] group-hover:translate-x-1 transition-transform">
-                  Lihat Detail Agenda &rarr;
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-      )}
-
-      {/* Filter Tabs & Counter */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <Link
-            href={`/kegiatan${q ? `?q=${encodeURIComponent(q)}` : ''}`}
-            className={`px-4 py-1.5 rounded-[3px] text-xs font-barlow font-bold uppercase tracking-wider transition-all ${
-              !type
-                ? 'bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]'
-                : 'bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35'
-            }`}
-          >
-            Semua
-          </Link>
-          <Link
-            href={`/kegiatan?type=LOMBA${q ? `&q=${encodeURIComponent(q)}` : ''}`}
-            className={`px-4 py-1.5 rounded-[3px] text-xs font-barlow font-bold uppercase tracking-wider transition-all ${
-              type === 'LOMBA'
-                ? 'bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]'
-                : 'bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35'
-            }`}
-          >
-            Lomba / Kompetisi
-          </Link>
-          <Link
-            href={`/kegiatan?type=INTERNAL${q ? `&q=${encodeURIComponent(q)}` : ''}`}
-            className={`px-4 py-1.5 rounded-[3px] text-xs font-barlow font-bold uppercase tracking-wider transition-all ${
-              type === 'INTERNAL'
-                ? 'bg-[#762d2e] border border-[#e3bbb9]/40 text-[#f8f1e7] shadow-[0_2px_8px_rgba(118,45,46,0.5)]'
-                : 'bg-[#1a1517]/70 border border-[#e3bbb9]/15 text-[#f8f1e7]/60 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/35'
-            }`}
-          >
-            Kegiatan Internal
-          </Link>
-        </div>
-        <p className="font-mono-lib text-xs text-[#f8f1e7]/50 uppercase">
-          {items.length} kegiatan{q || type ? ' ditemukan' : ''}
-        </p>
-      </div>
-
-      {/* Grid Content */}
-      {items.length === 0 ? (
-        <div className="text-center py-16 rounded-[4px] bg-[#1a1517]/70 border border-[#e3bbb9]/15">
-          <p className="font-dm text-sm text-[#f8f1e7]/60">
-            {q || type
-              ? 'Tidak ada kegiatan yang cocok dengan pencarian atau jenis ini.'
-              : 'Belum ada agenda kegiatan.'}
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {items.map((item, idx) => {
-            const isLomba = item.type === 'LOMBA';
-            const categoryLabel = isLomba ? 'Lomba' : 'Kegiatan';
-            const numLabel = idx < 9 ? `0${idx + 1}` : `${idx + 1}`;
-            const tagLeft = `${numLabel} / ${isLomba ? 'KOMPETISI' : 'AGENDA'}`;
-            const tagRight = isLomba ? 'NASIONAL' : 'KAMPUS';
-            const footerText = isLomba ? 'Kompetisi Mahasiswa' : 'Kegiatan Kampus';
-            const hasValidImage = item.imageUrl && isWebOrLocalUrl(item.imageUrl);
-
-            return (
-              <Link
-                key={item.id}
-                href={`/kegiatan/${item.slug}`}
-                className="rounded-[4px] bg-[#1a1517]/70 backdrop-blur-[10px] border border-[#e3bbb9]/15 hover:border-[#e3bbb9]/35 hover:bg-[#26161e]/85 p-[25px] min-h-[411px] flex flex-col justify-between transition-all duration-300 group text-left shadow-[0_4px_12px_rgba(0,0,0,0.45)] hover:-translate-y-1"
-              >
-                <div>
-                  {/* Top metadata row */}
-                  <div className="flex items-center justify-between font-mono-lib text-[11px] leading-[17px] uppercase mb-3">
-                    <span className="text-[#e3bbb9] font-medium">{tagLeft}</span>
-                    <span className="text-[#f8f1e7]/50">{tagRight}</span>
-                  </div>
-
-                  {/* Visual Banner Box */}
-                  <div
-                    className="w-full h-[160px] mb-4 border border-[#48121f] rounded-[2px] relative flex items-center justify-center overflow-hidden bg-[#240c14]"
-                    style={{
-                      background:
-                        'linear-gradient(180deg, #9e1933 0%, #6e1223 15%, #460b16 35%, #27060d 60%, #170308 100%)',
-                    }}
-                  >
-                    {hasValidImage ? (
-                      <>
-                        <img
-                          src={item.imageUrl}
-                          alt={item.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
-                      </>
-                    ) : (
-                      <div className="w-[44px] h-[44px] rounded-[12px] bg-[#3a0d18] border border-[#e3bbb9]/20 flex items-center justify-center text-[#e3bbb9] shadow-[0_0_15px_rgba(158,25,51,0.5)]">
-                        {isLomba ? <Trophy size={22} className="text-[#e3bbb9]" /> : <Calendar size={22} className="text-[#e3bbb9]" />}
-                      </div>
-                    )}
-
-                    {/* Top-Right Category Pill Badge */}
-                    <div className="absolute top-3 right-3 px-3 py-0.5 rounded-full bg-[#1b080e]/85 border border-white/20 backdrop-blur-xl inline-flex items-center justify-center shadow-sm">
-                      <span className="font-jakarta font-bold text-[10px] leading-[15px] text-[#f8f1e7]">
-                        {categoryLabel}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Body */}
-                  <div className="mb-2">
-                    <span className="font-mono-lib text-[11px] text-[#e3bbb9] uppercase block mb-1">
-                      {item.date.toLocaleDateString('id-ID', {
+              <div className="relative z-10 max-w-2xl">
+                {/* Meta details: Date · Time · Location */}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-300 font-medium mb-3">
+                  <span className="flex items-center gap-1.5 text-brand-neon">
+                    <Calendar size={14} />
+                    <span>
+                      {featuredItem.date.toLocaleDateString('id-ID', {
                         day: 'numeric',
-                        month: 'short',
+                        month: 'long',
                         year: 'numeric',
                         timeZone: 'Asia/Jakarta',
                       })}
-                      {item.time ? ` · ${item.time} WIB` : ''}
                     </span>
-                    <h2 className="font-barlow font-bold text-[18px] sm:text-[20px] leading-[25px] tracking-[-0.45px] text-[#f8f1e7] group-hover:text-[#e3bbb9] transition-colors uppercase line-clamp-2 mb-2">
+                  </span>
+                  {featuredItem.time && (
+                    <>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="flex items-center gap-1.5 text-gray-300">
+                        <Clock size={13} className="text-brand-neon" />
+                        <span>{featuredItem.time} WIB</span>
+                      </span>
+                    </>
+                  )}
+                  {featuredItem.location && (
+                    <>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="flex items-center gap-1.5 text-gray-300 max-w-xs sm:max-w-sm truncate">
+                        <MapPin size={13} className="text-brand-neon shrink-0" />
+                        <span className="truncate">{featuredItem.location}</span>
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white group-hover:text-brand-neon transition-colors leading-snug mb-3 text-balance">
+                  {featuredItem.name}
+                </h2>
+                <p className="text-sm sm:text-base text-gray-200/90 line-clamp-2 md:line-clamp-3 leading-relaxed mb-4">
+                  {featuredItem.description}
+                </p>
+
+                {/* Action & Organizer */}
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm">
+                  <span className="inline-flex items-center gap-1.5 font-semibold text-brand-neon group-hover:translate-x-1 transition-transform">
+                    Detail Acara <ArrowRight size={14} />
+                  </span>
+                  {featuredItem.organizer && (
+                    <>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="text-gray-400">
+                        Penyelenggara: <span className="text-gray-300">{featuredItem.organizer}</span>
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* List Grid */}
+        {!items.length ? (
+          <div className="text-center py-16 bg-[#1a0a13]/50 border border-white/10 rounded-2xl max-w-md mx-auto backdrop-blur-md">
+            <p className="text-gray-400">Tidak ada kegiatan yang ditemukan.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {items.map((item) => (
+              <Link
+                key={item.id}
+                href={`/kegiatan/${item.slug}`}
+                className="bg-[#1a0a13]/50 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-neon hover:bg-[#23121b]/70 hover:scale-[1.015] hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(254,174,174,0.18)] transition-all duration-500 ease-out flex flex-col justify-between group backdrop-blur-md"
+              >
+                <div>
+                  {/* Card Thumbnail Image */}
+                  <div className="h-48 w-full relative overflow-hidden bg-black/40 flex items-center justify-center">
+                    {item.imageUrl && isWebOrLocalUrl(item.imageUrl) ? (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-neon">
+                        <Calendar size={24} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="p-5">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium mb-1">
+                      <Calendar size={13} className="text-brand-neon shrink-0" />
+                      <span>
+                        {item.date.toLocaleDateString('id-ID', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                          timeZone: 'Asia/Jakarta',
+                        })}
+                      </span>
+                      {item.time && <span>&middot; {item.time} WIB</span>}
+                    </div>
+                    <div className="flex items-center gap-1 text-[11px] text-gray-400 mb-2 truncate">
+                      <MapPin size={12} className="text-brand-neon/80 shrink-0" />
+                      <span className="truncate">{item.location}</span>
+                    </div>
+                    <h2 className="text-base font-bold text-white group-hover:text-brand-neon transition-colors line-clamp-2 mb-2 leading-snug">
                       {item.name}
                     </h2>
-                    <p className="font-dm text-[13px] leading-[21px] text-[#f8f1e7]/75 line-clamp-2">
+                    <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Card Footer */}
-                <div className="pt-3 mt-4 border-t border-[#e3bbb9]/25 flex items-center justify-between">
-                  <span className="font-dm text-[12px] leading-[18px] text-[#f8f1e7]/60 group-hover:text-[#f8f1e7]/90 transition-colors">
-                    {footerText}
+                <div className="px-5 pb-4 pt-2 flex items-center justify-between text-[11px] text-gray-400 border-t border-white/5">
+                  <span className="truncate pr-2">Oleh: {item.organizer}</span>
+                  <span className="text-brand-neon font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1 shrink-0">
+                    Detail <ArrowRight size={13} />
                   </span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    aria-hidden="true"
-                    className="text-[#e3bbb9] group-hover:translate-x-0.5 transition-transform"
-                  >
-                    <path
-                      d="M5.25 2.91602L9.33333 6.99935L5.25 11.0827"
-                      stroke="currentColor"
-                      strokeWidth="1.16667"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
                 </div>
               </Link>
-            );
-          })}
-        </div>
-      )}
-    </section>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <nav aria-label="Halaman kegiatan" className="flex items-center justify-center gap-4 mt-12 mb-6">
+            {currentPage > 1 ? (
+              <Link
+                href={pageHref(currentPage - 1)}
+                aria-label="Halaman sebelumnya"
+                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:border-brand-neon hover:text-brand-neon flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <ChevronLeft size={18} />
+              </Link>
+            ) : (
+              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
+                <ChevronLeft size={18} />
+              </span>
+            )}
+
+            <span className="text-sm font-medium text-gray-300">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            {currentPage < totalPages ? (
+              <Link
+                href={pageHref(currentPage + 1)}
+                aria-label="Halaman berikutnya"
+                className="w-10 h-10 rounded-full bg-brand-neon text-brand-dark hover:opacity-90 flex items-center justify-center transition-all cursor-pointer font-bold shadow-[0_0_15px_rgba(254,174,174,0.3)]"
+              >
+                <ChevronRight size={18} />
+              </Link>
+            ) : (
+              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
+                <ChevronRight size={18} />
+              </span>
+            )}
+          </nav>
+        )}
+      </section>
+    </div>
   );
 }

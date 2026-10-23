@@ -16,11 +16,14 @@ export function publicationCategory(value) {
 export function publicationPayload(body, existing = null) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return { error: 'Payload tidak valid.' };
   const data = {};
-  for (const field of ['title', 'author', 'body', 'category']) {
+  for (const field of ['title', 'body', 'category']) {
     const value = body[field] === undefined ? existing?.[field] : body[field];
-    if (typeof value !== 'string' || !value.trim()) return { error: 'Judul, penulis, kategori, dan isi wajib diisi.' };
+    if (typeof value !== 'string' || !value.trim()) return { error: 'Judul, kategori, dan isi wajib diisi.' };
     data[field] = value.trim();
   }
+  const authorValue = body.author === undefined ? (existing?.author || 'BEM FH UNAND') : body.author;
+  if (typeof authorValue !== 'string') return { error: 'Penulis harus berupa teks.' };
+  data.author = authorValue.trim() || 'BEM FH UNAND';
   data.category = publicationCategory(data.category);
   // Preserve custom categories in existing records, while new selections use the requirement's taxonomy.
   if (!PUBLICATION_CATEGORIES.includes(data.category) && data.category !== publicationCategory(existing?.category)) {

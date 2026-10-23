@@ -1,123 +1,120 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const logoElements = [
+const defaultElements = [
   {
-    tab: 'KEPALAN TANGAN',
-    heading: 'KEADILAN',
+    title: 'Kepalan Tangan',
     desc: 'Kepalan tangan melambangkan tekad, keberanian, kekuatan, dan semangat juang yang tak pernah padam untuk memperjuangkan kebenaran, keadilan, dan perubahan.',
   },
   {
-    tab: 'SAYAP',
-    heading: 'GERAK MAJU & SEMANGAT',
+    title: 'Sayap',
     desc: 'Melambangkan gerak maju, kecepatan, semangat pantang menyerah, dan tekad untuk mencapai tujuan setinggi mungkin.',
   },
   {
-    tab: 'DAUN',
-    heading: 'KESEIMBANGAN & HARMONI',
+    title: 'Daun',
     desc: 'Melambangkan keseimbangan, persatuan, serta harmoni antara pemikiran dan tindakan dalam mewujudkan perubahan nyata.',
   },
   {
-    tab: 'BENTUK SIMETRIS',
-    heading: 'KEHIDUPAN & HARAPAN',
-    desc: 'Melambangkan kehidupan, semangat, dan harapan. Bentuk ini menggambarkan keberanian untuk tetap berdiri tegak dan terus maju.',
+    title: 'Bentuk Simetris',
+    desc: 'Melambangkan kehidupan, semangat, dan harapan. Daun ini menggambarkan keberanian untuk tetap berdiri tegak dan terus maju.',
   },
 ];
 
 export default function FilosofiLogoInteractive({ profileLogoPhilosophy }) {
-  const [activeTab, setActiveTab] = useState(0);
-  const current = logoElements[activeTab] || logoElements[0];
-
   return (
-    <section id="filosofi-logo" className="scroll-mt-24 py-16 sm:py-24 relative z-10">
-      <div className="max-w-[1120px] mx-auto px-6 lg:px-0">
+    <section id="filosofi-logo" className="scroll-mt-24 py-16 relative z-10">
+      <div className="container mx-auto px-6 max-w-6xl">
+        {/* Centered Short Section Divider */}
+        <div className="w-1/3 max-w-md mx-auto h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-12" aria-hidden="true" />
+
+        {/* Header with fluid scroll reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="pt-2 sm:pt-4 mb-10 text-left flex flex-col items-start"
+        >
+          <span className="text-xs text-brand-neon uppercase tracking-wide font-medium block">
+            Identitas &amp; Makna
+          </span>
+          <h2 className="text-3xl font-bold text-white mt-1">Filosofi Logo</h2>
+        </motion.div>
+
         {profileLogoPhilosophy && (
-          <div className="mb-8 p-6 rounded-[4px] bg-[#1a1517]/60 border border-[#e3bbb9]/12 text-[#f8f1e7] text-sm whitespace-pre-wrap leading-relaxed text-left max-w-3xl font-dm">
+          <div className="mb-8 p-5 rounded-xl bg-[#1a0a13]/50 border border-white/10 text-gray-300 text-sm whitespace-pre-wrap leading-relaxed text-left max-w-3xl backdrop-blur-md shadow-lg">
             {profileLogoPhilosophy}
           </div>
         )}
 
-        {/* 2-Column Showcase (Node 149:4691) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* Left: Emblem Stage Card (Node 149:4711 / 149:4712) following FINAL_HOME card design */}
-          <div className="lg:col-span-5 flex items-center justify-center">
-            <div className="w-full max-w-[381px] min-h-[424px] rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 shadow-[0_4px_6px_rgba(0,0,0,0.4)] p-8 relative flex flex-col items-center justify-center overflow-hidden">
-              {/* Top Pill Badge (Node 149:4713) */}
-              <div className="mb-8 px-2.5 py-0.5 rounded-[2px] bg-[#762d2e] inline-flex items-center justify-center">
-                <span className="font-bricolage font-extrabold text-[12px] leading-[18px] tracking-[0.6px] text-[#f8f1e7] uppercase text-center">
-                  IDENTITAS SIMBOLIK KABINET
-                </span>
-              </div>
+        {/* 2-Column Showcase: Left = Logo BEM FH UNAND, Right = Philosophy Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Logo Badge with Radial Glow */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            <div className="relative flex flex-col items-center w-full max-w-sm">
+              {/* Radial ambient glow */}
+              <div
+                className="absolute -inset-6 rounded-full blur-3xl bg-brand-red/20 scale-95 opacity-70 pointer-events-none"
+              />
 
-              {/* Circular White Stage with Crimson Glow & Official Color Logo (Node 149:4715 / 149:4716) */}
-              <div className="relative z-10 w-[256px] h-[256px] rounded-full bg-white shadow-[0_0_36px_rgba(196,39,73,0.55),0_0_0_2px_rgba(255,255,255,0.1)] flex items-center justify-center p-5">
+              {/* Circular Logo Badge with fluid hover */}
+              <motion.div
+                whileHover={{
+                  scale: 1.03,
+                  transition: { type: 'spring', stiffness: 300, damping: 20 },
+                }}
+                className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full p-4 sm:p-5 bg-[radial-gradient(circle,_#ffffff_40%,_#8e1616_100%)] shadow-[0_0_30px_rgba(142,22,22,0.5)] ring-2 ring-white/10 flex items-center justify-center cursor-pointer"
+              >
                 <img
                   src="/logo_warna.png"
-                  alt="Lambang Resmi Kabinet Aksara Juang BEM FH UNAND"
-                  className="w-[216px] h-[216px] object-contain select-none"
+                  alt="Logo BEM FH UNAND"
+                  className="w-full h-full object-contain filter drop-shadow-md select-none transition-transform duration-700 ease-out"
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
 
-          {/* Right: Heading with #c11a40 JUANG + Four Tabs (Node 149:4692) */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            <span className="font-mono-lib font-bold text-[12px] leading-[18px] tracking-[1.2px] text-[#e3bbb9] uppercase block">
-              04 / IDENTITAS SIMBOLIK
-            </span>
-
-            <h2 className="font-barlow font-extrabold text-4xl sm:text-[46px] leading-[1.15] sm:leading-[69px] tracking-[-1.15px] uppercase mt-1.5">
-              <span className="text-[#f8f1e7]">AKSARA </span>
-              <span className="text-[#c11a40]">JUANG</span>
-            </h2>
-
-            {/* Four Compact Tabs (Node 149:4697) */}
-            <div
-              role="tablist"
-              aria-label="Elemen Filosofi Logo"
-              className="flex flex-wrap items-center gap-2 mt-4 mb-5"
-            >
-              {logoElements.map((elem, idx) => {
-                const isSelected = activeTab === idx;
-                return (
-                  <button
-                    key={elem.tab}
-                    type="button"
-                    role="tab"
-                    aria-selected={isSelected}
-                    onClick={() => setActiveTab(idx)}
-                    className={`h-[32px] px-4 rounded-[3px] font-barlow font-bold text-[12px] leading-[18px] tracking-[0.6px] uppercase transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-[#e3bbb9] ${
-                      isSelected
-                        ? 'bg-[#8f1b34] border border-[#e3bbb9]/35 text-[#f8f1e7] shadow-[0_0_15px_rgba(143,27,52,0.4)]'
-                        : 'bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 text-[#f8f1e7]/70 hover:text-[#f8f1e7] hover:border-[#e3bbb9]/25'
-                    }`}
-                  >
-                    {elem.tab}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Active Tab Content (Node 149:4706) */}
-            <div className="rounded-[4px] bg-[#1a1517]/60 backdrop-blur-[10px] border border-[#e3bbb9]/12 p-6 min-h-[137px] flex flex-col justify-center">
-              <AnimatePresence mode="wait">
+          {/* Right Column: Philosophy Cards */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+              {defaultElements.map((elem, idx) => (
                 <motion.div
-                  key={current.tab}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.2 }}
+                  key={idx}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{
+                    duration: 0.75,
+                    delay: 0.06 * idx,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  whileHover={{
+                    y: -4,
+                    scale: 1.015,
+                    transition: { type: 'spring', stiffness: 350, damping: 25 },
+                  }}
+                  className="group rounded-xl p-5 transition-all duration-500 ease-out flex flex-col justify-between cursor-pointer border bg-[#1a0a13]/50 border-white/10 hover:border-brand-neon hover:bg-[#23121b]/70 hover:shadow-[0_12px_28px_rgba(254,174,174,0.2)] backdrop-blur-md"
                 >
-                  <h3 className="font-barlow font-bold text-[20px] leading-[30px] tracking-[1px] text-[#e3bbb9] uppercase mb-2">
-                    {current.heading}
-                  </h3>
-                  <p className="font-dm text-[15px] leading-[24px] text-[#f8f1e7]/80">
-                    {current.desc}
-                  </p>
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span
+                        className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider transition-colors duration-300 text-gray-400 bg-white/5 border border-white/10 group-hover:bg-brand-neon group-hover:text-brand-dark"
+                      >
+                        0{idx + 1}
+                      </span>
+                    </div>
+                    <h3
+                      className="text-base font-semibold mb-2 transition-colors duration-300 text-white group-hover:text-brand-neon"
+                    >
+                      {elem.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                      {elem.desc}
+                    </p>
+                  </div>
                 </motion.div>
-              </AnimatePresence>
+              ))}
             </div>
           </div>
         </div>

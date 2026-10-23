@@ -8,16 +8,14 @@ import {
   X,
   FileText,
   Calendar,
-  User,
   ExternalLink,
   Loader2,
   CheckCircle2,
   AlertCircle,
-  Tag,
 } from 'lucide-react';
 import { PUBLICATION_CATEGORIES, publicationCategory } from '../../lib/publication';
 
-const emptyForm = { title: '', publishedAt: '', author: '', category: '', body: '', attachmentUrl: '', imageUrl: '' };
+const emptyForm = { title: '', publishedAt: '', author: 'BEM FH UNAND', category: '', body: '', attachmentUrl: '', imageUrl: '' };
 
 export default function NewsManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
@@ -199,17 +197,6 @@ export default function NewsManagerClient({ initialItems }) {
             </label>
 
             <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
-              Penulis / Kontributor
-              <input
-                required
-                value={form.author}
-                onChange={(e) => setForm({ ...form, author: e.target.value })}
-                placeholder="Contoh: Biro Kastrat / Tim Redaksi"
-                className="mt-1.5 block w-full rounded-xl bg-white/[0.05] border border-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
-              />
-            </label>
-
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-300">
               Kategori Publikasi
               <select
                 required
@@ -299,11 +286,6 @@ export default function NewsManagerClient({ initialItems }) {
                 <span className="text-xs text-gray-400 flex items-center gap-1">
                   <Calendar size={12} className="text-gray-500" />
                   {item.publishedAt.slice(0, 10)}
-                </span>
-                <span className="text-gray-500 text-xs">•</span>
-                <span className="text-xs text-gray-400 flex items-center gap-1">
-                  <User size={12} className="text-gray-500" />
-                  {item.author}
                 </span>
               </div>
               <h3 className="font-bold text-base text-white group-hover:text-brand-neon transition-colors line-clamp-1">
