@@ -5,11 +5,44 @@
 
 export const HARDCODED_DEPARTEMEN = [
   {
+    id: 'dept-kordept-pelayanan-pergerakan',
+    name: 'Kordept Pelayanan Pergerakan',
+    slug: 'kordept-pelayanan-pergerakan',
+    category: 'Koordinator Departemen',
+    photoUrl: '/uploads/departemen/kordept-pelayanan-pergerakan.jpg',
+    description:
+      'Koordinator Departemen Pelayanan Pergerakan BEM FH UNAND mengoordinasikan bidang pelayanan mahasiswa, advokasi kesejahteraan, serta pergerakan politik dan hukum.',
+    proker: [],
+    staff: [],
+  },
+  {
+    id: 'dept-kordept-relasi-pengembangan',
+    name: 'Kordept Relasi Pengembangan',
+    slug: 'kordept-relasi-pengembangan',
+    category: 'Koordinator Departemen',
+    photoUrl: '/uploads/departemen/kordept-relasi-pengembangan.jpg',
+    description:
+      'Koordinator Departemen Relasi Pengembangan BEM FH UNAND mengoordinasikan bidang hubungan internal, hubungan eksternal, serta pengembangan potensi dan sumber daya mahasiswa.',
+    proker: [],
+    staff: [],
+  },
+  {
+    id: 'dept-kordept-pengabdian-kreatifitas',
+    name: 'Kordept Pengabdian Kreatifitas',
+    slug: 'kordept-pengabdian-kreatifitas',
+    category: 'Koordinator Departemen',
+    photoUrl: '/uploads/departemen/kordept-pengabdian-kreatifitas.jpg',
+    description:
+      'Koordinator Departemen Pengabdian Kreatifitas BEM FH UNAND mengoordinasikan bidang pengabdian sosial masyarakat, seni, olahraga, budaya, ekonomi kreatif, serta pemberdayaan perempuan.',
+    proker: [],
+    staff: [],
+  },
+  {
     id: 'dept-inspektorat-jenderal',
     name: 'Inspektorat Jenderal',
     slug: 'inspektorat-jenderal',
     category: 'Lembaga',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/inspektorat-jenderal.jpg',
     description:
       'Lembaga Inspektorat Jenderal merupakan salah satu Lembaga yang berada di bawah naungan Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas Kabinet Aksara Juang. Lembaga Inspektorat Jenderal memiliki peran penting dalam menjaga keseimbangan dinamika organisasi melalui fungsi pengawasan, pengakraban, serta penyelesaian konflik di lingkungan BEM FHUA. Sebagai lembaga independen, Inspektorat Jenderal berupaya memastikan seluruh program dan kegiatan berjalan sesuai dengan nilai-nilai transparansi, tanggung jawab, dan profesionalisme.',
     proker: [
@@ -51,7 +84,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Biro Kesekretariatan',
     slug: 'biro-kesekretariatan',
     category: 'Biro',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/biro-kesekretariatan.jpg',
     description:
       'Biro Kesekretariatan BEM FHUA periode 2026/2027 adalah biro yang bertugas mengelola tata kelola administrasi, pengarsipan dokumen, pendataan pengurus dan surat-menyurat, serta penataan inventaris dan fasilitas sekretariat organisasi. Biro ini juga berfungsi menyelaraskan timeline kegiatan seluruh unit organisasi dan memberikan pendampingan standar administrasi agar seluruh dokumen berjalan tertib, seragam, dan efisien.',
     proker: [
@@ -81,7 +114,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Biro Keuangan',
     slug: 'biro-keuangan',
     category: 'Biro',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/biro-keuangan.jpg',
     description:
       'Biro Keuangan adalah bagian dari struktur organisasi yang memiliki tanggung jawab utama dalam mengelola seluruh aspek keuangan BEM FHUA. Tugasnya mencakup penyusunan pembukuan serta pelaporan keuangan secara menyeluruh. Biro ini memegang peranan krusial dalam memastikan stabilitas finansial organisasi serta mendukung tercapainya tujuan strategis BEM FHUA.',
     proker: [
@@ -123,7 +156,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Kantor Media, Komunikasi, dan Informasi',
     slug: 'kantor-medkominfo',
     category: 'Kantor',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/medkominfo.jpg',
     description:
       'Kantor Media, Komunikasi, dan Informasi (Medkominfo) adalah salah satu kantor di BEM FHUA yang bertugas mengelola dan menyampaikan informasi kepada mahasiswa serta civitas akademika Fakultas Hukum Universitas Andalas. Kantor ini mendukung kebutuhan komunikasi dan publikasi BEM FHUA, mulai dari penyampaian informasi kegiatan dan program kerja hingga berbagai hal yang berkaitan dengan kehidupan mahasiswa melalui platform media yang informatif, kreatif, dan responsif.',
     proker: [
@@ -171,7 +204,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Hubungan Internal',
     slug: 'departemen-hubungan-internal',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/hubungan-internal.jpg',
     description:
       'Departemen Hubungan Internal bertugas menjaga keakraban antar-lembaga, membangun serta merawat jejaring silaturahmi yang harmonis antara BEM FHUA dengan seluruh Organisasi Mahasiswa (Lembaga, UKMF, dan HIMA) di lingkungan internal Fakultas Hukum Universitas Andalas. Menjadi ruang diskusi terbuka bagi penyampaian aspirasi dan keluh kesah guna menemukan solusi kolektif, serta menjalankan harmonisasi hubungan aktif lintas angkatan demi menjaga solidaritas internal.',
     proker: [
@@ -225,7 +258,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Hubungan Eksternal',
     slug: 'departemen-hubungan-eksternal',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/hubungan-eksternal.jpg',
     description:
       'Departemen Hubungan Eksternal adalah departemen yang berperan dalam membangun dan mengembangkan hubungan serta kerja sama BEM FHUA dengan pihak eksternal. Departemen ini berfungsi sebagai penghubung dan representasi BEM FHUA dalam menjalin relasi, kolaborasi, komunikasi, serta kerja sama dengan berbagai organisasi, institusi, dan stakeholder eksternal, sekaligus memperluas jaringan dan meningkatkan citra positif BEM FHUA.',
     proker: [
@@ -261,7 +294,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Advokasi dan Kesejahteraan Mahasiswa',
     slug: 'departemen-advokasi-dan-kesejahteraan-mahasiswa',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/adkesma.jpg',
     description:
       'Departemen Advokasi dan Kesejahteraan Mahasiswa (Adkesma) adalah departemen yang berfokus pada bidang advokasi dan pelayanan guna mendukung kesejahteraan mahasiswa. Departemen ini hadir sebagai tempat penyaluran aspirasi sekaligus jembatan antara mahasiswa dan pihak birokrasi kampus demi memastikan setiap kebutuhan dan permasalahan mahasiswa dapat tersampaikan serta ditindaklanjuti, mengawal hak-hak mahasiswa, penyesuaian UKT, fasilitas, serta menciptakan lingkungan akademik yang adil, kondusif, dan berpihak pada kepentingan mahasiswa.',
     proker: [
@@ -315,7 +348,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Politik dan Hukum',
     slug: 'departemen-politik-dan-hukum',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/politik-dan-hukum.jpg',
     description:
       'Departemen Politik dan Hukum merupakan ruang bagi mahasiswa untuk membangun kesadaran kritis melalui kajian, advokasi, dan literasi, serta menghubungkan kajian dengan realitas untuk mengubah keresahan menjadi gagasan dan gagasan menjadi gerakan. Departemen ini menjalankan tiga fungsi utama: Aksi Propaganda dalam menyuarakan sikap publik, Kajian Strategis berbasis data ilmiah dan analisis kritis, serta Pembentukan UU dengan mengawal perumusan regulasi kampus yang demokratis dan berkeadilan.',
     proker: [
@@ -369,7 +402,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Pengembangan Sumber Daya Mahasiswa',
     slug: 'departemen-pengembangan-sumber-daya-mahasiswa',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/psdm.jpg',
     description:
       'Departemen Pengembangan Sumber Daya Mahasiswa (PSDM) memiliki peran strategis dalam proses pembinaan, pengembangan, dan penguatan kapasitas mahasiswa secara holistik. PSDM tidak hanya dipahami sebagai ruang peningkatan keterampilan teknis semata, tetapi juga sebagai wadah pembentukan karakter kepemimpinan, kesadaran kritis, serta internalisasi nilai-nilai humanisme, integritas, dan solidaritas dalam kehidupan berorganisasi.',
     proker: [
@@ -423,7 +456,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Sosial Masyarakat',
     slug: 'departemen-sosial-masyarakat',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/sosial-masyarakat.jpg',
     description:
       'Departemen Sosial Masyarakat Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas merupakan salah satu ruang pergerakan mahasiswa yang hadir untuk menumbuhkan kepedulian sosial, kepekaan terhadap persoalan masyarakat, serta keberanian untuk mengambil peran dalam menghadirkan perubahan. Sebagai mahasiswa hukum, pengabdian kepada masyarakat tidak hanya dimaknai sebagai bentuk pelaksanaan Tri Dharma Perguruan Tinggi, tetapi juga sebagai kesempatan untuk membawa pengetahuan, gagasan, dan nilai-nilai yang diperoleh di bangku perkuliahan agar dapat memberikan manfaat secara langsung bagi masyarakat.',
     proker: [
@@ -471,7 +504,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Seni, Olahraga dan Budaya',
     slug: 'departemen-seni-olahraga-dan-budaya',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/seni-olahraga-budaya.jpg',
     description:
       'Departemen Seni, Olahraga, dan Budaya (Soraya) BEM FHUA Kabinet Aksara Juang merupakan departemen yang bergerak dalam penyelenggaraan ajang seni, olahraga, dan kebudayaan. Pada bidang Seni dan Olahraga, Soraya berfokus menghadirkan event-event besar berskala besar sebagai wadah kompetisi serta hiburan yang melibatkan mahasiswa ataupun pelajar dan masyarakat luas di Kota Padang. Sementara pada bidang Budaya, Soraya berfokus menjalankan program-program kerja strategis yang berorientasi langsung pada pelestarian serta pengenalan kembali kekayaan budaya lokal yang tumbuh di berbagai daerah Minangkabau.',
     proker: [
@@ -501,7 +534,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Ekonomi Kreatif',
     slug: 'departemen-ekonomi-kreatif',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/ekonomi-kreatif.jpg',
     description:
       'Departemen Ekonomi Kreatif merupakan salah satu departemen yang berada di bawah naungan Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas Kabinet Aksara Juang. Departemen Ekonomi Kreatif BEM FHUA merupakan wadah bagi mahasiswa hukum untuk mengembangkan minat dan bakat dalam lingkup bisnis ide kreatif yang memiliki peluang keuntungan. Melalui berbagai program dan kegiatan, departemen ini berupaya untuk menumbuhkan semangat mahasiswa untuk menciptakan bisnis kreatif dengan menggabungkan teori hukum dengan praktik negosiasi, pengelolaan sponsorship (Funding & Partnership), dan pengembangan merchandise resmi (Creative Commerce).',
     proker: [
@@ -558,7 +591,7 @@ export const HARDCODED_DEPARTEMEN = [
     name: 'Departemen Pemberdayaan Perempuan',
     slug: 'departemen-pemberdayaan-perempuan',
     category: 'Departemen',
-    photoUrl: null,
+    photoUrl: '/uploads/departemen/pemberdayaan-perempuan.jpg',
     description:
       'Departemen Pemberdayaan Perempuan bertugas memastikan keadilan dan rasa aman benar-benar hidup secara nyata bagi para mahasiswi di lingkungan kampus. Mendorong setiap perempuan untuk percaya diri mengambil peran kepemimpinan, mengedukasi masyarakat kampus untuk memiliki cara pandang gender yang adil dan membongkar bias patriarki, serta memastikan setiap mahasiswi hukum UNAND menyadari bahwa mereka memiliki hak, suara, dan kapasitas yang setara untuk melakukan perubahan.',
     proker: [
@@ -597,10 +630,53 @@ export const HARDCODED_DEPARTEMEN = [
   },
 ];
 
+export const DEPARTMENT_SLUG_ORDER = [
+  'kordept-pelayanan-pergerakan',
+  'kordept-relasi-pengembangan',
+  'kordept-pengabdian-kreatifitas',
+  'departemen-advokasi-dan-kesejahteraan-mahasiswa',
+  'departemen-hubungan-internal',
+  'departemen-sosial-masyarakat',
+  'departemen-politik-dan-hukum',
+  'departemen-hubungan-eksternal',
+  'departemen-seni-olahraga-dan-budaya',
+  'departemen-pemberdayaan-perempuan',
+  'departemen-pengembangan-sumber-daya-mahasiswa',
+  'departemen-ekonomi-kreatif',
+  'biro-kesekretariatan',
+  'kantor-medkominfo',
+  'biro-keuangan',
+  'inspektorat-jenderal',
+];
+
+export function sortDepartments(departments = []) {
+  const orderMap = new Map(DEPARTMENT_SLUG_ORDER.map((slug, idx) => [slug, idx]));
+  return [...departments].sort((a, b) => {
+    const orderA = orderMap.has(a.slug) ? orderMap.get(a.slug) : 999;
+    const orderB = orderMap.has(b.slug) ? orderMap.get(b.slug) : 999;
+    if (orderA !== orderB) return orderA - orderB;
+    return (a.name || '').localeCompare(b.name || '');
+  });
+}
+
 export function getHardcodedDepartemenList() {
-  return HARDCODED_DEPARTEMEN;
+  return sortDepartments(HARDCODED_DEPARTEMEN);
 }
 
 export function getHardcodedDepartemenBySlug(slug) {
   return HARDCODED_DEPARTEMEN.find((d) => d.slug === slug) || null;
+}
+
+export function getDeptPhotoPosition(slug) {
+  switch (slug) {
+    case 'biro-keuangan':
+      return 'object-[center_70%]';
+    case 'departemen-pengembangan-sumber-daya-mahasiswa':
+      return 'object-[center_65%]';
+    case 'departemen-politik-dan-hukum':
+    case 'departemen-sosial-masyarakat':
+      return 'object-center';
+    default:
+      return 'object-[center_25%]';
+  }
 }

@@ -60,7 +60,7 @@ export default function CekAspirasiPage() {
       )}
 
       {result && (
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+        <div className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-5 backdrop-blur-md shadow-lg">
           <div className="flex flex-wrap gap-2 justify-between items-start mb-3">
             <p className="font-semibold tracking-widest">{result.ticketCode}</p>
             <span className={`text-xs px-3 py-1 rounded-full ${STATUS_COLORS[result.status]}`}>{result.statusLabel}</span>

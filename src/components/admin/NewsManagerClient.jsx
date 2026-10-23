@@ -8,7 +8,6 @@ import {
   X,
   FileText,
   Calendar,
-  User,
   ExternalLink,
   Loader2,
   CheckCircle2,
@@ -16,7 +15,7 @@ import {
 } from 'lucide-react';
 import { PUBLICATION_CATEGORIES, publicationCategory } from '../../lib/publication';
 
-const emptyForm = { title: '', publishedAt: '', author: '', category: '', body: '', attachmentUrl: '' };
+const emptyForm = { title: '', publishedAt: '', author: 'BEM FH UNAND', category: '', body: '', attachmentUrl: '', imageUrl: '' };
 
 export default function NewsManagerClient({ initialItems }) {
   const [items, setItems] = useState(initialItems);
@@ -44,10 +43,11 @@ export default function NewsManagerClient({ initialItems }) {
     setForm({
       title: item.title,
       publishedAt: item.publishedAt.slice(0, 10),
-      author: item.author,
+      author: item.author || 'BEM FH UNAND',
       category: publicationCategory(item.category),
       body: item.body,
       attachmentUrl: item.attachmentUrl || '',
+      imageUrl: item.imageUrl || '',
     });
     setEditingId(item.id);
     setFormOpen(true);
@@ -197,17 +197,6 @@ export default function NewsManagerClient({ initialItems }) {
             </label>
 
             <label className="text-xs font-semibold uppercase tracking-wider text-[#d4c0bd]">
-              Penulis / Kontributor
-              <input
-                required
-                value={form.author}
-                onChange={(e) => setForm({ ...form, author: e.target.value })}
-                placeholder="Contoh: Biro Kastrat / Tim Redaksi"
-                className="mt-1.5 block w-full rounded-none bg-[#14080e] border border-[#6d2031] px-4 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
-              />
-            </label>
-
-            <label className="text-xs font-semibold uppercase tracking-wider text-[#d4c0bd]">
               Kategori Publikasi
               <select
                 required
@@ -298,11 +287,7 @@ export default function NewsManagerClient({ initialItems }) {
                   <Calendar size={12} className="text-[#e3bbb9]" />
                   {item.publishedAt.slice(0, 10)}
                 </span>
-                <span className="text-[#6d2031] text-xs">•</span>
-                <span className="text-xs text-[#d4c0bd] flex items-center gap-1">
-                  <User size={12} className="text-[#e3bbb9]" />
-                  {item.author}
-                </span>
+
               </div>
               <h3 className="font-bold text-base text-[#f8f1e7] group-hover:text-brand-neon transition-colors line-clamp-1">
                 {item.title}
