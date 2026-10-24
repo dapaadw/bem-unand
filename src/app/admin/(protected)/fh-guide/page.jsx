@@ -4,7 +4,7 @@ import { prisma } from '../../../../lib/prisma';
 import FhGuideManagerClient from '../../../../components/admin/FhGuideManagerClient';
 
 export default async function FhGuideManagerPage() {
-  await requirePageRole(['ADMIN']);
+  await requirePageRole(['SUPERUSER']);
   const [links, faqs] = await Promise.all([
     prisma.guideLink.findMany({ orderBy: { category: 'asc' } }),
     prisma.faq.findMany({ orderBy: { createdAt: 'asc' } }),
@@ -23,10 +23,10 @@ export default async function FhGuideManagerPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs px-3 py-1 rounded-none bg-[#3a0d18] border border-[#6d2031] text-brand-neon font-medium font-mono-lib">
+          <span className="text-xs px-3.5 py-1.5 rounded-full bg-[#3a0d18] border border-[#6d2031] text-brand-neon font-medium font-mono-lib">
             {links.length} Link Dokumen
           </span>
-          <span className="text-xs px-3 py-1 rounded-none bg-[#1f151a] border border-[#6d2031] text-[#d4c0bd] font-medium font-mono-lib">
+          <span className="text-xs px-3.5 py-1.5 rounded-full bg-[#1f151a] border border-[#6d2031] text-[#d4c0bd] font-medium font-mono-lib">
             {faqs.length} FAQ
           </span>
         </div>

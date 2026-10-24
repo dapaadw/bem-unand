@@ -18,4 +18,5 @@ const nextConfig = {
   },
 };
 
+// Configuration updated to reload server
 export default nextConfig;

@@ -130,7 +130,7 @@ export default function FilterDateRange({
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-label={`Pilih rentang tanggal: ${getDisplayLabel()}`}
-        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-none text-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 ${
+        className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 ${
           hasActiveDate
             ? 'bg-[#3a0d18] text-[#f8f1e7] border border-[#ba2243] shadow-sm'
             : 'bg-[#14080e] text-[#d4c0bd] border border-[#6d2031] hover:bg-[#23121b] hover:border-[#9e1c38]'
@@ -159,7 +159,7 @@ export default function FilterDateRange({
               }}
               title="Hapus filter tanggal"
               aria-label="Hapus filter tanggal"
-              className="p-0.5 rounded-none hover:bg-[#521526] hover:text-[#f8f1e7] transition-colors cursor-pointer"
+              className="p-1 rounded-md hover:bg-[#521526] hover:text-[#f8f1e7] transition-colors cursor-pointer"
             >
               <X size={13} aria-hidden="true" />
             </span>
@@ -179,7 +179,7 @@ export default function FilterDateRange({
         <div
           role="dialog"
           aria-label="Panel pemilihan tanggal"
-          className={`absolute z-50 mt-1.5 w-72 sm:w-80 rounded-none bg-[#160a12] border border-[#6d2031] shadow-2xl p-3.5 text-xs text-[#f8f1e7] animate-in fade-in zoom-in-95 duration-150 ${
+          className={`absolute z-50 mt-1.5 w-72 sm:w-80 rounded-2xl bg-[#160a12] border border-[#6d2031] shadow-2xl p-4 text-xs text-[#f8f1e7] animate-in fade-in zoom-in-95 duration-150 ${
             align === 'right'
               ? 'right-0 left-auto'
               : align === 'left'
@@ -200,7 +200,7 @@ export default function FilterDateRange({
                     key={preset.label}
                     type="button"
                     onClick={() => handlePresetClick(preset)}
-                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-none text-left text-xs transition-colors ${
+                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs transition-colors ${
                       isSelected
                         ? 'bg-[#9e1c38]/40 text-[#f8f1e7] font-bold border border-[#ba2243]'
                         : 'bg-[#14080e] text-[#d4c0bd] hover:bg-[#23121b] hover:text-[#f8f1e7] border border-[#6d2031]'
@@ -229,7 +229,7 @@ export default function FilterDateRange({
                   type="date"
                   value={customFrom}
                   onChange={(e) => setCustomFrom(e.target.value)}
-                  className="w-full rounded-none bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
+                  className="w-full rounded-lg bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
                 />
               </div>
 
@@ -239,7 +239,7 @@ export default function FilterDateRange({
                   type="date"
                   value={customTo}
                   onChange={(e) => setCustomTo(e.target.value)}
-                  className="w-full rounded-none bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
+                  className="w-full rounded-lg bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function FilterDateRange({
               )}
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] font-bold text-xs border border-[#ba2243] transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] font-bold text-xs border border-[#ba2243] transition-all shadow-sm"
               >
                 <span>Terapkan</span>
                 <ArrowRight size={12} aria-hidden="true" />

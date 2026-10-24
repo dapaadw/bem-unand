@@ -36,7 +36,11 @@ export default function AdminLoginPage() {
         setError(data.error || "Email atau password salah.");
         return;
       }
-      router.push("/admin");
+      if (data.role === "ADMIN") {
+        router.push("/admin/news");
+      } else {
+        router.push("/admin");
+      }
       router.refresh();
     } catch {
       setError("Terjadi kendala jaringan saat menghubungi server.");
@@ -53,7 +57,7 @@ export default function AdminLoginPage() {
         aria-hidden="true"
       >
         <div className="absolute inset-0 bg-gradient-radial-1 opacity-90" />
-        <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-brand-neon/10 blur-[130px] rounded-none" />
+        <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-brand-neon/10 blur-[130px] rounded-full" />
       </div>
 
       <div className="w-full max-w-sm space-y-5 relative z-10">
@@ -67,10 +71,10 @@ export default function AdminLoginPage() {
         </Link>
 
         {/* Card */}
-        <div className="bg-[#1a1517]/95 border border-[#e3bbb9] rounded-none p-7 md:p-8 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.30)] space-y-6">
+        <div className="bg-[#1a1517]/95 border border-[#6d2031] rounded-3xl p-7 md:p-8 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.40)] space-y-6">
           {/* Header */}
           <div className="space-y-3 text-center">
-            <div className="mx-auto h-14 w-14 rounded-none bg-[#23121b] border border-[#e3bbb9] flex items-center justify-center p-2 shadow-sm">
+            <div className="mx-auto h-14 w-14 rounded-2xl bg-[#23121b] border border-[#6d2031] flex items-center justify-center p-2 shadow-sm">
               <img
                 src="/logo.png"
                 alt="Logo BEM FH UNAND"
@@ -80,7 +84,7 @@ export default function AdminLoginPage() {
 
             <div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-[#f8f1e7] tracking-tight">
-                Portal Admin &amp; Dosen
+                Portal Admin
               </h1>
               <p className="text-xs text-[#d4c0bd] mt-1">
                 BEM Fakultas Hukum Universitas Andalas
@@ -92,7 +96,7 @@ export default function AdminLoginPage() {
           {error && (
             <div
               role="alert"
-              className="text-xs text-rose-200 bg-[#3a0d18] border border-[#9e1c38] rounded-none p-3"
+              className="text-xs text-rose-200 bg-[#3a0d18] border border-[#9e1c38] rounded-xl p-3"
             >
               {error}
             </div>
@@ -105,7 +109,7 @@ export default function AdminLoginPage() {
                 Alamat Email Akun
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                   <Mail size={15} aria-hidden="true" />
                 </div>
                 <input
@@ -113,7 +117,8 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full rounded-none bg-[#14080e] border border-[#e3bbb9] pl-9 pr-3 py-2.5 text-xs text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon/40 transition-colors"
+                  placeholder="admin@bemfhunand.org"
+                  className="w-full rounded-xl bg-[#14080e] border border-[#6d2031] pl-10 pr-3.5 py-2.5 text-xs text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-colors"
                 />
               </div>
             </div>
@@ -123,7 +128,7 @@ export default function AdminLoginPage() {
                 Kata Sandi
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                   <Lock size={15} aria-hidden="true" />
                 </div>
                 <input
@@ -131,12 +136,13 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full rounded-none bg-[#14080e] border border-[#e3bbb9] pl-9 pr-9 py-2.5 text-xs text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon/40 transition-colors"
+                  placeholder="••••••••"
+                  className="w-full rounded-xl bg-[#14080e] border border-[#6d2031] pl-10 pr-10 py-2.5 text-xs text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-brand-neon"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-brand-neon transition-colors"
                   aria-label={
                     showPassword ? "Sembunyikan password" : "Lihat password"
                   }
@@ -153,7 +159,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] active:scale-[0.99] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2 shadow-sm"
+              className="w-full py-2.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] active:scale-[0.99] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2 shadow-md cursor-pointer"
             >
               {loading ? (
                 <>
@@ -173,7 +179,7 @@ export default function AdminLoginPage() {
           {/* Security footnote */}
           <div className="pt-2 border-t border-[#6d2031]/50 flex items-center justify-center gap-1.5 text-[11px] text-[#d4c0bd]/80">
             <Shield size={12} className="text-brand-neon" aria-hidden="true" />
-            <span>Akses terenkripsi Pengurus BEM &amp; Dosen Pembina</span>
+            <span>Akses Terbatas untuk Pengurus BEM</span>
           </div>
         </div>
       </div>

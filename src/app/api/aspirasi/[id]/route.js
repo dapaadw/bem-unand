@@ -6,7 +6,7 @@ import { logAction } from '../../../../lib/audit';
 import { revalidatePath } from 'next/cache';
 
 export async function PATCH(request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
 
   const { id } = await params;

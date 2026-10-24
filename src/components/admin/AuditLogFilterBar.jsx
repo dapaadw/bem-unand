@@ -122,18 +122,18 @@ export default function AuditLogFilterBar({
   const hasActiveFilters = activeFilters.length > 0;
 
   return (
-    <div className="relative z-20 rounded-none bg-[#1a1517]/90 border border-[#6d2031] p-4 sm:p-5 space-y-4">
+    <div className="relative z-20 rounded-3xl bg-[#1a1517]/90 border border-[#6d2031] p-4 sm:p-5 space-y-4 shadow-xl">
       {/* Top Bar: Title & Summary */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#6d2031]">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+          <div className="p-1.5 rounded-lg bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
             <SlidersHorizontal size={15} aria-hidden="true" />
           </div>
           <span className="text-xs font-bold text-[#f8f1e7] tracking-wide">
             Filter Audit Trail
           </span>
           {hasActiveFilters && (
-            <span className="px-2 py-0.5 rounded-none text-[10px] font-bold bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
               {activeFilters.length} aktif
             </span>
           )}
@@ -149,7 +149,7 @@ export default function AuditLogFilterBar({
             <button
               type="button"
               onClick={resetAllFilters}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#d4c0bd] hover:text-[#f8f1e7] border border-[#6d2031] text-xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#d4c0bd] hover:text-[#f8f1e7] border border-[#6d2031] text-xs transition-colors"
             >
               <RotateCcw size={12} aria-hidden="true" />
               <span>Reset Filter</span>
@@ -176,14 +176,14 @@ export default function AuditLogFilterBar({
               role="radio"
               aria-checked={!currentAction}
               onClick={() => updateFilters({ action: '' })}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs transition-all cursor-pointer border ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
                 !currentAction
                   ? ACTION_CONFIG.ALL.activeClass
                   : 'bg-[#14080e] text-[#d4c0bd] border-[#6d2031] hover:bg-[#23121b] hover:text-[#f8f1e7]'
               }`}
             >
               <span
-                className={`w-2 h-2 rounded-none shrink-0 ${
+                className={`w-2 h-2 rounded-full shrink-0 ${
                   !currentAction ? 'bg-[#f8f1e7]' : 'bg-[#d4c0bd]/60'
                 }`}
                 aria-hidden="true"
@@ -197,13 +197,13 @@ export default function AuditLogFilterBar({
               role="radio"
               aria-checked={currentAction === 'CREATE'}
               onClick={() => updateFilters({ action: currentAction === 'CREATE' ? '' : 'CREATE' })}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs transition-all cursor-pointer border ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
                 currentAction === 'CREATE'
                   ? ACTION_CONFIG.CREATE.activeClass
                   : 'bg-[#14080e] text-[#d4c0bd] border-[#6d2031] hover:bg-[#23121b] hover:text-[#f8f1e7]'
               }`}
             >
-              <span className="w-2 h-2 rounded-none bg-emerald-400 shrink-0" aria-hidden="true" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" aria-hidden="true" />
               <span>CREATE</span>
               <span className="text-[10px] opacity-75 font-normal">Penambahan</span>
             </button>
@@ -214,13 +214,13 @@ export default function AuditLogFilterBar({
               role="radio"
               aria-checked={currentAction === 'UPDATE'}
               onClick={() => updateFilters({ action: currentAction === 'UPDATE' ? '' : 'UPDATE' })}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs transition-all cursor-pointer border ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
                 currentAction === 'UPDATE'
                   ? ACTION_CONFIG.UPDATE.activeClass
                   : 'bg-[#14080e] text-[#d4c0bd] border-[#6d2031] hover:bg-[#23121b] hover:text-[#f8f1e7]'
               }`}
             >
-              <span className="w-2 h-2 rounded-none bg-[#ba2243] shrink-0" aria-hidden="true" />
+              <span className="w-2 h-2 rounded-full bg-[#ba2243] shrink-0" aria-hidden="true" />
               <span>UPDATE</span>
               <span className="text-[10px] opacity-75 font-normal">Pembaruan</span>
             </button>
@@ -231,13 +231,13 @@ export default function AuditLogFilterBar({
               role="radio"
               aria-checked={currentAction === 'DELETE'}
               onClick={() => updateFilters({ action: currentAction === 'DELETE' ? '' : 'DELETE' })}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none text-xs transition-all cursor-pointer border ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
                 currentAction === 'DELETE'
                   ? ACTION_CONFIG.DELETE.activeClass
                   : 'bg-[#14080e] text-[#d4c0bd] border-[#6d2031] hover:bg-[#23121b] hover:text-[#f8f1e7]'
               }`}
             >
-              <span className="w-2 h-2 rounded-none bg-rose-400 shrink-0" aria-hidden="true" />
+              <span className="w-2 h-2 rounded-full bg-rose-400 shrink-0" aria-hidden="true" />
               <span>DELETE</span>
               <span className="text-[10px] opacity-75 font-normal">Penghapusan</span>
             </button>
@@ -292,7 +292,7 @@ export default function AuditLogFilterBar({
           {activeFilters.map((filter) => (
             <span
               key={filter.key}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none bg-[#3a0d18] border border-[#6d2031] text-[#e3bbb9] text-xs font-medium"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3a0d18] border border-[#6d2031] text-[#e3bbb9] text-xs font-medium"
             >
               <span>{filter.label}</span>
               <button
@@ -300,7 +300,7 @@ export default function AuditLogFilterBar({
                 onClick={filter.onRemove}
                 title="Hapus filter ini"
                 aria-label={`Hapus ${filter.label}`}
-                className="p-0.5 rounded-none hover:bg-[#521526] transition-colors"
+                className="p-0.5 rounded-full hover:bg-[#521526] transition-colors"
               >
                 <X size={12} aria-hidden="true" />
               </button>

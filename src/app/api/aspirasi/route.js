@@ -40,7 +40,7 @@ export async function POST(request) {
   return NextResponse.json({ ok: true, ticketCode: created.ticketCode }, { status: 201, headers: { 'Cache-Control': 'no-store' } });
 }
 export async function GET(request) {
-  const { error } = await requireRole(['ADMIN']);
+  const { error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   let where;
   try { where = aspirasiWhere(Object.fromEntries(new URL(request.url).searchParams)); }

@@ -3,7 +3,7 @@ import { prisma } from '../../../../../lib/prisma';
 import { requireRole } from '../../../../../lib/requireRole';
 import { guidePayload } from '../../../../../lib/fhGuide';
 async function mutate(request, context, deleting) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   const { kind, id } = await context.params;
   if (!['link', 'faq'].includes(kind)) return Response.json({ error: 'Jenis tidak valid.' }, { status: 400 });

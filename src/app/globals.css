@@ -129,17 +129,37 @@
   }
 
   /* ========================================================
-     ADMIN PORTAL: FULL KOTAK (ZERO BORDER RADIUS)
-     Seluruh elemen admin strictly sharp / boxy tanpa rounded
+     ADMIN PORTAL: MODERN CLEAN & ROUNDED DESIGN SYSTEM
+     Harmonious with main page maroon-ivory palette & fonts
      ======================================================== */
-  .admin-portal,
-  .admin-portal *,
-  .admin-portal *::before,
-  .admin-portal *::after {
-    border-radius: 0px !important;
+  .admin-portal {
+    font-family: var(--font-sans);
   }
 
+  .admin-portal input:not([type="checkbox"]):not([type="radio"]),
+  .admin-portal select,
+  .admin-portal textarea {
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-portal button {
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-portal ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .admin-portal ::-webkit-scrollbar-track {
+    background: transparent;
+  }
   .admin-portal ::-webkit-scrollbar-thumb {
-    border-radius: 0px !important;
+    background: rgba(109, 32, 49, 0.45);
+    border-radius: 9999px;
+  }
+  .admin-portal ::-webkit-scrollbar-thumb:hover {
+    background: rgba(227, 187, 185, 0.4);
   }
 }

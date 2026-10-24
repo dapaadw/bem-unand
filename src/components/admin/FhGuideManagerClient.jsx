@@ -93,10 +93,10 @@ function Editor({ kind, initialItems }) {
   }
 
   return (
-    <section className="bg-[#1a1517]/85 backdrop-blur-sm border border-[#6d2031] rounded-none p-6 space-y-6 shadow-sm">
+    <section className="bg-[#1a1517]/85 backdrop-blur-sm border border-[#6d2031] rounded-3xl p-6 space-y-6 shadow-sm">
       <div className="flex items-center justify-between pb-3 border-b border-[#6d2031]/50">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+          <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
             {isLink ? <LinkIcon size={18} /> : <HelpCircle size={18} />}
           </div>
           <div>
@@ -112,7 +112,7 @@ function Editor({ kind, initialItems }) {
             </p>
           </div>
         </div>
-        <span className="text-xs px-2.5 py-1 rounded-none bg-[#1f151a] border border-[#6d2031] text-[#d4c0bd] font-mono">
+        <span className="text-xs px-3 py-1 rounded-full bg-[#1f151a] border border-[#6d2031] text-[#d4c0bd] font-mono">
           {items.length} item
         </span>
       </div>
@@ -120,7 +120,7 @@ function Editor({ kind, initialItems }) {
       {error && (
         <div
           role="alert"
-          className="flex items-center gap-2 p-3 rounded-none bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-xs"
+          className="flex items-center gap-2 p-3.5 rounded-xl bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-xs"
         >
           <AlertCircle size={15} className="shrink-0 text-rose-400" />
           <span>{error}</span>
@@ -129,7 +129,7 @@ function Editor({ kind, initialItems }) {
       {message && (
         <div
           role="status"
-          className="flex items-center gap-2 p-3 rounded-none bg-emerald-950/40 border border-emerald-600/40 text-emerald-300 text-xs"
+          className="flex items-center gap-2 p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-600/40 text-emerald-300 text-xs"
         >
           <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
           <span>{message}</span>
@@ -139,7 +139,7 @@ function Editor({ kind, initialItems }) {
       {/* Editor Form */}
       <form
         onSubmit={submit}
-        className="p-4 rounded-none bg-[#12060b] border border-[#6d2031]/60 space-y-3.5"
+        className="p-4 md:p-5 rounded-2xl bg-[#12060b] border border-[#6d2031]/60 space-y-3.5 shadow-inner"
       >
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-brand-neon uppercase tracking-wider font-mono-lib">
@@ -153,7 +153,7 @@ function Editor({ kind, initialItems }) {
                 setEditing("");
                 setForm(empty[kind]);
               }}
-              className="text-xs text-[#d4c0bd] hover:text-white flex items-center gap-1"
+              className="text-xs text-[#d4c0bd] hover:text-white flex items-center gap-1 cursor-pointer"
             >
               <X size={13} />
               <span>Batal</span>
@@ -175,7 +175,7 @@ function Editor({ kind, initialItems }) {
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                 placeholder="Tuliskan jawaban yang lengkap dan jelas..."
-                className="mt-1.5 block w-full rounded-none bg-[#14080e] border border-[#6d2031] p-3 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+                className="mt-1.5 block w-full rounded-xl bg-[#14080e] border border-[#6d2031] p-3 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             ) : (
               <input
@@ -197,7 +197,7 @@ function Editor({ kind, initialItems }) {
                     ? "https://drive.google.com/..."
                     : `Ketik ${labels[key].toLowerCase()}...`
                 }
-                className="mt-1.5 block w-full rounded-none bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
+                className="mt-1.5 block w-full rounded-xl bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all"
               />
             )}
           </label>
@@ -212,7 +212,7 @@ function Editor({ kind, initialItems }) {
 
         <button
           disabled={busy}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all disabled:opacity-50 cursor-pointer"
         >
           {busy ? (
             <Loader2 size={14} className="animate-spin" />
@@ -236,12 +236,12 @@ function Editor({ kind, initialItems }) {
         {items.map((item) => (
           <article
             key={item.id}
-            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12060b] border border-[#6d2031]/50 rounded-none p-3.5 hover:border-[#9e1c38] transition-all group"
+            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12060b] border border-[#6d2031]/50 rounded-2xl p-4 hover:border-[#9e1c38] transition-all group shadow-sm"
           >
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex items-center gap-2">
                 {item.category && (
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031] font-mono-lib">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#3a0d18] text-brand-neon border border-[#6d2031] font-mono-lib">
                     {item.category}
                   </span>
                 )}
@@ -280,7 +280,7 @@ function Editor({ kind, initialItems }) {
                   setMessage("");
                   setError("");
                 }}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] text-xs border border-[#6d2031] transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] text-xs border border-[#6d2031] transition-colors cursor-pointer"
                 aria-label={`Edit ${item.title || item.question}`}
               >
                 <Pencil size={12} className="text-brand-neon" />
@@ -289,7 +289,7 @@ function Editor({ kind, initialItems }) {
               <button
                 disabled={busy}
                 onClick={() => remove(item)}
-                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-none bg-[#3a0d18] hover:bg-[#521526] text-rose-200 text-xs border border-[#9e1c38]/60 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#3a0d18] hover:bg-[#521526] text-rose-200 text-xs border border-[#9e1c38]/60 transition-colors disabled:opacity-50 cursor-pointer"
                 aria-label={`Hapus ${item.title || item.question}`}
               >
                 <Trash2 size={12} />
@@ -317,3 +317,4 @@ export default function FhGuideManagerClient({ initialLinks, initialFaqs }) {
     </div>
   );
 }
+

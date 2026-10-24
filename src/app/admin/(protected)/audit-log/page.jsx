@@ -20,7 +20,7 @@ export default async function AuditLogPage({ searchParams }) {
     where = buildAuditLogWhere(sp);
   } catch (error) {
     return (
-      <div className="p-6 rounded-none bg-[#1a1517]/85 border border-[#6d2031] space-y-3">
+      <div className="p-6 rounded-3xl bg-[#1a1517]/85 border border-[#6d2031] space-y-3 shadow-xl">
         <h1 className="text-lg font-bold text-[#f8f1e7]">Audit Log Sistem</h1>
         <p role="alert" className="text-rose-300 text-xs">
           {error.message}
@@ -81,7 +81,7 @@ export default async function AuditLogPage({ searchParams }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-[#f8f1e7] tracking-tight flex items-center gap-2.5">
-            <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+            <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
               <ScrollText size={20} aria-hidden="true" />
             </div>
             <span>Audit Trail &amp; Kepatuhan</span>
@@ -94,7 +94,7 @@ export default async function AuditLogPage({ searchParams }) {
 
         <a
           href={`/api/audit-log/export${exportQuery ? `?${exportQuery}` : ""}`}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs transition-all shadow-sm self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs transition-all shadow-sm self-start sm:self-auto"
         >
           <Download size={14} aria-hidden="true" />
           <span>Ekspor CSV Laporan</span>
@@ -102,7 +102,7 @@ export default async function AuditLogPage({ searchParams }) {
       </div>
 
       {/* Modern Interactive Filter Bar */}
-      <Suspense fallback={<div className="h-32 rounded-none bg-[#1a1517]/85 border border-[#6d2031] animate-pulse" />}>
+      <Suspense fallback={<div className="h-32 rounded-3xl bg-[#1a1517]/85 border border-[#6d2031] animate-pulse" />}>
         <AuditLogFilterBar
           admins={admins}
           entityTypes={entityTypes.map((e) => e.entityType)}
@@ -119,7 +119,7 @@ export default async function AuditLogPage({ searchParams }) {
       </Suspense>
 
       {/* Audit Log Table */}
-      <div className="relative z-10 rounded-none bg-[#1a1517]/85 border border-[#6d2031] overflow-hidden">
+      <div className="relative z-10 rounded-3xl bg-[#1a1517]/85 border border-[#6d2031] overflow-hidden shadow-xl">
         {logs.length === 0 ? (
           <div className="p-10 text-center text-xs text-[#d4c0bd] space-y-1.5">
             <p>
@@ -172,7 +172,7 @@ export default async function AuditLogPage({ searchParams }) {
                     </td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`inline-block px-2.5 py-0.5 rounded-none text-[10px] font-bold border ${
+                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                           log.action === "CREATE"
                             ? "bg-emerald-950/40 text-emerald-300 border-emerald-500/40"
                             : log.action === "DELETE"
@@ -207,13 +207,13 @@ export default async function AuditLogPage({ searchParams }) {
             {page > 1 ? (
               <Link
                 href={pageLink(page - 1)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
               >
                 <ChevronLeft size={13} aria-hidden="true" />
                 <span>Sebelumnya</span>
               </Link>
             ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
                 <ChevronLeft size={13} aria-hidden="true" />
                 <span>Sebelumnya</span>
               </span>
@@ -222,13 +222,13 @@ export default async function AuditLogPage({ searchParams }) {
             {page < pages ? (
               <Link
                 href={pageLink(page + 1)}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] transition-colors"
               >
                 <span>Berikutnya</span>
                 <ChevronRight size={13} aria-hidden="true" />
               </Link>
             ) : (
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-none bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#12060b] text-[#d4c0bd]/40 border border-[#6d2031]/30 cursor-not-allowed">
                 <span>Berikutnya</span>
                 <ChevronRight size={13} aria-hidden="true" />
               </span>

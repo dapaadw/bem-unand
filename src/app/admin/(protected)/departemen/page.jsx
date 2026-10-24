@@ -5,7 +5,7 @@ import { sortDepartments } from '../../../../data/departemen';
 import DepartemenManagerClient from '../../../../components/admin/DepartemenManagerClient';
 
 export default async function DepartemenManagerPage() {
-  await requirePageRole(['ADMIN']);
+  await requirePageRole(['SUPERUSER']);
   const rawItems = await prisma.departemen.findMany({
     include: { staff: true, proker: true, contact: true },
   });
@@ -23,7 +23,7 @@ export default async function DepartemenManagerPage() {
             Struktur {items.length} Departemen, Biro, Lembaga, dan Kordept BEM FH UNAND. Kelola foto, jajaran staf/BPH, program kerja, dan kontak resmi.
           </p>
         </div>
-        <span className="text-xs px-3 py-1 rounded-none bg-[#3a0d18] border border-[#6d2031] text-brand-neon font-medium self-start sm:self-auto font-mono">
+        <span className="text-xs px-3.5 py-1.5 rounded-full bg-[#3a0d18] border border-[#6d2031] text-brand-neon font-medium self-start sm:self-auto font-mono">
           {items.length} Departemen
         </span>
       </div>

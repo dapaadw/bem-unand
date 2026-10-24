@@ -28,7 +28,7 @@ function Field({
     onChange: (event) => onChange(event.target.value),
     placeholder,
     className:
-      "mt-1.5 block w-full min-w-0 rounded-none bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all",
+      "mt-1.5 block w-full min-w-0 rounded-xl bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all",
   };
   return (
     <label className="block text-xs font-semibold uppercase tracking-wider text-[#d4c0bd]">
@@ -103,7 +103,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       {message && (
         <div
           role="status"
-          className="flex items-center gap-2.5 p-3.5 rounded-none bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-sm animate-in fade-in"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-sm animate-in fade-in"
         >
           <CheckCircle2 size={18} className="shrink-0 text-emerald-400" />
           <span>{message}</span>
@@ -113,7 +113,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       {error && (
         <div
           role="alert"
-          className="flex items-center gap-2.5 p-3.5 rounded-none bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-sm animate-in fade-in"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-sm animate-in fade-in"
         >
           <AlertCircle size={18} className="shrink-0 text-red-400" />
           <span>{error}</span>
@@ -121,7 +121,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       )}
 
       {!selected ? (
-        <div className="text-center py-16 p-6 rounded-none bg-[#1a1517]/85 border border-[#6d2031]">
+        <div className="text-center py-16 p-6 rounded-3xl bg-[#1a1517]/85 border border-[#6d2031] shadow-sm">
           <Building2 size={40} className="mx-auto text-[#d4c0bd]/60 mb-3" />
           <p className="text-[#d4c0bd] text-sm">
             Belum ada departemen yang terdaftar.
@@ -148,9 +148,9 @@ export default function DepartemenManagerClient({ initialItems }) {
                     setMessage("");
                     setError("");
                   }}
-                  className={`w-full text-left px-3.5 py-3 rounded-none text-xs transition-all duration-150 flex flex-col gap-1 border ${
+                  className={`w-full text-left px-3.5 py-3 rounded-xl text-xs transition-all duration-150 flex flex-col gap-1 border cursor-pointer ${
                     isActive
-                      ? "bg-gradient-to-r from-[#9e1c38]/70 to-[#521526]/50 border-l-2 border-l-[#e3bbb9] border-[#6d2031] text-[#f8f1e7] font-semibold shadow-sm"
+                      ? "bg-gradient-to-r from-[#9e1c38]/70 to-[#521526]/50 border-l-4 border-l-[#e3bbb9] border-[#6d2031] text-[#f8f1e7] font-semibold shadow-sm"
                       : "border-transparent text-[#d4c0bd] hover:text-[#f8f1e7] hover:bg-[#23121b]"
                   }`}
                 >
@@ -173,10 +173,10 @@ export default function DepartemenManagerClient({ initialItems }) {
             className="md:col-span-3 space-y-8 min-w-0"
           >
             {/* Section 1: Profil */}
-            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-none p-6 space-y-5 shadow-sm">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
               <div className="flex items-center justify-between pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Building2 size={18} />
                   </div>
                   <div>
@@ -188,7 +188,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                     </p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono px-2.5 py-1 rounded-none bg-[#14080e] border border-[#6d2031] text-[#d4c0bd]">
+                <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-[#14080e] border border-[#6d2031] text-[#d4c0bd]">
                   ID: {selected.id}
                 </span>
               </div>
@@ -225,24 +225,24 @@ export default function DepartemenManagerClient({ initialItems }) {
                       description: selected.description,
                     })
                   }
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all cursor-pointer"
                 >
                   <Save size={14} />
                   <span>Simpan Profil</span>
                 </button>
 
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#e3bbb9] bg-[#14080e] border border-[#6d2031] rounded-none px-3.5 py-2 font-mono">
+                <div className="inline-flex items-center gap-1.5 text-xs text-[#e3bbb9] bg-[#14080e] border border-[#6d2031] rounded-full px-3.5 py-1.5 font-mono">
                   <ShieldCheck size={14} className="text-[#e3bbb9]" />
-                  <span>Struktur Tetap (Hardcoded)</span>
+                  <span>Struktur Tetap</span>
                 </div>
               </div>
             </section>
 
             {/* Section 2: Staff / BPH */}
-            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-none p-6 space-y-5 shadow-sm">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Users size={18} />
                   </div>
                   <div>
@@ -250,8 +250,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       Staf / Jajaran Pengurus
                     </h2>
                     <p className="text-xs text-[#d4c0bd]">
-                      Gunakan jabatan Kepala Departemen / Ketua untuk posisi
-                      pimpinan.
+                      Gunakan jabatan Kepala Departemen / Ketua untuk posisi pimpinan.
                     </p>
                   </div>
                 </div>
@@ -271,7 +270,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       ],
                     })
                   }
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto cursor-pointer"
                 >
                   <UserPlus size={14} className="text-brand-neon" />
                   <span>Tambah Staf</span>
@@ -279,7 +278,7 @@ export default function DepartemenManagerClient({ initialItems }) {
               </div>
 
               {selected.staff.length === 0 ? (
-                <div className="text-center py-8 rounded-none border border-dashed border-[#6d2031]">
+                <div className="text-center py-8 rounded-2xl border border-dashed border-[#6d2031]">
                   <p className="text-xs text-[#d4c0bd]">
                     Belum ada staf ditambahkan untuk departemen ini.
                   </p>
@@ -289,7 +288,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                   {selected.staff.map((staff, index) => (
                     <div
                       key={staff.id || index}
-                      className="border border-[#6d2031]/60 rounded-none p-4 bg-[#12060b] space-y-3 relative group"
+                      className="border border-[#6d2031]/60 rounded-2xl p-4 bg-[#12060b] space-y-3 relative group shadow-sm"
                     >
                       <div className="flex items-center justify-between pb-2 border-b border-[#6d2031]/40">
                         <span className="text-xs font-bold text-brand-neon font-mono">
@@ -305,7 +304,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                               ),
                             })
                           }
-                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
                         >
                           <Trash2 size={13} />
                           <span>Hapus</span>
@@ -361,10 +360,10 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Section 3: Program Kerja */}
-            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-none p-6 space-y-5 shadow-sm">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Briefcase size={18} />
                   </div>
                   <div>
@@ -386,7 +385,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       ],
                     })
                   }
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-none bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto cursor-pointer"
                 >
                   <FolderPlus size={14} className="text-brand-neon" />
                   <span>Tambah Proker</span>
@@ -394,7 +393,7 @@ export default function DepartemenManagerClient({ initialItems }) {
               </div>
 
               {selected.proker.length === 0 ? (
-                <div className="text-center py-8 rounded-none border border-dashed border-[#6d2031]">
+                <div className="text-center py-8 rounded-2xl border border-dashed border-[#6d2031]">
                   <p className="text-xs text-[#d4c0bd]">
                     Belum ada program kerja yang didaftarkan.
                   </p>
@@ -404,7 +403,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                   {selected.proker.map((program, index) => (
                     <div
                       key={program.id || index}
-                      className="border border-[#6d2031]/60 rounded-none p-4 bg-[#12060b] space-y-3"
+                      className="border border-[#6d2031]/60 rounded-2xl p-4 bg-[#12060b] space-y-3 shadow-sm"
                     >
                       <div className="flex items-center justify-between pb-2 border-b border-[#6d2031]/40">
                         <span className="text-xs font-bold text-brand-neon font-mono">
@@ -420,7 +419,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                               ),
                             })
                           }
-                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
                         >
                           <Trash2 size={13} />
                           <span>Hapus</span>
@@ -451,9 +450,9 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Section 4: Kontak Departemen */}
-            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-none p-6 space-y-5 shadow-sm">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
               <div className="flex items-center gap-2.5 pb-3 border-b border-[#6d2031]">
-                <div className="p-2 rounded-none bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
+                <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                   <PhoneCall size={18} />
                 </div>
                 <div>
@@ -487,9 +486,9 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Action Bar (Static / Inline per UI/UX guidelines) */}
-            <div className="p-5 rounded-none bg-[#14080e] border border-[#6d2031] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="p-5 rounded-2xl bg-[#14080e] border border-[#6d2031] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3 text-xs text-[#d4c0bd] text-center sm:text-left">
-                <span className="h-2 w-2 rounded-none bg-brand-neon shrink-0 animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-brand-neon shrink-0 animate-pulse" />
                 <span>
                   Perubahan staf, proker, dan kontak akan diterapkan setelah
                   menekan tombol simpan detail.
@@ -506,7 +505,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                     contact: selected.contact,
                   })
                 }
-                className="w-full sm:w-auto px-6 py-3 rounded-none bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon cursor-pointer"
               >
                 {saving ? (
                   <>
