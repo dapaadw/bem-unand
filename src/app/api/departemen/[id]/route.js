@@ -41,7 +41,9 @@ export async function PUT(request, { params }) {
   });
 
   revalidatePath('/departemen');
+  revalidatePath('/struktur');
   revalidatePath(`/departemen/${updated.slug}`);
+  revalidatePath(`/struktur/${updated.slug}`);
 
   return NextResponse.json(updated);
 }
@@ -100,7 +102,9 @@ export async function PATCH(request, { params }) {
   });
 
   revalidatePath('/departemen');
+  revalidatePath('/struktur');
   revalidatePath(`/departemen/${existing.slug}`);
+  revalidatePath(`/struktur/${existing.slug}`);
 
   const updated = await prisma.departemen.findUnique({
     where: { id },
@@ -119,6 +123,8 @@ export async function DELETE(_request, { params }) {
   await prisma.departemen.delete({ where: { id } });
   await logAction({ userId: session.userId, action: 'DELETE', entityType: 'Departemen', entityId: id, summary: `Menghapus departemen "${existing.name}"` });
   revalidatePath('/departemen');
+  revalidatePath('/struktur');
   revalidatePath(`/departemen/${existing.slug}`);
+  revalidatePath(`/struktur/${existing.slug}`);
   return NextResponse.json({ ok: true });
 }

@@ -60,5 +60,6 @@ export async function POST(request) {
     summary: `Membuat departemen "${item.name}"`,
   });
   revalidatePath('/departemen');
+  revalidatePath('/struktur');
   return NextResponse.json(item, { status: 201 });
 }

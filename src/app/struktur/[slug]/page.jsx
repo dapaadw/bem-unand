@@ -83,7 +83,7 @@ export default async function DepartemenDetailPage({ params }) {
           <div className="w-full lg:w-[50%] xl:w-[52%] flex flex-col justify-center text-center lg:text-left lg:ml-auto lg:pl-6 my-auto">
             {/* Back Button to Kepengurusan Directory */}
             <Link
-              href="/departemen"
+              href="/struktur"
               className="inline-flex items-center gap-2 mb-3.5 px-3.5 py-1.5 rounded-full bg-[#1a0a13]/70 hover:bg-[#23121b]/90 border border-white/10 hover:border-brand-neon/60 text-xs sm:text-sm text-brand-neon font-medium transition-all duration-300 w-fit mx-auto lg:mx-0 group shadow-sm backdrop-blur-md"
             >
               <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform duration-200" />
@@ -125,7 +125,7 @@ export default async function DepartemenDetailPage({ params }) {
               {item.proker?.length > 0 && (
                 <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
                   <span className="font-bold text-brand-neon text-base mr-1.5">{item.proker.length}</span>
-                  Program Kerja
+                  Program Fungsi
                 </div>
               )}
             </div>
@@ -138,11 +138,11 @@ export default async function DepartemenDetailPage({ params }) {
         {/* Presidium Specific: Greeting & Executive Section right below Hero */}
         {slug === 'presidium' && <PresidiumGreetingSection />}
 
-        {/* Program Kerja (Interactive Dropdown Accordion) */}
+        {/* Program Fungsi (Interactive Dropdown Accordion) */}
         <ProkerAccordion prokers={item.proker} />
 
-        {/* Struktur DBKL (Below Proker, Layout matching PDF) */}
-        <StrukturDBKL staff={item.staff} _deptName={item.name} />
+        {/* Struktur Organisasi (Below Program Fungsi, Layout matching PDF) */}
+        <StrukturDBKL staff={item.staff} deptName={item.name} slug={slug} />
 
         {/* Contact Links */}
         {item.contact && (item.contact.whatsappUrl || item.contact.instagramUrl) && (

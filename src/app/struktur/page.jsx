@@ -21,7 +21,7 @@ function DepartmentCard({ item }) {
 
   return (
     <Link
-      href={`/departemen/${item.slug}`}
+      href={`/struktur/${item.slug}`}
       className="flex flex-col items-center justify-center min-w-0 break-words bg-[#1a0a13]/50 border border-white/10 rounded-2xl p-6 hover:border-brand-neon hover:bg-[#23121b]/70 hover:scale-[1.02] hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(254,174,174,0.22)] transition-all duration-500 ease-out text-center group backdrop-blur-md"
     >
       <div className="w-24 h-24 mx-auto rounded-full bg-white mb-4 overflow-hidden border-2 border-white/20 group-hover:border-brand-neon group-hover:scale-105 transition-all shadow-md shrink-0 flex items-center justify-center p-2.5">

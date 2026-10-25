@@ -270,6 +270,33 @@
       "rank": 2
     },
     {
+      "id": "staff-departemen-hubungan-eksternal-daffa-diandra-hasya",
+      "name": "Daffa Diandra Hasya",
+      "role": "Kepala Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/daffa-diandra-hasya.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-ananda-amalia-putri",
+      "name": "Ananda Amalia Putri",
+      "role": "Staff Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/ananda-amalia-putri.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-fela-sakanti-prameswari",
+      "name": "Fela Sakanti Prameswari",
+      "role": "Staff Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/fela-sakanti-prameswari.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 4
+    },
+    {
       "id": "staff-departemen-hubungan-eksternal-ahmad-bareeq-javier",
       "name": "Ahmad Bareeq Javier",
       "role": "Kepala Bidang Relasi Eksternal Kampus",
@@ -306,33 +333,6 @@
       "group": "pimpinan",
       "groupTitle": "Pimpinan",
       "rank": 2
-    },
-    {
-      "id": "staff-departemen-hubungan-internal-daffa-diandra-hasya",
-      "name": "Daffa Diandra Hasya",
-      "role": "Kepala Bidang Relasi Internal Kampus",
-      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/daffa-diandra-hasya.png",
-      "group": "bidang-relasi-internal-kampus",
-      "groupTitle": "Bidang Relasi Internal Kampus",
-      "rank": 3
-    },
-    {
-      "id": "staff-departemen-hubungan-internal-ananda-amalia-putri",
-      "name": "Ananda Amalia Putri",
-      "role": "Staff Bidang Relasi Internal Kampus",
-      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/ananda-amalia-putri.png",
-      "group": "bidang-relasi-internal-kampus",
-      "groupTitle": "Bidang Relasi Internal Kampus",
-      "rank": 4
-    },
-    {
-      "id": "staff-departemen-hubungan-internal-fela-sakanti-prameswari",
-      "name": "Fela Sakanti Prameswari",
-      "role": "Staff Bidang Relasi Internal Kampus",
-      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/fela-sakanti-prameswari.png",
-      "group": "bidang-relasi-internal-kampus",
-      "groupTitle": "Bidang Relasi Internal Kampus",
-      "rank": 4
     },
     {
       "id": "staff-departemen-hubungan-internal-aulia-fadilah",
@@ -514,6 +514,15 @@
       "group": "pimpinan",
       "groupTitle": "Pimpinan",
       "rank": 2
+    },
+    {
+      "id": "staff-kantor-medkominfo-muhammad-miftahul-fikri",
+      "name": "Muhammad Miftahul Fikri",
+      "role": "Kepala Bidang Production House",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/muhammad-miftahul-fikri.png",
+      "group": "bidang-production-house",
+      "groupTitle": "Bidang Production House",
+      "rank": 3
     },
     {
       "id": "staff-kantor-medkominfo-annisa-cintia-fitrioni",

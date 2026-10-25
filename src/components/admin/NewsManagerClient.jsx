@@ -8,7 +8,6 @@ import {
   X,
   FileText,
   Calendar,
-  ExternalLink,
   Loader2,
   CheckCircle2,
   AlertCircle,
@@ -22,7 +21,6 @@ const emptyForm = {
   author: "BEM FH UNAND",
   category: "Publikasi",
   body: "",
-  attachmentUrl: "",
   imageUrl: "",
 };
 
@@ -60,7 +58,6 @@ export default function NewsManagerClient({ initialItems }) {
       author: item.author || "BEM FH UNAND",
       category: item.category || "Publikasi",
       body: item.body,
-      attachmentUrl: item.attachmentUrl || "",
       imageUrl: item.imageUrl || "",
     });
     setEditingId(item.id);
@@ -344,17 +341,6 @@ export default function NewsManagerClient({ initialItems }) {
             </div>
 
             <div className="flex items-center gap-2 shrink-0 self-end sm:self-center border-t sm:border-t-0 pt-3 sm:pt-0 border-[#6d2031]/30 w-full sm:w-auto justify-end">
-              {item.attachmentUrl && (
-                <a
-                  href={item.attachmentUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-xl text-[#d4c0bd] hover:text-white hover:bg-[#23121b] transition-colors border border-transparent hover:border-[#6d2031]"
-                  title="Buka lampiran"
-                >
-                  <ExternalLink size={15} />
-                </a>
-              )}
               <button
                 aria-label={`Edit ${item.title}`}
                 disabled={saving || deletingId !== null}

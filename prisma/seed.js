@@ -94,7 +94,6 @@ async function main() {
         publishedAt: new Date('2026-09-25T08:00:00Z'),
         body: 'Kajian ini menelaah secara komprehensif substansi pembaruan hukum acara di Indonesia guna memastikan prinsip fair trial dan pemenuhan hak asasi manusia tercapai di seluruh tingkatan peradilan.\n\nDalam dinamika hukum nasional, pembaruan prosedur hukum acara mutlak diperlukan untuk menjawab tantangan era digitalisasi dan reformasi sistem peradilan yang transparan.',
         imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-        attachmentUrl: 'https://example.com/kajian-lengkap.pdf',
       },
       {
         title: 'Pelantikan Pengurus Kabinet Sinergi Progresif BEM Fakultas Hukum Universitas Andalas 2026',

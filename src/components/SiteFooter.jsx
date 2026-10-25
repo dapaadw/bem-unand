@@ -76,7 +76,7 @@ export default async function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/departemen" className="hover:text-brand-neon transition-colors">
+                <Link href="/struktur" className="hover:text-brand-neon transition-colors">
                   Kepengurusan
                 </Link>
               </li>

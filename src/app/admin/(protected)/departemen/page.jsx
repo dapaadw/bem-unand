@@ -20,7 +20,7 @@ export default async function DepartemenManagerPage() {
             <span>Manajemen Departemen &amp; Biro</span>
           </h1>
           <p className="text-xs md:text-sm text-[#d4c0bd] mt-1">
-            Struktur {items.length} Departemen, Biro, Lembaga, dan Kordept BEM FH UNAND. Kelola foto, jajaran staf/BPH, program kerja, dan kontak resmi.
+            Struktur {items.length} Departemen, Biro, Lembaga, dan Kordept BEM FH UNAND. Kelola foto, jajaran staf/BPH, program fungsi, dan kontak resmi.
           </p>
         </div>
         <span className="text-xs px-3.5 py-1.5 rounded-full bg-[#3a0d18] border border-[#6d2031] text-brand-neon font-medium self-start sm:self-auto font-mono">

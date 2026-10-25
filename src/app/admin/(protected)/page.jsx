@@ -77,8 +77,8 @@ export default async function AdminDashboardPage() {
 
             <p className="text-xs sm:text-sm text-[#d4c0bd] leading-relaxed">
               {isDosen
-                ? "Panel Khusus Dosen Pembina Kemahasiswaan & Pengarah BEM FH UNAND. Memantau kepatuhan program kerja, persiapan agenda lomba, dan transparansi rekam jejak sistem."
-                : "Pusat Kendali Pengurus BEM FH UNAND. Kelola publikasi informasi, koordinasi agenda kegiatan & lomba, serta kelola profil dan program kerja departemen."}
+                ? "Panel Khusus Dosen Pembina Kemahasiswaan & Pengarah BEM FH UNAND. Memantau kepatuhan program fungsi, persiapan agenda lomba, dan transparansi rekam jejak sistem."
+                : "Pusat Kendali Pengurus BEM FH UNAND. Kelola publikasi informasi, koordinasi agenda kegiatan & lomba, serta kelola profil dan program fungsi departemen."}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2 text-[11px] text-[#d4c0bd]">

@@ -1,5 +1,39 @@
 'use client';
 
+function getStrukturTitle(deptName = '', slug = '') {
+  const nameLower = (deptName || '').toLowerCase().trim();
+  const slugLower = (slug || '').toLowerCase().trim();
+
+  if (nameLower.startsWith('biro') || slugLower.startsWith('biro')) {
+    return 'STRUKTUR BIRO';
+  }
+  if (nameLower.startsWith('kantor') || slugLower.startsWith('kantor')) {
+    return 'STRUKTUR KANTOR';
+  }
+  if (
+    nameLower.includes('inspektorat') ||
+    nameLower.includes('lembaga') ||
+    slugLower.includes('inspektorat')
+  ) {
+    return 'STRUKTUR LEMBAGA';
+  }
+  if (
+    nameLower.startsWith('kordept') ||
+    nameLower.includes('koordinator') ||
+    slugLower.startsWith('kordept')
+  ) {
+    return 'STRUKTUR KOORDINATOR DEPARTEMEN';
+  }
+  if (nameLower.includes('presidium') || slugLower === 'presidium') {
+    return 'STRUKTUR PRESIDIUM';
+  }
+  if (nameLower.startsWith('departemen') || slugLower.startsWith('departemen')) {
+    return 'STRUKTUR DEPARTEMEN';
+  }
+
+  return 'STRUKTUR DEPARTEMEN';
+}
+
 function MemberCard({ member }) {
   if (!member) return null;
 
@@ -35,9 +69,10 @@ function MemberCard({ member }) {
 }
 
 // Partition staff list into columnar groups matching the PDF wireframe
-export default function StrukturDBKL({ staff = [], _deptName = '' }) {
+export default function StrukturDBKL({ staff = [], deptName = '', slug = '' }) {
   if (!staff || staff.length === 0) return null;
 
+  const title = getStrukturTitle(deptName, slug);
   const total = staff.length;
   const remainder = total % 3;
   const fullCount = total - remainder;
@@ -49,7 +84,7 @@ export default function StrukturDBKL({ staff = [], _deptName = '' }) {
       {/* Section Header */}
       <div className="text-center mb-12 sm:mb-16">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">
-          STRUKTUR DBKL
+          {title}
         </h2>
         <div className="w-16 h-1 bg-brand-neon/80 mx-auto mt-4 rounded-full" />
       </div>

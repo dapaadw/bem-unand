@@ -31,10 +31,7 @@ export function publicationPayload(body, existing = null) {
   data.publishedAt = new Date(date);
   if (Number.isNaN(data.publishedAt.getTime())) return { error: 'Tanggal publikasi tidak valid.' };
   if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date) && data.publishedAt.toISOString().slice(0, 10) !== date) return { error: 'Tanggal publikasi tidak valid.' };
-  const attachment = body.attachmentUrl === undefined ? existing?.attachmentUrl : body.attachmentUrl;
-  if (attachment !== undefined && attachment !== null && typeof attachment !== 'string') return { error: 'URL lampiran tidak valid.' };
-  data.attachmentUrl = attachment?.trim() || null;
-  if (data.attachmentUrl && !isWebOrLocalUrl(data.attachmentUrl)) return { error: 'Lampiran harus menggunakan URL http/https atau path lokal.' };
+  data.attachmentUrl = null;
   const image = body.imageUrl === undefined ? existing?.imageUrl : body.imageUrl;
   if (image !== undefined && image !== null && typeof image !== 'string') return { error: 'URL gambar tidak valid.' };
   data.imageUrl = image?.trim() || null;

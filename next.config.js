@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/departemen',
+        destination: '/struktur',
+        permanent: true,
+      },
+      {
+        source: '/departemen/:slug',
+        destination: '/struktur/:slug',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -18,5 +32,4 @@ const nextConfig = {
   },
 };
 
-// Configuration updated to reload server
 export default nextConfig;

@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
 import { ArrowLeft } from 'lucide-react';
 
-
-
 export const revalidate = 300;
 
 export default async function PublikasiDetailPage({ params }) {
@@ -41,16 +39,6 @@ export default async function PublikasiDetailPage({ params }) {
         <div className="prose prose-invert max-w-none whitespace-pre-wrap break-words text-gray-200 leading-relaxed bg-[#1a0a13]/50 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-md shadow-xl">
           {item.body}
         </div>
-        {item.attachmentUrl && isWebOrLocalUrl(item.attachmentUrl) && (
-          <a
-            href={item.attachmentUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 mt-6 px-4 py-2 rounded-xl bg-brand-neon/10 border border-brand-neon/20 text-brand-neon hover:bg-brand-neon/20 transition-colors text-sm font-semibold underline"
-          >
-            Lampiran / Sumber Berita
-          </a>
-        )}
         <div className="mt-8">
           <CopyLinkButton />
         </div>

@@ -10,7 +10,7 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Publikasi', href: '/publikasi' },
   { name: 'Kegiatan', href: '/kegiatan' },
-  { name: 'Kepengurusan', href: '/departemen' },
+  { name: 'Kepengurusan', href: '/struktur' },
   { name: 'FH Guide', href: '/fh-guide' },
 ];
 
@@ -23,7 +23,7 @@ const aspirasiSubLinks = [
   {
     name: 'Survey Kepuasan Mahasiswa',
     href: 'https://forms.google.com/placeholder-survey-kepuasan',
-    description: 'Penilaian kinerja & evaluasi pelayanan BEM FH UNAND',
+    description: 'Penilaian kinerja & evaluasi akademik, fasilitas/kebijakan fakultas',
   },
 ];
 
