@@ -2,9 +2,8 @@ import { notFound } from 'next/navigation';
 import { prisma } from '../../../lib/prisma';
 import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
-import { isGoogleFormUrl } from '../../../lib/kegiatan';
 import CopyLinkButton from '../../../components/CopyLinkButton';
-import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ArrowLeft } from 'lucide-react';
 
 export const revalidate = 300;
 
@@ -22,7 +21,7 @@ export default async function KegiatanDetailPage({ params }) {
           href="/kegiatan"
           className="inline-flex items-center gap-2 mb-8 text-sm text-brand-neon hover:underline font-medium"
         >
-          <ArrowLeft size={16} /> Kembali ke Kegiatan &amp; Lomba
+          <ArrowLeft size={16} /> Kembali ke Kegiatan
         </Link>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-6 break-words leading-tight">
@@ -97,38 +96,10 @@ export default async function KegiatanDetailPage({ params }) {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10">
-          {item.publicationUrl && isWebOrLocalUrl(item.publicationUrl) && (
-            <a
-              href={item.publicationUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/20 text-brand-neon hover:border-brand-neon hover:bg-brand-neon/10 transition-colors text-sm font-medium underline"
-            >
-              <ExternalLink size={16} /> Lihat Publikasi
-            </a>
-          )}
-
-          {item.type === 'LOMBA' && item.registrationUrl && isGoogleFormUrl(item.registrationUrl) && (
-            <a
-              href={item.registrationUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="px-6 py-2.5 rounded-full bg-brand-neon text-brand-dark font-bold hover:scale-105 transition-all shadow-[0_0_20px_rgba(254,174,174,0.4)] text-sm cursor-pointer"
-            >
-              Daftar Sekarang
-            </a>
-          )}
-
-          <div className="ml-auto">
-            <CopyLinkButton />
-          </div>
+        {/* Action Bar */}
+        <div className="flex items-center justify-end pt-6 border-t border-white/10">
+          <CopyLinkButton />
         </div>
-
-        {item.type === 'LOMBA' && (!item.registrationUrl || !isGoogleFormUrl(item.registrationUrl)) && (
-          <p className="mt-4 text-sm text-gray-400">Link pendaftaran belum tersedia.</p>
-        )}
       </article>
     </div>
   );

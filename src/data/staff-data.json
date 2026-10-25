@@ -1,0 +1,1035 @@
+{
+  "departemen-advokasi-dan-kesejahteraan-mahasiswa": [
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-roby-irwansyah",
+      "name": "Roby Irwansyah",
+      "role": "Kepala Departemen",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/roby-irwansyah.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-mazaya-alia-syamer",
+      "name": "Mazaya Alia Syamer",
+      "role": "Sekretaris Departemen",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/mazaya-alia-syamer.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-fikri-muhammad-rizki",
+      "name": "Fikri Muhammad Rizki",
+      "role": "Kepala Bidang Pelayanan dan Pengaduan",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/fikri-muhammad-rizki.png",
+      "group": "bidang-pelayanan-dan-pengaduan",
+      "groupTitle": "Bidang Pelayanan dan Pengaduan",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-ihsan-demouza",
+      "name": "Ihsan Demouza",
+      "role": "Kepala Bidang Pergerakan Isu Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/ihsan-demouza.png",
+      "group": "bidang-pergerakan-isu-kampus",
+      "groupTitle": "Bidang Pergerakan Isu Kampus",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-kesya-gema-ramadhani",
+      "name": "Kesya Gema Ramadhani",
+      "role": "Staff Pelayanan dan Pengaduan",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/kesya-gema-ramadhani.png",
+      "group": "bidang-pelayanan-dan-pengaduan",
+      "groupTitle": "Bidang Pelayanan dan Pengaduan",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-qonita-islami-safitri",
+      "name": "Qonita Islami Safitri",
+      "role": "Staff Pelayanan dan Pengaduan",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/qonita-islami-safitri.png",
+      "group": "bidang-pelayanan-dan-pengaduan",
+      "groupTitle": "Bidang Pelayanan dan Pengaduan",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-naiya-aldelis",
+      "name": "Naiya Aldelis",
+      "role": "Staff Pergerakan Isu Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/naiya-aldelis.png",
+      "group": "bidang-pergerakan-isu-kampus",
+      "groupTitle": "Bidang Pergerakan Isu Kampus",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-advokasi-dan-kesejahteraan-mahasiswa-olivia-harzi",
+      "name": "Olivia Harzi",
+      "role": "Staff Pergerakan Isu Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-advokasi-dan-kesejahteraan-mahasiswa/olivia-harzi.png",
+      "group": "bidang-pergerakan-isu-kampus",
+      "groupTitle": "Bidang Pergerakan Isu Kampus",
+      "rank": 4
+    }
+  ],
+  "biro-kesekretariatan": [
+    {
+      "id": "staff-biro-kesekretariatan-aulia-tasyha",
+      "name": "Aulia Tasyha",
+      "role": "Kepala Biro Kesekretariatan",
+      "photoUrl": "/uploads/departemen/staff/biro-kesekretariatan/aulia-tasyha.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-biro-kesekretariatan-keylatul-naisyah",
+      "name": "Keylatul Naisyah",
+      "role": "Sekretaris Biro Kesekretariatan",
+      "photoUrl": "/uploads/departemen/staff/biro-kesekretariatan/keylatul-naisyah.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-biro-kesekretariatan-alya-risty",
+      "name": "Alya Risty",
+      "role": "Staff Biro Kesekretariatan",
+      "photoUrl": "/uploads/departemen/staff/biro-kesekretariatan/alya-risty.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-biro-kesekretariatan-fiola-amelia-al-khalifi",
+      "name": "Fiola Amelia Al Khalifi",
+      "role": "Staff Biro Kesekretariatan",
+      "photoUrl": "/uploads/departemen/staff/biro-kesekretariatan/fiola-amelia-al-khalifi.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-biro-kesekretariatan-syarifah-aini-putri",
+      "name": "Syarifah Aini Putri",
+      "role": "Staff Biro Kesekretariatan",
+      "photoUrl": "/uploads/departemen/staff/biro-kesekretariatan/syarifah-aini-putri.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    }
+  ],
+  "biro-keuangan": [
+    {
+      "id": "staff-biro-keuangan-kayla-putri-adlika",
+      "name": "Kayla Putri Adlika",
+      "role": "Kepala Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/kayla-putri-adlika.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-biro-keuangan-nadya-indah-putri",
+      "name": "Nadya Indah Putri",
+      "role": "Sekretaris Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/nadya-indah-putri.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-biro-keuangan-annisa-rizki-f",
+      "name": "Annisa Rizki F",
+      "role": "Staff Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/annisa-rizki-f.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-biro-keuangan-artika-sari-devi",
+      "name": "Artika Sari Devi",
+      "role": "Staff Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/artika-sari-devi.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-biro-keuangan-deswi-putri-azzahra",
+      "name": "Deswi Putri Azzahra",
+      "role": "Staff Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/deswi-putri-azzahra.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-biro-keuangan-nabilla-safira",
+      "name": "Nabilla Safira",
+      "role": "Staff Biro Keuangan",
+      "photoUrl": "/uploads/departemen/staff/biro-keuangan/nabilla-safira.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    }
+  ],
+  "departemen-ekonomi-kreatif": [
+    {
+      "id": "staff-departemen-ekonomi-kreatif-faiza-fadhila",
+      "name": "Faiza Fadhila",
+      "role": "Kepala Departemen Ekonomi Kreatif",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/faiza-fadhila.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-audya-shifa-maharani",
+      "name": "Audya Shifa Maharani",
+      "role": "Sekretaris Departemen Ekonomi Kreatif",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/audya-shifa-maharani.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-dara-mulyawati-ali",
+      "name": "Dara Mulyawati Ali",
+      "role": "Kepala Bidang Creative Hub & Commerce",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/dara-mulyawati-ali.png",
+      "group": "bidang-creative-hub-commerce",
+      "groupTitle": "Bidang Creative Hub & Commerce",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-fadly-syandika-putra",
+      "name": "Fadly Syandika Putra",
+      "role": "Kepala Bidang Funding & Partnership",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/fadly-syandika-putra.png",
+      "group": "bidang-funding-partnership",
+      "groupTitle": "Bidang Funding & Partnership",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-nailah-humairah-tabriz",
+      "name": "Nailah Humairah Tabriz",
+      "role": "Staff Bidang Creative Hub & Commerce",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/nailah-humairah-tabriz.png",
+      "group": "bidang-creative-hub-commerce",
+      "groupTitle": "Bidang Creative Hub & Commerce",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-saskya-nabila-candra",
+      "name": "Saskya Nabila Candra",
+      "role": "Staff Bidang Creative Hub & Commerce",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/saskya-nabila-candra.png",
+      "group": "bidang-creative-hub-commerce",
+      "groupTitle": "Bidang Creative Hub & Commerce",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-annisa-aulia-putri",
+      "name": "Annisa Aulia Putri",
+      "role": "Staff Bidang Funding & Partnership",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/annisa-aulia-putri.png",
+      "group": "bidang-funding-partnership",
+      "groupTitle": "Bidang Funding & Partnership",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-ekonomi-kreatif-muhammad-ihsan-rahmawansyah",
+      "name": "Muhammad Ihsan Rahmawansyah",
+      "role": "Staff Bidang Funding & Partnership",
+      "photoUrl": "/uploads/departemen/staff/departemen-ekonomi-kreatif/muhammad-ihsan-rahmawansyah.png",
+      "group": "bidang-funding-partnership",
+      "groupTitle": "Bidang Funding & Partnership",
+      "rank": 4
+    }
+  ],
+  "departemen-hubungan-eksternal": [
+    {
+      "id": "staff-departemen-hubungan-eksternal-bima-pratama-abde",
+      "name": "Bima Pratama Abde",
+      "role": "Kepala Departemen Hubungan Eksternal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/bima-pratama-abde.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-viola-evelyn-sesa",
+      "name": "Viola Evelyn Sesa",
+      "role": "Sekretaris Departemen Hubungan Eksternal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/viola-evelyn-sesa.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-ahmad-bareeq-javier",
+      "name": "Ahmad Bareeq Javier",
+      "role": "Kepala Bidang Relasi Eksternal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/ahmad-bareeq-javier.png",
+      "group": "bidang-relasi-eksternal-kampus",
+      "groupTitle": "Bidang Relasi Eksternal Kampus",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-gema-syahdan-fianzi",
+      "name": "Gema Syahdan Fianzi",
+      "role": "Staff Bidang Relasi Eksternal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/gema-syahdan-fianzi.png",
+      "group": "bidang-relasi-eksternal-kampus",
+      "groupTitle": "Bidang Relasi Eksternal Kampus",
+      "rank": 4
+    }
+  ],
+  "departemen-hubungan-internal": [
+    {
+      "id": "staff-departemen-hubungan-internal-subhan-nurul-azmi",
+      "name": "Subhan Nurul Azmi",
+      "role": "Kepala Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/subhan-nurul-azmi.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-hafiffah-putri-maharani",
+      "name": "Hafiffah Putri Maharani",
+      "role": "Sekretaris Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/hafiffah-putri-maharani.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-daffa-diandra-hasya",
+      "name": "Daffa Diandra Hasya",
+      "role": "Kepala Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/daffa-diandra-hasya.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-ananda-amalia-putri",
+      "name": "Ananda Amalia Putri",
+      "role": "Staff Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/ananda-amalia-putri.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-fela-sakanti-prameswari",
+      "name": "Fela Sakanti Prameswari",
+      "role": "Staff Bidang Relasi Internal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/fela-sakanti-prameswari.png",
+      "group": "bidang-relasi-internal-kampus",
+      "groupTitle": "Bidang Relasi Internal Kampus",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-aulia-fadilah",
+      "name": "Aulia Fadilah",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/aulia-fadilah.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-berkah-ibadarurrahman-siregar",
+      "name": "Berkah Ibadarurrahman Siregar",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/berkah-ibadarurrahman-siregar.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-muhamad-triadyatma-raditya",
+      "name": "Muhamad Triadyatma Raditya",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/muhamad-triadyatma-raditya.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-syifa-delia-azizah",
+      "name": "⁠syifa Delia Azizah",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/syifa-delia-azizah.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-vino-fanori",
+      "name": "Vino Fanori",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/vino-fanori.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-internal-zachlome-qyla-fireila",
+      "name": "Zachlome Qyla Fireila",
+      "role": "Staff Departemen Hubungan Internal",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-internal/zachlome-qyla-fireila.png",
+      "group": "staff-umum",
+      "groupTitle": "Staff",
+      "rank": 4
+    }
+  ],
+  "inspektorat-jenderal": [
+    {
+      "id": "staff-inspektorat-jenderal-praja-bakti-anugerah",
+      "name": "Praja Bakti Anugerah",
+      "role": "Kepala Lembaga Inspektorat Jenderal",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/praja-bakti-anugerah.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-inspektorat-jenderal-kuntum-khaira-amanda",
+      "name": "Kuntum Khaira Amanda",
+      "role": "Sekretaris Lembaga Inspektorat Jenderal",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/kuntum-khaira-amanda.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-inspektorat-jenderal-rizga-rahma-suci",
+      "name": "Rizga Rahma Suci",
+      "role": "Kepala Bidang Harmoni & Solidaritas",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/rizga-rahma-suci.png",
+      "group": "bidang-harmoni-solidaritas",
+      "groupTitle": "Bidang Harmoni & Solidaritas",
+      "rank": 3
+    },
+    {
+      "id": "staff-inspektorat-jenderal-tegar-ryan-pikri",
+      "name": "Tegar Ryan Pikri",
+      "role": "Kepala Bidang Integritas & Pengawasan",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/tegar-ryan-pikri.png",
+      "group": "bidang-integritas-pengawasan",
+      "groupTitle": "Bidang Integritas & Pengawasan",
+      "rank": 3
+    },
+    {
+      "id": "staff-inspektorat-jenderal-elisa-sawitri",
+      "name": "Elisa Sawitri",
+      "role": "Staff Bidang Harmoni & Solidaritas",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/elisa-sawitri.png",
+      "group": "bidang-harmoni-solidaritas",
+      "groupTitle": "Bidang Harmoni & Solidaritas",
+      "rank": 4
+    },
+    {
+      "id": "staff-inspektorat-jenderal-khairanisa-yoranda",
+      "name": "Khairanisa Yoranda",
+      "role": "Staff Bidang Harmoni & Solidaritas",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/khairanisa-yoranda.png",
+      "group": "bidang-harmoni-solidaritas",
+      "groupTitle": "Bidang Harmoni & Solidaritas",
+      "rank": 4
+    },
+    {
+      "id": "staff-inspektorat-jenderal-naylatul-fadila",
+      "name": "Naylatul Fadila",
+      "role": "Staff Bidang Integritas & Pengawasan",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/naylatul-fadila.png",
+      "group": "bidang-integritas-pengawasan",
+      "groupTitle": "Bidang Integritas & Pengawasan",
+      "rank": 4
+    },
+    {
+      "id": "staff-inspektorat-jenderal-yunda-meizanra",
+      "name": "Yunda Meizanra",
+      "role": "Staff Bidang Integritas & Pengawasan",
+      "photoUrl": "/uploads/departemen/staff/inspektorat-jenderal/yunda-meizanra.png",
+      "group": "bidang-integritas-pengawasan",
+      "groupTitle": "Bidang Integritas & Pengawasan",
+      "rank": 4
+    }
+  ],
+  "kordept-pengabdian-kreatifitas": [
+    {
+      "id": "staff-kordept-pengabdian-kreatifitas-ashhabil-rayyan-suherman",
+      "name": "Ashhabil Rayyan Suherman",
+      "role": "Koordinator Departemen Pengabdian & Kreativitas",
+      "photoUrl": "/uploads/departemen/staff/kordept-pengabdian-kreatifitas/ashhabil-rayyan-suherman.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    }
+  ],
+  "kordept-relasi-pengembangan": [
+    {
+      "id": "staff-kordept-relasi-pengembangan-muhammad-farhan",
+      "name": "Muhammad Farhan",
+      "role": "Koordinator Departemen Relasi & Pengembangan",
+      "photoUrl": "/uploads/departemen/staff/kordept-relasi-pengembangan/muhammad-farhan.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    }
+  ],
+  "kordept-pelayanan-pergerakan": [
+    {
+      "id": "staff-kordept-pelayanan-pergerakan-nefri-yaldi",
+      "name": "Nefri Yaldi",
+      "role": "Koordinator Departemen Pelayanan & Pergerakan",
+      "photoUrl": "/uploads/departemen/staff/kordept-pelayanan-pergerakan/nefri-yaldi.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    }
+  ],
+  "kantor-medkominfo": [
+    {
+      "id": "staff-kantor-medkominfo-hanifah-nurul-hashif",
+      "name": "Hanifah Nurul Hashif",
+      "role": "Kepala Kantor MedKominfo",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/hanifah-nurul-hashif.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-kantor-medkominfo-saskia-salsabila-herlin",
+      "name": "Saskia Salsabila Herlin",
+      "role": "Sekretaris Kantor MedKominfo",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/saskia-salsabila-herlin.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-kantor-medkominfo-annisa-cintia-fitrioni",
+      "name": "Annisa Cintia Fitrioni",
+      "role": "Staff Digital Creative",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/annisa-cintia-fitrioni.png",
+      "group": "bidang-digital-creative",
+      "groupTitle": "Bidang Digital Creative",
+      "rank": 4
+    },
+    {
+      "id": "staff-kantor-medkominfo-keyla-zahwa",
+      "name": "Keyla Zahwa",
+      "role": "Staff Bidang Digital Creative",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/keyla-zahwa.png",
+      "group": "bidang-digital-creative",
+      "groupTitle": "Bidang Digital Creative",
+      "rank": 4
+    },
+    {
+      "id": "staff-kantor-medkominfo-zuhratul-amallya-haarisah",
+      "name": "Zuhratul Amallya Haarisah",
+      "role": "Staff Bidang Digital Creative",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/zuhratul-amallya-haarisah.png",
+      "group": "bidang-digital-creative",
+      "groupTitle": "Bidang Digital Creative",
+      "rank": 4
+    },
+    {
+      "id": "staff-kantor-medkominfo-tasya-haura-divalen",
+      "name": "Tasya Haura Divalen",
+      "role": "Staff Production House",
+      "photoUrl": "/uploads/departemen/staff/kantor-medkominfo/tasya-haura-divalen.png",
+      "group": "bidang-production-house",
+      "groupTitle": "Bidang Production House",
+      "rank": 4
+    }
+  ],
+  "departemen-politik-dan-hukum": [
+    {
+      "id": "staff-departemen-politik-dan-hukum-muhammad-farel",
+      "name": "Muhammad Farel",
+      "role": "Kepala Departemen Politik Hukum",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/muhammad-farel.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-mutiara-naiko",
+      "name": "Mutiara Naiko",
+      "role": "Sekretaris Departemen Politik Hukum",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/mutiara-naiko.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-harits-daffa-athallah",
+      "name": "Harits Daffa Athallah",
+      "role": "Kepala Bidang Aksi & Propaganda",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/harits-daffa-athallah.png",
+      "group": "bidang-aksi-propaganda",
+      "groupTitle": "Bidang Aksi & Propaganda",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-muhammad-rhajif",
+      "name": "Muhammad Rhajif",
+      "role": "Kepala Bidang Kajian Strategis",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/muhammad-rhajif.png",
+      "group": "bidang-kajian-strategis",
+      "groupTitle": "Bidang Kajian Strategis",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-m-huda-al-hakimi-kasuma",
+      "name": "M. Huda Al-Hakimi Kasuma",
+      "role": "Staff Bidang Aksi & Propaganda",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/m-huda-al-hakimi-kasuma.png",
+      "group": "bidang-aksi-propaganda",
+      "groupTitle": "Bidang Aksi & Propaganda",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-mutianda-rezkia-putri",
+      "name": "Mutianda Rezkia Putri",
+      "role": "Staff Bidang Aksi & Propaganda",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/mutianda-rezkia-putri.png",
+      "group": "bidang-aksi-propaganda",
+      "groupTitle": "Bidang Aksi & Propaganda",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-puti-yanka-alfaizah",
+      "name": "Puti Yanka Alfaizah",
+      "role": "Staff Bidang Aksi & Propaganda",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/puti-yanka-alfaizah.png",
+      "group": "bidang-aksi-propaganda",
+      "groupTitle": "Bidang Aksi & Propaganda",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-ahmad-farhani-aulya",
+      "name": "Ahmad Farhani Aulya",
+      "role": "Staff Bidang Kajian Strategis",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/ahmad-farhani-aulya.png",
+      "group": "bidang-kajian-strategis",
+      "groupTitle": "Bidang Kajian Strategis",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-chery-flowerika",
+      "name": "Chery Flowerika",
+      "role": "Staff Bidang Kajian Strategis",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/chery-flowerika.png",
+      "group": "bidang-kajian-strategis",
+      "groupTitle": "Bidang Kajian Strategis",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-politik-dan-hukum-gendhis-endah-lestari",
+      "name": "Gendhis Endah Lestari",
+      "role": "Staff Bidang Kajian Strategis",
+      "photoUrl": "/uploads/departemen/staff/departemen-politik-dan-hukum/gendhis-endah-lestari.png",
+      "group": "bidang-kajian-strategis",
+      "groupTitle": "Bidang Kajian Strategis",
+      "rank": 4
+    }
+  ],
+  "departemen-pemberdayaan-perempuan": [
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-nazwa-siti-nuriyah",
+      "name": "Nazwa Siti Nuriyah",
+      "role": "Kepala Departemen Pemberdayaan Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/nazwa-siti-nuriyah.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-yasmin-almira-aznul-lubis",
+      "name": "Yasmin Almira Aznul Lubis",
+      "role": "Sekretaris Departemen Pemberdayaan Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/yasmin-almira-aznul-lubis.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-zhafirah-zulaikha",
+      "name": "Zhafirah Zulaikha",
+      "role": "Kepala Bidang Advokasi & Pergerakan Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/zhafirah-zulaikha.png",
+      "group": "bidang-advokasi-pergerakan-perempuan",
+      "groupTitle": "Bidang Advokasi & Pergerakan Perempuan",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-dexa-osa-berzellius",
+      "name": "Dexa Osa Berzellius",
+      "role": "Kepala Bidang Pendidikan & Kreatifitas Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/dexa-osa-berzellius.png",
+      "group": "bidang-pendidikan-kreatifitas-perempuan",
+      "groupTitle": "Bidang Pendidikan & Kreatifitas Perempuan",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-poppy-ramadhani-devino",
+      "name": "Poppy Ramadhani Devino",
+      "role": "Staff Bidang Advokasi & Pergerakan Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/poppy-ramadhani-devino.png",
+      "group": "bidang-advokasi-pergerakan-perempuan",
+      "groupTitle": "Bidang Advokasi & Pergerakan Perempuan",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-salwa-putri-zaskia",
+      "name": "Salwa Putri Zaskia",
+      "role": "Staff Bidang Advokasi & Pergerakan Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/salwa-putri-zaskia.png",
+      "group": "bidang-advokasi-pergerakan-perempuan",
+      "groupTitle": "Bidang Advokasi & Pergerakan Perempuan",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pemberdayaan-perempuan-nilla-azra-ramadhani",
+      "name": "Nilla Azra Ramadhani",
+      "role": "Staff Bidang Pendidikan & Kreatifitas Perempuan",
+      "photoUrl": "/uploads/departemen/staff/departemen-pemberdayaan-perempuan/nilla-azra-ramadhani.png",
+      "group": "bidang-pendidikan-kreatifitas-perempuan",
+      "groupTitle": "Bidang Pendidikan & Kreatifitas Perempuan",
+      "rank": 4
+    }
+  ],
+  "presidium": [
+    {
+      "id": "staff-presidium-muhammad-dzaki",
+      "name": "Muhammad Dzaki",
+      "role": "Ketua BEM",
+      "photoUrl": "/uploads/departemen/staff/presidium/muhammad-dzaki.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-presidium-sabrina-najwa-aqilla",
+      "name": "Sabrina Najwa Aqilla",
+      "role": "Wakil Ketua BEM",
+      "photoUrl": "/uploads/departemen/staff/presidium/sabrina-najwa-aqilla.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-presidium-annisa-salsabillany-yusuf",
+      "name": "Annisa Salsabillany Yusuf",
+      "role": "Sekretaris Kabinet",
+      "photoUrl": "/uploads/departemen/staff/presidium/annisa-salsabillany-yusuf.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 3
+    }
+  ],
+  "departemen-pengembangan-sumber-daya-mahasiswa": [
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-abdi-fatlan",
+      "name": "Abdi Fatlan",
+      "role": "Kepala Departemen PSDM",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/abdi-fatlan.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-syifa-alfira-ramadhani",
+      "name": "Syifa Alfira Ramadhani",
+      "role": "Sekretaris Departemen PSDM",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/syifa-alfira-ramadhani.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-farel-gavindaffa",
+      "name": "Farel Gavindaffa",
+      "role": "Kepala Bidang Akselerasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/farel-gavindaffa.png",
+      "group": "bidang-akselerasi-mahasiswa",
+      "groupTitle": "Bidang Akselerasi Mahasiswa",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-reva-ridia-aisyah",
+      "name": "Reva Ridia Aisyah",
+      "role": "Kepala Bidang Pengembangan Karir",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/reva-ridia-aisyah.png",
+      "group": "bidang-pengembangan-karir",
+      "groupTitle": "Bidang Pengembangan Karir",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-dini-zahra-attiyah",
+      "name": "Dini Zahra Attiyah",
+      "role": "Kepala Bidang Prestasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/dini-zahra-attiyah.png",
+      "group": "bidang-prestasi-mahasiswa",
+      "groupTitle": "Bidang Prestasi Mahasiswa",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-suci-jannah-dafsy",
+      "name": "Suci Jannah Dafsy",
+      "role": "Staff Bidang Akselerasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/suci-jannah-dafsy.png",
+      "group": "bidang-akselerasi-mahasiswa",
+      "groupTitle": "Bidang Akselerasi Mahasiswa",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-syadza-rameyza-alya-adam",
+      "name": "Syadza Rameyza Alya Adam",
+      "role": "Staff Bidang Akselerasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/syadza-rameyza-alya-adam.png",
+      "group": "bidang-akselerasi-mahasiswa",
+      "groupTitle": "Bidang Akselerasi Mahasiswa",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-najmatul-alty",
+      "name": "Najmatul Alty",
+      "role": "Staff Bidang Pengembangan Karir",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/najmatul-alty.png",
+      "group": "bidang-pengembangan-karir",
+      "groupTitle": "Bidang Pengembangan Karir",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-rama-hardana-putra",
+      "name": "Rama Hardana Putra",
+      "role": "Staff Bidang Pengembangan Karir",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/rama-hardana-putra.png",
+      "group": "bidang-pengembangan-karir",
+      "groupTitle": "Bidang Pengembangan Karir",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-ariel-erwansyah",
+      "name": "Ariel Erwansyah",
+      "role": "Staff Bidang Prestasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/ariel-erwansyah.png",
+      "group": "bidang-prestasi-mahasiswa",
+      "groupTitle": "Bidang Prestasi Mahasiswa",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-pengembangan-sumber-daya-mahasiswa-luthfyah-nurfit-baroqah",
+      "name": "Luthfyah Nurfit Baroqah",
+      "role": "Staff Bidang Prestasi Mahasiswa",
+      "photoUrl": "/uploads/departemen/staff/departemen-pengembangan-sumber-daya-mahasiswa/luthfyah-nurfit-baroqah.png",
+      "group": "bidang-prestasi-mahasiswa",
+      "groupTitle": "Bidang Prestasi Mahasiswa",
+      "rank": 4
+    }
+  ],
+  "departemen-seni-olahraga-dan-budaya": [
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-ghalib-zachary-atha",
+      "name": "Ghalib Zachary Atha",
+      "role": "Kepala Departemen Seni, Olahraga, dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/ghalib-zachary-atha.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-queen-yusticia-faira",
+      "name": "Queen Yusticia Faira",
+      "role": "Sekretaris Departemen Seni, Olahraga, dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/queen-yusticia-faira.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-aditya-asmara",
+      "name": "Aditya Asmara",
+      "role": "Kepala Bidang Olahraga",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/aditya-asmara.png",
+      "group": "bidang-olahraga",
+      "groupTitle": "Bidang Olahraga",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-andhika-dwi-kurniawan",
+      "name": "Andhika Dwi Kurniawan",
+      "role": "Kepala Bidang Seni dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/andhika-dwi-kurniawan.png",
+      "group": "bidang-seni-dan-budaya",
+      "groupTitle": "Bidang Seni dan Budaya",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-alya-fitria-wiby",
+      "name": "alya fitria wiby",
+      "role": "Staff Bidang Olahraga",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/alya-fitria-wiby.png",
+      "group": "bidang-olahraga",
+      "groupTitle": "Bidang Olahraga",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-bintang-pratama-azhar",
+      "name": "Bintang Pratama Azhar",
+      "role": "Staff Bidang Olahraga",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/bintang-pratama-azhar.png",
+      "group": "bidang-olahraga",
+      "groupTitle": "Bidang Olahraga",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-muthya-selgy-agustin",
+      "name": "Muthya Selgy Agustin",
+      "role": "Staff Bidang Olahraga",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/muthya-selgy-agustin.png",
+      "group": "bidang-olahraga",
+      "groupTitle": "Bidang Olahraga",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-hawwa-parsa-rabani",
+      "name": "Hawwa Parsa Rabani",
+      "role": "Staff Bidang Seni dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/hawwa-parsa-rabani.png",
+      "group": "bidang-seni-dan-budaya",
+      "groupTitle": "Bidang Seni dan Budaya",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-kaluna-suherman",
+      "name": "Kaluna Suherman",
+      "role": "Staff Bidang Seni dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/kaluna-suherman.png",
+      "group": "bidang-seni-dan-budaya",
+      "groupTitle": "Bidang Seni dan Budaya",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-seni-olahraga-dan-budaya-vany-fajar-agustina",
+      "name": "Vany Fajar Agustina",
+      "role": "Staff Bidang Seni dan Budaya",
+      "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/vany-fajar-agustina.png",
+      "group": "bidang-seni-dan-budaya",
+      "groupTitle": "Bidang Seni dan Budaya",
+      "rank": 4
+    }
+  ],
+  "departemen-sosial-masyarakat": [
+    {
+      "id": "staff-departemen-sosial-masyarakat-naufal-ramadhan",
+      "name": "Naufal Ramadhan",
+      "role": "Kepala Departemen Sosial Masyarakat",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/naufal-ramadhan.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 1
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-aishyatul-putri-fadhilah",
+      "name": "Aishyatul Putri Fadhilah",
+      "role": "Sekretaris Departemen Sosial Masyarakat",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/aishyatul-putri-fadhilah.png",
+      "group": "pimpinan",
+      "groupTitle": "Pimpinan",
+      "rank": 2
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-muhammad-fauzan-ilmi",
+      "name": "Muhammad Fauzan Ilmi",
+      "role": "Kepala Bidang Aksi Cepat Tanggap",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/muhammad-fauzan-ilmi.png",
+      "group": "bidang-aksi-cepat-tanggap",
+      "groupTitle": "Bidang Aksi Cepat Tanggap",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-lathifa-aini",
+      "name": "Lathifa Aini",
+      "role": "Kepala Bidang Lingkungan Hidup",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/lathifa-aini.png",
+      "group": "bidang-lingkungan-hidup",
+      "groupTitle": "Bidang Lingkungan Hidup",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-muhammad-aziz-erlangga",
+      "name": "Muhammad Aziz Erlangga",
+      "role": "Kepala Bidang Pengabdian Masyarakat",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/muhammad-aziz-erlangga.png",
+      "group": "bidang-pengabdian-masyarakat",
+      "groupTitle": "Bidang Pengabdian Masyarakat",
+      "rank": 3
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-chalista-rahmatullah-putri",
+      "name": "Chalista Rahmatullah Putri",
+      "role": "Staff Bidang Aksi Cepat Tanggap",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/chalista-rahmatullah-putri.png",
+      "group": "bidang-aksi-cepat-tanggap",
+      "groupTitle": "Bidang Aksi Cepat Tanggap",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-lingga-putra-hadiana",
+      "name": "Lingga Putra Hadiana",
+      "role": "Staff Bidang Aksi Cepat Tanggap",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/lingga-putra-hadiana.png",
+      "group": "bidang-aksi-cepat-tanggap",
+      "groupTitle": "Bidang Aksi Cepat Tanggap",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-fathir-hibrizy-ifo",
+      "name": "Fathir Hibrizy Ifo",
+      "role": "Staff Bidang Lingkungan Hidup",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/fathir-hibrizy-ifo.png",
+      "group": "bidang-lingkungan-hidup",
+      "groupTitle": "Bidang Lingkungan Hidup",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-taufik-lukman",
+      "name": "Taufik Lukman",
+      "role": "Staff Bidang Lingkungan Hidup",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/taufik-lukman.png",
+      "group": "bidang-lingkungan-hidup",
+      "groupTitle": "Bidang Lingkungan Hidup",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-callista-vania-fadilla",
+      "name": "Callista Vania Fadilla",
+      "role": "Staff Bidang Pengabdian Masyarakat",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/callista-vania-fadilla.png",
+      "group": "bidang-pengabdian-masyarakat",
+      "groupTitle": "Bidang Pengabdian Masyarakat",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-sosial-masyarakat-chelia-riyesa",
+      "name": "Chelia Riyesa",
+      "role": "Staff Bidang Pengabdian Masyarakat",
+      "photoUrl": "/uploads/departemen/staff/departemen-sosial-masyarakat/chelia-riyesa.png",
+      "group": "bidang-pengabdian-masyarakat",
+      "groupTitle": "Bidang Pengabdian Masyarakat",
+      "rank": 4
+    }
+  ]
+}

@@ -1,10 +1,18 @@
 import { notFound } from 'next/navigation';
-import { prisma } from '../../../lib/prisma';
 import Link from 'next/link';
-import { isWebOrLocalUrl } from '../../../lib/homeMedia';
-import { isDepartmentHead, departmentContactUrl } from '../../../lib/departemen';
-import { getHardcodedDepartemenBySlug, getDeptPhotoPosition } from '../../../data/departemen';
 import { ArrowLeft } from 'lucide-react';
+import { prisma } from '../../../lib/prisma';
+import { isWebOrLocalUrl } from '../../../lib/homeMedia';
+import { departmentContactUrl } from '../../../lib/departemen';
+import {
+  getHardcodedDepartemenBySlug,
+  getDeptPhotoPosition,
+  getDeptLogoUrl,
+  getDeptCoverUrl,
+} from '../../../data/departemen';
+import ProkerAccordion from '../../../components/departemen/ProkerAccordion';
+import StrukturDBKL from '../../../components/departemen/StrukturDBKL';
+import PresidiumGreetingSection from '../../../components/departemen/PresidiumGreetingSection';
 
 export const revalidate = 3600;
 
@@ -24,138 +32,117 @@ export default async function DepartemenDetailPage({ params }) {
 
   if (!dbItem && !hardcoded) notFound();
 
+  const logoUrl = getDeptLogoUrl(slug) || hardcoded?.logoUrl || dbItem?.photoUrl || null;
+  const coverUrl = getDeptCoverUrl(slug) || hardcoded?.coverUrl || null;
+
   const item = {
     ...hardcoded,
     ...dbItem,
     name: dbItem?.name || hardcoded?.name,
-    photoUrl: dbItem?.photoUrl || hardcoded?.photoUrl || null,
+    logoUrl,
+    coverUrl,
+    photoUrl: logoUrl,
     description: dbItem?.description || hardcoded?.description || '',
     staff: dbItem?.staff?.length > 0 ? dbItem.staff : (hardcoded?.staff || []),
     proker: dbItem?.proker?.length > 0 ? dbItem.proker : (hardcoded?.proker || []),
     contact: dbItem?.contact || hardcoded?.contact || null,
   };
 
-  const heads = item.staff.filter((s) => isDepartmentHead(s.role));
-  const others = item.staff.filter((s) => !isDepartmentHead(s.role));
+  const isLongName = (item.name || '').length > 30;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <article className="px-6 pt-32 pb-16 container mx-auto max-w-4xl relative z-10">
-        <Link
-          href="/departemen"
-          className="inline-flex items-center gap-2 mb-6 text-sm text-brand-neon hover:underline"
-        >
-          <ArrowLeft size={16} /> Kembali ke Departemen
-        </Link>
+      {/* Hero Section: Asymmetric Edge-Fade Split (Full Left Photo with Narrow 15% Right Fade) */}
+      <section className="relative flex flex-col lg:flex-row items-center min-h-0 lg:min-h-[100dvh] overflow-hidden lg:overflow-visible">
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] lg:w-[1400px] h-[650px] bg-[radial-gradient(ellipse_at_center,rgba(188,34,68,0.28)_0%,rgba(135,24,48,0.14)_50%,transparent_75%)] pointer-events-none blur-3xl z-0"
+        />
 
-        {/* Main Banner Card */}
-        <div className="bg-[#1a0a13]/50 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-md mb-8 shadow-xl">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden bg-gradient-radial-1 border-2 border-white/10 shrink-0 flex items-center justify-center shadow-lg">
-              {item.photoUrl && isWebOrLocalUrl(item.photoUrl) ? (
-                <img
-                  src={item.photoUrl}
-                  alt={item.name}
-                  className={`w-full h-full object-cover ${getDeptPhotoPosition(item.slug)}`}
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-brand-neon font-bold text-3xl bg-brand-red/30">
-                  {item.name.slice(0, 2).toUpperCase()}
+        {/* Left / Top Photo: Flush to top under navbar on mobile, full-height on desktop */}
+        {coverUrl && isWebOrLocalUrl(coverUrl) && (
+          <div
+            aria-hidden="true"
+            className="w-full relative top-0 lg:absolute lg:left-0 lg:top-0 lg:h-[105vh] lg:w-[48vw] xl:w-[46vw] max-w-[760px] z-0 overflow-hidden shrink-0 aspect-[4/5] max-h-[52vh] sm:max-h-[60vh] lg:max-h-none lg:aspect-auto [mask-image:linear-gradient(to_bottom,black_0%,black_75%,rgba(0,0,0,0.4)_88%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_75%,rgba(0,0,0,0.4)_88%,transparent_100%)] lg:[mask-image:linear-gradient(to_bottom,black_0%,black_78%,rgba(0,0,0,0.5)_90%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_78%,rgba(0,0,0,0.5)_90%,transparent_100%)]"
+          >
+            <div className="w-full h-full lg:[mask-image:linear-gradient(to_right,black_0%,black_80%,rgba(0,0,0,0.45)_91%,transparent_100%)] lg:[-webkit-mask-image:linear-gradient(to_right,black_0%,black_80%,rgba(0,0,0,0.45)_91%,transparent_100%)]">
+              <img
+                src={coverUrl}
+                alt={`Foto Pengurus ${item.name}`}
+                className="w-full h-full object-cover select-none brightness-105 contrast-[1.03]"
+                style={{ objectPosition: getDeptPhotoPosition(item.slug) }}
+                fetchPriority="high"
+              />
+              {/* Subtle top vignette for navbar contrast */}
+              <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#050103]/80 via-[#050103]/30 to-transparent pointer-events-none" />
+            </div>
+          </div>
+        )}
+
+        <div className="container mx-auto px-6 sm:px-10 max-w-7xl relative z-10 w-full min-h-0 lg:min-h-[100dvh] flex flex-col justify-center items-center lg:items-end pt-0 lg:pt-24 sm:lg:pt-28 pb-8 lg:pb-12 -mt-8 sm:-mt-12 lg:mt-0">
+          <div className="w-full lg:w-[50%] xl:w-[52%] flex flex-col justify-center text-center lg:text-left lg:ml-auto lg:pl-6 my-auto">
+            {/* Back Button to Kepengurusan Directory */}
+            <Link
+              href="/departemen"
+              className="inline-flex items-center gap-2 mb-3.5 px-3.5 py-1.5 rounded-full bg-[#1a0a13]/70 hover:bg-[#23121b]/90 border border-white/10 hover:border-brand-neon/60 text-xs sm:text-sm text-brand-neon font-medium transition-all duration-300 w-fit mx-auto lg:mx-0 group shadow-sm backdrop-blur-md"
+            >
+              <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform duration-200" />
+              <span>Kembali ke Kepengurusan</span>
+            </Link>
+
+            <p className="text-xs sm:text-sm font-bold text-brand-neon drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] mb-2 sm:mb-2.5 uppercase tracking-wider">
+              Kabinet Aksara Juang &bull; BEM FH UNAND
+            </p>
+
+            <h1
+              className={`font-black tracking-normal text-white mb-3 sm:mb-4 drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] ${
+                isLongName
+                  ? 'text-2xl sm:text-3xl md:text-4xl xl:text-[40px] leading-[1.14]'
+                  : 'text-3xl sm:text-4xl md:text-5xl xl:text-[54px] leading-tight'
+              }`}
+            >
+              {item.name}
+            </h1>
+
+            {/* Department Description (inside container, justified, with sleek scrollbar if long) */}
+            {item.description && (
+              <div className="max-w-xl mx-auto lg:mx-0 mb-5 p-4 sm:p-5 rounded-2xl bg-[#1a0a13]/65 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.45)] ring-1 ring-white/5">
+                <div className="max-h-[160px] sm:max-h-[190px] lg:max-h-[210px] overflow-y-auto pr-2 [scrollbar-width:thin] [scrollbar-color:rgba(254,174,174,0.35)_transparent]">
+                  <p className="text-gray-200 text-xs sm:text-sm lg:text-[14px] leading-relaxed text-justify whitespace-pre-line">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
+              {item.staff?.length > 0 && (
+                <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
+                  <span className="font-bold text-white text-base mr-1.5">{item.staff.length}</span>
+                  Pengurus
                 </div>
               )}
-            </div>
-            <div className="text-center sm:text-left flex-1 min-w-0">
-              <span className="inline-block px-3 py-0.5 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-2">
-                {item.category || 'Departemen'}
-              </span>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 break-words">
-                {item.name}
-              </h1>
-              {item.description && (
-                <p className="text-gray-300 text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words">
-                  {item.description}
-                </p>
+              {item.proker?.length > 0 && (
+                <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
+                  <span className="font-bold text-brand-neon text-base mr-1.5">{item.proker.length}</span>
+                  Program Kerja
+                </div>
               )}
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Kepala Departemen */}
-        {heads.map((kepala) => (
-          <div key={kepala.id || kepala.name} className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-5 mb-6 break-words backdrop-blur-md shadow-lg">
-            <h2 className="text-xs text-brand-neon uppercase tracking-wide font-semibold mb-2">Kepala Departemen</h2>
-            <div className="flex items-center gap-4">
-              {kepala.photoUrl && isWebOrLocalUrl(kepala.photoUrl) ? (
-                <img src={kepala.photoUrl} alt={kepala.name} className="w-16 h-16 rounded-full object-cover border border-white/10" />
-              ) : (
-                <div className="w-16 h-16 rounded-full bg-brand-red/30 border border-white/10 flex items-center justify-center text-brand-neon font-bold text-lg">
-                  {kepala.name.slice(0, 2).toUpperCase()}
-                </div>
-              )}
-              <div>
-                <p className="font-semibold text-lg text-white">{kepala.name}</p>
-                <p className="text-sm text-gray-400">{kepala.role}</p>
-                {kepala.identity && <p className="text-xs text-gray-500 mt-0.5">{kepala.identity}</p>}
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* Main Content Area */}
+      <article className="px-6 pb-28 container mx-auto max-w-5xl relative z-10 pt-8 sm:pt-14 lg:pt-36">
+        {/* Presidium Specific: Greeting & Executive Section right below Hero */}
+        {slug === 'presidium' && <PresidiumGreetingSection />}
 
-        {/* Staff & Pengurus */}
-        {others.length > 0 && (
-          <div className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-6 mb-8 backdrop-blur-md shadow-lg">
-            <h2 className="text-brand-neon font-semibold text-base mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-neon" />
-              Staff &amp; Pengurus ({others.length})
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {others.map((s) => (
-                <div key={s.id || s.name} className="p-3 rounded-lg bg-white/5 border border-white/10 flex items-center gap-3">
-                  {s.photoUrl && isWebOrLocalUrl(s.photoUrl) ? (
-                    <img src={s.photoUrl} alt={s.name} className="w-10 h-10 rounded-full object-cover shrink-0 border border-white/10" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-brand-neon text-xs font-bold shrink-0">
-                      {s.name.slice(0, 2).toUpperCase()}
-                    </div>
-                  )}
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-white truncate">{s.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{s.role}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Program Kerja (Interactive Dropdown Accordion) */}
+        <ProkerAccordion prokers={item.proker} />
 
-        {/* Program Kerja */}
-        {item.proker.length > 0 ? (
-          <div className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-6 mb-8 backdrop-blur-md shadow-lg">
-            <h2 className="text-brand-neon font-semibold text-base mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-neon" />
-              Program Kerja &amp; Kegiatan ({item.proker.length})
-            </h2>
-            <div className="divide-y divide-white/10">
-              {item.proker.map((p, idx) => (
-                <div key={p.id || idx} className="py-3.5 first:pt-0 last:pb-0">
-                  <div className="flex items-start gap-3">
-                    <span className="text-brand-neon font-mono text-xs font-bold shrink-0 mt-0.5">
-                      {String(idx + 1).padStart(2, '0')}.
-                    </span>
-                    <div>
-                      <h3 className="font-semibold text-white text-sm sm:text-base">{p.name}</h3>
-                      {p.description && (
-                        <p className="text-xs sm:text-sm text-gray-300 mt-1 leading-relaxed">{p.description}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <p className="text-gray-400 mb-8">Program kerja dan kegiatan belum tersedia.</p>
-        )}
+        {/* Struktur DBKL (Below Proker, Layout matching PDF) */}
+        <StrukturDBKL staff={item.staff} _deptName={item.name} />
 
         {/* Contact Links */}
         {item.contact && (item.contact.whatsappUrl || item.contact.instagramUrl) && (

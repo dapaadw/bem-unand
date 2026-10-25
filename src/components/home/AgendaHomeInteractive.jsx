@@ -18,24 +18,24 @@ export default function AgendaHomeInteractive({ activities = [] }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="text-right flex flex-col items-end mb-8"
+          className="text-left flex flex-col items-start mb-8"
         >
           <span className="text-xs text-brand-neon uppercase tracking-wide font-medium block">
             Agenda Terkini
           </span>
-          <h2 className="text-3xl font-bold text-white mt-1">Kegiatan &amp; Lomba</h2>
+          <h2 className="text-3xl font-bold text-white mt-1">Kegiatan</h2>
           <div className="mt-2">
             <Link
               href="/kegiatan"
               className="text-sm font-semibold text-brand-neon hover:underline inline-flex items-center gap-1 transition-colors"
             >
-              Lihat semua agenda &rarr;
+              Lihat semua kegiatan &rarr;
             </Link>
           </div>
         </motion.div>
 
-        {/* Kegiatan Cards: Staggered fluid entrance */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Kegiatan Cards: Staggered fluid entrance (3 items) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {activities.map((item, idx) => (
             <motion.div
               key={item.id}
@@ -59,7 +59,7 @@ export default function AgendaHomeInteractive({ activities = [] }) {
               >
                 <div>
                   {/* Event Thumbnail Image */}
-                  <div className="h-36 sm:h-40 w-full relative overflow-hidden bg-gradient-to-br from-brand-red/30 via-black/80 to-brand-dark flex items-center justify-center border-b border-white/5">
+                  <div className="h-40 sm:h-44 w-full relative overflow-hidden bg-gradient-to-br from-brand-red/30 via-black/80 to-brand-dark flex items-center justify-center border-b border-white/5">
                     {item.imageUrl && isWebOrLocalUrl(item.imageUrl) ? (
                       <img
                         src={item.imageUrl}
@@ -100,7 +100,7 @@ export default function AgendaHomeInteractive({ activities = [] }) {
                 </div>
 
                 <div className="px-4 pb-4 pt-2 border-t border-white/5 flex items-center justify-between text-xs text-brand-neon font-semibold">
-                  <span>Detail agenda</span>
+                  <span>Detail kegiatan</span>
                   <span className="group-hover:translate-x-1 transition-transform duration-300">&rarr;</span>
                 </div>
               </Link>

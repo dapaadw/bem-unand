@@ -53,7 +53,7 @@ export default function VisiMisiInteractive({ visi, misi = [], profileVisiMisi }
                 className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-7 hover:border-brand-neon hover:bg-[#23121b]/70 hover:shadow-[0_15px_35px_rgba(254,174,174,0.18)] transition-all duration-500 ease-out text-center cursor-default shadow-xl backdrop-blur-md"
               >
                 <span className="text-xs text-brand-neon uppercase tracking-wide font-semibold block mb-3">
-                  Visi Utama
+                  Visi
                 </span>
                 <blockquote className="text-base sm:text-lg font-medium text-white leading-relaxed max-w-3xl mx-auto">
                   {visi}
