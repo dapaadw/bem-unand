@@ -73,6 +73,7 @@
 
   .bg-finall-canvas {
     background-color: #050103;
+    background-repeat: no-repeat;
     background-image:
       radial-gradient(ellipse 85% 40% at 20% 8%, rgba(185, 38, 68, 0.38) 0%, rgba(135, 24, 48, 0.18) 45%, transparent 75%),
       radial-gradient(ellipse 75% 35% at 85% 20%, rgba(175, 35, 62, 0.30) 0%, rgba(120, 20, 42, 0.14) 50%, transparent 75%),
@@ -93,6 +94,14 @@
         #240613 92%,
         #050103 100%
       );
+  }
+
+  .bg-canvas-home {
+    background-size: 100% 100%;
+  }
+
+  .bg-canvas-subpage {
+    background-size: 100% 5200px;
   }
 
   .text-neon {

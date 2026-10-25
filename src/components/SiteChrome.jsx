@@ -19,7 +19,15 @@ export default function SiteChrome({ children, footer }) {
     <>
       <SitePreloader />
       <SiteNav />
-      <main className="flex-grow relative overflow-hidden bg-finall-canvas text-[#f8f1e7]">
+      <main className="flex-grow relative overflow-hidden bg-[#050103] text-[#f8f1e7]">
+        {/* Document-anchored Background Canvas: Spans naturally across the page, scrolls with content, and never shifts on dropdown */}
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 pointer-events-none bg-finall-canvas z-0 ${
+            isHome ? 'bg-canvas-home' : 'bg-canvas-subpage'
+          }`}
+        />
+
         <BackgroundWatermark isHome={isHome} />
         <div className="relative z-10">{children}</div>
       </main>

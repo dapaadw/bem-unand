@@ -5,16 +5,21 @@ import { InstagramIcon, WhatsAppIcon } from '../components/SocialIcons';
 import HeroContentAnimation from '../components/home/HeroContentAnimation';
 import VisiMisiInteractive from '../components/home/VisiMisiInteractive';
 import FilosofiLogoInteractive from '../components/home/FilosofiLogoInteractive';
+import PublikasiHomeInteractive from '../components/home/PublikasiHomeInteractive';
 import AgendaHomeInteractive from '../components/home/AgendaHomeInteractive';
 import FluidScrollSection from '../components/home/FluidScrollSection';
 
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [activities, profile, contacts] = await Promise.all([
+  const [activities, publications, profile, contacts] = await Promise.all([
     prisma.kegiatan.findMany({
-      take: 4,
+      take: 3,
       orderBy: [{ publishedAt: 'desc' }, { date: 'desc' }, { id: 'desc' }],
+    }),
+    prisma.publikasi.findMany({
+      take: 3,
+      orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
     }),
     prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.contacts.findUnique({ where: { id: 1 } }),
@@ -28,9 +33,16 @@ export default async function HomePage() {
     updatedAt: item.updatedAt ? item.updatedAt.toISOString() : null,
   }));
 
-  const whatsappUrl = contacts?.whatsappUrl || 'https://wa.me/6281234567890';
+  const serializedPublications = publications.map((item) => ({
+    ...item,
+    publishedAt: item.publishedAt ? item.publishedAt.toISOString() : null,
+    createdAt: item.createdAt ? item.createdAt.toISOString() : null,
+    updatedAt: item.updatedAt ? item.updatedAt.toISOString() : null,
+  }));
+
+  const whatsappUrl = contacts?.whatsappUrl || 'https://wa.me/6281266234461';
   const instagramUrl = contacts?.instagramUrl || 'https://www.instagram.com/bemfhua/';
-  const emailAddress = contacts?.email || 'bemfhunand.official@gmail.com';
+  const emailAddress = contacts?.email || 'kantormedkominfo.bemfhua@gmail.com';
 
   const title = profile?.title || 'BEM FH UNAND';
   const subtitle =
@@ -151,7 +163,10 @@ export default async function HomePage() {
       {/* Filosofi Logo Section */}
       <FilosofiLogoInteractive profileLogoPhilosophy={profile?.logoPhilosophy} />
 
-      {/* Agenda / Kegiatan Section */}
+      {/* Publikasi Section (3 publikasi terbaru) */}
+      <PublikasiHomeInteractive publications={serializedPublications} />
+
+      {/* Agenda / Kegiatan Section (3 kegiatan terbaru) */}
       <AgendaHomeInteractive activities={serializedActivities} />
 
       {/* Kontak Section */}
@@ -181,9 +196,9 @@ export default async function HomePage() {
                 <WhatsAppIcon size={22} className="text-brand-neon" />
               </div>
               <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">WhatsApp</span>
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Contact Person</span>
                 <span className="text-sm sm:text-base font-semibold text-white group-hover:text-brand-neon transition-colors duration-300 block">
-                  {contacts?.whatsappUrl ? 'WhatsApp Resmi' : '+62 812-3456-7890'}
+                  +62 812-6623-4461
                 </span>
               </div>
             </a>
@@ -228,9 +243,9 @@ export default async function HomePage() {
                 <MapPin size={22} className="text-brand-neon" />
               </div>
               <div className="min-w-0 flex-1 text-left">
-                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Sekretariat</span>
+                <span className="text-xs text-gray-400 uppercase tracking-wide block mb-0.5 font-medium">Lokasi</span>
                 <span className="text-sm sm:text-base font-semibold text-white block leading-snug">
-                  PKM FH UNAND, Padang
+                  Pusat Kegiatan Mahasiswa Fakultas Hukum Universitas Andalas
                 </span>
               </div>
             </div>

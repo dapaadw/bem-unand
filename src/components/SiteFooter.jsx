@@ -6,9 +6,9 @@ import { Mail } from 'lucide-react';
 export default async function SiteFooter() {
   const contacts = await prisma.contacts.findUnique({ where: { id: 1 } }).catch(() => null);
 
-  const whatsappUrl = contacts?.whatsappUrl || 'https://wa.me/6281234567890';
+  const whatsappUrl = contacts?.whatsappUrl || 'https://wa.me/6281266234461';
   const instagramUrl = contacts?.instagramUrl || 'https://www.instagram.com/bemfhua/';
-  const emailAddress = contacts?.email || 'bemfhunand.official@gmail.com';
+  const emailAddress = contacts?.email || 'kantormedkominfo.bemfhua@gmail.com';
 
   return (
     <footer className="bg-[#150e12]/95 border-t border-white/10 pt-16 pb-12 mt-auto text-white min-h-[409px] flex flex-col justify-between relative z-10">
@@ -35,10 +35,10 @@ export default async function SiteFooter() {
 
             <div className="mt-5">
               <span className="text-xs font-semibold text-brand-neon block">
-                Lokasi Resmi Kampus:
+                Lokasi:
               </span>
               <p className="text-xs text-gray-400 mt-0.5">
-                Fakultas Hukum Universitas Andalas, Padang, Sumatera Barat, Indonesia
+                Pusat Kegiatan Mahasiswa Fakultas Hukum Universitas Andalas
               </p>
             </div>
 
@@ -72,12 +72,12 @@ export default async function SiteFooter() {
               </li>
               <li>
                 <Link href="/kegiatan" className="hover:text-brand-neon transition-colors">
-                  Kegiatan &amp; Lomba
+                  Kegiatan
                 </Link>
               </li>
               <li>
                 <Link href="/departemen" className="hover:text-brand-neon transition-colors">
-                  Departemen
+                  Kepengurusan
                 </Link>
               </li>
               <li>
@@ -115,10 +115,10 @@ export default async function SiteFooter() {
                 </div>
                 <div>
                   <span className="font-medium text-white block leading-tight group-hover:text-brand-neon transition-colors">
-                    WhatsApp
+                    WhatsApp (Contact Person)
                   </span>
                   <span className="text-[11px] text-gray-400">
-                    Informasi kontak resmi
+                    +62 812-6623-4461
                   </span>
                 </div>
               </a>

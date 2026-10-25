@@ -72,14 +72,14 @@ async function main() {
     where: { id: 1 },
     update: {
       instagramUrl: 'https://www.instagram.com/bemfhua/',
-      whatsappUrl: 'https://wa.me/6281234567890',
-      email: 'bemfhunand.official@gmail.com',
+      whatsappUrl: 'https://wa.me/6281266234461',
+      email: 'kantormedkominfo.bemfhua@gmail.com',
     },
     create: {
       id: 1,
       instagramUrl: 'https://www.instagram.com/bemfhua/',
-      whatsappUrl: 'https://wa.me/6281234567890',
-      email: 'bemfhunand.official@gmail.com',
+      whatsappUrl: 'https://wa.me/6281266234461',
+      email: 'kantormedkominfo.bemfhua@gmail.com',
     },
   });
 
