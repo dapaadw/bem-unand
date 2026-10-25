@@ -1,48 +1,50 @@
-import { prisma } from '../../lib/prisma';
-import { isDriveUrl } from '../../lib/fhGuide';
-import { ChevronDown, ExternalLink, FolderOpen } from 'lucide-react';
+import { ExternalLink, FolderOpen, FileText } from 'lucide-react';
+
+export const metadata = {
+  title: 'FH Guide | BEM FH UNAND',
+  description: 'Pusat panduan dan direktori dokumen resmi BEM Fakultas Hukum Universitas Andalas.',
+};
 
 export const revalidate = 3600;
 
-export default async function FhGuidePage() {
-  const [links, faqs] = await Promise.all([
-    prisma.guideLink.findMany({ orderBy: [{ category: 'asc' }, { title: 'asc' }] }),
-    prisma.faq.findMany({ orderBy: [{ createdAt: 'asc' }] }),
-  ]);
-
-  const grouped = links.reduce((accumulator, item) => {
-    (accumulator[item.category] ||= []).push(item);
-    return accumulator;
-  }, Object.create(null));
-
+export default function FhGuidePage() {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-[calc(100vh-140px)] flex items-center justify-center relative overflow-hidden py-20 px-4 sm:px-6">
       {/* Ambient background glow */}
       <div
         aria-hidden="true"
-        className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(188,34,68,0.22)_0%,rgba(135,24,48,0.1)_50%,transparent_75%)] pointer-events-none blur-3xl -z-0"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[950px] h-[550px] bg-[radial-gradient(ellipse_at_center,rgba(188,34,68,0.25)_0%,rgba(135,24,48,0.12)_45%,transparent_75%)] pointer-events-none blur-3xl -z-0"
       />
 
-      <section className="px-6 pt-32 pb-20 container mx-auto max-w-4xl relative z-10 break-words">
-        {/* Centered Page Header matching Home & other pages */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">
-            Pusat Panduan &amp; Informasi
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+      <div className="w-full max-w-2xl relative z-10">
+        <div className="relative rounded-3xl bg-[#1a0a13]/60 border border-white/10 backdrop-blur-xl p-8 sm:p-12 text-center shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
+          {/* Subtle inner corner glows */}
+          <div
+            aria-hidden="true"
+            className="absolute -top-24 -left-24 w-60 h-60 bg-[#9e1c38]/20 rounded-full blur-2xl pointer-events-none"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-24 -right-24 w-60 h-60 bg-brand-neon/15 rounded-full blur-2xl pointer-events-none"
+          />
+
+          {/* Title */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
             FH Guide
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base mb-8">
-            Direktori dokumen resmi, panduan akademik, administrasi perkuliahan, dan pertanyaan umum seputar kampus.
+
+          {/* Description */}
+          <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-lg mx-auto mb-8">
+            Direktori dokumen resmi dan panduan kemahasiswaan Fakultas Hukum Universitas Andalas.
           </p>
 
-          {/* Drive FH Guide Button */}
+          {/* Drive CTA Button */}
           <div className="flex justify-center items-center">
             <a
               href="https://drive.google.com/drive/folders/1QUOTO2YNmHUlfrU9h1o3rdR_oSioUNdY"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#9e1c38] to-[#ba2243] hover:from-[#ba2243] hover:to-[#c7264a] text-white font-bold text-sm sm:text-base shadow-xl shadow-[#9e1c38]/30 hover:shadow-[#9e1c38]/50 hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20 group cursor-pointer"
+              className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-[#9e1c38] via-[#ba2243] to-[#c7264a] hover:from-[#ba2243] hover:to-[#d82a52] text-white font-bold text-sm sm:text-base shadow-[0_8px_30px_rgba(158,28,56,0.35)] hover:shadow-[0_12px_40px_rgba(158,28,56,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20 group cursor-pointer"
             >
               <FolderOpen size={20} className="text-brand-neon group-hover:scale-110 transition-transform duration-300" />
               <span>Buka Google Drive FH Guide</span>
@@ -50,83 +52,7 @@ export default async function FhGuidePage() {
             </a>
           </div>
         </div>
-
-        {Object.keys(grouped).length === 0 ? (
-          <div className="text-center py-10 px-6 rounded-2xl bg-[#1a0a13]/50 border border-white/10 backdrop-blur-md mb-8">
-            <p className="text-gray-300 text-sm sm:text-base mb-2 font-medium">
-              Koleksi dokumen lengkap dapat diakses langsung melalui tombol Google Drive di atas.
-            </p>
-            <p className="text-xs text-gray-400">
-              Folder mencakup panduan akademik, peraturan, template berkas, dan administrasi kemahasiswaan FH UNAND.
-            </p>
-          </div>
-        ) : (
-          Object.entries(grouped).map(([category, items]) => (
-            <div
-              key={category}
-              className="mb-8 bg-[#1a0a13]/50 border border-white/10 rounded-2xl p-6 sm:p-7 backdrop-blur-md hover:border-brand-neon/40 transition-all duration-300 shadow-xl"
-            >
-              <h2 className="text-sm text-brand-neon uppercase tracking-wider font-bold mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-brand-neon" />
-                {category}
-              </h2>
-              <ul className="space-y-3">
-                {items.map((link) => (
-                  <li key={link.id} className="text-sm">
-                    {isDriveUrl(link.url) ? (
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-gray-200 hover:text-brand-neon transition-colors group"
-                      >
-                        <ExternalLink size={14} className="text-brand-neon shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                        <span className="underline underline-offset-4 font-medium">{link.title}</span>
-                        <span className="text-xs text-gray-400 group-hover:text-brand-neon/80 font-normal">
-                          (Google Drive, tab baru)
-                        </span>
-                      </a>
-                    ) : (
-                      <span className="text-gray-400">{link.title} — Link menunggu pembaruan admin.</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        )}
-
-        {faqs.length === 0 && (
-          <div className="mt-12 text-center">
-            <h2 className="text-2xl font-bold mb-4 text-brand-neon">FAQ</h2>
-            <p className="text-gray-400">FAQ belum tersedia.</p>
-          </div>
-        )}
-        {faqs.length > 0 && (
-          <div className="mt-12">
-            <div className="mb-6 flex items-center gap-3">
-              <span className="w-1.5 h-6 rounded-full bg-brand-neon" />
-              <h2 className="text-2xl font-bold text-white">FAQ</h2>
-            </div>
-            <div className="space-y-4">
-              {faqs.map((faq) => (
-                <details
-                  key={faq.id}
-                  className="group bg-[#1a0a13]/50 border border-white/10 rounded-xl p-5 hover:border-brand-neon/40 transition-all duration-300 [&_svg]:open:rotate-180 backdrop-blur-md shadow-lg"
-                >
-                  <summary className="cursor-pointer font-semibold text-white list-none flex justify-between items-center gap-4">
-                    <span>{faq.question}</span>
-                    <ChevronDown size={18} className="text-brand-neon transition-transform duration-200 shrink-0" />
-                  </summary>
-                  <p className="mt-3 text-sm text-gray-300 whitespace-pre-wrap leading-relaxed border-t border-white/10 pt-3">
-                    {faq.answer}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
+      </div>
     </div>
   );
 }

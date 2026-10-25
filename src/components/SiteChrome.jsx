@@ -8,16 +8,15 @@ import SitePreloader from './SitePreloader';
 export default function SiteChrome({ children, footer }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
+  const isHome = pathname === '/';
 
   if (isAdmin) {
     return <>{children}</>;
   }
 
-  const isHome = pathname === '/';
-
   return (
     <>
-      <SitePreloader />
+      {isHome && <SitePreloader />}
       <SiteNav />
       <main className="flex-grow relative overflow-hidden bg-[#050103] text-[#f8f1e7]">
         {/* Document-anchored Background Canvas: Spans naturally across the page, scrolls with content, and never shifts on dropdown */}

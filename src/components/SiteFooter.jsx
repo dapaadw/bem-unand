@@ -167,14 +167,8 @@ export default async function SiteFooter() {
         {/* Bottom Copyright & Period Bar */}
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400 text-center sm:text-left">
-            &copy; 2026 BEM FH UNAND. Fakultas Hukum Universitas Andalas. Seluruh hak cipta dilindungi undang-undang.
+            &copy; 2026 BEM FHUA.
           </p>
-
-          <div className="px-3.5 py-1 rounded-full bg-white/5 border border-white/10 inline-flex items-center justify-center shrink-0">
-            <span className="text-xs font-semibold text-brand-neon">
-              Periode 2026 &bull; Aksara Juang
-            </span>
-          </div>
         </div>
       </div>
     </footer>

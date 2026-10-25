@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import AnimatedEmblem from "./emblem/AnimatedEmblem";
 
@@ -23,26 +23,92 @@ if (
   };
 }
 
-// Prevent replaying the initial-load splash screen on client-side navigation back from /admin.
+// In-memory flag across client-side navigation within the tab
 let hasPlayedInTab = false;
 
 export default function SitePreloader() {
   const [isVisible, setIsVisible] = useState(() => !hasPlayedInTab);
   const [isShifted, setIsShifted] = useState(false);
 
+  const lockAppliedRef = useRef(false);
+  const cleanupFnRef = useRef(null);
+
+  const releaseLock = useCallback(() => {
+    if (typeof window === "undefined" || !lockAppliedRef.current) return;
+    lockAppliedRef.current = false;
+
+    document.documentElement.classList.remove("preloader-lock");
+    document.body.classList.remove("preloader-lock");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+
+    if (cleanupFnRef.current) {
+      cleanupFnRef.current();
+      cleanupFnRef.current = null;
+    }
+  }, []);
+
+  const applyLock = useCallback(() => {
+    if (typeof window === "undefined" || lockAppliedRef.current) return;
+    lockAppliedRef.current = true;
+
+    document.documentElement.classList.add("preloader-lock");
+    document.body.classList.add("preloader-lock");
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    window.scrollTo(0, 0);
+
+    const preventDefault = (e) => {
+      e.preventDefault();
+    };
+
+    const preventScrollKeys = (e) => {
+      if (e.key === "Escape") return;
+      const scrollKeys = [
+        " ",
+        "Space",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+      ];
+      if (scrollKeys.includes(e.key) || scrollKeys.includes(e.code)) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", preventDefault, { passive: false });
+    window.addEventListener("touchmove", preventDefault, { passive: false });
+    window.addEventListener("keydown", preventScrollKeys, { passive: false });
+
+    cleanupFnRef.current = () => {
+      window.removeEventListener("wheel", preventDefault);
+      window.removeEventListener("touchmove", preventDefault);
+      window.removeEventListener("keydown", preventScrollKeys);
+    };
+  }, []);
+
   const handleDismiss = useCallback(() => {
     hasPlayedInTab = true;
     setIsVisible(false);
   }, []);
 
+  const handleExitComplete = useCallback(() => {
+    releaseLock();
+  }, [releaseLock]);
+
   useEffect(() => {
     if (!isVisible) {
       hasPlayedInTab = true;
-      document.body.style.overflow = "";
+      releaseLock();
       return;
     }
 
-    document.body.style.overflow = "hidden";
+    applyLock();
 
     // Phase 1: Emblem draws centered for ~1.0s.
     // Phase 2: Emblem translates left and "AKSARA JUANG" wipes from left to right.
@@ -50,17 +116,23 @@ export default function SitePreloader() {
       setIsShifted(true);
     }, 1000);
 
-    // Phase 3: Preloader smoothly fades out to reveal the main website.
+    // Phase 3: Curtain slides up to reveal the main site.
     const holdTimer = setTimeout(() => {
       handleDismiss();
     }, 2900);
 
+    // Safety fallback: Unconditionally release locks after 4.5s
+    const safetyTimer = setTimeout(() => {
+      releaseLock();
+    }, 4500);
+
     return () => {
       clearTimeout(shiftTimer);
       clearTimeout(holdTimer);
-      document.body.style.overflow = "";
+      clearTimeout(safetyTimer);
+      releaseLock();
     };
-  }, [isVisible, handleDismiss]);
+  }, [isVisible, handleDismiss, applyLock, releaseLock]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -77,20 +149,19 @@ export default function SitePreloader() {
 
   return (
     <MotionConfig reducedMotion="never">
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={handleExitComplete}>
         {isVisible && (
           <motion.div
             key="bem-fh-unand-preloader"
             role="dialog"
             aria-modal="true"
             aria-label="Pembuka portal resmi BEM FH UNAND"
-            initial={{ opacity: 1 }}
+            initial={{ y: "0%" }}
             exit={{
-              opacity: 0,
-              pointerEvents: "none",
+              y: "-100%",
               transition: {
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
+                duration: 0.85,
+                ease: [0.76, 0, 0.24, 1],
               },
             }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-brand-dark text-brand-ivory px-4 sm:px-6 overflow-hidden select-none"
@@ -98,11 +169,11 @@ export default function SitePreloader() {
             {/* Central Stage: Logo starts centered, shifts left, text wipes in on right */}
             <motion.div
               exit={{
+                y: -28,
                 opacity: 0,
-                scale: 0.98,
                 transition: {
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.35,
+                  ease: [0.33, 1, 0.68, 1],
                 },
               }}
               className="relative flex flex-row items-center justify-center max-w-full"

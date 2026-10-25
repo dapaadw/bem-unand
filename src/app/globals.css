@@ -39,6 +39,22 @@
     color: var(--color-brand-ivory);
     font-family: var(--font-sans);
   }
+
+  /* Preloader interaction & scroll lock */
+  html.preloader-lock,
+  body.preloader-lock {
+    overflow: hidden !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+    height: 100% !important;
+  }
+
+  body.preloader-lock nav,
+  body.preloader-lock main,
+  body.preloader-lock footer {
+    pointer-events: none !important;
+    user-select: none !important;
+  }
 }
 
 @layer utilities {
