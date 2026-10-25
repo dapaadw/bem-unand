@@ -118,6 +118,7 @@ export default function ProkerAccordion({ prokers = [] }) {
                       <p className="text-gray-200/95 leading-relaxed">{p.description}</p>
                     ) : (
                       <p className="text-gray-400 italic">Deskripsi program fungsi belum ditambahkan.</p>
+                      <p className="text-gray-400 italic">Deskripsi program fungsi belum ditambahkan.</p>
                     )}
                   </div>
                 </div>

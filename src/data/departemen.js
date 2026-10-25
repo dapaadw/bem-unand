@@ -210,31 +210,31 @@ const RAW_HARDCODED_DEPARTEMEN = [
         id: 'proker-ij-1',
         name: 'CONNECT (Creating Outstanding Networking & Nurturing Executive Chemistry Together)',
         description:
-          'Proker dari Inspektorat Jenderal ada 8 yaitu :',
+          'CONNECT merupakan kegiatan Upgrading berupa pengembangan diri serta membangun keakraban antar anggota BEM FHUA melalui aktivitas kebersamaan yang dilaksanakan di awal kepengurusan.',
       },
       {
         id: 'proker-ij-2',
         name: 'BEM Play & Bond Day: Dodgeball Challenge',
         description:
-          'Connect sendiri merupakan Upgrading yaitu kegiatan pengembangan diri serta membangun keakraban antar anggota BEM FHUA melalui aktivitas kebersamaan yang dilaksanakan di awal pengurusan.',
+          'BEM Play & Bond Day: Dodgeball Challenge merupakan program fungsi yang diselenggarakan oleh Lembaga Inspektorat Jenderal BEM Fakultas Hukum Universitas Andalas sebagai wadah untuk mempererat kebersamaan antaranggota BEM melalui kegiatan olahraga. Kegiatan ini dikemas dalam bentuk pertandingan dodgeball yang diikuti oleh tim dari setiap Departemen, Biro, dan Kantor, serta Koordinator Departemen dan Presidium sebagai peserta. Melalui permainan ini, setiap tim dituntut untuk bekerja sama, menyusun strategi, dan berkomunikasi dengan baik selama pertandingan. Selain menjadi ajang kompetisi yang sehat, kegiatan ini juga diharapkan dapat menjadi sarana refreshing di tengah padatnya aktivitas organisasi dan perkuliahan, sehingga tercipta hubungan yang lebih akrab, solid, dan harmonis antaranggota BEM Fakultas Hukum Universitas Andalas.',
       },
       {
         id: 'proker-ij-3',
         name: 'SAPA (Silaturahmi Anggota Penuh Asa)',
         description:
-          'BEM Play & Bond Day: Dodgeball Challenge merupakan program kerja yang diselenggarakan oleh Lembaga Inspektorat Jenderal BEM Fakultas Hukum Universitas Andalas sebagai wadah untuk mempererat kebersamaan antaranggota BEM melalui kegiatan olahraga. Kegiatan ini dikemas dalam bentuk pertandingan dodgeball yang diikuti oleh tim dari setiap Departemen, Biro, dan Kantor, serta Koordinator Departemen dan Presidium sebagai peserta. Melalui permainan ini, setiap tim dituntut untuk bekerja sama, menyusun strategi, dan berkomunikasi dengan baik selama pertandingan. Selain menjadi ajang kompetisi yang sehat, kegiatan ini juga diharapkan dapat menjadi sarana refreshing di tengah padatnya aktivitas organisasi dan perkuliahan, sehingga tercipta hubungan yang lebih akrab, solid, dan harmonis antaranggota BEM Fakultas Hukum Universitas Andalas.',
+          'SAPA (Silaturahmi Anggota Penuh Asa) merupakan program fungsi yang diselenggarakan oleh Lembaga Inspektorat Jenderal Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas di akhir masa kepengurusan sebagai wadah untuk mempererat silaturahmi, meningkatkan rasa kekeluargaan, serta membangun komunikasi yang harmonis antaranggota BEM. Kegiatan ini dikemas dalam bentuk malam keakraban yang menghadirkan berbagai rangkaian acara, seperti sesi perkenalan, permainan kelompok (team building), refleksi, hiburan, serta Malam Penghargaan dan apresiasi bagi para pengurus.',
       },
       {
         id: 'proker-ij-4',
         name: 'INSPEKTA (Inspeksi Kinerja & Audit Anonim)',
         description:
-          'SAPA (Silaturahmi Anggota Penuh Asa) merupakan program kerja yang diselenggarakan oleh Lembaga Inspektorat Jenderal Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas di akhir masa pengurusan sebagai wadah untuk mempererat silaturahmi, meningkatkan rasa kekeluargaan, serta membangun komunikasi yang harmonis antaranggota BEM. Kegiatan ini dikemas dalam bentuk malam keakraban yang menghadirkan berbagai rangkaian acara, seperti sesi perkenalan, permainan kelompok (team building), refleksi, hiburan, serta Malam Penghargaan dan apresiasi bagi para pengurus.',
+          'INSPEKTA adalah tempat pengaduan internal berbasis digital yang menggunakan Google Form bersifat 100% anonim sebagai media pelaporan. Program ini menyediakan safe space bagi seluruh anggota BEM untuk melaporkan berbagai permasalahan, konflik, atau kendala internal yang dialami selama menjalankan tugas di BEM. Form pengaduan INSPEKTA tersedia 24/7 dan dapat diakses kapan saja oleh seluruh anggota BEM. Identitas pengisi tidak terdeteksi oleh siapa pun (termasuk admin form) sehingga anggota dapat melapor secara jujur tanpa rasa takut akan intimidasi dari pihak mana pun.',
       },
       {
         id: 'proker-ij-5',
         name: 'RATA (Re-Alignment Talent Assessment)',
         description:
-          'INSPEKTA adalah tempat pengaduan internal berbasis digital yang menggunakan Google Form bersifat 100% anonim sebagai media pelaporan. Program ini menyediakan safe space bagi seluruh anggota BEM untuk melaporkan berbagai permasalahan,konflik,atau kendala internal yang dialami selama menjalankan tugas di BEM. Form pengaduan INSPEKTA tersedia 24/7 dan dapat diakses kapan saja oleh seluruh anggota BEM. Identitas pengisi tidak terdeteksi oleh siapa pun (termasuk admin form) sehingga anggota dapat melapor secara jujur tanpa rasa takut akan intimidasi dari pihak mana pun.',
+          'RATA (Re-Alignment Talent Assessment) merupakan program evaluasi dan asesmen berkala terhadap kinerja serta keselarasan penempatan pengurus di setiap bidang guna memastikan efektivitas dan keharmonisan kerja organisasi BEM FHUA.',
       },
     ],
     staff: [],
@@ -394,27 +394,27 @@ const RAW_HARDCODED_DEPARTEMEN = [
       },
       {
         id: 'proker-med-9',
-        name: 'Website Resmi BEM FHUA',
+        name: 'Website Resmi BEM FHUA (WEB BEM)',
         description:
-          'Deskripsi: Program kerja ini bertujuan menghadirkan media komunikasi yang informatif dan edukatif sekaligus memperkenalkan BEM Fakultas Hukum Universitas Andalas kepada khalayak. Melalui pembahasan mengenai isu hukum, politik, dan berbagai topik-topik yang relevan, program ini diharapkan dapat meningkatkan wawasan pendengar serta memperkuat citra BEM FHUA sebagai organisasi yang aktif dalam memberikan edukasi.',
+          'Deskripsi: WEB BEM (Website Badan Eksekutif Mahasiswa) merupakan program fungsi yang berfokus pada pengembangan dan pengelolaan platform digital resmi Badan Eksekutif Mahasiswa sebagai sarana informasi, komunikasi, publikasi, dokumentasi, dan pelayanan kemahasiswaan. Website ini dirancang untuk menjadi pusat informasi terintegrasi yang dapat diakses oleh mahasiswa, civitas akademika, serta masyarakat umum guna memperoleh informasi yang akurat, aktual, dan terpercaya mengenai kegiatan serta program fungsi BEM.',
       },
       {
         id: 'proker-med-10',
         name: 'Podcast BEM FHUA',
         description:
-          'Deskripsi: Program kerja ini menghadirkan sebuah video yang berisi kilas balik berbagai aktivitas BEM FHUA selama satu periode kepengurusan. Isi video mencakup dokumentasi program kerja, kegiatan, serta capaian organisasi yang disusun secara ringkas dan menarik.',
+          'Deskripsi: Podcast BEM FHUA merupakan program fungsi yang berfungsi sebagai wadah penyampaian informasi dan membahas berbagai isu yang relevan dengan mahasiswa dan civitas akademika lainnya, khususnya isu hukum, politik, sosial, kemahasiswaan, serta isu aktual lainnya. Melalui pembahasan tersebut, program ini diharapkan dapat meningkatkan wawasan pendengar serta memperkuat citra BEM FHUA sebagai organisasi yang aktif dalam memberikan edukasi.',
       },
       {
         id: 'proker-med-11',
         name: 'Profile Video Kabinet Aksara Juang',
         description:
-          'Deskripsi: WEB BEM (Website Badan Eksekutif Mahasiswa) merupakan program kerja yang berfokus pada pengembangan dan pengelolaan platform digital resmi Badan Eksekutif Mahasiswa sebagai sarana informasi, komunikasi, publikasi, dokumentasi, dan pelayanan kemahasiswaan. Website ini dirancang untuk menjadi pusat informasi terintegrasi yang dapat diakses oleh mahasiswa, civitas akademika, serta masyarakat umum guna memperoleh informasi yang akurat, aktual, dan terpercaya mengenai kegiatan serta program kerja BEM.',
+          'Deskripsi: Program fungsi ini bertujuan menghadirkan media komunikasi audio-visual yang informatif dan edukatif sekaligus memperkenalkan jajaran, visi-misi, serta identitas BEM Fakultas Hukum Universitas Andalas Kabinet Aksara Juang kepada mahasiswa dan khalayak luas.',
       },
       {
         id: 'proker-med-12',
-        name: 'Dokumentasi & Arsip Visual Kegiatan',
+        name: 'Recap Moment',
         description:
-          'Deskripsi: Podcast BEM FHUA merupakan program kerja yang berfungsi sebagai wadah penyampaian informasi dan membahas berbagai isu yang relevan dengan mahasiswa dan civitas akademika lainnya, khususnya isu hukum, politik, sosial, kemahasiswaan, serta isu aktual lainnya.',
+          'Deskripsi: Program fungsi ini menghadirkan sebuah video yang berisi kilas balik berbagai aktivitas BEM FHUA selama satu periode kepengurusan. Isi video mencakup dokumentasi program fungsi, kegiatan, serta capaian organisasi yang disusun secara ringkas dan menarik.',
       },
     ],
     staff: [],
@@ -730,15 +730,21 @@ const RAW_HARDCODED_DEPARTEMEN = [
       },
       {
         id: 'proker-sosmas-4',
-        name: 'Bank Sampah & Aksi Bersih Pesisir',
+        name: 'Konservasi Penyu',
         description:
-          'Aksi nyata penyelamatan ekosistem pesisir melalui  kunjungan langsung ke pusat konservasi penyu,  edukasi pentingnya fauna laut, serta pelepasan tukik  (anak Penyu) kembali ke laut.',
+          'Aksi nyata penyelamatan ekosistem pesisir melalui kunjungan langsung ke pusat konservasi penyu, edukasi pentingnya fauna laut, serta pelepasan tukik (anak Penyu) kembali ke laut.',
       },
       {
         id: 'proker-sosmas-5',
+        name: 'Bank Sampah & Aksi Bersih Pesisir',
+        description:
+          'Program berbasis pemberdayaan ekonomi lingkungan dengan menginisiasi atau mengaktifkan sistem pengumpulan, pemilahan, dan penyetoran sampah kering (anorganik) yang bernilai ekonomis serta aksi bersih kawasan pesisir.',
+      },
+      {
+        id: 'proker-sosmas-7',
         name: 'MERJI (Merah Jiwa)',
         description:
-          'Program berbasis pemberdayaan ekonomi lingkungan  dengan menginisiasi atau mengaktifkan sistem  pengumpulan, pemilahan, dan penyetoran sampah  kering (anorganik) yang bernilai ekonomis.',
+          'Program pengabdian dan kepedulian sosial Departemen Sosial Masyarakat BEM FHUA yang berfokus pada kesehatan mental dan kemanusiaan melalui kunjungan sosial serta berbagi bersama masyarakat yang membutuhkan.',
       },
       {
         id: 'proker-sosmas-6',

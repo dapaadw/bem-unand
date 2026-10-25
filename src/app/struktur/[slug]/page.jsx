@@ -35,16 +35,37 @@ export default async function DepartemenDetailPage({ params }) {
   const logoUrl = getDeptLogoUrl(slug) || hardcoded?.logoUrl || dbItem?.photoUrl || null;
   const coverUrl = getDeptCoverUrl(slug) || hardcoded?.coverUrl || null;
 
+  // Deduplicate proker by normalized name so no redundancy ever renders
+  const rawProkers = dbItem?.proker?.length > 0 ? dbItem.proker : (hardcoded?.proker || []);
+  const seenProkers = new Set();
+  const uniqueProkers = rawProkers.filter((p) => {
+    const key = (p.name || '').trim().toLowerCase();
+    if (!key || seenProkers.has(key)) return false;
+    seenProkers.add(key);
+    return true;
+  });
+
+  // Deduplicate staff by normalized name
+  const rawStaff = dbItem?.staff?.length > 0 ? dbItem.staff : (hardcoded?.staff || []);
+  const seenStaff = new Set();
+  const uniqueStaff = rawStaff.filter((s) => {
+    const key = (s.name || '').trim().toLowerCase();
+    if (!key || seenStaff.has(key)) return false;
+    seenStaff.add(key);
+    return true;
+  });
+
   const item = {
     ...hardcoded,
     ...dbItem,
     name: dbItem?.name || hardcoded?.name,
+    category: dbItem?.category || hardcoded?.category || '',
     logoUrl,
     coverUrl,
     photoUrl: logoUrl,
     description: dbItem?.description || hardcoded?.description || '',
-    staff: dbItem?.staff?.length > 0 ? dbItem.staff : (hardcoded?.staff || []),
-    proker: dbItem?.proker?.length > 0 ? dbItem.proker : (hardcoded?.proker || []),
+    staff: uniqueStaff,
+    proker: uniqueProkers,
     contact: dbItem?.contact || hardcoded?.contact || null,
   };
 
@@ -126,6 +147,7 @@ export default async function DepartemenDetailPage({ params }) {
                 <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
                   <span className="font-bold text-brand-neon text-base mr-1.5">{item.proker.length}</span>
                   Program Fungsi
+                  Program Fungsi
                 </div>
               )}
             </div>
@@ -138,6 +160,7 @@ export default async function DepartemenDetailPage({ params }) {
         {/* Presidium Specific: Greeting & Executive Section right below Hero */}
         {slug === 'presidium' && <PresidiumGreetingSection />}
 
+        {/* Program Fungsi (Interactive Dropdown Accordion) */}
         {/* Program Fungsi (Interactive Dropdown Accordion) */}
         <ProkerAccordion prokers={item.proker} />
 
