@@ -26,8 +26,13 @@ dist-ssr
 
 .vercel
 
-#remotion
-/remotion-video
+# Remotion
+remotion-video/
+/remotion-video/
+.remotion/
+*.mp4
+*.webm
+out/
 
 # Next.js
 .next
