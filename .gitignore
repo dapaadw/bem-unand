@@ -45,6 +45,7 @@ CLAUDE.md
 /prisma/*.db-journal
 
 # Uploaded files
+/public/uploads/*
 /storage/
 !/public/uploads/.gitkeep
 
