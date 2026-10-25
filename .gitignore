@@ -51,8 +51,10 @@ CLAUDE.md
 
 # Uploaded files
 /public/uploads/*
-/storage/
 !/public/uploads/.gitkeep
+!/public/uploads/departemen/
+!/public/uploads/departemen/**
+/storage/
 
 # DB backups
 /backups/

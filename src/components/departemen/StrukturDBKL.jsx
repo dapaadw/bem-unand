@@ -34,10 +34,26 @@ function MemberCard({ member }) {
   );
 }
 
+// Map kategori atau nama departemen ke label struktur yang sesuai
+function getStrukturLabel(category = '', deptName = '') {
+  const cat = (category || '').trim().toLowerCase();
+  const name = (deptName || '').trim().toLowerCase();
+
+  if (cat === 'departemen' || name.startsWith('departemen')) return 'STRUKTUR DEPARTEMEN';
+  if (cat === 'biro' || name.startsWith('biro')) return 'STRUKTUR BIRO';
+  if (cat === 'kantor' || name.startsWith('kantor')) return 'STRUKTUR KANTOR';
+  if (cat === 'lembaga' || name.includes('inspektorat') || name.startsWith('lembaga')) return 'STRUKTUR LEMBAGA';
+  if (cat === 'koordinator departemen' || name.startsWith('koordinator') || name.startsWith('kordept')) return 'STRUKTUR KORDEPT';
+  if (cat === 'presidium' || name.includes('presidium')) return 'STRUKTUR PRESIDIUM';
+
+  return 'STRUKTUR DBKL';
+}
+
 // Partition staff list into columnar groups matching the PDF wireframe
-export default function StrukturDBKL({ staff = [], _deptName = '' }) {
+export default function StrukturDBKL({ staff = [], _deptName = '', category = '' }) {
   if (!staff || staff.length === 0) return null;
 
+  const strukturLabel = getStrukturLabel(category, _deptName);
   const total = staff.length;
   const remainder = total % 3;
   const fullCount = total - remainder;
@@ -49,7 +65,7 @@ export default function StrukturDBKL({ staff = [], _deptName = '' }) {
       {/* Section Header */}
       <div className="text-center mb-12 sm:mb-16">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight uppercase">
-          STRUKTUR DBKL
+          {strukturLabel}
         </h2>
         <div className="w-16 h-1 bg-brand-neon/80 mx-auto mt-4 rounded-full" />
       </div>
