@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import SiteNav from './SiteNav';
 import BackgroundWatermark from './BackgroundWatermark';
+import SitePreloader from './SitePreloader';
 
 export default function SiteChrome({ children, footer }) {
   const pathname = usePathname();
@@ -16,6 +17,7 @@ export default function SiteChrome({ children, footer }) {
 
   return (
     <>
+      <SitePreloader />
       <SiteNav />
       <main className="flex-grow relative overflow-hidden bg-finall-canvas text-[#f8f1e7]">
         <BackgroundWatermark isHome={isHome} />
