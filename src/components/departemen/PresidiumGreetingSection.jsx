@@ -1,4 +1,4 @@
-import { FileText, Award } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
 const PRESIDIUM_DATA = {
   presiden: {

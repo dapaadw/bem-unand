@@ -1,6 +1,6 @@
 import { prisma } from '../../lib/prisma';
 import { isDriveUrl } from '../../lib/fhGuide';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { ChevronDown, ExternalLink, FolderOpen } from 'lucide-react';
 
 export const revalidate = 3600;
 
@@ -17,6 +17,12 @@ export default async function FhGuidePage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Ambient background glow */}
+      <div
+        aria-hidden="true"
+        className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(188,34,68,0.22)_0%,rgba(135,24,48,0.1)_50%,transparent_75%)] pointer-events-none blur-3xl -z-0"
+      />
+
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-4xl relative z-10 break-words">
         {/* Centered Page Header matching Home & other pages */}
         <div className="text-center mb-12">
@@ -26,13 +32,34 @@ export default async function FhGuidePage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
             FH Guide
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base">
+          <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base mb-8">
             Direktori dokumen resmi, panduan akademik, administrasi perkuliahan, dan pertanyaan umum seputar kampus.
           </p>
+
+          {/* Drive FH Guide Button */}
+          <div className="flex justify-center items-center">
+            <a
+              href="https://drive.google.com/drive/folders/1QUOTO2YNmHUlfrU9h1o3rdR_oSioUNdY"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#9e1c38] to-[#ba2243] hover:from-[#ba2243] hover:to-[#c7264a] text-white font-bold text-sm sm:text-base shadow-xl shadow-[#9e1c38]/30 hover:shadow-[#9e1c38]/50 hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20 group cursor-pointer"
+            >
+              <FolderOpen size={20} className="text-brand-neon group-hover:scale-110 transition-transform duration-300" />
+              <span>Buka Google Drive FH Guide</span>
+              <ExternalLink size={16} className="text-white/80 group-hover:text-white group-hover:translate-x-0.5 -translate-y-0.5 transition-all duration-300" />
+            </a>
+          </div>
         </div>
 
         {Object.keys(grouped).length === 0 ? (
-          <p className="text-gray-400 text-center mb-8">Direktori belum tersedia.</p>
+          <div className="text-center py-10 px-6 rounded-2xl bg-[#1a0a13]/50 border border-white/10 backdrop-blur-md mb-8">
+            <p className="text-gray-300 text-sm sm:text-base mb-2 font-medium">
+              Koleksi dokumen lengkap dapat diakses langsung melalui tombol Google Drive di atas.
+            </p>
+            <p className="text-xs text-gray-400">
+              Folder mencakup panduan akademik, peraturan, template berkas, dan administrasi kemahasiswaan FH UNAND.
+            </p>
+          </div>
         ) : (
           Object.entries(grouped).map(([category, items]) => (
             <div

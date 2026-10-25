@@ -17,7 +17,7 @@ const navLinks = [
 const aspirasiSubLinks = [
   {
     name: 'Suarakan',
-    href: 'https://forms.google.com/placeholder-suarakan',
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSeX1iLz4N_GE0IjlXTLkip6oIacd-2-Qk1fnD4WQqvVzV8jGA/viewform?pli=1',
     description: 'Sampaikan aspirasi, kritik, saran, atau keluhan',
   },
   {
