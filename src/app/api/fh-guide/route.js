@@ -7,7 +7,7 @@ export async function GET() {
   return Response.json({ links, faqs });
 }
 export async function POST(request) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   const body = await request.json().catch(() => null);
   let data;

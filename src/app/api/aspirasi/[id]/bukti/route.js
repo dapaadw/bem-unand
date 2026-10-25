@@ -2,7 +2,7 @@ import { prisma } from '../../../../../lib/prisma';
 import { requireRole } from '../../../../../lib/requireRole';
 import { readEvidence } from '../../../../../lib/storage';
 export async function GET(_request, { params }) {
-  const { error } = await requireRole(['ADMIN']);
+  const { error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   const { id } = await params;
   const item = await prisma.aspirasi.findUnique({ where: { id }, select: { buktiUrl: true } });

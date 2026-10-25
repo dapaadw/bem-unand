@@ -121,4 +121,54 @@
   .bg-dark-overlay {
     background: linear-gradient(to bottom, rgba(26, 18, 20, 0.6) 0%, rgba(20, 18, 19, 0.95) 100%);
   }
+  /* Sleek modern scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(254, 174, 174, 0.4);
+  }
+
+  /* ========================================================
+     ADMIN PORTAL: MODERN CLEAN & ROUNDED DESIGN SYSTEM
+     Harmonious with main page maroon-ivory palette & fonts
+     ======================================================== */
+  .admin-portal {
+    font-family: var(--font-sans);
+  }
+
+  .admin-portal input:not([type="checkbox"]):not([type="radio"]),
+  .admin-portal select,
+  .admin-portal textarea {
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-portal button {
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-portal ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .admin-portal ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .admin-portal ::-webkit-scrollbar-thumb {
+    background: rgba(109, 32, 49, 0.45);
+    border-radius: 9999px;
+  }
+  .admin-portal ::-webkit-scrollbar-thumb:hover {
+    background: rgba(227, 187, 185, 0.4);
+  }
 }

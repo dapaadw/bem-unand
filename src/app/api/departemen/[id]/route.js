@@ -17,7 +17,7 @@ export async function GET(_request, { params }) {
 
 // Profile and related details can be saved independently.
 export async function PUT(request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
 
   const { id } = await params;
@@ -50,7 +50,7 @@ export async function PUT(request, { params }) {
 // for a department in one transaction — simpler for the admin UI than
 // granular per-row endpoints, acceptable given the low write frequency of this data.
 export async function PATCH(request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
 
   const { id } = await params;
@@ -111,7 +111,7 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(_request, { params }) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   const { id } = await params;
   const existing = await prisma.departemen.findUnique({ where: { id } });

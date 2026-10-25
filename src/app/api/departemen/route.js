@@ -41,7 +41,7 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
   const validated = departmentProfile(await request.json().catch(() => null));
   if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });

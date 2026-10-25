@@ -28,10 +28,10 @@ function Field({
     onChange: (event) => onChange(event.target.value),
     placeholder,
     className:
-      "mt-1.5 block w-full min-w-0 rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all",
+      "mt-1.5 block w-full min-w-0 rounded-xl bg-[#14080e] border border-[#6d2031] px-3.5 py-2.5 text-sm text-[#f8f1e7] placeholder-[#d4c0bd]/40 focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon transition-all",
   };
   return (
-    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300">
+    <label className="block text-xs font-semibold uppercase tracking-wider text-[#d4c0bd]">
       {label}
       {multiline ? <textarea {...props} rows={3} /> : <input {...props} />}
     </label>
@@ -103,7 +103,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       {message && (
         <div
           role="status"
-          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm animate-in fade-in"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-sm animate-in fade-in"
         >
           <CheckCircle2 size={18} className="shrink-0 text-emerald-400" />
           <span>{message}</span>
@@ -113,7 +113,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       {error && (
         <div
           role="alert"
-          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-sm animate-in fade-in"
+          className="flex items-center gap-2.5 p-3.5 rounded-xl bg-[#3a0d18] border border-[#9e1c38] text-rose-200 text-sm animate-in fade-in"
         >
           <AlertCircle size={18} className="shrink-0 text-red-400" />
           <span>{error}</span>
@@ -121,18 +121,18 @@ export default function DepartemenManagerClient({ initialItems }) {
       )}
 
       {!selected ? (
-        <div className="text-center py-16 p-6 rounded-2xl bg-white/[0.02] border border-white/10">
-          <Building2 size={40} className="mx-auto text-gray-500 mb-3" />
-          <p className="text-gray-400 text-sm">
+        <div className="text-center py-16 p-6 rounded-3xl bg-[#1a1517]/85 border border-[#6d2031] shadow-sm">
+          <Building2 size={40} className="mx-auto text-[#d4c0bd]/60 mb-3" />
+          <p className="text-[#d4c0bd] text-sm">
             Belum ada departemen yang terdaftar.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
           {/* Department List Sidebar */}
-          <div className="md:col-span-1 space-y-1.5 md:sticky md:top-4 max-h-[75vh] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-white/10">
+          <div className="md:col-span-1 space-y-1.5 md:sticky md:top-4 max-h-[75vh] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-[#6d2031]">
             <div className="px-2 py-1 mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#d4c0bd]">
                 Pilih Departemen ({items.length})
               </span>
             </div>
@@ -148,16 +148,16 @@ export default function DepartemenManagerClient({ initialItems }) {
                     setMessage("");
                     setError("");
                   }}
-                  className={`w-full text-left px-3.5 py-3 rounded-xl text-xs transition-all duration-150 flex flex-col gap-1 border ${
+                  className={`w-full text-left px-3.5 py-3 rounded-xl text-xs transition-all duration-150 flex flex-col gap-1 border cursor-pointer ${
                     isActive
-                      ? "bg-gradient-to-r from-brand-red/60 to-brand-neon/15 border-brand-neon/40 text-white font-semibold shadow-sm"
-                      : "border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/[0.04]"
+                      ? "bg-gradient-to-r from-[#9e1c38]/70 to-[#521526]/50 border-l-4 border-l-[#e3bbb9] border-[#6d2031] text-[#f8f1e7] font-semibold shadow-sm"
+                      : "border-transparent text-[#d4c0bd] hover:text-[#f8f1e7] hover:bg-[#23121b]"
                   }`}
                 >
                   <span className="truncate block font-medium text-[13px]">
                     {item.name}
                   </span>
-                  <div className="flex items-center gap-2 text-[10px] text-gray-400">
+                  <div className="flex items-center gap-2 text-[10px] text-[#d4c0bd]/80">
                     <span>{item.staff?.length || 0} Staf</span>
                     <span>•</span>
                     <span>{item.proker?.length || 0} Proker</span>
@@ -173,22 +173,22 @@ export default function DepartemenManagerClient({ initialItems }) {
             className="md:col-span-3 space-y-8 min-w-0"
           >
             {/* Section 1: Profil */}
-            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
+              <div className="flex items-center justify-between pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Building2 size={18} />
                   </div>
                   <div>
-                    <h2 className="font-bold text-base text-white">
+                    <h2 className="font-bold text-base text-[#f8f1e7]">
                       Profil Departemen
                     </h2>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-[#d4c0bd]">
                       Nama, foto, dan penjelasan ringkas fungsi departemen
                     </p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-400">
+                <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-[#14080e] border border-[#6d2031] text-[#d4c0bd]">
                   ID: {selected.id}
                 </span>
               </div>
@@ -215,7 +215,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                 />
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-white/10">
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[#6d2031]">
                 <button
                   type="button"
                   onClick={() =>
@@ -225,33 +225,32 @@ export default function DepartemenManagerClient({ initialItems }) {
                       description: selected.description,
                     })
                   }
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-neon text-brand-dark font-bold text-xs shadow hover:bg-rose-200 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-xs shadow transition-all cursor-pointer"
                 >
                   <Save size={14} />
                   <span>Simpan Profil</span>
                 </button>
 
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#e3bbb9]/70 bg-white/[0.04] border border-[#e3bbb9]/20 rounded-xl px-3.5 py-2 font-mono-lib">
+                <div className="inline-flex items-center gap-1.5 text-xs text-[#e3bbb9] bg-[#14080e] border border-[#6d2031] rounded-full px-3.5 py-1.5 font-mono">
                   <ShieldCheck size={14} className="text-[#e3bbb9]" />
-                  <span>Struktur Tetap (Hardcoded)</span>
+                  <span>Struktur Tetap</span>
                 </div>
               </div>
             </section>
 
             {/* Section 2: Staff / BPH */}
-            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-white/10">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Users size={18} />
                   </div>
                   <div>
-                    <h2 className="font-bold text-base text-white">
+                    <h2 className="font-bold text-base text-[#f8f1e7]">
                       Staf / Jajaran Pengurus
                     </h2>
-                    <p className="text-xs text-gray-400">
-                      Gunakan jabatan Kepala Departemen / Ketua untuk posisi
-                      pimpinan.
+                    <p className="text-xs text-[#d4c0bd]">
+                      Gunakan jabatan Kepala Departemen / Ketua untuk posisi pimpinan.
                     </p>
                   </div>
                 </div>
@@ -271,7 +270,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       ],
                     })
                   }
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors self-start sm:self-auto"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto cursor-pointer"
                 >
                   <UserPlus size={14} className="text-brand-neon" />
                   <span>Tambah Staf</span>
@@ -279,8 +278,8 @@ export default function DepartemenManagerClient({ initialItems }) {
               </div>
 
               {selected.staff.length === 0 ? (
-                <div className="text-center py-8 rounded-xl border border-dashed border-white/10">
-                  <p className="text-xs text-gray-400">
+                <div className="text-center py-8 rounded-2xl border border-dashed border-[#6d2031]">
+                  <p className="text-xs text-[#d4c0bd]">
                     Belum ada staf ditambahkan untuk departemen ini.
                   </p>
                 </div>
@@ -289,10 +288,10 @@ export default function DepartemenManagerClient({ initialItems }) {
                   {selected.staff.map((staff, index) => (
                     <div
                       key={staff.id || index}
-                      className="border border-white/10 rounded-xl p-4 bg-black/20 space-y-3 relative group"
+                      className="border border-[#6d2031]/60 rounded-2xl p-4 bg-[#12060b] space-y-3 relative group shadow-sm"
                     >
-                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
-                        <span className="text-xs font-bold text-brand-neon">
+                      <div className="flex items-center justify-between pb-2 border-b border-[#6d2031]/40">
+                        <span className="text-xs font-bold text-brand-neon font-mono">
                           Staf #{index + 1}
                         </span>
                         <button
@@ -305,7 +304,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                               ),
                             })
                           }
-                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
                         >
                           <Trash2 size={13} />
                           <span>Hapus</span>
@@ -361,18 +360,18 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Section 3: Program Kerja */}
-            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-white/10">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#6d2031]">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+                  <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                     <Briefcase size={18} />
                   </div>
                   <div>
-                    <h2 className="font-bold text-base text-white">
+                    <h2 className="font-bold text-base text-[#f8f1e7]">
                       Program Kerja (Proker)
                     </h2>
-                    <p className="text-xs text-gray-400">
-                      Daftar agenda & program utama departemen
+                    <p className="text-xs text-[#d4c0bd]">
+                      Daftar agenda &amp; program utama departemen
                     </p>
                   </div>
                 </div>
@@ -386,7 +385,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       ],
                     })
                   }
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold transition-colors self-start sm:self-auto"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#1f151a] hover:bg-[#2c1d24] text-[#f8f1e7] border border-[#6d2031] text-xs font-semibold transition-colors self-start sm:self-auto cursor-pointer"
                 >
                   <FolderPlus size={14} className="text-brand-neon" />
                   <span>Tambah Proker</span>
@@ -394,8 +393,8 @@ export default function DepartemenManagerClient({ initialItems }) {
               </div>
 
               {selected.proker.length === 0 ? (
-                <div className="text-center py-8 rounded-xl border border-dashed border-white/10">
-                  <p className="text-xs text-gray-400">
+                <div className="text-center py-8 rounded-2xl border border-dashed border-[#6d2031]">
+                  <p className="text-xs text-[#d4c0bd]">
                     Belum ada program kerja yang didaftarkan.
                   </p>
                 </div>
@@ -404,10 +403,10 @@ export default function DepartemenManagerClient({ initialItems }) {
                   {selected.proker.map((program, index) => (
                     <div
                       key={program.id || index}
-                      className="border border-white/10 rounded-xl p-4 bg-black/20 space-y-3"
+                      className="border border-[#6d2031]/60 rounded-2xl p-4 bg-[#12060b] space-y-3 shadow-sm"
                     >
-                      <div className="flex items-center justify-between pb-2 border-b border-white/5">
-                        <span className="text-xs font-bold text-brand-neon">
+                      <div className="flex items-center justify-between pb-2 border-b border-[#6d2031]/40">
+                        <span className="text-xs font-bold text-brand-neon font-mono">
                           Program #{index + 1}
                         </span>
                         <button
@@ -420,7 +419,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                               ),
                             })
                           }
-                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors"
+                          className="inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300 transition-colors cursor-pointer"
                         >
                           <Trash2 size={13} />
                           <span>Hapus</span>
@@ -451,16 +450,16 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Section 4: Kontak Departemen */}
-            <section className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 space-y-5 shadow-sm">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-white/10">
-                <div className="p-2 rounded-xl bg-brand-neon/10 text-brand-neon">
+            <section className="bg-[#1a1517]/85 border border-[#6d2031] rounded-3xl p-6 space-y-5 shadow-sm">
+              <div className="flex items-center gap-2.5 pb-3 border-b border-[#6d2031]">
+                <div className="p-2 rounded-xl bg-[#3a0d18] text-brand-neon border border-[#6d2031]">
                   <PhoneCall size={18} />
                 </div>
                 <div>
-                  <h2 className="font-bold text-base text-white">
+                  <h2 className="font-bold text-base text-[#f8f1e7]">
                     Kontak Resmi Departemen
                   </h2>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-[#d4c0bd]">
                     Tautan saluran komunikasi mahasiswa ke departemen
                   </p>
                 </div>
@@ -487,8 +486,8 @@ export default function DepartemenManagerClient({ initialItems }) {
             </section>
 
             {/* Action Bar (Static / Inline per UI/UX guidelines) */}
-            <div className="p-5 rounded-2xl bg-black/[0.4] backdrop-blur-sm border border-white/10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3 text-xs text-gray-300 text-center sm:text-left">
+            <div className="p-5 rounded-2xl bg-[#14080e] border border-[#6d2031] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-xs text-[#d4c0bd] text-center sm:text-left">
                 <span className="h-2 w-2 rounded-full bg-brand-neon shrink-0 animate-pulse" />
                 <span>
                   Perubahan staf, proker, dan kontak akan diterapkan setelah
@@ -506,7 +505,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                     contact: selected.contact,
                   })
                 }
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-brand-neon to-rose-200 text-brand-dark font-bold text-sm shadow-md hover:shadow-brand-neon/20 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] border border-[#ba2243] font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon cursor-pointer"
               >
                 {saving ? (
                   <>

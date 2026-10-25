@@ -132,20 +132,20 @@ export default function FilterDateRange({
         aria-label={`Pilih rentang tanggal: ${getDisplayLabel()}`}
         className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-neon/60 ${
           hasActiveDate
-            ? 'bg-brand-neon/15 text-white border border-brand-neon/40 shadow-sm'
-            : 'bg-white/[0.04] text-gray-200 border border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+            ? 'bg-[#3a0d18] text-[#f8f1e7] border border-[#ba2243] shadow-sm'
+            : 'bg-[#14080e] text-[#d4c0bd] border border-[#6d2031] hover:bg-[#23121b] hover:border-[#9e1c38]'
         }`}
       >
         <div className="flex items-center gap-2 min-w-0 overflow-hidden">
           <Calendar
             size={14}
-            className={`shrink-0 ${hasActiveDate ? 'text-brand-neon' : 'text-gray-400'}`}
+            className={`shrink-0 ${hasActiveDate ? 'text-brand-neon' : 'text-[#d4c0bd]/70'}`}
             aria-hidden="true"
           />
           <span className="truncate font-medium">{getDisplayLabel()}</span>
         </div>
 
-        <div className="flex items-center gap-1 shrink-0 text-gray-400">
+        <div className="flex items-center gap-1 shrink-0 text-[#d4c0bd]/70">
           {hasActiveDate && (
             <span
               role="button"
@@ -159,7 +159,7 @@ export default function FilterDateRange({
               }}
               title="Hapus filter tanggal"
               aria-label="Hapus filter tanggal"
-              className="p-0.5 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+              className="p-1 rounded-md hover:bg-[#521526] hover:text-[#f8f1e7] transition-colors cursor-pointer"
             >
               <X size={13} aria-hidden="true" />
             </span>
@@ -167,7 +167,7 @@ export default function FilterDateRange({
           <ChevronDown
             size={14}
             className={`transition-transform duration-200 ${
-              isOpen ? 'rotate-180 text-brand-neon' : 'text-gray-400'
+              isOpen ? 'rotate-180 text-brand-neon' : 'text-[#d4c0bd]/70'
             }`}
             aria-hidden="true"
           />
@@ -179,7 +179,7 @@ export default function FilterDateRange({
         <div
           role="dialog"
           aria-label="Panel pemilihan tanggal"
-          className={`absolute z-50 mt-1.5 w-72 sm:w-80 rounded-2xl bg-[#1a0505] border border-white/15 shadow-2xl backdrop-blur-xl p-3.5 text-xs text-white animate-in fade-in zoom-in-95 duration-150 ${
+          className={`absolute z-50 mt-1.5 w-72 sm:w-80 rounded-2xl bg-[#160a12] border border-[#6d2031] shadow-2xl p-4 text-xs text-[#f8f1e7] animate-in fade-in zoom-in-95 duration-150 ${
             align === 'right'
               ? 'right-0 left-auto'
               : align === 'left'
@@ -188,8 +188,8 @@ export default function FilterDateRange({
           }`}
         >
           {/* Preset Buttons */}
-          <div className="space-y-1 pb-3 border-b border-white/10">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-1.5">
+          <div className="space-y-1 pb-3 border-b border-[#6d2031]">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#d4c0bd] block mb-1.5">
               Pilihan Cepat
             </span>
             <div className="grid grid-cols-2 gap-1.5">
@@ -202,8 +202,8 @@ export default function FilterDateRange({
                     onClick={() => handlePresetClick(preset)}
                     className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left text-xs transition-colors ${
                       isSelected
-                        ? 'bg-brand-neon/20 text-brand-neon font-bold border border-brand-neon/30'
-                        : 'bg-white/[0.03] text-gray-300 hover:bg-white/10 hover:text-white border border-white/5'
+                        ? 'bg-[#9e1c38]/40 text-[#f8f1e7] font-bold border border-[#ba2243]'
+                        : 'bg-[#14080e] text-[#d4c0bd] hover:bg-[#23121b] hover:text-[#f8f1e7] border border-[#6d2031]'
                     }`}
                   >
                     <span>{preset.label}</span>
@@ -218,28 +218,28 @@ export default function FilterDateRange({
 
           {/* Custom Date Form */}
           <form onSubmit={handleApplyCustom} className="pt-3 space-y-2.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#d4c0bd] block">
               Rentang Tanggal Kustom
             </span>
 
             <div className="space-y-2">
               <div>
-                <label className="block text-[10px] text-gray-400 mb-0.5">Dari Tanggal</label>
+                <label className="block text-[10px] text-[#d4c0bd] mb-0.5">Dari Tanggal</label>
                 <input
                   type="date"
                   value={customFrom}
                   onChange={(e) => setCustomFrom(e.target.value)}
-                  className="w-full rounded-lg bg-black/40 border border-white/15 px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon/50"
+                  className="w-full rounded-lg bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] text-gray-400 mb-0.5">Sampai Tanggal</label>
+                <label className="block text-[10px] text-[#d4c0bd] mb-0.5">Sampai Tanggal</label>
                 <input
                   type="date"
                   value={customTo}
                   onChange={(e) => setCustomTo(e.target.value)}
-                  className="w-full rounded-lg bg-black/40 border border-white/15 px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon/50"
+                  className="w-full rounded-lg bg-[#14080e] border border-[#6d2031] px-2.5 py-1.5 text-xs text-[#f8f1e7] focus:outline-none focus:border-brand-neon focus:ring-1 focus:ring-brand-neon"
                 />
               </div>
             </div>
@@ -252,14 +252,14 @@ export default function FilterDateRange({
                     setCustomFrom('');
                     setCustomTo('');
                   }}
-                  className="px-2.5 py-1.5 text-xs text-gray-400 hover:text-white"
+                  className="px-2.5 py-1.5 text-xs text-[#d4c0bd] hover:text-[#f8f1e7]"
                 >
                   Bersihkan
                 </button>
               )}
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-neon text-brand-dark font-bold text-xs hover:brightness-105 transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#9e1c38] hover:bg-[#ba2243] text-[#f8f1e7] font-bold text-xs border border-[#ba2243] transition-all shadow-sm"
               >
                 <span>Terapkan</span>
                 <ArrowRight size={12} aria-hidden="true" />

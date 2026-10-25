@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { isWebOrLocalUrl } from '../../../lib/homeMedia';
 import { ArrowLeft } from 'lucide-react';
 
+
+
 export const revalidate = 300;
 
 export default async function PublikasiDetailPage({ params }) {

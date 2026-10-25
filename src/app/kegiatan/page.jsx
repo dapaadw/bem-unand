@@ -4,6 +4,8 @@ import { kegiatanFilters } from '../../lib/kegiatan';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
 import { Search, Calendar, Clock, MapPin, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
+
+
 export const revalidate = 300;
 
 export default async function KegiatanPage({ searchParams }) {

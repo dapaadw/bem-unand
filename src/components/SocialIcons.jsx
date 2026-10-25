@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function InstagramIcon({ size = 24, className = '' }) {
+export function InstagramIcon({ size = 24, className = '', ...props }) {
   return (
     <svg
       width={size}
@@ -13,6 +13,7 @@ export function InstagramIcon({ size = 24, className = '' }) {
       strokeLinejoin="round"
       className={className}
       aria-hidden="true"
+      {...props}
     >
       <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -21,7 +22,7 @@ export function InstagramIcon({ size = 24, className = '' }) {
   );
 }
 
-export function WhatsAppIcon({ size = 24, className = '' }) {
+export function WhatsAppIcon({ size = 24, className = '', ...props }) {
   return (
     <svg
       width={size}
@@ -30,9 +31,11 @@ export function WhatsAppIcon({ size = 24, className = '' }) {
       fill="currentColor"
       className={className}
       aria-hidden="true"
+      {...props}
     >
       <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.15l-.3-.17-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24M9.18 7.98c-.16 0-.36.06-.55.28-.19.21-.73.71-.73 1.73s.75 2.01.85 2.15c.11.14 1.44 2.21 3.51 3.1 1.72.74 2.07.6 2.44.56.38-.03 1.21-.49 1.38-.97.17-.48.17-.89.12-.97-.05-.08-.19-.13-.4-.23s-1.22-.6-1.41-.67c-.19-.07-.33-.1-.47.1-.14.21-.55.69-.67.83-.13.14-.25.16-.46.05-.21-.1-.89-.33-1.7-1.04-.63-.56-1.05-1.25-1.18-1.46-.12-.21-.01-.32.09-.43.1-.09.21-.24.32-.36.11-.12.14-.2.21-.34.07-.14.04-.26-.02-.36-.05-.11-.47-1.13-.64-1.55-.17-.41-.34-.36-.47-.36z" />
     </svg>
   );
 }
+
 

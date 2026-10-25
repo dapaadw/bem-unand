@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  --color-brand-dark: #210501;
+  --color-brand-card: #1A0101;
+  --color-brand-burgundy: #3d0905;
+  --color-brand-crimson: #63160a;
+  --color-brand-border: #4f1408;
+  --color-brand-ivory: #f7f2e3;
+  --color-brand-ivory-muted: #c9b8b5;
+  --color-brand-neon: #FEAEAE;
+  --color-brand-red: #941b08;
+  --color-brand-maroon: #140101;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #140101;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function PUT(request) {
-  const { session, error } = await requireRole(['ADMIN']);
+  const { session, error } = await requireRole(['SUPERUSER']);
   if (error) return error;
 
   const body = await request.json().catch(() => null);
