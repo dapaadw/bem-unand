@@ -158,7 +158,6 @@ export default async function DepartemenDetailPage({ params }) {
                 <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
                   <span className="font-bold text-brand-neon text-base mr-1.5">{item.proker.length}</span>
                   Program Fungsi
-                  Program Fungsi
                 </div>
               )}
             </div>
