@@ -76,57 +76,75 @@ const RAW_HARDCODED_DEPARTEMEN = [
         id: 'proker-pres-1',
         name: 'Pendataan Surat Masuk dan Keluar Terpusat',
         description:
-          'Deskripsi Proker: Program kerja ini dilakukan dengan mencatat seluruh informasi surat masuk dan surat keluar. Program kerja ini dilakukan dengan menyusunnya dalam Spreadsheets yang telah disediakan, sekretaris DBKL menginput nomor setiap surat yang dikeluarkannya dan akan dirapikan oleh Biro Kesekretariatan terkait penyusunannya, Sekretaris kabinet akan selalu memantau dan menjamin pendataannya secara terstruktur.',
+          'Program kerja ini dilakukan dengan mencatat seluruh informasi surat masuk dan surat keluar. Program kerja ini dilakukan dengan menyusunnya dalam Spreadsheets yang telah disediakan, sekretaris DBKL menginput nomor setiap surat yang dikeluarkannya dan akan dirapikan oleh Biro Kesekretariatan terkait penyusunannya, Sekretaris kabinet akan selalu memantau dan menjamin pendataannya secara terstruktur.',
       },
       {
         id: 'proker-pres-2',
         name: 'Penetapan SOP BEM FHUA 2026',
         description:
-          'Deskripsi Proker: Program kerja ini dilakukan dengan menetapkan SOP BEM FHUA Periode 2026 yang telah dikodifikasikan oleh Biro Kesekretariatan. Selanjutnya untuk memastikan seluruh pengurus BEM FHUA Periode 2026 mematuhi SOP yang telah disusun adalah tugas dari Sekretaris Kabinet.',
+          'Program kerja ini dilakukan dengan menetapkan SOP BEM FHUA Periode 2026 yang telah dikodifikasikan oleh Biro Kesekretariatan. Selanjutnya untuk memastikan seluruh pengurus BEM FHUA Periode 2026 mematuhi SOP yang telah disusun adalah tugas dari Sekretaris Kabinet.',
       },
       {
         id: 'proker-pres-3',
         name: 'Koordinasi Administrasi Terpadu DBKL',
         description:
-          'Deskripsi Proker: antara Program kerja ini dilakukan dengan mengadakan pertemuan Sekretaris Kabinet, Biro Kesekretariatan, dan seluruh Sekretaris DBKL BEM FHUA Periode 2026. Pertemuan dilakukan baik secara offline ataupun online. Pembahasan dalam koordinasi ini adalah mengenai administrasi BEM FHUA ataupun terkait administrasi FHUA, sekaligus menjadi wadah evaluasi kinerja.',
+          'antara Program kerja ini dilakukan dengan mengadakan pertemuan Sekretaris Kabinet, Biro Kesekretariatan, dan seluruh Sekretaris DBKL BEM FHUA Periode 2026. Pertemuan dilakukan baik secara offline ataupun online. Pembahasan dalam koordinasi ini adalah mengenai administrasi BEM FHUA ataupun terkait administrasi FHUA, sekaligus menjadi wadah evaluasi kinerja.',
       },
       {
         id: 'proker-pres-4',
         name: 'Penerbitan Keputusan Ketua BEM FHUA 2026',
         description:
-          'Deskripsi Proker: Program kerja ini dilakukan langsung oleh Sekretaris Kabinet atas persetujuan Ketua BEM FHUA Periode 2026. Dimana setiap keputusan disusun, diketik, dan diterbitkan langsung oleh Sekretaris Kabinet.',
+          'Program kerja ini dilakukan langsung oleh Sekretaris Kabinet atas persetujuan Ketua BEM FHUA Periode 2026. Dimana setiap keputusan disusun, diketik, dan diterbitkan langsung oleh Sekretaris Kabinet.',
       },
       {
         id: 'proker-pres-5',
         name: 'Legalisasi & Tindak Lanjut SOP Bersama Fakultas',
         description:
-          'Deskripsi Proker: Program kerja ini penyusunannya dilaksanakan dengan berkoordinasi dan ditandatangani langsung oleh pihak fakultas',
+          'Program kerja ini penyusunannya dilaksanakan dengan berkoordinasi dan ditandatangani langsung oleh pihak fakultas',
       },
     ],
     staff: [],
   },
-  {
+    {
     id: 'dept-kordept-pelayanan-pergerakan',
     name: 'Kordept Pelayanan Pergerakan',
     slug: 'kordept-pelayanan-pergerakan',
     category: 'Koordinator Departemen',
-    logoUrl: '/uploads/departemen/logos/.png',
+    logoUrl: '/uploads/departemen/logos/kordept-pelayanan-pergerakan.png',
     coverUrl: '/uploads/departemen/kordept-pelayanan-pergerakan.png',
-    photoUrl: '/uploads/departemen/logos/.png',
+    photoUrl: '/uploads/departemen/logos/kordept-pelayanan-pergerakan.png',
     description:
-      'Koordinator Departemen Pelayanan dan Pergerakan BEM FHUA bertugas mengoordinasikan, mendampingi, dan memastikan sinergi program kerja bidang pelayanan mahasiswa, advokasi kesejahteraan, serta pergerakan politik dan hukum.',
+      'Koordinator Departemen Pelayanan dan Pergerakan BEM FHUA bertugas mengoordinasikan, mendampingi, dan memastikan sinergi pelaksanaan program fungsi bidang pelayanan mahasiswa, advokasi kesejahteraan, serta pergerakan politik dan hukum.',
     proker: [
       {
         id: 'proker-kpp-1',
-        name: 'Koordinasi & Supervisi Departemen Pelayanan Pergerakan',
+        name: 'Bertanggungjawab Atas Kinerja Departemen yang Dibawahi',
         description:
-          'Melakukan koordinasi rutin, penyusunan rancangan timeline kerja, evaluasi berkala, dan pendampingan strategis terhadap Departemen Advokasi dan Kesejahteraan Mahasiswa serta Departemen Politik dan Hukum.',
+          'Koordinator Departemen Pelayanan dan Pergerakan memiliki peran dan tanggungjawab untuk memastikan departemen yang dibawahi mampu menjalankan fungsi dengan kinerja yang baik dan maksimal. Melalui fungsi ini diharapkan kinerja dari setiap departemen yang dibawahi bersifat progresif dan sesuai dengan visi misi BEM FHUA Kabinet Aksara Juang. Adapun departemen yang dibawahi diantaranya Departemen Advokasi dan Kesejahteraan Mahasiswa serta Departemen Politik dan Hukum.',
       },
       {
         id: 'proker-kpp-2',
-        name: 'Jembatan Koordinasi Strategis ke Presidium',
+        name: 'Koordinasi Intens dengan Setiap Departemen yang Dibawahi',
         description:
-          'Menjadi penghubung komunikasi, pelaporan capaian, serta pertimbangan strategis antara departemen yang dibawahi dengan Ketua dan Wakil Ketua BEM FHUA.',
+          'Dalam melaksanakan fungsi ini, Koordinator Departemen akan melaksanakan koordinasi yang bersifat intens dengan departemen yang dibawahi melalui Koordinator Departemen. Adapun bentuk Koordinasi terdiri dari:\n1. Penyusunan rancangan Proker setiap Departemen\n2. Timeline Fungsi setiap Departemen\n3. Kondisi internal setiap Departemen\n4. Hal lainnya yang dirasa perlu',
+      },
+      {
+        id: 'proker-kpp-3',
+        name: 'Penghubung Antara Departemen dengan Presidium',
+        description:
+          'Dalam jalannya fungsi, Koordinator Departemen menjadi jembatan antara Departemen melalui Kepala Departemen dengan Presidium maupun sebaliknya untuk hasil koordinasi yang lebih baik, terarah dan teratur. Hal ini dimaksudkan agar terwujudnya keefektifan dalam penyampaian laporan, keterangan, saran, pertimbangan atau hal lain yang dirasa perlu terkait jalannya fungsi dari departemen yang dibawahi kepada Presidium.',
+      },
+      {
+        id: 'proker-kpp-4',
+        name: 'Pendampingan dan Pengawasan terhadap Departemen yang Dibawahi',
+        description:
+          'Koordinator Departemen Pelayanan dan Pergerakan melakukan pendampingan dan pengawasan terhadap jalannya pelaksanaan fungsi sesuai target yang dilakukan setiap departemen yang dibawahi agar mencapai visi dan misi dari BEM FHUA Kabinet Aksara Juang. Bentuk pendampingan dan pengawasan pelaksanaan fungsi dilakukan dengan turut sertanya Koordinator Pelayanan dan Pergerakan dalam setiap kegiatan dari BEM FHUA, baik kegiatan dari Departemen yang dibawahi maupun kegiatan Departemen lain yang berkolaborasi dengan Departemen yang dibawahi.',
+      },
+      {
+        id: 'proker-kpp-5',
+        name: 'Analisis Efektivitas Fungsi dalam Evaluasi Internal',
+        description:
+          'Fungsi "Analisis Efektivitas Fungsi dan Evaluasi Internal" dilakukan untuk menilai keberhasilan, kendala, dan capaian program tiap departemen. Kegiatan meliputi monitoring rutin, rapat evaluasi, serta penyusunan laporan hasil analisis yang berisi rekomendasi perbaikan. Tujuannya memastikan fungsi berjalan efektif, terarah, dan sesuai visi organisasi.',
       },
     ],
     staff: [],
@@ -136,33 +154,39 @@ const RAW_HARDCODED_DEPARTEMEN = [
     name: 'Kordept Relasi Pengembangan',
     slug: 'kordept-relasi-pengembangan',
     category: 'Koordinator Departemen',
-    logoUrl: '/uploads/departemen/logos/.png',
+    logoUrl: '/uploads/departemen/logos/kordept-relasi-pengembangan.png',
     coverUrl: '/uploads/departemen/kordept-relasi-pengembangan.png',
-    photoUrl: '/uploads/departemen/logos/.png',
+    photoUrl: '/uploads/departemen/logos/kordept-relasi-pengembangan.png',
     description:
       'Koordinator Departemen Relasi dan Pengembangan BEM FHUA bertanggung jawab memastikan Departemen Hubungan Internal, Departemen Hubungan Eksternal, dan Departemen Pengembangan Sumber Daya Mahasiswa menjalankan tugas dan fungsinya secara optimal serta selaras dengan visi dan misi BEM FHUA.',
     proker: [
       {
         id: 'proker-krp-1',
-        name: 'Koordinasi Intensif Departemen Relasi Pengembangan',
+        name: 'Bertanggung jawab terhadap kinerja setiap departemen yang dibawahi',
+        description:
+          'Koordinator bertanggung jawab memastikan Departemen Hubungan Internal, Departemen Hubungan Eksternal, dan Departemen Pengembangan Sumber Daya Mahasiswa menjalankan tugas dan fungsinya secara optimal serta selaras dengan visi dan misi BEM FHUA.',
+      },
+      {
+        id: 'proker-krp-2',
+        name: 'Mengoptimalkan Koordinasi Intensif dengan Setiap Departemen',
         description:
           'Koordinator melakukan komunikasi dan koordinasi secara rutin dengan setiap departemen, meliputi penyusunan rancangan program kerja, pemantauan jadwal pelaksanaan, pemantauan kondisi internal, serta penanganan hal-hal yang diperlukan untuk mendukung kelancaran kerja departemen.',
       },
       {
-        id: 'proker-krp-2',
-        name: 'Penghubung Strategis Departemen dan Presidium',
+        id: 'proker-krp-3',
+        name: 'Menjadi Penghubung antara Departemen dan Presidium',
         description:
           'Koordinator menjadi penghubung komunikasi antara masing-masing departemen dengan Ketua dan Wakil Ketua BEM FHUA. Fungsi ini mencakup penyampaian laporan, informasi, saran, dan pertimbangan agar koordinasi serta pelaksanaan kebijakan organisasi berjalan dengan baik.',
       },
       {
-        id: 'proker-krp-3',
-        name: 'Pendampingan & Supervisi Program Kerja',
+        id: 'proker-krp-4',
+        name: 'Melakukan Pendampingan dan Pengawasan terhadap Departemen',
         description:
           'Koordinator memberikan pendampingan dan arahan sekaligus mengawasi pelaksanaan program kerja departemen agar target yang telah ditetapkan tercapai dan pelaksanaannya tetap sesuai dengan visi dan misi BEM FHUA, termasuk dalam kegiatan kolaborasi dengan departemen lain.',
       },
       {
-        id: 'proker-krp-4',
-        name: 'Analisis Efektivitas Fungsi dan Evaluasi Berkala',
+        id: 'proker-krp-5',
+        name: 'Analisis Efektivitas Fungsi dan Evaluasi Internal',
         description:
           'Koordinator melakukan pemantauan dan evaluasi berkala terhadap pelaksanaan program kerja setiap departemen untuk mengidentifikasi pencapaian dan kendala. Hasil evaluasi digunakan sebagai dasar penyusunan laporan analisis dan rekomendasi perbaikan guna meningkatkan kinerja departemen.',
       },
@@ -174,23 +198,41 @@ const RAW_HARDCODED_DEPARTEMEN = [
     name: 'Kordept Pengabdian Kreatifitas',
     slug: 'kordept-pengabdian-kreatifitas',
     category: 'Koordinator Departemen',
-    logoUrl: '/uploads/departemen/logos/.png',
+    logoUrl: '/uploads/departemen/logos/kordept-pengabdian-kreatifitas.png',
     coverUrl: '/uploads/departemen/kordept-pengabdian-kreatifitas.png',
-    photoUrl: '/uploads/departemen/logos/.png',
+    photoUrl: '/uploads/departemen/logos/kordept-pengabdian-kreatifitas.png',
     description:
-      'Koordinator Departemen Pengabdian dan Kreatifitas BEM FHUA mengoordinasikan bidang pengabdian sosial masyarakat, seni, olahraga, budaya, ekonomi kreatif, serta pemberdayaan perempuan demi terwujudnya program kerja yang berdampak nyata.',
+      'Koordinator Departemen Pengabdian dan Kreatifitas BEM FHUA memiliki peran dan tanggungjawab untuk memastikan departemen yang dibawahi mampu menjalankan fungsi dengan kinerja yang baik dan maksimal sesuai visi misi BEM FHUA Kabinet Aksara Juang.',
     proker: [
       {
         id: 'proker-kpk-1',
-        name: 'Koordinasi Intensif Departemen Pengabdian Kreatifitas',
+        name: 'Bertanggungjawab Atas Kinerja Departemen yang Dibawahi',
         description:
-          'Memastikan Departemen Sosial Masyarakat, Departemen Seni Olahraga dan Budaya, Departemen Ekonomi Kreatif, dan Departemen Pemberdayaan Perempuan menjalankan fungsi secara progresif dan terarah.',
+          'Koordinator Departemen Pengabdian dan Kreatifitas memiliki peran dan tanggungjawab untuk memastikan departemen yang dibawahi mampu menjalankan fungsi dengan kinerja yang baik dan maksimal. Melalui fungsi ini diharapkan kinerja dari setiap departemen yang dibawahi bersifat progresif dan sesuai dengan visi misi BEM FHUA Kabinet Aksara Juang. Adapun departemen yang dibawahi diantaranya Departemen Sosial Masyarakat, Departemen Seni, Olahraga dan Budaya.',
       },
       {
         id: 'proker-kpk-2',
-        name: 'Pendampingan & Pengawasan Program Kerja Unggulan',
+        name: 'Koordinasi Intens dengan Setiap Departemen yang Dibawahi',
         description:
-          'Memberikan arahan, supervisi lapangan, serta evaluasi menyeluruh terhadap penyelenggaraan event besar kemahasiswaan dan pengabdian masyarakat.',
+          'Dalam melaksanakan fungsi ini. Koordinator Departemen akan melaksanakan koordinasi yang bersifat intens dengan departemen yang dibawahi melalui Koordinator Departemen. Adapun bentuk Koordinasi terdiri dari:\n1. Penyusunan rancangan Proker setiap Departemen\n2. Timeline Fungsi setiap Departemen\n3. Kondisi internal setiap Departemen\n4. Hal lainnya yang dirasa perlu',
+      },
+      {
+        id: 'proker-kpk-3',
+        name: 'Penghubung Antara Departemen dengan Presidium',
+        description:
+          'Dalam jalannya fungsi, Koordinator Departemen menjadi jembatan antara Departemen melalui Kepala Departemen dengan Presidium maupun sebaliknya untuk hasil koordinasi yang lebih baik, terarah dan teratur. Hal ini dimaksudkan agar terwujudnya keefektifan dalam penyampaian laporan, keterangan, saran, pertimbangan atau hal laun yang dirasa perlu terkait jalannya fungsi dari departemen yang dibawahi kepada Presidium.',
+      },
+      {
+        id: 'proker-kpk-4',
+        name: 'Pendampingan dan Pengawasan terhadap Departemen yang Dibawahi',
+        description:
+          'Koordinator Departemen Pengabdian dan Kreatifitas melakukan pendampingan dan pengawasan terhadap jalannya pelaksanaan fungsi sesuai target yang dilakukan setiap departemen yang dibawahi agar mencapai visi dan misi dari BEM FHUA Kabinet Aksara Juang. Bentuk pendampingan dan pengawasan pelaksanaan fungsi dilakukan dengan turut sertanya Koordinator Pengabdian dan Kreatifitas dalam setiap kegiatan dari BEM FHUA, baik kegiatan dari Departemen yang dibawahi maupun kegiatan Departemen lain yang berkolaborasi dengan Departemen yang dibawahi.',
+      },
+      {
+        id: 'proker-kpk-5',
+        name: 'Analisis Efektivitas Fungsi dalam Evaluasi Internal',
+        description:
+          'Fungsi “Analisis Efektivitas Fungsi dan Evaluasi Internal” dilakukan untuk menilai keberhasilan, kendala, dan capaian program tiap departemen. Kegiatan meliputi monitoring rutin, rapat evaluasi, serta penyusunan laporan hasil analisis yang berisi rekomendasi perbaikan. Tujuannya memastikan fungsi berjalan efektif, terarah, dan sesuai visi organisasi.',
       },
     ],
     staff: [],
@@ -216,13 +258,13 @@ const RAW_HARDCODED_DEPARTEMEN = [
         id: 'proker-ij-2',
         name: 'BEM Play & Bond Day: Dodgeball Challenge',
         description:
-          'BEM Play & Bond Day: Dodgeball Challenge merupakan program fungsi yang diselenggarakan oleh Lembaga Inspektorat Jenderal BEM Fakultas Hukum Universitas Andalas sebagai wadah untuk mempererat kebersamaan antaranggota BEM melalui kegiatan olahraga. Kegiatan ini dikemas dalam bentuk pertandingan dodgeball yang diikuti oleh tim dari setiap Departemen, Biro, dan Kantor, serta Koordinator Departemen dan Presidium sebagai peserta. Melalui permainan ini, setiap tim dituntut untuk bekerja sama, menyusun strategi, dan berkomunikasi dengan baik selama pertandingan. Selain menjadi ajang kompetisi yang sehat, kegiatan ini juga diharapkan dapat menjadi sarana refreshing di tengah padatnya aktivitas organisasi dan perkuliahan, sehingga tercipta hubungan yang lebih akrab, solid, dan harmonis antaranggota BEM Fakultas Hukum Universitas Andalas.',
+          'BEM Play & Bond Day: Dodgeball Challenge merupakan program kerja yang diselenggarakan oleh Lembaga Inspektorat Jenderal BEM Fakultas Hukum Universitas Andalas sebagai wadah untuk mempererat kebersamaan antaranggota BEM melalui kegiatan olahraga. Kegiatan ini dikemas dalam bentuk pertandingan dodgeball yang diikuti oleh tim dari setiap Departemen, Biro, dan Kantor, serta Koordinator Departemen dan Presidium sebagai peserta. Melalui permainan ini, setiap tim dituntut untuk bekerja sama, menyusun strategi, dan berkomunikasi dengan baik selama pertandingan. Selain menjadi ajang kompetisi yang sehat, kegiatan ini juga diharapkan dapat menjadi sarana refreshing di tengah padatnya aktivitas organisasi dan perkuliahan, sehingga tercipta hubungan yang lebih akrab, solid, dan harmonis antaranggota BEM Fakultas Hukum Universitas Andalas.',
       },
       {
         id: 'proker-ij-3',
         name: 'SAPA (Silaturahmi Anggota Penuh Asa)',
         description:
-          'SAPA (Silaturahmi Anggota Penuh Asa) merupakan program fungsi yang diselenggarakan oleh Lembaga Inspektorat Jenderal Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas di akhir masa kepengurusan sebagai wadah untuk mempererat silaturahmi, meningkatkan rasa kekeluargaan, serta membangun komunikasi yang harmonis antaranggota BEM. Kegiatan ini dikemas dalam bentuk malam keakraban yang menghadirkan berbagai rangkaian acara, seperti sesi perkenalan, permainan kelompok (team building), refleksi, hiburan, serta Malam Penghargaan dan apresiasi bagi para pengurus.',
+          'SAPA (Silaturahmi Anggota Penuh Asa) merupakan program kerja yang diselenggarakan oleh Lembaga Inspektorat Jenderal Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas di akhir masa kepengurusan sebagai wadah untuk mempererat silaturahmi, meningkatkan rasa kekeluargaan, serta membangun komunikasi yang harmonis antaranggota BEM. Kegiatan ini dikemas dalam bentuk malam keakraban yang menghadirkan berbagai rangkaian acara, seperti sesi perkenalan, permainan kelompok (team building), refleksi, hiburan, serta Malam Penghargaan dan apresiasi bagi para pengurus.',
       },
       {
         id: 'proker-ij-4',
@@ -333,88 +375,88 @@ const RAW_HARDCODED_DEPARTEMEN = [
     ],
     staff: [],
   },
-  {
+    {
     id: 'dept-kantor-medkominfo',
     name: 'Kantor Media, Komunikasi, dan Informasi',
     slug: 'kantor-medkominfo',
     category: 'Kantor',
-    logoUrl: '/uploads/departemen/logos/.png',
+    logoUrl: '/uploads/departemen/logos/kantor-medkominfo.png',
     coverUrl: '/uploads/departemen/medkominfo.png',
-    photoUrl: '/uploads/departemen/logos/.png',
+    photoUrl: '/uploads/departemen/logos/kantor-medkominfo.png',
     description:
       'Kantor Media, Komunikasi, dan Informasi (Medikominfo) adalah salah satu kantor di BEM FHUA yang bertugas mengelola dan menyampaikan informasi kepada mahasiswa serta civitas akademika Fakultas Hukum Universitas Andalas. Kantor ini mendukung kebutuhan komunikasi dan publikasi BEM FHUA, mulai dari penyampaian informasi kegiatan dan program kerja hingga berbagai hal yang berkaitan dengan kehidupan mahasiswa.\n\nDalam menjalankan perannya, Kantor Medikominfo mengelola berbagai platform media sebagai sarana komunikasi dengan mahasiswa. Selain publikasi, kantor ini juga mengembangkan konten, desain, dokumentasi, dan berbagai bentuk media kreatif untuk menunjang penyampaian informasi. Melalui pengelolaan media yang konsisten serta kolaborasi dengan berbagai bidang, Kantor Medikominfo diharapkan mampu menghadirkan informasi yang menarik, mudah dipahami, dan menjangkau mahasiswa secara lebih luas.',
-    proker: [
+        proker: [
       {
         id: 'proker-med-1',
         name: 'Graphic Standard Manual (GSM)',
         description:
-          'Deskripsi: Graphic Standard Manual (GSM) merupakan program kerja yang bertujuan menyusun, mengembangkan serta merumuskan standar identitas visual dalam penggunaan identitas grafis Fakultas Hukum Universitas Andalas (FHUA). Melalui GSM, diatur secara rinci ketentuan pemakaian logo, komposisi dan pemilihan warna, tipografi, elemen desain pendukung, hingga format berbagai media publikasi yang digunakan FHUA.',
+          'Graphic Standard Manual (GSM) merupakan program kerja yang bertujuan menyusun, mengembangkan serta merumuskan standar identitas visual dalam penggunaan identitas grafis Fakultas Hukum Universitas Andalas (FHUA). Melalui GSM, diatur secara rinci ketentuan pemakaian logo, komposisi dan pemilihan warna, tipografi, elemen desain pendukung, hingga format berbagai media publikasi yang digunakan FHUA.',
       },
       {
         id: 'proker-med-2',
         name: 'Social Media Monitoring and Maintenance',
         description:
-          'Deskripsi: Social Media Monitoring and Maintenance adalah program kerja yang berfokus pada pengelolaan aktivitas media sosial BEM Fakultas Hukum Universitas Andalas melalui pemantauan akun, publikasi konten secara terjadwal, pengelolaan interaksi dengan pengikut, serta pemeliharaan akun agar tetap aktif, informatif, menarik, dan konsisten sebagai sarana komunikasi dan publikasi.',
+          'Social Media Monitoring and Maintenance adalah program kerja yang berfokus pada pengelolaan aktivitas media sosial BEM Fakultas Hukum Universitas Andalas melalui pemantauan akun, publikasi konten secara terjadwal, pengelolaan interaksi dengan pengikut, serta pemeliharaan akun agar tetap aktif, informatif, menarik, dan konsisten sebagai sarana komunikasi dan publikasi.',
       },
       {
         id: 'proker-med-3',
         name: 'FHUA Care',
         description:
-          'Deskripsi: FHUA Care merupakan program kerja yang berfungsi sebagai media informasi dan layanan publik bagi civitas akademika FHUA dalam penyampaian informasi mengenai barang hilang maupun barang temuan di lingkungan Fakultas Hukum Universitas Andalas. Program ini dilaksanakan melalui publikasi laporan pada media sosial resmi BEM FHUA sehingga informasi dapat tersebar secara cepat, luas, dan mudah diakses oleh seluruh warga Fakultas Hukum Universitas Andalas.',
+          'FHUA Care merupakan program kerja yang berfungsi sebagai media informasi dan layanan publik bagi civitas akademika FHUA dalam penyampaian informasi mengenai barang hilang maupun barang temuan di lingkungan Fakultas Hukum Universitas Andalas. Program ini dilaksanakan melalui publikasi laporan pada media sosial resmi BEM FHUA sehingga informasi dapat tersebar secara cepat, luas, dan mudah diakses oleh seluruh warga Fakultas Hukum Universitas Andalas.',
       },
       {
         id: 'proker-med-4',
-        name: 'Cabinet Logo Project & Maskot',
+        name: 'Cabinet Logo Project',
         description:
-          'Deskripsi: Program ini berfokus pada perancangan logo bagi setiap Departemen, Biro, Lembaga, dan Kantor BEM FHUA sebagai identitas visual organisasi. Setiap logo dirancang agar merepresentasikan karakter, fungsi, dan nilai yang dimiliki oleh masing-masing bidang sehingga memiliki identitas yang khas, mudah dikenali, dan konsisten dalam berbagai media publikasi. Sedangkan maskot BEM FHUA menjadi simbol visual yang memperkuat citra organisasi dalam berbagai kegiatan dan media komunikasi.',
+          'Program ini berfokus pada perancangan logo bagi setiap Departemen, Biro, Lembaga, dan Kantor BEM FHUA sebagai identitas visual organisasi. Setiap logo dirancang agar merepresentasikan karakter, fungsi, dan nilai yang dimiliki oleh masing-masing bidang sehingga memiliki identitas yang khas, mudah dikenali, dan konsisten dalam berbagai media publikasi. Sedangkan maskot BEM FHUA menjadi simbol visual yang memperkuat citra organisasi dalam berbagai kegiatan dan media komunikasi.',
       },
       {
         id: 'proker-med-5',
         name: 'Peringatan Hari Besar',
         description:
-          'Deskripsi: Program kerja ini diselenggarakan sebagai bentuk partisipasi BEM Fakultas Hukum Universitas Andalas dalam memperingati berbagai hari besar nasional yang memiliki makna penting bagi bangsa Indonesia.',
+          'Program kerja ini diselenggarakan sebagai bentuk partisipasi BEM Fakultas Hukum Universitas Andalas dalam memperingati berbagai hari besar nasional yang memiliki makna penting bagi bangsa Indonesia.',
       },
       {
         id: 'proker-med-6',
-        name: 'Database Media & Publikasi',
+        name: 'Database FHUA',
         description:
-          'Deskripsi: Merupakan program kerja yang berfungsi sebagai pusat penyimpanan dan penyedia informasi akademik bagi mahasiswa Fakultas Hukum Universitas Andalas. Program ini menyediakan kumpulan materi perkuliahan dan soal ujian periode lalu yang disusun secara sistematis sehingga dapat diakses dengan lebih mudah oleh mahasiswa sebagai sarana pendukung proses pembelajaran.',
+          'Merupakan program kerja yang berfungsi sebagai pusat penyimpanan dan penyedia informasi akademik bagi mahasiswa Fakultas Hukum Universitas Andalas. Program ini menyediakan kumpulan materi perkuliahan dan soal ujian periode lalu yang disusun secara sistematis sehingga dapat diakses dengan lebih mudah oleh mahasiswa sebagai sarana pendukung proses pembelajaran.',
       },
       {
         id: 'proker-med-7',
         name: 'Press Release',
         description:
-          'Deskripsi: Press Release merupakan program kerja yang bertujuan memperkenalkan jajaran pengurus BEM Fakultas Hukum Universitas Andalas melalui media sosial resmi BEM FHUA. Publikasi dilakukan dalam bentuk unggahan yang memuat foto pengurus beserta informasi mengenai nama, jabatan, dan bidang yang diemban. Melalui program ini, diharapkan mahasiswa dapat lebih mengenal struktur kepengurusan BEM FHUA serta membangun hubungan yang lebih dekat antara organisasi dengan mahasiswa.',
+          'Press Release merupakan program kerja yang bertujuan memperkenalkan jajaran pengurus BEM Fakultas Hukum Universitas Andalas melalui media sosial resmi BEM FHUA. Publikasi dilakukan dalam bentuk unggahan yang memuat foto pengurus beserta informasi mengenai nama, jabatan, dan bidang yang diemban. Melalui program ini, diharapkan mahasiswa dapat lebih mengenal struktur kepengurusan BEM FHUA serta membangun hubungan yang lebih dekat antara organisasi dengan mahasiswa.',
       },
       {
         id: 'proker-med-8',
         name: 'Kalender FHUA',
         description:
-          'Deskripsi: Kalender FHUA merupakan program kerja yang berfokus pada penyampaian informasi mengenai agenda bulanan Fakultas Hukum Universitas Andalas. Publikasi dilakukan secara berkala melalui media sosial resmi BEM FHUA dan memuat berbagai kegiatan akademik, non-akademik, maupun agenda resmi lainnya. Program ini diharapkan dapat mempermudah masyarakat FHUA dalam memperoleh informasi mengenai jadwal kegiatan secara cepat dan terstruktur.',
+          'Kalender FHUA merupakan program kerja yang berfokus pada penyampaian informasi mengenai agenda bulanan Fakultas Hukum Universitas Andalas. Publikasi dilakukan secara berkala melalui media sosial resmi BEM FHUA dan memuat berbagai kegiatan akademik, non-akademik, maupun agenda resmi lainnya. Program ini diharapkan dapat mempermudah masyarakat FHUA dalam memperoleh informasi mengenai jadwal kegiatan secara cepat dan terstruktur.',
       },
       {
         id: 'proker-med-9',
-        name: 'Website Resmi BEM FHUA (WEB BEM)',
+        name: 'Perspective Lens',
         description:
-          'Deskripsi: WEB BEM (Website Badan Eksekutif Mahasiswa) merupakan program fungsi yang berfokus pada pengembangan dan pengelolaan platform digital resmi Badan Eksekutif Mahasiswa sebagai sarana informasi, komunikasi, publikasi, dokumentasi, dan pelayanan kemahasiswaan. Website ini dirancang untuk menjadi pusat informasi terintegrasi yang dapat diakses oleh mahasiswa, civitas akademika, serta masyarakat umum guna memperoleh informasi yang akurat, aktual, dan terpercaya mengenai kegiatan serta program fungsi BEM.',
+          'Program kerja ini bertujuan menghadirkan media komunikasi yang informatif dan edukatif sekaligus memperkenalkan BEM Fakultas Hukum Universitas Andalas kepada khalayak. Melalui pembahasan mengenai isu hukum, politik, dan berbagai topik-topik yang relevan, program ini diharapkan dapat meningkatkan wawasan pendengar serta memperkuat citra BEM FHUA sebagai organisasi yang aktif dalam memberikan edukasi.',
       },
       {
         id: 'proker-med-10',
-        name: 'Podcast BEM FHUA',
+        name: 'Recap Moment (Cabinet Recap)',
         description:
-          'Deskripsi: Podcast BEM FHUA merupakan program fungsi yang berfungsi sebagai wadah penyampaian informasi dan membahas berbagai isu yang relevan dengan mahasiswa dan civitas akademika lainnya, khususnya isu hukum, politik, sosial, kemahasiswaan, serta isu aktual lainnya. Melalui pembahasan tersebut, program ini diharapkan dapat meningkatkan wawasan pendengar serta memperkuat citra BEM FHUA sebagai organisasi yang aktif dalam memberikan edukasi.',
+          'Program kerja ini menghadirkan sebuah video yang berisi kilas balik berbagai aktivitas BEM FHUA selama satu periode kepengurusan. Isi video mencakup dokumentasi program kerja, kegiatan, serta capaian organisasi yang disusun secara ringkas dan menarik.',
       },
       {
         id: 'proker-med-11',
-        name: 'Profile Video Kabinet Aksara Juang',
+        name: 'WEB BEM',
         description:
-          'Deskripsi: Program fungsi ini bertujuan menghadirkan media komunikasi audio-visual yang informatif dan edukatif sekaligus memperkenalkan jajaran, visi-misi, serta identitas BEM Fakultas Hukum Universitas Andalas Kabinet Aksara Juang kepada mahasiswa dan khalayak luas.',
+          'WEB BEM (Website Badan Eksekutif Mahasiswa) merupakan program kerja yang berfokus pada pengembangan dan pengelolaan platform digital resmi Badan Eksekutif Mahasiswa sebagai sarana informasi, komunikasi, publikasi, dokumentasi, dan pelayanan kemahasiswaan. Website ini dirancang untuk menjadi pusat informasi terintegrasi yang dapat diakses oleh mahasiswa, civitas akademika, serta masyarakat umum guna memperoleh informasi yang akurat, aktual, dan terpercaya mengenai kegiatan serta program kerja BEM.',
       },
       {
         id: 'proker-med-12',
-        name: 'Recap Moment',
+        name: 'Podcast',
         description:
-          'Deskripsi: Program fungsi ini menghadirkan sebuah video yang berisi kilas balik berbagai aktivitas BEM FHUA selama satu periode kepengurusan. Isi video mencakup dokumentasi program fungsi, kegiatan, serta capaian organisasi yang disusun secara ringkas dan menarik.',
+          'Podcast BEM FHUA merupakan program kerja yang berfungsi sebagai wadah penyampaian informasi dan membahas berbagai isu yang relevan dengan mahasiswa dan civitas akademika lainnya, khususnya isu hukum, politik, sosial, kemahasiswaan, serta isu aktual lainnya.',
       },
     ],
     staff: [],

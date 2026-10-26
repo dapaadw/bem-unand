@@ -81,6 +81,8 @@ export default async function DepartemenDetailPage({ params }) {
   };
 
   const isLongName = (item.name || '').length > 30;
+  const isKordept = item.category === 'Koordinator Departemen' || slug.startsWith('kordept-');
+  const prokerLabel = isKordept ? 'Program Fungsi' : 'Program Kerja';
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -157,7 +159,7 @@ export default async function DepartemenDetailPage({ params }) {
               {item.proker?.length > 0 && (
                 <div className="px-4 py-2 rounded-xl bg-[#1a0a13]/70 border border-white/10 backdrop-blur-md text-xs sm:text-sm text-gray-300 shadow-sm">
                   <span className="font-bold text-brand-neon text-base mr-1.5">{item.proker.length}</span>
-                  Program Fungsi
+                  {prokerLabel}
                 </div>
               )}
             </div>
@@ -171,7 +173,7 @@ export default async function DepartemenDetailPage({ params }) {
         {slug === 'presidium' && <PresidiumGreetingSection />}
 
         {/* Program Fungsi (Interactive Dropdown Accordion) */}
-        <ProkerAccordion prokers={item.proker} />
+        <ProkerAccordion prokers={item.proker} isKordept={isKordept} />
 
         {/* Struktur Organisasi (Below Program Fungsi, Layout matching PDF) */}
         <StrukturDBKL staff={item.staff} deptName={item.name} slug={slug} />

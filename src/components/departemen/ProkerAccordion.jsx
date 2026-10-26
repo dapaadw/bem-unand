@@ -3,14 +3,17 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronsUpDown } from 'lucide-react';
 
-export default function ProkerAccordion({ prokers = [] }) {
+export default function ProkerAccordion({ prokers = [], isKordept = false }) {
+  const label = isKordept ? 'Program Fungsi' : 'Program Kerja';
+  const emptyLabel = isKordept ? 'Program fungsi belum tersedia.' : 'Program kerja belum tersedia.';
+  const emptyDesc = isKordept ? 'Deskripsi program fungsi belum ditambahkan.' : 'Deskripsi program kerja belum ditambahkan.';
   // Store set of open indices. By default, open the first item so the user immediately sees it's interactive.
   const [openIndices, setOpenIndices] = useState(() => (prokers.length > 0 ? new Set([0]) : new Set()));
 
   if (!prokers || prokers.length === 0) {
     return (
       <div className="bg-[#1a0a13]/50 border border-white/10 rounded-xl p-6 mb-8 backdrop-blur-md shadow-lg text-center">
-        <p className="text-gray-400 text-sm">Program fungsi belum tersedia.</p>
+        <p className="text-gray-400 text-sm">{emptyLabel}</p>
       </div>
     );
   }
@@ -43,7 +46,7 @@ export default function ProkerAccordion({ prokers = [] }) {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-white/10">
         <h2 className="text-brand-neon font-semibold text-base sm:text-lg flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-brand-neon animate-pulse" />
-          <span className="tracking-wide">Program Fungsi</span>
+          <span className="tracking-wide">{label}</span>
           <span className="text-xs px-2 py-0.5 rounded-full bg-brand-neon/15 text-brand-neon border border-brand-neon/20 font-mono font-bold">
             {prokers.length}
           </span>
@@ -117,7 +120,7 @@ export default function ProkerAccordion({ prokers = [] }) {
                     {p.description ? (
                       <p className="text-gray-200/95 leading-relaxed">{p.description}</p>
                     ) : (
-                      <p className="text-gray-400 italic">Deskripsi program fungsi belum ditambahkan.</p>
+                      <p className="text-gray-400 italic">{emptyDesc}</p>
                     )}
                   </div>
                 </div>

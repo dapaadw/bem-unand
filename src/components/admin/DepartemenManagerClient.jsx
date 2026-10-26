@@ -45,6 +45,8 @@ export default function DepartemenManagerClient({ initialItems }) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const selected = items.find((item) => item.id === selectedId);
+  const isKordept = selected?.slug?.startsWith("kordept-") || selected?.category === "Koordinator Departemen";
+  const prokerLabel = isKordept ? "Program Fungsi" : "Program Kerja";
 
   function update(patch) {
     setItems((previous) =>
@@ -87,7 +89,7 @@ export default function DepartemenManagerClient({ initialItems }) {
       setMessage(
         method === "PUT"
           ? "Profil departemen tersimpan."
-          : "Staff, program fungsi, dan kontak berhasil diperbarui.",
+          : `Staff, ${isKordept ? "program fungsi" : "program kerja"}, dan kontak berhasil diperbarui.`,
       );
     } catch {
       setError("Terjadi kesalahan jaringan. Silakan coba lagi.");
@@ -368,7 +370,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                   </div>
                   <div>
                     <h2 className="font-bold text-base text-[#f8f1e7]">
-                      Program Fungsi
+                      {prokerLabel}
                     </h2>
                     <p className="text-xs text-[#d4c0bd]">
                       Daftar agenda &amp; program utama departemen
@@ -395,7 +397,7 @@ export default function DepartemenManagerClient({ initialItems }) {
               {selected.proker.length === 0 ? (
                 <div className="text-center py-8 rounded-2xl border border-dashed border-[#6d2031]">
                   <p className="text-xs text-[#d4c0bd]">
-                    Belum ada program fungsi yang didaftarkan.
+                    Belum ada {isKordept ? "program fungsi" : "program kerja"} yang didaftarkan.
                   </p>
                 </div>
               ) : (
@@ -411,7 +413,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                         </span>
                         <button
                           type="button"
-                          aria-label={`Hapus program fungsi ${index + 1}`}
+                          aria-label={`Hapus ${isKordept ? "program fungsi" : "program kerja"} ${index + 1}`}
                           onClick={() =>
                             update({
                               proker: selected.proker.filter(
@@ -427,7 +429,7 @@ export default function DepartemenManagerClient({ initialItems }) {
                       </div>
 
                       <Field
-                        label="Nama Program Fungsi"
+                        label={`Nama ${prokerLabel}`}
                         value={program.name}
                         onChange={(value) =>
                           updateRow("proker", index, "name", value)
@@ -435,13 +437,13 @@ export default function DepartemenManagerClient({ initialItems }) {
                         placeholder="Contoh: Diskusi Publik Nasional 2026"
                       />
                       <Field
-                        label="Deskripsi Program Fungsi"
+                        label={`Deskripsi ${prokerLabel}`}
                         multiline
                         value={program.description}
                         onChange={(value) =>
                           updateRow("proker", index, "description", value)
                         }
-                        placeholder="Jelaskan tujuan, output, dan sasaran dari program fungsi ini..."
+                        placeholder={`Jelaskan tujuan, output, dan sasaran dari ${isKordept ? "program fungsi" : "program kerja"} ini...`}
                       />
                     </div>
                   ))}
