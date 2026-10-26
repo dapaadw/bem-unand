@@ -9,6 +9,7 @@ export default function SiteChrome({ children, footer }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
   const isHome = pathname === '/';
+  const isPresidium = pathname === '/struktur/presidium';
 
   if (isAdmin) {
     return <>{children}</>;
@@ -23,7 +24,11 @@ export default function SiteChrome({ children, footer }) {
         <div
           aria-hidden="true"
           className={`absolute inset-0 pointer-events-none bg-finall-canvas z-0 ${
-            isHome ? 'bg-canvas-home' : 'bg-canvas-subpage'
+            isHome
+              ? 'bg-canvas-home'
+              : isPresidium
+              ? 'bg-canvas-presidium'
+              : 'bg-canvas-subpage'
           }`}
         />
 

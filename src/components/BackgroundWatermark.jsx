@@ -32,6 +32,11 @@ const subpageWatermarks = [
   { left: 759, top: 3990, deg: -16.33 },
   { left: -358, top: 4500, deg: -343.67 },
   { left: 984, top: 4500, deg: -16.33 },
+  { left: 193, top: 5100, deg: -343.67 },
+  { left: -286, top: 5650, deg: -343.67 },
+  { left: 759, top: 6200, deg: -16.33 },
+  { left: -212, top: 6750, deg: -343.67 },
+  { left: 881, top: 7200, deg: -16.33 },
 ];
 
 export default function BackgroundWatermark({ isHome = false }) {

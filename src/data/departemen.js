@@ -66,9 +66,9 @@ const RAW_HARDCODED_DEPARTEMEN = [
     name: 'Presidium',
     slug: 'presidium',
     category: 'Presidium',
-    logoUrl: '/uploads/departemen/logos/.png',
-    coverUrl: null,
-    photoUrl: '/uploads/departemen/logos/.png',
+    logoUrl: '/uploads/departemen/logos/presidium.png',
+    coverUrl: '/uploads/departemen/presidium.png',
+    photoUrl: '/uploads/departemen/logos/presidium.png',
     description:
       'Presidium BEM merupakan badan pimpinan inti yang memegang kedaulatan eksekutif tertinggi organisasi. Berada di bawah kepemimpinan Ketua, Wakil Ketua, dan Sekretaris Kabinet, Presidium bertugas merumuskan arah kebijakan strategis serta menjaga keselarasan gerak seluruh kementerian. Selain menjadi representasi resmi mahasiswa di tingkat internal maupun eksternal, Presidium bertanggung jawab memastikan tata kelola administrasi dan operasional organisasi berjalan secara efektif dan akuntabel.',
     proker: [
@@ -841,16 +841,7 @@ const RAW_HARDCODED_DEPARTEMEN = [
           'Proker Data Sponsor merupakan program kerja yang berfokus pada pendataan, pengelolaan, dan pemutakhiran informasi sponsor atau mitra yang pernah maupun berpotensi menjalin kerja sama dengan kepanitiaan BEM FHUA. Data yang dihimpun meliputi nama sponsor, dan jenis sponsor yang diberikan. Kegiatan ini bertujuan untuk memudahkan divisi sponsor dan dana di kepanitiaan yang ada di BEM dalam mencari sponsor di masa kepanitiaan berlangsung. Dengan adanya Data Sponsor, BEM memiliki arsip sponsor yang jelas, sehingga proses pencarian, pengelolaan, maupun evaluasi kerja sama dapat dilakukan lebih efektif dan efisien.',
       },
     ],
-    staff: [
-      { id: 'staff-ekr-1', name: 'Faiza Fadhila', role: 'Kepala Departemen', identity: 'NIM: 2410111106' },
-      { id: 'staff-ekr-2', name: 'Audya Shifa Maharani', role: 'Sekretaris Departemen', identity: 'NIM: 2510112024' },
-      { id: 'staff-ekr-3', name: 'Fadly Syandika Putra', role: 'Kepala Bidang Funding & Partnership', identity: 'NIM: 2410111070' },
-      { id: 'staff-ekr-4', name: 'Dara Mulyawati Ali', role: 'Kepala Bidang Creative Hub & Commerce', identity: 'NIM: 2510112119' },
-      { id: 'staff-ekr-5', name: 'Annisa Aulia Putri', role: 'Staff Funding & Partnership', identity: 'NIM: 2510112016' },
-      { id: 'staff-ekr-6', name: 'Muhammad Ihsan Rahmawansyah', role: 'Staff Funding & Partnership', identity: 'NIM: 2510113159' },
-      { id: 'staff-ekr-7', name: 'Nailah Humairah Tabriz', role: 'Staff Creative Commerce', identity: 'NIM: 2510113029' },
-      { id: 'staff-ekr-8', name: 'Saskya Nabila Candra', role: 'Staff Creative Commerce', identity: 'NIM: 2510112021' },
-    ],
+    staff: [],
   },
   {
     id: 'dept-pemberdayaan-perempuan',

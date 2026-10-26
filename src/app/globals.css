@@ -120,6 +120,10 @@
     background-size: 100% 5200px;
   }
 
+  .bg-canvas-presidium {
+    background-size: 100% 7500px;
+  }
+
   .text-neon {
     color: var(--color-brand-neon);
     text-shadow: 0 0 5px rgba(227, 187, 185, 0.4),

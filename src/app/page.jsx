@@ -49,7 +49,7 @@ export default async function HomePage() {
     profile?.subtitle ||
     'Pusat informasi, advokasi, publikasi ilmiah, dan penyalur aspirasi seluruh mahasiswa Fakultas Hukum Universitas Andalas.';
 
-  const video = youtubeEmbedUrl('https://youtu.be/Nfs-Moa_1Ko?si=x2jXESWTxrrpOoas');
+  const video = youtubeEmbedUrl(profile?.videoUrl || 'https://youtu.be/Nfs-Moa_1Ko?si=x2jXESWTxrrpOoas');
 
   const visi =
     'Mewujudkan Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas yang berlandaskan nilai-nilai humanisme dalam membangun gerakan mahasiswa yang kritis, inklusif, berintegritas, serta berkomitmen terhadap perjuangan keadilan dan kemanusiaan.';
@@ -144,12 +144,12 @@ export default async function HomePage() {
                 aria-hidden="true"
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 bg-gradient-to-r from-brand-red/50 via-brand-neon/25 to-brand-red/50 rounded-full blur-[60px] md:blur-[90px] opacity-70 -z-10 pointer-events-none"
               />
-              <div className="aspect-video w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl shadow-black/80 relative border border-white/10">
+              <div className="aspect-[1914/1080] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl shadow-black/80 relative border border-white/10">
                 <iframe
                   src={video}
                   title="Video Profil BEM FH UNAND"
                   loading="lazy"
-                  className="w-full h-full"
+                  className="w-full h-full scale-[1.015] origin-center border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen

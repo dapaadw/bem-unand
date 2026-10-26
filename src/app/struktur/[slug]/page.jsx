@@ -46,7 +46,18 @@ export default async function DepartemenDetailPage({ params }) {
   });
 
   // Deduplicate staff by normalized name
-  const rawStaff = dbItem?.staff?.length > 0 ? dbItem.staff : (hardcoded?.staff || []);
+  const hardcodedStaffMap = new Map(
+    (hardcoded?.staff || []).map((s) => [(s.name || '').trim().toLowerCase(), s])
+  );
+
+  const rawStaff = (dbItem?.staff?.length > 0 ? dbItem.staff : (hardcoded?.staff || [])).map((s) => {
+    const fallback = hardcodedStaffMap.get((s.name || '').trim().toLowerCase());
+    return {
+      ...fallback,
+      ...s,
+      photoUrl: s.photoUrl || fallback?.photoUrl || null,
+    };
+  });
   const seenStaff = new Set();
   const uniqueStaff = rawStaff.filter((s) => {
     const key = (s.name || '').trim().toLowerCase();
@@ -160,7 +171,6 @@ export default async function DepartemenDetailPage({ params }) {
         {/* Presidium Specific: Greeting & Executive Section right below Hero */}
         {slug === 'presidium' && <PresidiumGreetingSection />}
 
-        {/* Program Fungsi (Interactive Dropdown Accordion) */}
         {/* Program Fungsi (Interactive Dropdown Accordion) */}
         <ProkerAccordion prokers={item.proker} />
 

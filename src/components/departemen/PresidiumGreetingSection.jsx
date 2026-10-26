@@ -5,10 +5,14 @@ const PRESIDIUM_DATA = {
     role: 'Ketua BEM FHUA',
     badge: 'Ketua BEM FHUA',
     photoUrl: '/uploads/departemen/staff/presidium/individual/ketua-bem.png',
-    greetingGreeting: 'Salam Perjuangan, Salam Mahasiswa Hukum!',
+    greetingGreeting: 'Semangat Beraksi, Perjuangkan Aspirasi!',
     greetingParagraphs: [
-      'Melalui Kabinet Aksara Juang, kami bertekad untuk menjadikan BEM FHUA sebagai ruang gerak mahasiswa yang kritis, inklusif, dan berintegritas, serta senantiasa berkomitmen terhadap perjuangan keadilan dan kemanusiaan.',
-      'Kami meyakini bahwa setiap langkah perjuangan membutuhkan sinergi, kepercayaan, dan tanggung jawab bersama. Oleh karena itu, dengan semangat kolektif dan kesungguhan dalam mengemban amanah, kami akan terus berupaya menghadirkan gerakan mahasiswa yang bermakna, progresif, dan berpihak pada kepentingan mahasiswa serta nilai-nilai kemanusiaan.',
+      'Assalamu’alaikum warahmatullahi wabarakatuh.',
+      'Puji syukur kita panjatkan ke hadirat Allah SWT atas segala rahmat dan karunia-Nya. Merupakan sebuah kehormatan sekaligus tanggung jawab bagi saya untuk mengemban amanah sebagai Ketua Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas melalui Kabinet Aksara Juang periode 2026. Bagi saya, kepemimpinan bukan semata-mata tentang menjalankan roda organisasi, melainkan tentang keberanian untuk mengambil tanggung jawab, kesediaan untuk mendengarkan, serta komitmen untuk menghadirkan kebermanfaatan bagi sesama.',
+      'Humanisme menjadi landasan utama yang saya bawa dalam perjalanan kepemimpinan ini. Saya meyakini bahwa setiap manusia memiliki martabat, hak, dan suara yang patut dihargai. Oleh karena itu, BEM FHUA harus menjadi ruang perjuangan yang menempatkan manusia sebagai pusat dari setiap gerakan, menghargai keberagaman, merawat kepedulian, dan memperjuangkan keadilan tanpa kehilangan nilai-nilai kemanusiaan. Melalui semangat humanisme, saya ingin membangun gerakan mahasiswa yang tidak hanya kritis dalam menyikapi persoalan, tetapi juga peka terhadap realitas, inklusif dalam merangkul perbedaan, serta berintegritas dalam memperjuangkan aspirasi. Sebab, bagi saya, perjuangan mahasiswa tidak cukup hanya dengan lantangnya suara, tetapi juga harus hadir melalui keberanian untuk bertindak dan ketulusan untuk memberi makna.',
+      'Melalui Kabinet Aksara Juang, saya berkomitmen untuk menjadikan BEM FHUA sebagai ruang tumbuh bersama, tempat gagasan dipertemukan, aspirasi diperjuangkan, dan pengabdian diwujudkan dalam tindakan nyata. Saya menyadari bahwa perjuangan ini tidak dapat berjalan sendiri, melainkan membutuhkan solidaritas, kepercayaan, dan keterlibatan seluruh warga FHUA. Mari kita jadikan setiap langkah sebagai bagian dari perjuangan yang bermakna, setiap gagasan sebagai awal dari perubahan, dan setiap tindakan sebagai wujud nyata keberpihakan terhadap nilai-nilai keadilan dan kemanusiaan. Karena pada akhirnya, kepemimpinan bukan tentang seberapa tinggi kita berdiri, melainkan seberapa besar kita mampu berjalan bersama dan memberi arti bagi sesama.',
+      'Semangat Beraksi, Perjuangkan Aspirasi!',
+      'Wassalamu’alaikum warahmatullahi wabarakatuh.',
     ],
   },
   wakilPresiden: {
@@ -81,12 +85,22 @@ export default function PresidiumGreetingSection() {
             <h4 className="text-base sm:text-lg lg:text-xl font-bold text-brand-neon/90 italic mb-5 leading-snug">
               &ldquo;{presiden.greetingGreeting}&rdquo;
             </h4>
-            {/* Sambutan Paragraphs inside Glassmorphic Container */}
+            {/* Sambutan Paragraphs inside Glassmorphic Container with Elegant Scrollbar */}
             <div className="p-4 sm:p-5 lg:p-6 rounded-2xl bg-[#1a0a13]/65 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.45)] ring-1 ring-white/5">
-              <div className="space-y-3.5 text-xs sm:text-sm lg:text-[14.5px] text-gray-200 leading-relaxed text-justify">
-                {presiden.greetingParagraphs.map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
+              <div className="max-h-[280px] sm:max-h-[320px] lg:max-h-[360px] overflow-y-auto pr-2.5 sm:pr-3.5 space-y-3.5 text-xs sm:text-sm lg:text-[14.5px] text-gray-200 leading-relaxed text-justify [scrollbar-width:thin] [scrollbar-color:rgba(254,174,174,0.4)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-brand-neon/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-brand-neon/60">
+                {presiden.greetingParagraphs.map((para, i) => {
+                  const isHighlight =
+                    para === 'Semangat Beraksi, Perjuangkan Aspirasi!' ||
+                    para.includes('Semangat Beraksi, Perjuangkan Aspirasi!') ||
+                    (para.startsWith('*') && para.endsWith('*'));
+                  const cleanText = para.replace(/^\*+|\*+$/g, '');
+
+                  return (
+                    <p key={i} className={isHighlight ? 'font-bold text-white' : undefined}>
+                      {isHighlight ? <strong>{cleanText}</strong> : para}
+                    </p>
+                  );
+                })}
               </div>
             </div>
           </div>
