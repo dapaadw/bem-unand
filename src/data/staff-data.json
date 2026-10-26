@@ -270,6 +270,15 @@
       "rank": 2
     },
     {
+      "id": "staff-departemen-hubungan-eksternal-ahmad-bareeq-javier",
+      "name": "Ahmad Bareeq Javier",
+      "role": "Kepala Bidang Relasi Eksternal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/ahmad-bareeq-javier.png",
+      "group": "bidang-relasi-eksternal-kampus",
+      "groupTitle": "Bidang Relasi Eksternal Kampus",
+      "rank": 3
+    },
+    {
       "id": "staff-departemen-hubungan-eksternal-daffa-diandra-hasya",
       "name": "Daffa Diandra Hasya",
       "role": "Kepala Bidang Relasi Internal Kampus",
@@ -277,6 +286,24 @@
       "group": "bidang-relasi-internal-kampus",
       "groupTitle": "Bidang Relasi Internal Kampus",
       "rank": 3
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-gema-syahdan-fianzi",
+      "name": "Gema Syahdan Fianzi",
+      "role": "Staff Bidang Relasi Eksternal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/gema-syahdan-fianzi.png",
+      "group": "bidang-relasi-eksternal-kampus",
+      "groupTitle": "Bidang Relasi Eksternal Kampus",
+      "rank": 4
+    },
+    {
+      "id": "staff-departemen-hubungan-eksternal-nadhira-alifia-zahra",
+      "name": "Nadhira Alifia Zahra",
+      "role": "Staff Bidang Relasi Eksternal Kampus",
+      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/nadhira-alifia-zahra.png",
+      "group": "bidang-relasi-eksternal-kampus",
+      "groupTitle": "Bidang Relasi Eksternal Kampus",
+      "rank": 4
     },
     {
       "id": "staff-departemen-hubungan-eksternal-ananda-amalia-putri",
@@ -294,24 +321,6 @@
       "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/fela-sakanti-prameswari.png",
       "group": "bidang-relasi-internal-kampus",
       "groupTitle": "Bidang Relasi Internal Kampus",
-      "rank": 4
-    },
-    {
-      "id": "staff-departemen-hubungan-eksternal-ahmad-bareeq-javier",
-      "name": "Ahmad Bareeq Javier",
-      "role": "Kepala Bidang Relasi Eksternal Kampus",
-      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/ahmad-bareeq-javier.png",
-      "group": "bidang-relasi-eksternal-kampus",
-      "groupTitle": "Bidang Relasi Eksternal Kampus",
-      "rank": 3
-    },
-    {
-      "id": "staff-departemen-hubungan-eksternal-gema-syahdan-fianzi",
-      "name": "Gema Syahdan Fianzi",
-      "role": "Staff Bidang Relasi Eksternal Kampus",
-      "photoUrl": "/uploads/departemen/staff/departemen-hubungan-eksternal/gema-syahdan-fianzi.png",
-      "group": "bidang-relasi-eksternal-kampus",
-      "groupTitle": "Bidang Relasi Eksternal Kampus",
       "rank": 4
     }
   ],
@@ -896,7 +905,7 @@
     },
     {
       "id": "staff-departemen-seni-olahraga-dan-budaya-alya-fitria-wiby",
-      "name": "alya fitria wiby",
+      "name": "Alya Fitria Wiby",
       "role": "Staff Bidang Olahraga",
       "photoUrl": "/uploads/departemen/staff/departemen-seni-olahraga-dan-budaya/alya-fitria-wiby.png",
       "group": "bidang-olahraga",
