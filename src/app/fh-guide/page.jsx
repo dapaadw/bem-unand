@@ -1,4 +1,4 @@
-import { ExternalLink, FolderOpen, FileText } from 'lucide-react';
+import { ExternalLink, FolderOpen } from 'lucide-react';
 
 export const metadata = {
   title: 'FH Guide | BEM FH UNAND',

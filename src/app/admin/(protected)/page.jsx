@@ -20,7 +20,7 @@ export default async function AdminDashboardPage() {
 
   const [
     publikasiCount,
-    kegiatanCount,
+
     kegiatanLombaCount,
     kegiatanInternalCount,
     upcomingKegiatan,
@@ -28,11 +28,12 @@ export default async function AdminDashboardPage() {
     recentAuditLogs,
   ] = await Promise.all([
     prisma.publikasi.count(),
-    prisma.kegiatan.count(),
+
     prisma.kegiatan.count({ where: { type: "LOMBA" } }),
     prisma.kegiatan.count({ where: { type: "INTERNAL" } }),
     prisma.kegiatan.findMany({
       take: 4,
+      where: { date: { gte: new Date() } },
       orderBy: [{ date: "asc" }, { id: "asc" }],
     }),
     prisma.publikasi.findMany({
@@ -47,6 +48,7 @@ export default async function AdminDashboardPage() {
   ]);
 
   // Contextual Greeting
+  const kegiatanCount = kegiatanLombaCount + kegiatanInternalCount;
   const currentHour = new Date().getHours();
   let greetingTime = "Selamat Datang";
   if (currentHour >= 4 && currentHour < 11) greetingTime = "Selamat Pagi";

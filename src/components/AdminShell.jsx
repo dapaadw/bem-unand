@@ -131,7 +131,7 @@ export default function AdminShell({
       {/* Brand Header */}
       <div className="p-4 lg:p-5 border-b border-[#6d2031]/60 flex items-center justify-between gap-3 bg-gradient-to-r from-[#521526]/80 via-[#1a0a13] to-transparent shrink-0">
         <Link
-          href={role === "ADMIN" ? "/admin/news" : "/admin"}
+          href="/admin"
           onClick={onNavigate}
           className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-neon rounded-xl p-1 transition-all"
         >

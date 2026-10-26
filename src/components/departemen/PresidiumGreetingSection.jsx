@@ -1,4 +1,3 @@
-import { FileText } from 'lucide-react';
 
 const PRESIDIUM_DATA = {
   presiden: {

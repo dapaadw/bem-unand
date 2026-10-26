@@ -22,7 +22,7 @@ const aspirasiSubLinks = [
   },
   {
     name: 'Survey Kepuasan Mahasiswa',
-    href: 'https://forms.google.com/placeholder-survey-kepuasan',
+    href: 'https://docs.google.com/forms/d/e/1FAIpQLSerBDBbqYrsQYuaBI5g2-dRpmagrXMhuQvfYh8izQpF8YcbpQ/viewform',
     description: 'Penilaian kinerja & evaluasi akademik, fasilitas/kebijakan fakultas',
   },
 ];

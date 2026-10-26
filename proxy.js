@@ -2,8 +2,16 @@ import { NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { sessionOptions } from "./src/lib/session.js";
 
+const ADMIN_ALLOWED_PREFIXES = [
+  "/admin/news",
+  "/admin/kegiatan",
+  "/admin/audit-log",
+];
+
 export async function proxy(request) {
-  if (request.nextUrl.pathname.startsWith("/admin/login")) {
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/admin/login")) {
     return NextResponse.next();
   }
 
@@ -15,15 +23,17 @@ export async function proxy(request) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Admin hanya dapat mengakses url publikasi (/admin/news), agenda (/admin/kegiatan), dan audit trail (/admin/audit-log)
+  // Admin hanya dapat mengakses dashboard (/admin), publikasi (/admin/news), agenda (/admin/kegiatan), dan audit trail (/admin/audit-log)
   if (session.role === "ADMIN") {
+    const isDashboardRoot = pathname === "/admin" || pathname === "/admin/";
     const isAllowedAdminPath =
-      request.nextUrl.pathname.startsWith("/admin/news") ||
-      request.nextUrl.pathname.startsWith("/admin/kegiatan") ||
-      request.nextUrl.pathname.startsWith("/admin/audit-log");
+      isDashboardRoot ||
+      ADMIN_ALLOWED_PREFIXES.some(
+        (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+      );
 
     if (!isAllowedAdminPath) {
-      return NextResponse.redirect(new URL("/admin/", request.url));
+      return NextResponse.redirect(new URL("/admin", request.url));
     }
   }
 

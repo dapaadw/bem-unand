@@ -71,7 +71,7 @@ export default async function DepartemenPage() {
   let dbItems = [];
   try {
     dbItems = await prisma.departemen.findMany({
-      include: { staff: true, proker: true, contact: true },
+      select: { id: true, slug: true, name: true, photoUrl: true },
       orderBy: { name: 'asc' },
     });
   } catch {

@@ -4,6 +4,10 @@ import { prisma } from '../../../../lib/prisma';
 import { requireRole } from '../../../../lib/requireRole';
 import { logAction } from '../../../../lib/audit';
 import { publicationPayload } from '../../../../lib/publication';
+import {
+  removeLocalUpload,
+  removeLocalUploadIfReplaced,
+} from '../../../../lib/uploadCleanup';
 
 export async function GET(_request, { params }) {
   const { id } = await params;
@@ -30,6 +34,8 @@ export async function PUT(request, { params }) {
     data: validated.data,
   });
 
+  await removeLocalUploadIfReplaced(existing.imageUrl, updated.imageUrl);
+
   await logAction({
     userId: session.userId,
     action: 'UPDATE',
@@ -54,6 +60,7 @@ export async function DELETE(_request, { params }) {
   if (!existing) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
 
   await prisma.publikasi.delete({ where: { id } });
+  await removeLocalUpload(existing.imageUrl);
 
   await logAction({
     userId: session.userId,

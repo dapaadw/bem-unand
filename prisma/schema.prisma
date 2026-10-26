@@ -61,6 +61,9 @@ model Publikasi {
   createdBy      String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  @@index([publishedAt(sort: Desc)])
+  @@index([category, publishedAt(sort: Desc)])
 }
 
 enum KegiatanType {
@@ -85,6 +88,10 @@ model Kegiatan {
   createdBy        String?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
+
+  @@index([type, date(sort: Desc)])
+  @@index([date(sort: Asc)])
+  @@index([publishedAt(sort: Desc)])
 }
 
 model Departemen {
@@ -108,6 +115,8 @@ model DepartemenStaff {
   photoUrl      String?
   identity      String?
   achievements  String?
+
+  @@index([departemenId])
 }
 
 model ProgramKerja {
@@ -116,6 +125,8 @@ model ProgramKerja {
   departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
   name          String
   description   String?
+
+  @@index([departemenId])
 }
 
 model DepartemenContact {
@@ -124,37 +135,6 @@ model DepartemenContact {
   departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
   whatsappUrl   String?
   instagramUrl  String?
-}
-
-enum AspirasiStatus {
-  BARU
-  DIPROSES
-  SELESAI
-}
-
-enum JenisPengajuan {
-  ASPIRASI
-  KELUHAN
-  SARAN
-  LAINNYA
-}
-
-model Aspirasi {
-  id           String         @id @default(cuid())
-  ticketCode   String         @unique
-  nama         String?
-  nim          String?
-  cp           String?
-  email        String?
-  pihakDituju  String
-  jenisPengajuan JenisPengajuan @default(LAINNYA)
-  keluhKesah   String?
-  deskripsi    String
-  buktiUrl     String?
-  harapan      String?
-  status       AspirasiStatus @default(BARU)
-  isAnonymous  Boolean        @default(false)
-  createdAt    DateTime       @default(now())
 }
 
 enum AuditAction {
@@ -169,6 +149,8 @@ model GuideLink {
   title     String
   url       String
   createdAt DateTime @default(now())
+
+  @@index([category])
 }
 
 model Faq {
@@ -187,4 +169,8 @@ model AuditLog {
   entityId   String
   summary    String
   createdAt  DateTime    @default(now())
+
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+  @@index([entityType, action, createdAt(sort: Desc)])
 }

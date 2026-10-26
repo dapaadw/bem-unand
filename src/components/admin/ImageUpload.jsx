@@ -44,7 +44,7 @@ export default function ImageUpload({
       "image/png",
       "image/webp",
       "image/gif",
-      "image/svg+xml",
+
     ];
     if (!validTypes.includes(file.type)) {
       setError(

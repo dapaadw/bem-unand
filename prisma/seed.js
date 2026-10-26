@@ -39,9 +39,12 @@ async function main() {
   }
 
   const adminEmail = process.env.ADMIN_SEED_EMAIL || 'admin@bemfhunand.local';
-  const adminPassword = process.env.ADMIN_SEED_PASSWORD || 'AdminDev123!';
+  const adminPassword = process.env.ADMIN_SEED_PASSWORD;
   const superEmail = process.env.SUPERUSER_SEED_EMAIL || 'dosen@bemfhunand.local';
-  const superPassword = process.env.SUPERUSER_SEED_PASSWORD || 'SuperDev123!';
+  const superPassword = process.env.SUPERUSER_SEED_PASSWORD;
+  if (!adminPassword || adminPassword.length < 12 || !superPassword || superPassword.length < 12) {
+    throw new Error('ADMIN_SEED_PASSWORD dan SUPERUSER_SEED_PASSWORD wajib diatur di environment (minimal 12 karakter).');
+  }
 
   const adminHash = await bcrypt.hash(adminPassword, 10);
   const superHash = await bcrypt.hash(superPassword, 10);
