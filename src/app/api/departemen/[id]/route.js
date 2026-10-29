@@ -9,7 +9,7 @@ export async function GET(_request, { params }) {
   const { id } = await params;
   const item = await prisma.departemen.findUnique({
     where: { id },
-    include: { staff: true, proker: true, contact: true },
+    include: { staff: true, proker: true, },
   });
   if (!item) return NextResponse.json({ error: 'Tidak ditemukan.' }, { status: 404 });
   return NextResponse.json(item);
@@ -62,7 +62,7 @@ export async function PATCH(request, { params }) {
 
   const validated = departmentDetails(body);
   if (validated.error) return NextResponse.json({ error: validated.error }, { status: 400 });
-  const { staff, proker, contact } = validated.data;
+  const { staff, proker } = validated.data;
 
   await prisma.$transaction([
     ...(staff !== undefined ? [prisma.departemenStaff.deleteMany({ where: { departemenId: id } })] : []),
@@ -84,13 +84,6 @@ export async function PATCH(request, { params }) {
           data: proker.map((p) => ({ departemenId: id, name: p.name, description: p.description || null })),
         })]
       : []),
-    ...(contact
-      ? [prisma.departemenContact.upsert({
-          where: { departemenId: id },
-          update: { whatsappUrl: contact.whatsappUrl || null, instagramUrl: contact.instagramUrl || null },
-          create: { departemenId: id, whatsappUrl: contact.whatsappUrl || null, instagramUrl: contact.instagramUrl || null },
-        })]
-      : contact === null ? [prisma.departemenContact.deleteMany({ where: { departemenId: id } })] : []),
   ]);
 
   await logAction({
@@ -108,7 +101,7 @@ export async function PATCH(request, { params }) {
 
   const updated = await prisma.departemen.findUnique({
     where: { id },
-    include: { staff: true, proker: true, contact: true },
+    include: { staff: true, proker: true, },
   });
 
   return NextResponse.json(updated);

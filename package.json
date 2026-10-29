@@ -1,15 +1,19 @@
 {
-  "name": "prototype",
+  "name": "bem-fh-unand",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "oxlint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "seed": "node prisma/seed.js",
-    "backup": "node scripts/backup-db.js"
+    "import-data": "node scripts/import-sqlite-to-pg.js",
+    "backup": "node scripts/backup-db.js",
+    "make-zip": "powershell -ExecutionPolicy Bypass -File scripts/prepare-zip.ps1"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -21,8 +25,7 @@
     "iron-session": "^9.0.1",
     "lucide-react": "^1.28.0",
     "next": "^16.3.5",
-
-    "prisma": "^6.19.3",
+    "prisma": "^7.10.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

@@ -12,7 +12,7 @@ import FluidScrollSection from '../components/home/FluidScrollSection';
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const [activities, publications, profile, contacts] = await Promise.all([
+  const [activities, publications, contacts] = await Promise.all([
     prisma.kegiatan.findMany({
       take: 3,
       orderBy: [{ publishedAt: 'desc' }, { date: 'desc' }, { id: 'desc' }],
@@ -21,7 +21,6 @@ export default async function HomePage() {
       take: 3,
       orderBy: [{ publishedAt: 'desc' }, { id: 'desc' }],
     }),
-    prisma.profile.findUnique({ where: { id: 1 } }),
     prisma.contacts.findUnique({ where: { id: 1 } }),
   ]);
 
@@ -44,12 +43,11 @@ export default async function HomePage() {
   const instagramUrl = contacts?.instagramUrl || 'https://www.instagram.com/bemfhua/';
   const emailAddress = contacts?.email || 'kantormedkominfo.bemfhua@gmail.com';
 
-  const title = profile?.title || 'BEM FH UNAND';
+  const title = 'BEM FH UNAND';
   const subtitle =
-    profile?.subtitle ||
     'Pusat informasi, advokasi, publikasi ilmiah, dan penyalur aspirasi seluruh mahasiswa Fakultas Hukum Universitas Andalas.';
 
-  const video = youtubeEmbedUrl(profile?.videoUrl || 'https://youtu.be/Nfs-Moa_1Ko?si=x2jXESWTxrrpOoas');
+  const video = youtubeEmbedUrl('https://youtu.be/Nfs-Moa_1Ko?si=x2jXESWTxrrpOoas');
 
   const visi =
     'Mewujudkan Badan Eksekutif Mahasiswa Fakultas Hukum Universitas Andalas yang berlandaskan nilai-nilai humanisme dalam membangun gerakan mahasiswa yang kritis, inklusif, berintegritas, serta berkomitmen terhadap perjuangan keadilan dan kemanusiaan.';
@@ -71,8 +69,8 @@ export default async function HomePage() {
           className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_45%,rgba(0,0,0,0.5)_75%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_45%,rgba(0,0,0,0.5)_75%,transparent_100%)]"
         >
           <img
-            src={profile?.heroImageUrl || '/hero.PNG'}
-            alt={profile?.heroImageAlt || 'Foto pengurus Kabinet Aksara Juang BEM FH UNAND'}
+            src="/hero.PNG"
+            alt="Foto pengurus Kabinet Aksara Juang BEM FH UNAND"
             className="w-full h-full object-cover object-[center_28%] opacity-40 brightness-75"
             fetchPriority="high"
           />
@@ -115,7 +113,6 @@ export default async function HomePage() {
       <VisiMisiInteractive
         visi={visi}
         misi={misi}
-        profileVisiMisi={profile?.visiMisi}
       />
 
       {/* Video Mengenal BEM FH UNAND - Fluid Scroll Section with Ambient Glow */}
@@ -161,7 +158,7 @@ export default async function HomePage() {
       )}
 
       {/* Filosofi Logo Section */}
-      <FilosofiLogoInteractive profileLogoPhilosophy={profile?.logoPhilosophy} />
+      <FilosofiLogoInteractive />
 
       {/* Publikasi Section (3 publikasi terbaru) */}
       <PublikasiHomeInteractive publications={serializedPublications} />

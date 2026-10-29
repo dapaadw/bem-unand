@@ -1,15 +1,17 @@
 import Link from 'next/link';
 import { loadPublications } from '../../lib/publicationQuery';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import { Search, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import Pagination from '../../components/Pagination';
+import { Search, BookOpen } from 'lucide-react';
 
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function PublikasiPage({ searchParams }) {
-  const { page: pageQuery, q } = await searchParams;
+  const sp = await searchParams;
+  const pageQuery = sp?.page;
+  const q = sp?.q;
   const page = Math.max(1, parseInt(pageQuery, 10) || 1);
-  const { items, total, pageSize } = await loadPublications({ page, q });
-  const totalPages = Math.ceil(total / pageSize);
+  const { items, totalPages, page: currentPage } = await loadPublications({ page, q });
 
   function pageHref(newPage) {
     const params = new URLSearchParams();
@@ -26,9 +28,6 @@ export default async function PublikasiPage({ searchParams }) {
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
         {/* Page Header */}
         <div className="text-center mb-10">
-          {/* <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">
-            Publikasi
-          </span> */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
             Publikasi
           </h1>
@@ -60,7 +59,7 @@ export default async function PublikasiPage({ searchParams }) {
         </div>
 
         {/* Featured Big Card (if on first page without search) */}
-        {featuredItem && page === 1 && !q && (
+        {featuredItem && currentPage === 1 && !q && (
           <div className="mb-12">
             <Link
               href={`/publikasi/${featuredItem.slug}`}
@@ -163,42 +162,12 @@ export default async function PublikasiPage({ searchParams }) {
           </div>
         )}
 
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <nav aria-label="Halaman publikasi" className="flex items-center justify-center gap-4 mt-12 mb-6">
-            {page > 1 ? (
-              <Link
-                href={pageHref(page - 1)}
-                aria-label="Halaman sebelumnya"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:border-brand-neon hover:text-brand-neon flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <ChevronLeft size={18} />
-              </Link>
-            ) : (
-              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
-                <ChevronLeft size={18} />
-              </span>
-            )}
-
-            <span className="text-sm font-medium text-gray-300">
-              Page {page} of {totalPages}
-            </span>
-
-            {page < totalPages ? (
-              <Link
-                href={pageHref(page + 1)}
-                aria-label="Halaman berikutnya"
-                className="w-10 h-10 rounded-full bg-brand-neon text-brand-dark hover:opacity-90 flex items-center justify-center transition-all cursor-pointer font-bold shadow-[0_0_15px_rgba(254,174,174,0.3)]"
-              >
-                <ChevronRight size={18} />
-              </Link>
-            ) : (
-              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
-                <ChevronRight size={18} />
-              </span>
-            )}
-          </nav>
-        )}
+        {/* Numbered Pagination Controls */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          getPageHref={pageHref}
+        />
       </section>
     </div>
   );

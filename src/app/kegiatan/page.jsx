@@ -2,16 +2,15 @@ import Link from 'next/link';
 import { prisma } from '../../lib/prisma';
 import { kegiatanFilters } from '../../lib/kegiatan';
 import { isWebOrLocalUrl } from '../../lib/homeMedia';
-import { Search, Calendar, Clock, MapPin, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import Pagination from '../../components/Pagination';
+import { Search, Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
 
-
-
-export const revalidate = 300;
+export const dynamic = 'force-dynamic';
 
 export default async function KegiatanPage({ searchParams }) {
-  const filter = kegiatanFilters(await searchParams);
-  const { page: pageQuery } = await searchParams;
-  const page = Math.max(1, parseInt(pageQuery, 10) || 1);
+  const sp = await searchParams;
+  const filter = kegiatanFilters(sp);
+  const page = Math.max(1, parseInt(sp?.page, 10) || 1);
   const pageSize = 9;
 
   const where = filter.where || {};
@@ -42,15 +41,9 @@ export default async function KegiatanPage({ searchParams }) {
       <section className="px-6 pt-32 pb-20 container mx-auto max-w-6xl relative z-10">
         {/* Page Header */}
         <div className="text-center mb-10">
-          {/* <span className="inline-block px-3.5 py-1 rounded-full bg-brand-neon/10 border border-brand-neon/20 text-xs font-semibold text-brand-neon uppercase tracking-wider mb-3">
-            Agenda &amp; Acara
-          </span> */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
             Kegiatan
           </h1>
-          {/* <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base mb-8">
-            Temukan informasi kompetisi hukum bergengsi, seminar nasional, serta seluruh agenda kegiatan mahasiswa Fakultas Hukum Universitas Andalas.
-          </p> */}
 
           {/* Search Form */}
           <form
@@ -78,7 +71,7 @@ export default async function KegiatanPage({ searchParams }) {
           </form>
         </div>
 
-        {/* Featured Big Card (if no search active) */}
+        {/* Featured Big Card (if on first page without filter) */}
         {featuredItem && (
           <div className="mb-12">
             <Link
@@ -228,42 +221,12 @@ export default async function KegiatanPage({ searchParams }) {
           </div>
         )}
 
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <nav aria-label="Halaman kegiatan" className="flex items-center justify-center gap-4 mt-12 mb-6">
-            {currentPage > 1 ? (
-              <Link
-                href={pageHref(currentPage - 1)}
-                aria-label="Halaman sebelumnya"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:border-brand-neon hover:text-brand-neon flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <ChevronLeft size={18} />
-              </Link>
-            ) : (
-              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
-                <ChevronLeft size={18} />
-              </span>
-            )}
-
-            <span className="text-sm font-medium text-gray-300">
-              Page {currentPage} of {totalPages}
-            </span>
-
-            {currentPage < totalPages ? (
-              <Link
-                href={pageHref(currentPage + 1)}
-                aria-label="Halaman berikutnya"
-                className="w-10 h-10 rounded-full bg-brand-neon text-brand-dark hover:opacity-90 flex items-center justify-center transition-all cursor-pointer font-bold shadow-[0_0_15px_rgba(254,174,174,0.3)]"
-              >
-                <ChevronRight size={18} />
-              </Link>
-            ) : (
-              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/5 text-gray-600 flex items-center justify-center cursor-not-allowed opacity-40">
-                <ChevronRight size={18} />
-              </span>
-            )}
-          </nav>
-        )}
+        {/* Numbered Pagination Controls */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          getPageHref={pageHref}
+        />
       </section>
     </div>
   );

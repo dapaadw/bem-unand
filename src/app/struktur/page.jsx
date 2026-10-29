@@ -96,7 +96,7 @@ export default async function DepartemenPage() {
           description: db.description || fallback?.description || '',
           staff: db.staff?.length > 0 ? db.staff : (fallback?.staff || []),
           proker: db.proker?.length > 0 ? db.proker : (fallback?.proker || []),
-          contact: db.contact || fallback?.contact || null,
+          contact: fallback?.contact || null,
         };
       })
     : HARDCODED_DEPARTEMEN;

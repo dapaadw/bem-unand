@@ -24,7 +24,7 @@ export default async function DepartemenDetailPage({ params }) {
   try {
     dbItem = await prisma.departemen.findUnique({
       where: { slug },
-      include: { staff: true, proker: true, contact: true },
+      include: { staff: true, proker: true },
     });
   } catch {
     dbItem = null;
@@ -77,7 +77,7 @@ export default async function DepartemenDetailPage({ params }) {
     description: dbItem?.description || hardcoded?.description || '',
     staff: uniqueStaff,
     proker: uniqueProkers,
-    contact: dbItem?.contact || hardcoded?.contact || null,
+    contact: hardcoded?.contact || null,
   };
 
   const isLongName = (item.name || '').length > 30;

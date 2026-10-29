@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -22,22 +22,6 @@ model User {
   createdAt    DateTime @default(now())
 
   auditLogs AuditLog[]
-}
-
-model Profile {
-  id              Int      @id @default(1)
-  title           String   @default("")
-  subtitle        String   @default("")
-  heroImageUrl    String?
-  heroImageAlt    String?
-  videoUrl        String?
-  backgroundColor String?
-  ctaText         String?
-  ctaLink         String?
-  visiMisi        String?
-  logoPhilosophy  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
 }
 
 model Contacts {
@@ -103,7 +87,6 @@ model Departemen {
 
   staff    DepartemenStaff[]
   proker   ProgramKerja[]
-  contact  DepartemenContact?
 }
 
 model DepartemenStaff {
@@ -129,35 +112,10 @@ model ProgramKerja {
   @@index([departemenId])
 }
 
-model DepartemenContact {
-  id            String     @id @default(cuid())
-  departemenId  String     @unique
-  departemen    Departemen @relation(fields: [departemenId], references: [id], onDelete: Cascade)
-  whatsappUrl   String?
-  instagramUrl  String?
-}
-
 enum AuditAction {
   CREATE
   UPDATE
   DELETE
-}
-
-model GuideLink {
-  id        String   @id @default(cuid())
-  category  String
-  title     String
-  url       String
-  createdAt DateTime @default(now())
-
-  @@index([category])
-}
-
-model Faq {
-  id        String   @id @default(cuid())
-  question  String
-  answer    String
-  createdAt DateTime @default(now())
 }
 
 model AuditLog {

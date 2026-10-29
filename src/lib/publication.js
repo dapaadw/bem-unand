@@ -40,7 +40,10 @@ export function publicationPayload(body, existing = null) {
 }
 
 export function publicationPage(value) {
-  if (typeof value !== 'string' || !/^\d+$/.test(value)) return 1;
-  const page = Number(value);
+  if (typeof value === 'number') {
+    return Number.isSafeInteger(value) && value > 0 ? value : 1;
+  }
+  if (typeof value !== 'string' || !/^\d+$/.test(value.trim())) return 1;
+  const page = Number(value.trim());
   return Number.isSafeInteger(page) && page > 0 ? page : 1;
 }

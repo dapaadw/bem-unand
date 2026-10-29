@@ -38,6 +38,13 @@ export async function POST(request) {
     );
   }
 
+  if (password.length < 8) {
+    return NextResponse.json(
+      { error: 'Password minimal 8 karakter.' },
+      { status: 400 },
+    );
+  }
+
   const user = await prisma.user.findUnique({ where: { email } });
   const targetHash = user ? user.passwordHash : DUMMY_PASSWORD_HASH;
   const valid = await bcrypt.compare(password, targetHash);

@@ -26,14 +26,6 @@ dist-ssr
 
 .vercel
 
-# Remotion
-remotion-video/
-/remotion-video/
-.remotion/
-*.mp4
-*.webm
-out/
-
 # Next.js
 .next
 next-env.d.ts
@@ -57,6 +49,5 @@ CLAUDE.md
 # DB backups
 /backups/
 
-# Local documentation notes
-RINGKASAN-MIGRASI.txt
-/Dokumen Rencana/
+# Scripts
+/scripts/sqlite-export.json
